@@ -6,7 +6,9 @@ let time = 0;
 //when start button is clicked swap visibilities and start 30 second timer.
 function startClicked() {
   seconds = document.getElementById('customseconds').value;
-  if (seconds > 0) {
+  if ( seconds.length <= 7) {
+    alert('Input is too long.')
+  } else if (seconds > 0) {
     console.log("Game started!");
     document.getElementById('customseconds').style.display = "none";
     document.getElementById('startbtn').style.display = "none";
