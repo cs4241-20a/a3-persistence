@@ -1,150 +1,81 @@
-Assignment 2 - Short Stack: Basic Two-tier Web Application using HTML/CSS/JS and Node.js  
-===
+Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 
-## FPS Stat Calculator
-Link to application: https://a2-joeswetz.glitch.me
+Due: September 28th, by 11:59 PM.
 
-This application allows the users to enter in their kills, assists, and
-deaths from multiple rounds of an FPS game, and it then calculates and 
-displays all these stats, as well as derived stats, to the user. The data
-can then be exported as a CSV file, so users can open it in Excel and 
-create graphs to help evaluate their performance.
+This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
 
-The main challenge I sought to solve with this application was to easily
-keep track of and analyze one's performance in a game without have to write
-stats down by hand or do a bunch of math. This makes it easy for the user
-to see stats and create graphs for themselves to further improve their
-skills.
+Baseline Requirements
+---
 
-I satisfied the requirements for the assignments in the following ways:
-- **Functionality**:
-    - The server in server.improved.js serves the necessary files as well as 
-    maintains a table of statistics in the "appdata" variable. The API supports
-    calls to add, modify and delete items from the table, as well as request for
-    all the data in the table.
-    - The results functionality has been implemented on the same page as the rest
-    of the application, as described in the assignment description for the 
-    Technical Achievement.
-    - The form/entry functionality is implemented with the three forms on the left
-    side of the UI: one form each for add, modify and delete.
-    - The server logic requirement is satisfied in the addItem() and modifyItem()
-    functions which, in addition to adding the provided data to table, calculates 
-    the derived fields "kill/death ratio" and "assist/death ratio" in the function
-    calculateKDandAD(). The totals and averages for kills, assists and deaths are 
-    computed in the function calculateTotalsAvgs().
-    - The derived fields are the kill/death ratio and assist/death ratio fields,
-    which use the kills/deaths fields and assists/deaths fields respectively. The
-    total and averages for kills, assists and deaths also use all the data in
-    the table.
-- **HTML**:
-    - I used 3 HTML forms: one each for add, modify, delete.
-    - To display results, I used two HTML tables: One for each set of stats
-    the user enters in (for each game), and then one table for the running 
-    total and average of kills, assists, deaths.
-    - ./public/index.html has been validated with the link given in the 
-    assignment description.
-- **CSS**:
-    - All the primary visual elements of the application have been styled with
-    CSS. Each element has style rules in ./public/css/style.css.
-    - In ./public/css/style.css, Element, ID, and Class selectors have all been 
-    used (Ex: h1, .app-item, #add).
-    - The three forms and two tables are inside a flex box for formatting. The 
-    div item with class "appgrid" has "display: flex" to contain these elements.
-    - All text uses the font Inconsolata from Google Fonts. It's linked into 
-    index.html at line 7, and set as the font family for all text on line 7 .of 
-    public/css/style.css
-    - The CSS is all maintained in the external stylesheet ./public/css/style.css
-- **JS**:
-    - Front-end JS is located in ./public/js/scripts.js to fetch data from the
-    server.
-    - Back-end JS for the Node.js HTTP server is located in server.improved.js 
-    to return files and table data.
+Your application is required to implement the following functionalities:
 
-Project can be found on glitch at the following link:
-http://a2-joeswetz.glitch.me
+- a `Server`, created using Express (no alternatives will be accepted for this assignment)
+- a `Results` functionality which shows the entire dataset residing in the server's memory
+- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
+- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
+- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
+- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
 
-**Important Note**  
-I added an extra feature where the user can click "Download as CSV" and the 
-contents of both tables will be downloaded to the user's computer as a file 
-called "stats.csv." I know this was not a requirement, but I just wanted to do
-it for fun! However, to learn how to do this, I had to do some research, and I 
-ended up using some code from stack overflow. Since this was not an actual 
-assignment requirement, Professor Robertssaid it was OK as long as I cite it and
-mention this in the readme. This code is in handle_csv() in ./public/js/scripts.js.
-In that method, I put a comment crediting the source, as well as my own explanation
-to prove my understanding of it. The comments that start with "OA" are comments
-from the original post by theOriginal Author, and I took out the => notation and
-made that part fit my coding style (cause I didn't like the => notation).
+Your application is required to demonstrate the use of the following concepts:
 
-While I believe the process of writing and sending a CSV file server-side and then
-doing research on how to download it on the client was enough of challenge that it
-should be considered a technical achievement, I will of course leave it up to your
-discretion, especially considering that I did have to use some code from stack 
-overflow. The other achievements can be found below.
+HTML:
+- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
+- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
+
+Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
+
+CSS:
+- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
+
+JavaScript:
+- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
+
+Node.js:
+- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
+
+Deliverables
+---
+
+Do the following to complete this assignment:
+
+1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
+2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
+3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
+4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
+5. Fork this repository and modify the README to the specifications below.
+6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
+
+Acheivements
+---
+
+Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
+
+*Technical*
+- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
+- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
+
+*Design/UX*
+- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
+- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
+
+Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
+---
+
+## Your Web Application Title
+
+your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+
+Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+
+- the goal of the application
+- challenges you faced in realizing the application
+- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
+- what CSS framework you used and why
+  - include any modifications to the CSS framework you made via custom CSS you authored
+- the five Express middleware packages you used and a short (one sentence) summary of what each one does
 
 ## Technical Achievements
-- **Real-Time Update**: The tables in index.html update automatically as the
-contents change based on the user input. Whenever the user makes an add, modify, or 
-delete request, the server returns a list containing the current contents of the tables.
-There is also a request API call that gets the contents of the table when the HTML body
-has loaded.
+- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
 
-## Design/Evaluation Achievements
-I tested the program with two different students in CS4241 according to the design
-achievement description. You'll find the list of tasks below as well as my answers to the
-questions for each user. I think these tasks were so simple (since the application itself
-is so simple) that there wasn't really a lot of thinking aloud. The users just went and did
-it very quickly. So I apologize if the tests were not ideal, but I did get some useful 
-feedback, as well some important bug catches. All bugs that were found from testing were
-fixed before submitting.
-
-These were the tasks given to each user:  
-1. Add a few rows of game stats to the table.
-2. Modify one of the rows of stats.
-3. Delete a row of stats.
-4. Download the table data as a CSV file and verify the contents match
-the data in the tables.
-
-Test 1  
-1. **Participant Last Name:** Hunt	
-
-2. **What problems did the user have with your design?**
-	An error occurred that result in the values in the table being null.
-	I acknowledged this out loud, not thinking it would interrupt the test. 
-	The user then said they didn't even see the totals and averages table
-	at the bottom of the UI in the first place. Considering the user didn't
-	see the table, I consider it a UI problem since the user's view should
-	be immediately drawn to the table.
-	
-3. **What comments did they make that surprised you?**
-	When modifying a row of stats, they said they were going to leave fields
-	that they didn't want changed empty (so they wanted to modify assists, so they
-	left the "# kills" and "# deaths" fields of the form empty). This was not
-	actually supported.
-	
-4. **What would you change about the interface based on their feedback?**
-	I would move the table that displays totals and averages somewhere else, probably
-	higher up on the screen so the user sees it when they see the other table.
-
-Test 2
-1. **Participant Last Name:**  Desveaux
-	
-2. **What problems did the user have with your design?**
-	The user was able to successfully complete the tasks without any struggle. 
-	However, they did try to put 0 for deaths, which didn't work since,	after the 
-	first test, I did some bug fixes. I consider this a design problem since the
-	design should have informed the user about why the provided stats were not added 
-	to the table. They didn't really think-aloud because they just instantly knew what 
-	form to use and added the data.
-	
-3. **What comments did they make that surprised you?**
-	I was surprised that the user genuinely tried to put 0 deaths for one of the
-	games. I forgot this is an actual valid value and should therefore be put in the table.
-	After the first test, I made it so 0 deaths was not allowed since you can't divide by
-	0. In reality, 0 deaths is a valid value and in FPS games, when there are 0 deaths the 
-	K/D = # kills and the A/D = # assists.
-	
-4. **What would you change about the interface based on their feedback?**
-	I would some sort of error box that gives the user an informative message explaining
-	why their row of stats was not added to the table (i.e. negative number, unrecognized
-	character, etc.).
+### Design/Evaluation Achievements
+- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
