@@ -1,10 +1,15 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library used in the following line of code
-      mime = require( 'mime' ),
-      dir  = 'public/',
+const http = require("http"),
+      fs   = require("fs"),
+      mime = require("mime"),
+      express = require("express"),
+      bodyParser = require("body-parser"),
+      dir  = "public/",
       port = 3000
+
+let app = express();
+app.listen(3000);
+app.use(express.static("public"));
+app.use(bodyParser.json());
 
 //Format: { "id": 0, "kills": 0, "assists": 0, "deaths": 0, "kd_ratio": 0, "ad_ratio": 0 },
 let appdata = [];
@@ -26,7 +31,7 @@ let avgDeaths = 0;
  * and POST requests to their respective handlers.
  *
  * @type {Server} the HTTP server that will respond to all requests.
- */
+
 const server = http.createServer( function( request,response ) {
     if(request.method === "GET") {
         handleGet(request, response);
@@ -34,6 +39,17 @@ const server = http.createServer( function( request,response ) {
         handlePost(request, response);
     }
 })
+ */
+
+app.get('/results', function(request, response){
+    sendTable(response);
+});
+app.get('/csv', function(request, response){
+    sendCSV(response);
+});
+app.get('/clear', function(request, response){
+    clearStats(response);
+});
 
 /**
  * Handle the HTTP GET request stored in <b>request</b> and stores the
@@ -41,7 +57,7 @@ const server = http.createServer( function( request,response ) {
  *
  * @param request the HTTP GET request to be processed
  * @param response the HTTP response to store all response data in
- */
+
 const handleGet = function( request, response ) {
     const filename = dir + request.url.slice( 1 )
 
@@ -57,6 +73,7 @@ const handleGet = function( request, response ) {
         sendFile(response, filename);
     }
 }
+ */
 
 /**
  * Handle the HTTP POST request stored in <b>request</b> and stores the
@@ -118,22 +135,28 @@ const handlePost = function( request, response ) {
  * Converts the stats given in the HTTP request to Numbers, and stores
  * them back into <b>data</b>.
  *
- * @param data an object containing any of the following fields from the
- *     the HTTP request: "id", "kills", "assists", and "deaths" fields
+ * @param request the HTTP request
+ * @param response the HTTP response to be populated with the results of
+ *     the request
+ * @param next the next middleware function the call
  */
-const convertDataToNum = function(data){
-    if(data.hasOwnProperty("id"))
-        data.id = parseInt(data.id, 10);
+const convertDataToNum = function(request, response, next){
+    if(request.body.hasOwnProperty("id"))
+        request.body.id = parseInt(request.body.id, 10);
 
-    if(data.hasOwnProperty("kills"))
-        data.kills = parseInt(data.kills, 10);
+    if(request.body.hasOwnProperty("kills"))
+        request.body.kills = parseInt(request.body.kills, 10);
 
-    if(data.hasOwnProperty("assists"))
-        data.assists = parseInt(data.assists, 10);
+    if(request.body.hasOwnProperty("assists"))
+        request.body.assists = parseInt(request.body.assists, 10);
 
-    if(data.hasOwnProperty("deaths"))
-        data.deaths = parseInt(data.deaths, 10);
+    if(request.body.hasOwnProperty("deaths"))
+        request.body.deaths = parseInt(request.body.deaths, 10);
+
+    next();
 }
+app.use(convertDataToNum);
+
 
 /**
  * Calculates the kill/death ratio and assist/death ratio based on the
@@ -161,33 +184,38 @@ const calculateKDandAD = function(kills, assists, deaths){
     }
 }
 
+////////////////////// POST Request Handlers //////////////////////////
 /**
  * Add the item stored in <b>data</b> into the appdata table. This set
  * of stats is assigned an unique ID number as well.
  *
- * @param data an object with stats to add to the table. It is expected
- *     to have fields for "kills", "assists", "deaths", "kd_ratio", and
- *     "ad_ratio."
- * @return {boolean} true on successful addition, false otherwise.
+ * @param request the HTTP response contain the data to add to the table
+ * @param response the HTTP response to be populated with the results of
+ *     the request
+ * @return {boolean} true on successful addition, false otherwise
  */
-const addItem = function(data){
-    if(Number.isNaN(data.kills) || data.kills < 0 ||
-       Number.isNaN(data.assists) || data.assists < 0 ||
-       Number.isNaN(data.deaths) || data.deaths < 0)
+const addItem = function(request, response){
+    if (Number.isNaN(request.body.kills) || request.body.kills < 0 ||
+        Number.isNaN(request.body.assists) || request.body.assists < 0 ||
+        Number.isNaN(request.body.deaths) || request.body.deaths < 0){
+        response.writeHead(400, "Add request failed", {"Content-Type": "text/plain"});
+        response.end();
         return false;
+    }
 
-    let ratios = calculateKDandAD(data.kills, data.assists, data.deaths);
+    let ratios = calculateKDandAD(request.body.kills, request.body.assists, request.body.deaths);
     appdata.push({
         "id": id,
-        "kills": data.kills,
-        "assists": data.assists,
-        "deaths": data.deaths,
+        "kills": request.body.kills,
+        "assists": request.body.assists,
+        "deaths": request.body.deaths,
         "kd_ratio": ratios.kd_ratio,
         "ad_ratio": ratios.ad_ratio
     })
     id++;
     numEntries++;
-    updateTotalsAvgs(data.kills, data.assists, data.deaths);
+    updateTotalsAvgs(request.body.kills, request.body.assists, request.body.deaths);
+    sendTable(response);
     return true;
 }
 
@@ -196,13 +224,13 @@ const addItem = function(data){
  * have the stats stored in <b>data</b>. This set of stats will keep
  * the unique ID number that was assigned to it when it was added.
  *
- * @param data an object with stats to add to the table. It is expected
- *     to have fields for "id", "kills", "assists", "deaths", "kd_ratio",
- *     and "ad_ratio."
+ * @param request the HTTP response contain the data to modify in the table
+ * @param response the HTTP response to be populated with the results of
+ *     the request
  * @return {boolean} true on successful modification, false otherwise.
  */
-const modifyItem = function(data){
-    let targetID = data.id;
+const modifyItem = function(request, response){
+    let targetID = request.body.id;
     for(let i = 0; i < numEntries; i++){
         if(appdata[i]["id"] === targetID){
             //Remove old values from running total
@@ -211,12 +239,12 @@ const modifyItem = function(data){
             totalDeaths -= appdata[i]["deaths"];
 
             //Modify only the fields that were provided
-            if(!Number.isNaN(data.kills) && data.kills >= 0)
-                appdata[i]["kills"] = data.kills;
-            if(!Number.isNaN(data.assists) && data.assists >= 0)
-                appdata[i]["assists"] = data.assists;
-            if(!Number.isNaN(data.deaths) && data.deaths >= 0)
-                appdata[i]["deaths"] = data.deaths;
+            if(!Number.isNaN(request.body.kills) && request.body.kills >= 0)
+                appdata[i]["kills"] = request.body.kills;
+            if(!Number.isNaN(request.body.assists) && request.body.assists >= 0)
+                appdata[i]["assists"] = request.body.assists;
+            if(!Number.isNaN(request.body.deaths) && request.body.deaths >= 0)
+                appdata[i]["deaths"] = request.body.deaths;
 
             //Recalculate derived fields
             let ratios = calculateKDandAD(appdata[i]["kills"], appdata[i]["assists"], appdata[i]["deaths"]);
@@ -224,25 +252,30 @@ const modifyItem = function(data){
             appdata[i]["ad_ratio"] = ratios.ad_ratio;
 
             updateTotalsAvgs(appdata[i]["kills"], appdata[i]["assists"], appdata[i]["deaths"]);
+            sendTable(response);
             return true;
         }
     }
-    //Entry if given ID not found.
+    //Given ID not found.
+    response.writeHead(400, "Modify request failed", {"Content-Type": "text/plain"});
+    response.end();
     return false;
 }
 
 /**
  * Delete the row in the appdata table with the given id.
  *
- * @param data an object with the id of the row in appdata to remove.
- *     It is expected to have a field for "id".
+ * @param request the HTTP response contain the ID of the row to delete
+ *     from the table
+ * @param response the HTTP response to be populated with the results of
+ *     the request
  * @return {boolean} true on successful deletion, false otherwise.
  */
-const deleteItem = function(data){
-    if(Number.isNaN(data.id) || data.id < 0)
+const deleteItem = function(request, response){
+    if(Number.isNaN(request.body.id) || request.body.id < 0)
         return false;
 
-    let targetID = data.id;
+    let targetID = request.body.id;
     for(let i = 0; i < numEntries; i++){
         if(appdata[i]["id"] === targetID){
             numEntries--;
@@ -253,12 +286,20 @@ const deleteItem = function(data){
             updateAvgs();
 
             appdata.splice(i, 1);
+            sendTable(response);
             return true;
         }
     }
     //Entry if given ID not found.
+    response.writeHead(400, "Delete request failed", {"Content-Type": "text/plain"});
+    response.end();
     return false;
 }
+
+app.post("/add", bodyParser.json(), addItem);
+app.post("/modify", bodyParser.json(), modifyItem);
+app.post("/delete", bodyParser.json(), deleteItem);
+//////////////////////////////////////////////////////////////////////
 
 /**
  * Wipe all the data stored on the server and reset count variables.
@@ -422,4 +463,4 @@ const sendFile = function( response, filename ) {
    })
 }
 
-server.listen( process.env.PORT || port )
+//server.listen( process.env.PORT || port )

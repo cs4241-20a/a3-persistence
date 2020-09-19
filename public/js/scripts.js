@@ -20,6 +20,7 @@ function handle_add(){
 
     fetch( '/add', {
         method:'POST',
+        headers: {"Content-Type": "application/json"},
         body
     }).then(function( response ) {
         if(response.status === 200){
@@ -52,6 +53,7 @@ function handle_modify(){
 
     fetch( '/modify', {
         method:'POST',
+        headers: {"Content-Type": "application/json"},
         body
     }).then(function( response ) {
         if(response.status === 200){
@@ -81,6 +83,7 @@ function handle_delete(){
 
     fetch( '/delete', {
         method:'POST',
+        headers: {"Content-Type": "application/json"},
         body
     }).then(function( response ) {
         if(response.status === 200){
