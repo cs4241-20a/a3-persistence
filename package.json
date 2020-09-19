@@ -1,0 +1,13 @@
+{
+    "name": "alancuriel-a3-persistance",
+    "version": "1.0.0",
+    "description": "This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)",
+    "author": "@alancuriel",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/cs4241-20a/a3-persistence"
+    },
+    "scripts": {
+      "start": "node server.js"
+    }
+}
