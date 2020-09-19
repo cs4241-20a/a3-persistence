@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="26511c24-0659-443a-b132-9ede82f5631c" name="Default Changelist" comment="More formatting :(" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1hDGKgSdxipLPW4jg6lOG4tRihA" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="12.18.3" />
+    <property name="javascript.nodejs.core.library.typings.version" value="12.12.55" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path" value="node" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="26511c24-0659-443a-b132-9ede82f5631c" name="Default Changelist" comment="" />
+      <created>1599538186245</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1599538186245</updated>
+      <workItem from="1599538187486" duration="1254000" />
+      <workItem from="1599579683184" duration="198000" />
+      <workItem from="1599600825835" duration="6903000" />
+      <workItem from="1599622833948" duration="4621000" />
+      <workItem from="1599663350962" duration="12000" />
+      <workItem from="1599709507637" duration="3810000" />
+      <workItem from="1599753239829" duration="9258000" />
+      <workItem from="1599766366421" duration="4179000" />
+      <workItem from="1599787063685" duration="4677000" />
+      <workItem from="1600025232363" duration="9332000" />
+      <workItem from="1600048340426" duration="73000" />
+      <workItem from="1600129953218" duration="6407000" />
+      <workItem from="1600194931251" duration="2940000" />
+      <workItem from="1600204924655" duration="1401000" />
+      <workItem from="1600224095805" duration="23000" />
+      <workItem from="1600224167147" duration="5383000" />
+      <workItem from="1600284944835" duration="14000" />
+      <workItem from="1600286077250" duration="5648000" />
+      <workItem from="1600490934491" duration="29000" />
+    </task>
+    <task id="LOCAL-00001" summary="basic ui, and dummy http post request are made to server">
+      <created>1599613630042</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1599613630042</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Working add and delete, and table updates whenever contents change">
+      <created>1599627487620</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1599627487620</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Modify now works properly">
+      <created>1599709909421</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1599709909421</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added styling for forms and table">
+      <created>1599713553526</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1599713553526</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Can now download a .csv file with table data">
+      <created>1599765122711</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1599765122711</updated>
+    </task>
+    <task id="LOCAL-00006" summary="server not calculate and returns totals">
+      <created>1599773495646</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1599773495646</updated>
+    </task>
+    <task id="LOCAL-00007" summary="New table for totals and averages, .csv file now downloads properly">
+      <created>1599791760980</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1599791760980</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Updated readme with all info except achievements">
+      <created>1600043687492</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1600043687492</updated>
+    </task>
+    <task id="LOCAL-00009" summary="server now returns table contents in response to add, modify or delete requests. google font added and readme updated">
+      <created>1600044869510</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1600044869510</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Updated package.json in accordance with the one given in the assigment">
+      <created>1600045009793</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1600045009793</updated>
+    </task>
+    <task id="LOCAL-00011" summary="All data is now handled with numbers rather than strings, all numbers rounded to two decimal places">
+      <created>1600047829784</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1600047829784</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Updated mime dependency version to match the one in glitch">
+      <created>1600048403564</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1600048403564</updated>
+    </task>
+    <task id="LOCAL-00013" summary="updated readme with all submission information except design achievement">
+      <created>1600132449837</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1600132449837</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Added javadoc comments for all JS functions in scripts.js and server.improved.js">
+      <created>1600136310213</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1600136310213</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Added functionality to clear the server data from the client side in a &quot;clear stats&quot; button">
+      <created>1600197397393</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1600197397393</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Added valid nodejs version in package.json">
+      <created>1600197818930</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1600197818930</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Added test doc with results from first test. Can now modify a row and only update some fields. Improved error checking. Bug fixes for updating totals and averages, and for dividing by zero.">
+      <created>1600229172159</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1600229172159</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Finished README.md, and removed A2_Test_Task.md since it's now in README.md">
+      <created>1600303999090</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1600303999090</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Now handles 0 deaths, and README.md finalized. Ready for submission.">
+      <created>1600306332789</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1600306332789</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Reformatted README.md to fit github markdown">
+      <created>1600306726180</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1600306726180</updated>
+    </task>
+    <task id="LOCAL-00021" summary="More formatting :(">
+      <created>1600306775235</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1600306775235</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="basic ui, and dummy http post request are made to server" />
+    <MESSAGE value="Working add and delete, and table updates whenever contents change" />
+    <MESSAGE value="Modify now works properly" />
+    <MESSAGE value="Added styling for forms and table" />
+    <MESSAGE value="Can now download a .csv file with table data" />
+    <MESSAGE value="server not calculate and returns totals" />
+    <MESSAGE value="New table for totals and averages, .csv file now downloads properly" />
+    <MESSAGE value="Updated readme with all info except achievements" />
+    <MESSAGE value="server now returns table contents in response to add, modify or delete requests. google font added and readme updated" />
+    <MESSAGE value="Updated package.json in accordance with the one given in the assigment" />
+    <MESSAGE value="All data is now handled with numbers rather than strings, all numbers rounded to two decimal places" />
+    <MESSAGE value="Updated mime dependency version to match the one in glitch" />
+    <MESSAGE value="updated readme with all submission information except design achievement" />
+    <MESSAGE value="Added javadoc comments for all JS functions in scripts.js and server.improved.js" />
+    <MESSAGE value="Added functionality to clear the server data from the client side in a &quot;clear stats&quot; button" />
+    <MESSAGE value="Added valid nodejs version in package.json" />
+    <MESSAGE value="Added test doc with results from first test. Can now modify a row and only update some fields. Improved error checking. Bug fixes for updating totals and averages, and for dividing by zero." />
+    <MESSAGE value="Finished README.md, and removed A2_Test_Task.md since it's now in README.md" />
+    <MESSAGE value="Now handles 0 deaths, and README.md finalized. Ready for submission." />
+    <MESSAGE value="Reformatted README.md to fit github markdown" />
+    <MESSAGE value="More formatting :(" />
+    <option name="LAST_COMMIT_MESSAGE" value="More formatting :(" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="507" y="121" key="#JavaScript" timestamp="1599623033847">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="507" y="121" key="#JavaScript/0.0.1536.824@0.0.1536.824" timestamp="1599623033847" />
+    <state x="164" y="46" width="1224" height="654" key="CommitChangelistDialog2" timestamp="1600490957244">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="164" y="46" width="1224" height="654" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1600490957244" />
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1599579881627">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1599579881627" />
+    <state width="1515" height="210" key="GridCell.Tab.0.bottom" timestamp="1599539454573">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1599539454573" />
+    <state width="1515" height="210" key="GridCell.Tab.0.center" timestamp="1599539454572">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1599539454572" />
+    <state width="1515" height="210" key="GridCell.Tab.0.left" timestamp="1599539454572">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1599539454572" />
+    <state width="1515" height="210" key="GridCell.Tab.0.right" timestamp="1599539454573">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1599539454573" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1600490950840">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1600490950840" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1599755667006">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1599755667006" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1600304135006">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1600304135006" />
+  </component>
+</project>

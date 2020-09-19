@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>CS4241 Assignment 2</title>
+        <meta charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+        <script src="js/scripts.js"></script>
+    </head>
+    <body onload="getLatestResults()">
+        <h1>FPS Stat Calculator</h1>
+        <div class="appgrid">
+
+            <!-- Form for adding an item -->
+            <form class="app-item" id="add" action="">
+                <h3>Add new stats</h3>
+                <label for="kills"># Kills</label>
+                <input type="text" id="kills">
+                <br>
+                <label for="assists"># Assists</label>
+                <input type="text" id="assists">
+                <br>
+                <label for="deaths"># Deaths</label>
+                <input type="text" id="deaths">
+                <!--
+                The following source was used to learn about different button types:
+                https://www.w3schools.com/tags/att_button_formmethod.asp
+                -->
+                <button type="button" onclick="handle_add()">Add</button>
+            </form>
+
+            <!-- Form for modify a row in the table -->
+            <form class="app-item" id="modify" action="">
+                <h3>Modify row of stats</h3>
+                <label for="id_num">ID #</label>
+                <input type="text" id="id_num">
+                <br>
+                <label for="modify_kills"># Kills</label>
+                <input type="text" id="modify_kills">
+                <br>
+                <label for="modify_assists"># Assists</label>
+                <input type="text" id="modify_assists">
+                <br>
+                <label for="modify_deaths"># Deaths</label>
+                <input type="text" id="modify_deaths">
+                <button type="button" onclick="handle_modify()">Modify</button>
+            </form>
+
+            <!-- Form for deleting a row in the table -->
+            <form class="app-item" id="delete" action="">
+                <h3>Delete row of stats</h3>
+                <label for="delete_id_num">ID #</label>
+                <input type="text" id="delete_id_num">
+                <button type="button" onclick="handle_delete()">Delete</button>
+            </form>
+
+            <!-- Table that displays total and average of each stat -->
+            <table class="app-item" id="total_avg_results">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Total</th>
+                        <th>Average</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Kills</td>
+                        <td id="total_kills">0</td>
+                        <td id="avg_kills">0</td>
+                    </tr>
+                    <tr>
+                        <td>Assists</td>
+                        <td id="total_assists">0</td>
+                        <td id="avg_assists">0</td>
+                    </tr>
+                    <tr>
+                        <td>Deaths</td>
+                        <td id="total_deaths">0</td>
+                        <td id="avg_deaths">0</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="button_container">
+                <!-- Lets user download all table data as a .csv file -->
+                <button id="download_button" type="button" onclick="handle_csv()">Download as CSV</button>
+                <button id="clear_button" type="button" onclick="handle_clear()">Clear Stats</button>
+            </div>
+
+            <!-- Table for displaying all stats from each game -->
+            <table class="app-item" id="results_list">
+                <thead>
+                    <tr>
+                        <th>ID #</th>
+                        <th>Kills</th>
+                        <th>Assists</th>
+                        <th>Deaths</th>
+                        <th>K/D Ratio</th>
+                        <th>A/D Ratio</th>
+                    </tr>
+                </thead>
+                <!-- This body will be replaced with a new one whenever
+                the content of the table is updated -->
+                <tbody></tbody>
+            </table>
+
+        </div><!-- End of .appgrid -->
+    </body>
+</html>

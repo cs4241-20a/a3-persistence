@@ -1,0 +1,12 @@
+{
+  "name": "a2-joeswetz",
+  "version": "10.15.3",
+  "description": "FPS stat calculator",
+  "author": "Joe Swetz",
+  "scripts": {
+    "start": "node server.improved.js"
+  },
+  "dependencies": {
+    "mime": "^2.4.6"
+  }
+}
