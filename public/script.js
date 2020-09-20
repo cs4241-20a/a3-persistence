@@ -1,19 +1,3 @@
-// client-side js, loaded by index.html
-// run by the browser each time the page is loaded
-
-console.log("hello world :o");
-
-// define variables that reference elements on our page
-const dreamsList = document.getElementById("dreams");
-const dreamsForm = document.querySelector("form");
-
-// a helper function that creates a list item for a given dream
-function appendNewDream(dream) {
-  const newListItem = document.createElement("li");
-  newListItem.innerText = dream;
-  dreamsList.appendChild(newListItem);
-}
-
 // fetch the initial list of dreams
 fetch("/dreams")
   .then(response => response.json()) // parse the JSON from the server
