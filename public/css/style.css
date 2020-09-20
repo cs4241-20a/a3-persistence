@@ -1,0 +1,13 @@
+body {
+    font-family: Quicksand;
+    color:	#343434;
+    font-size: 25px;
+}
+
+button {
+    font-family: inherit;
+}
+
+input {
+    font-family: inherit;
+}
