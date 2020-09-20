@@ -4,7 +4,7 @@ https://a3-sgehly.herokuapp.com/
 
 ## Ticket Mania - Secure Edition
 
-Ticket Mania - Secure Edition is an all-in-one ticket solution that improves on the security of the application. TMSE is a single-page app that includes all the CRUD operations you could ever want, including creating new tickets, editing tickets inline, and deleting them without ever accomplishing anything, kind of like normal support tickets - the realism is insane.
+Ticket Mania - Secure Edition is an all-in-one ticket solution that improves on the security of its predecessor. TMSE is a single-page app that includes all the CRUD operations you could ever want, including creating new tickets, editing tickets inline, and deleting them without ever accomplishing anything, kind of like normal support tickets - the realism is insane.
 
 ## Requirements
 
