@@ -151,6 +151,11 @@ function setSessionUser(req, username, password){
   req.session['Pass'] = password;
 }
 
-app.get('/dragula.css', (request, response){
+app.get('/dragula.css', (request, response) => {
+  console.log('requested dragula')
   response.sendFile(__dirname + "/node_modules/dragula/dist/dragula.min.css");
+})
+
+app.get('/dragula.js', (request, response) => {
+  response.sendFile(__dirname + "/node_modules/dragula/dist/dragula.min.js");
 })
