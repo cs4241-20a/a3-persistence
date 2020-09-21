@@ -11,7 +11,7 @@ app.use(express.static('public'))
 app.post("/submit", bodyParser.json(), function(request, response) {
     //write post request code here
     console.log(request.body);
-    response.json({Server:"Hi"});
+    response.json(request.body);
 })
 
 app.listen(3000)

@@ -10,12 +10,49 @@
 </head>
 
 <body>
-    <h1>TEST</h1>
-    <form>
-      <input id="text" type="text" placeholder="Text to send">
-      <button id="submit">Submit</button>
-    </form>
-    <script src="js/script.js"></script>
+  <h1>Food Tracker</h1>
+  <form action="">
+    <h3>Enter a food:</h3>
+    <input id="food" class="entry" type="text" placeholder="Food">
+    <input id="calories" class="entry" type="number" placeholder="Calories">
+
+    <input name="meal" id="mealB" type="radio" value="Breakfast" checked>
+    <label for="mealB">Breakfast</label>
+    <input name="meal" id="mealL" type="radio" value="Lunch">
+    <label for="mealL">Lunch</label>
+    <input name="meal" id="mealD" type="radio" value="Dinner">
+    <label for="mealD">Dinner</label>
+    <input name="meal" id="mealS" type="radio" value="Snack">
+    <label for="mealS">Snack</label>
+
+    <input id="time" class="entry" type="time" placeholder="Time">
+    <button id="submit">Submit</button>
+  </form>
+
+  <table id="mealTable">
+    <thead>
+      <tr>
+        <th colspan=5>Foods</th>
+      </tr>
+      <tr>
+        <th>Time Eaten</th>
+        <th>Food</th>
+        <th>Calories</th>
+        <th>Meal</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody id="mealBody">
+      <tr>
+        <td>1:36 PM<button class="edit">?</button></td>
+        <td>Apples<button class="edit">?</button></td>
+        <td>200<button class="edit">?</button></td>
+        <td>Snack<button class="edit">?</button></td>
+        <td><button class="delete">Delete?</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <script src="js/script.js"></script>
 </body>
 
 </html>
