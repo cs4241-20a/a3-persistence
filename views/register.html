@@ -3,13 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bulma.min.css">
     <script src="register.js"></script>
-    <title>Document</title>
+    <title>Registration</title>
 </head>
 <body>
-        <input type='text' id='username' placeholder="Username here">
-        <br>
-        <input type='text' id='password' placeholder="Password here">
-        <button>Submit</button>
+    <div class="columns">
+        <div class = "column">
+            <input type='text' id='username' placeholder="Username here">
+            <br>
+            <input type='text' id='password' placeholder="Password here">
+            <button>Submit</button>
+        </div>
+        <div class = "column">
+            <a href = "/auth/github" target="_blank" rel="noopener noreferrer">
+                <p>Register with github OAuth</p>
+                <img src = "githubLogo.png">
+            </a>
+        </div>
+
+    </div>
 </body>
 </html>

@@ -10,7 +10,6 @@ const mongoURI = `mongodb+srv://${process.env.mongoAcc}:${process.env.mongoPass}
 console.log(mongoURI)
 const client = new mongodb.MongoClient( mongoURI, { useNewUrlParser: true, useUnifiedTopology:true })
 let usersDB = null
-let usersCollection = null;
 
   
 const GitHubStrategy = require('passport-github2').Strategy;
@@ -89,21 +88,19 @@ app.get('/auth/github/callback',
     console.log(req.user)
     console.log('req.sess')
     console.log(req.session)
+    setSessionUser(req, req.user.username, req.user.id)
     res.redirect('/');
-    
 });
 
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/login.html");
-  // console.log("session:")
-  // console.log(request.session)
 });
 
 app.post('/login', (request, response) => {
   let username = request.body.username;
   let pass = request.body.password;
-  console.log(username, pass)
+  setSessionUser(request, username, pass);
 });
 
 app.post('/register', (request, response) => {
@@ -118,13 +115,42 @@ app.post('/register', (request, response) => {
     if (result.length == 1){
       response.json({code: 'found'})
     } else {
-      usersDB.insertOne({'username': username, 'password': pass}).then(response.json( {code: 'new'} ) )
+      usersDB.insertOne({'username': username, 'password': pass})
+      .then(setSessionUser(request, username, pass));
     }
   })
 })
 
+app.get('/dataPage', (request, response) => {
+  let username = request.session['User']|| null;
+  let password = request.session['Pass']|| null;
+  console.log('access datapage')
+  console.log(username)
+  console.log(password  )
+  if (username == null || password == null){
+    //redirect them to login
+  } else {
+    response.sendFile(__dirname + "/views/dataPage.html");
+    let checkQuery = {'username': username}
+    usersDB.find(checkQuery).toArray(function(err, result){
+    if (err){
+      throw err;
+    }
+    
+  })
+  }
+})
 
 // listen for requests :)
 const listener = app.listen(portNum, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
+
+function setSessionUser(req, username, password){
+  req.session['User'] = username;
+  req.session['Pass'] = password;
+}
+
+app.get('/dragula.css', (request, response){
+  response.sendFile(__dirname + "/node_modules/dragula/dist/dragula.min.css");
+})

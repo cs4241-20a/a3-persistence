@@ -23,6 +23,8 @@ const submit = function( e ) {
         console.log(json)
         if (json.code == 'found'){
             alert('This username already exists')
+        } else {
+            
         }
     })
 
