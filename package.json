@@ -4,10 +4,13 @@
   "description": "FPS stat calculator",
   "author": "Joe Swetz",
   "scripts": {
-    "start": "node server.improved.js"
+    "start": "node server.js"
   },
   "dependencies": {
-    "mime": "^2.4.6",
+    "body-parser": "^1.19.0",
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "mongodb": "^3.6.2"
   }
 }
