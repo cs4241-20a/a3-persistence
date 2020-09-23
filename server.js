@@ -7,7 +7,7 @@ const express = require("express"),
   mongo = require("mongodb"),
   GitHubStrategy = require("passport-github").Strategy,
   MongoClient = require("mongodb").MongoClient,
-  port = 3000;
+  port = process.env.PORT || 3000;
 
 const mongoURI = process.env.MONGO_URL;
 const mongoConfig = {
