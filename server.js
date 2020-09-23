@@ -54,7 +54,7 @@ passport.use(
       clientID: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
       //callbackURL: "http://127.0.0.1:3000/callback/github/",
-      callbackURL: "/callback/github",
+      callbackURL: "https://a3-rmanky.herokuapp.com/callback/github",
     },
     async (accessToken, refreshToken, profile, callback) => {
       await mongoClient.connect();
