@@ -189,7 +189,7 @@ const calculateResult = function (vehicle, weather) {
     2.5 * drs_hurt +
     Math.random(1.0);
 
-  let date = new Date().toISOString().replace(/T/, ' @ ').replace(/\..+/, '');
+  let date = new Date().toISOString().replace(/T/, " @ ").replace(/\..+/, "");
 
   let uniqueID = getUniqueID();
 
