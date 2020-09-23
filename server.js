@@ -15,8 +15,6 @@ const mongoConfig = {
   useUnifiedTopology: true,
 };
 
-const mongoClient = new MongoClient(mongoURI, mongoConfig);
-
 const app = express();
 
 app.set("trust proxy", 1); // trust first proxy
@@ -53,16 +51,19 @@ passport.use(
     {
       clientID: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-      //callbackURL: "http://127.0.0.1:3000/callback/github/",
-      callbackURL: "https://a3-rmanky.herokuapp.com/callback/github",
+      callbackURL:
+        "https://3000-d3e10579-b991-4946-a9d3-5c35c3e9b444.ws-us02.gitpod.io/callback/github",
+      //callbackURL: "https://a3-rmanky.herokuapp.com/callback/github",
     },
     async (accessToken, refreshToken, profile, callback) => {
+      const mongoClient = new MongoClient(mongoURI, mongoConfig);
+
       await mongoClient.connect();
 
       const userCollection = mongoClient.db("simcar").collection("users");
 
       const users = await userCollection
-        .find({ username: profile.username })
+        .find({ username: profile.id })
         .toArray();
 
       if (users.length == 0) {
@@ -70,17 +71,17 @@ passport.use(
           username: profile.username,
         };
 
-        await userCollection.insert(user);
+        await userCollection.insertOne(user);
 
         const dbUser = await userCollection.find({
           username: profile.username,
         });
 
-        await client.close();
+        await mongoClient.close();
 
         callback(null, dbUser);
       } else {
-        await client.close();
+        await mongoClient.close();
 
         callback(null, users[0]);
       }
@@ -92,9 +93,9 @@ app.get("/auth/github", passport.authenticate("github"));
 
 app.get(
   "/callback/github",
-  passport.authenticate("github", { failureRedirect: "/failed" }),
+  passport.authenticate("github", { failureRedirect: "/login" }),
   function (req, res) {
-    console.log("here");
+    // Successful authentication, redirect home.
     res.redirect("/");
   }
 );
@@ -119,24 +120,26 @@ app.post("/submit", async (req, res) => {
     object.ip = "N/A";
   }
 
+  const mongoClient = new MongoClient(mongoURI, mongoConfig);
+
   await mongoClient.connect();
 
+  const raceCollection = mongoClient.db("simcar").collection("races");
+
   if (object.delete) {
-    await collection.deleteOne({ _id: new mongo.ObjectID(object.id) });
+    await raceCollection.deleteOne({ _id: new mongo.ObjectID(object.id) });
   } else if (object.id) {
-    await collection.updateOne(
+    await raceCollection.updateOne(
       { _id: new mongo.ObjectID(object.id) },
       { $set: { ...object, _id: new mongo.ObjectID(object.id) } }
     );
   } else {
-    await collection.insert(object);
+    await raceCollection.insertOne(object);
   }
-
-  const raceCollection = mongoClient.db("simcar").collection("races");
 
   const races = await raceCollection.find({ user: req.user._id }).toArray();
 
-  await client.close();
+  await mongoClient.close();
 
   return res.json(races);
 });
