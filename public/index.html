@@ -4,54 +4,55 @@
 <head>
   <title>CS4241 Assignment 3</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/sakura.css">
 </head>
 
 <body>
-  <h1>Food Tracker</h1>
-  <form action="">
-    <h3>Enter a food:</h3>
-    <input id="food" class="entry" type="text" placeholder="Food">
-    <input id="calories" class="entry" type="number" placeholder="Calories">
+  <div>
+    <h2>Food Tracker</h2>
+  </div>
+  <div class="mid">
+    <form action="">
+      <h4>Enter food info:</h4>
+      <input id="food" class="entry" type="text" placeholder="Food">
+      <input id="calories" class="entry" type="number" placeholder="Calories">
 
-    <input name="meal" id="mealB" type="radio" value="Breakfast" checked>
-    <label for="mealB">Breakfast</label>
-    <input name="meal" id="mealL" type="radio" value="Lunch">
-    <label for="mealL">Lunch</label>
-    <input name="meal" id="mealD" type="radio" value="Dinner">
-    <label for="mealD">Dinner</label>
-    <input name="meal" id="mealS" type="radio" value="Snack">
-    <label for="mealS">Snack</label>
+      <select id="meal" class="entry">
+        <option value="Breakfast">Breakfast</option>
+        <option value="Lunch">Lunch</option>
+        <option value="Dinner">Dinner</option>
+        <option value="Snack">Snack</option>
+      </select>
 
-    <input id="time" class="entry" type="time" placeholder="Time">
-    <button id="submit">Submit</button>
-  </form>
+      <input id="time" class="entry" type="time" placeholder="Time">
+      <button id="submit">Submit</button>
+    </form>
+  </div>
 
-  <table id="mealTable">
-    <thead>
-      <tr>
-        <th colspan=5>Foods</th>
-      </tr>
-      <tr>
-        <th>Time Eaten</th>
-        <th>Food</th>
-        <th>Calories</th>
-        <th>Meal</th>
-        <th>Delete?</th>
-      </tr>
-    </thead>
-    <tbody id="mealBody">
-      <tr id="0">
-        <td class="time">1:36 PM<!-- button class="edit">✎</button --></td>
+  <div>
+    <table id="mealTable">
+      <thead>
+        <tr>
+          <th>Time Eaten</th>
+          <th>Food</th>
+          <th>Calories</th>
+          <th>Meal</th>
+          <th>Delete?</th>
+        </tr>
+      </thead>
+      <tbody id="mealBody">
+        <!-- tr id="0">
+        <td class="time">1:36 PM< button class="edit">✎</button ></td>
         <td class="food">Apples<button class="edit">✎</button></td>
         <td class="calories">200<button class="edit">✎</button></td>
         <td class="meal">Snack<button class="edit">✎</button></td>
         <td><button class="delete">✘</button></td>
-      </tr>
-    </tbody>
-  </table>
+      </tr -->
+      </tbody>
+    </table>
+  </div>
   <script src="js/script.js"></script>
 </body>
 

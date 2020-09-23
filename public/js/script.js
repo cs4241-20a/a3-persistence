@@ -10,26 +10,26 @@ function getAllItems(username) {
     })
     .then(response => response.json())
     .then(function(data) {
-        console.log(data);
-        /* TODO: UNCOMMENT THIS WHEN READY
         for (let i = 0; i < data.length; i++) {
             addTableEntry(data[i]);
         }
-        */
     })
 }
 
 //Edit a field using a prompt
 function editField(e) {
     console.log("Edit");
-    //console.log(e.target.parentElement);
     let textNode = e.target.parentElement.firstChild;
     let entryID = e.target.parentElement.parentElement.id;
     let newValue = window.prompt("Enter a new value", textNode.data);
+
+    if (newValue == null) {
+        return 0;
+    }
     
-    let data = {user: username, id: entryID};
+    let data = {id: entryID};
     data[e.target.parentElement.className] = newValue;
-    fetch('/edit', {
+    fetch('/update', {
         method: "POST",
         body: JSON.stringify(data),
         headers: {"Content-Type":"application/json"}
@@ -48,7 +48,7 @@ function deleteItem(e) {
     let row = e.target.parentElement.parentElement;
     fetch('/delete', {
         method: "POST",
-        body: JSON.stringify({username: username, id: row.id}),
+        body: JSON.stringify({id: row.id}),
         headers: {"Content-Type":"application/json"}
     })
     .then(function(response) {
@@ -64,7 +64,7 @@ function addTableEntry(jsonData) {
     const tableBody = document.getElementById("mealBody");
     //Insert a new row and then new cells
     let row = tableBody.insertRow(-1);
-    row.id = jsonData.id;
+    row.id = jsonData["_id"];
 
     let [hours, minutes] = jsonData.time.split(":");
     time = ((hours > 12)? hours-12 : hours-0) + ":" + minutes + " " + ((hours >= 12)? 'PM' : 'AM');
@@ -100,12 +100,6 @@ function submitFormData(e) {
         data[element.id] = element.value;
     }
 
-    let radios = document.getElementsByName("meal");
-    for (let i = 0; i < radios.length; i++) {
-        if (radios[i].checked) {
-            data["meal"] = radios[i].value;
-        }
-    }
 
     fetch('/submit', {
         method: "POST",
