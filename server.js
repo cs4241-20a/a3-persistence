@@ -94,13 +94,35 @@ app.get('/auth/github/callback',
 
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
+  console.log('lkjad')
   response.sendFile(__dirname + "/views/login.html");
 });
 
 app.post('/login', (request, response) => {
   let username = request.body.username;
   let pass = request.body.password;
-  setSessionUser(request, username, pass);
+  let checkQuery = {'username': username, 'password': pass}
+  usersDB.find(checkQuery).toArray(function(err, result){
+    if (err){
+      throw err;
+    } 
+    if (result.length == 1){
+      setSessionUser(request, username, pass);
+      response.redirect('/dataPage');
+    } else { //username password combo not found
+      let userExistsQuery = {'username': username};
+      usersDB.find(userExistsQuery).toArray(function(err, result){
+        if (err){
+          throw err;
+        }
+        if (result.length == 1){ //found a username
+          response.json({error: 'password'})
+        } else {//couldnt find username
+          response.json({error: 'username'})
+        }
+      })
+    }
+  })
 });
 
 app.post('/register', (request, response) => {
@@ -126,7 +148,7 @@ app.get('/dataPage', (request, response) => {
   let password = request.session['Pass']|| null;
   console.log('access datapage')
   console.log(username)
-  console.log(password  )
+  console.log(password)
   if (username == null || password == null){
     //redirect them to login
   } else {
@@ -152,10 +174,20 @@ function setSessionUser(req, username, password){
 }
 
 app.get('/dragula.css', (request, response) => {
-  console.log('requested dragula')
   response.sendFile(__dirname + "/node_modules/dragula/dist/dragula.min.css");
 })
 
 app.get('/dragula.js', (request, response) => {
   response.sendFile(__dirname + "/node_modules/dragula/dist/dragula.min.js");
+})
+
+app.get('/currentUser', (request, response) => {
+  console.log('current user requested')
+  let username = request.session['User'];
+  console.log(username)
+  if (username != null){
+    response.send({username: username});
+  }else {
+    response.sendStatus(404)
+  }
 })

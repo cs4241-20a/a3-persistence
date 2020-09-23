@@ -3,6 +3,15 @@ window.onload = fillItems;
 let storeItems = [{img: "img/githubLogo.png", imgAlt: "imgAlt", name: "test", price: "111"}]
 
 function fillItems(){
+    fetch( '/currentUser', {
+        method:'GET'
+      }).then(function(response){
+          return response.json();
+      }).then(function(json){
+        console.log(json);
+        let welcome = document.getElementById('welcomeText');
+        welcome.innerText = `Hello ${json.username}`;
+      })
     dragula([document.getElementById('items'), document.getElementById('basket')]);
     let itemsBar = document.getElementById('items');
     storeItems.forEach(function(item){

@@ -1,6 +1,6 @@
 const submit = function( e ) {
     // prevent default form action from being carried out
-    e.preventDefault()
+   e.preventDefault()
 
     const username = document.querySelector( '#username' ).value;
     const pass = document.querySelector( '#password' ).value;
@@ -17,9 +17,20 @@ const submit = function( e ) {
     })
     .then(function(response){
       console.log(response)
-      return  response.text()
+      if (response.redirected == true){
+        window.open(response.url, "_self")
+      } else {
+        return  response.json()
+      }
+      
     })
-    .then( function( nick ) {
+    .then( function( json ) {
+      let errmsg = document.getElementById('errormsg');
+      if (json.error == 'password'){
+        errmsg.innerText = "Password Incorrect"
+      } else { //username not found
+        errmsg.innerText = "Username not found"
+      }
     })
 
     return false;

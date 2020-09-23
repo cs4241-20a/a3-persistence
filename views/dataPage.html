@@ -5,16 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="bulma.min.css">
     <link rel="stylesheet" href="dragula.css">
+    <link rel="stylesheet" href="my.css">
     <script src="store.js"></script>
     <title>Document</title>
 </head>
 <body>
-    <div class = "columns" >
-        <div class = "column" id = "items" style="flex: auto;">
-
+    <div class = "headerBar">
+        <h1 class="title is-1">Store</h1>
+        <div>
+            <p id = "welcomeText"></p>
+            <button style = "font-size: 36px;">Logout</button>
         </div>
-        <div class = "column" id = "basket">
-            
+        
+    </div>
+    
+    <div class = "columns" >
+        <div class = "column"  style="flex: auto;">
+            <h1 class = "title">
+                Store
+            </h1>
+            <div id = "items">
+
+            </div>
+        </div>
+        <div class = "column" >
+            <h1  class = "title">
+                Basket
+            </h1>
+            <div id = "basket">
+
+            </div>
         </div>
     </div>
     <script src="dragula.js"></script>
