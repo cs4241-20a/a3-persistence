@@ -1,0 +1,16 @@
+{
+    "name": "bill-tracker-a3",
+    "version": "0.1.0",
+    "description": "This single page web application is an easy way to keep track of your bills.",
+    "author": "Molly Wirtz",
+    "scripts": {
+        "start": "nodemon server.js"
+    },
+    "dependencies": {
+        "better-dateinput-polyfill": "^3.3.1",
+        "better-dom": "^4.1.0",
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "nodemon": "^2.0.4"
+    }
+}

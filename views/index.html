@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>CS4241 Assignment 3</title>
+    <link rel="stylesheet" href="/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;700&family=Roboto:wght@300;700&display=swap"
+        rel="stylesheet">
+    <script src="/script.js" defer></script>
+    <script src="/better-dom/dist/better-dom.js"></script>
+    <script src="/better-dateinput-polyfill/dist/better-dateinput-polyfill.js"></script>
+</head>
+
+<body>
+    <div class="head">
+        <h1>Bill Tracker</h1>
+    </div>
+    <div class="content">
+        <h3>Enter your bill:</h3>
+
+        <form name="billForm" action="/server.js">
+
+            <div class="form_div">
+                <div class="inputDiv">
+                    <label for="name">Bill Name:</label><br>
+                    <input type="text" id="name" value="" required>
+                </div>
+                <div class="inputDiv">
+                    <label for="amt">Bill Amount:</label><br>
+                    <input type="number" id="amt" value="0.00" required>
+                </div>
+            </div>
+
+            <div class="form_div">
+                <div class="inputDiv">
+                    <label for="paid">Date Issued:</label><br>
+                    <input type="date" data-polyfill="all" id="date" required>
+                </div>
+                <div class="inputDiv" id="paidDiv">
+                    <input type="checkbox" id="paid" value="true" class="check">
+                    <label for="paid" class="checkLbl">Paid?</label>
+                </div>
+            </div>
+
+        </form>
+
+        <p id="errorMsg"></p>
+        <button class="submit">Submit</button>
+
+        <!-- Results functionality to show entire dataset -->
+        <br>
+        <button id="allBillBtn" onClick="getAllBills(false)">Show all bills</button>
+        <br>
+        <div id="hidden" style="visibility: hidden">
+            <div>
+                <table id="all_bills">
+                    <tbody>
+                        <tr class="table_header">
+                            <th> </th>
+                            <th id="skip">Name</th>
+                            <th>Amount</th>
+                            <th>Date Issued</th>
+                            <th>Paid</th>
+                            <th>Priority</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="changeBtn" id="editRowBtn" style="visibility: hidden;" onClick="editEntry()">Edit Selected
+                Rows</button>
+            <button class="changeBtn" id="deleteRowBtn" style="visibility: hidden;" onClick="deleteEntry()">Delete
+                Selected
+                Rows</button>
+            <button class="changeBtn" id="saveBtn" style="visibility: hidden;" onClick="saveChanges()">Save
+                Changes</button>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
