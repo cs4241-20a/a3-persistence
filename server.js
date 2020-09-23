@@ -13,12 +13,6 @@ client.connect(err => {
     }
 });
 
-/*
-const collection = client.db("FPS_Stats").collection("game_stats");
-collection.find({}).forEach(function(value, index, array){
-    console.log(value);
-});
-*/
 app.listen(port);
 app.use(express.static("./public"));
 
@@ -95,17 +89,16 @@ const addItem = function(request, response){
         "ad_ratio": ratios.ad_ratio
     };
 
+    id++;
+    update(1, request.body.kills, request.body.assists, request.body.deaths);
+
     let collection = client.db("FPS_Stats").collection("game_stats");
     collection.insertOne(obj, {}, function(error, result){
         if(error){
             console.log("error occurred adding item: " +error);
+            return;
         }
-        id++;
-        numEntries++;
-        updateNumEntries(1);
-        updateTotalsAvgs(request.body.kills, request.body.assists, request.body.deaths);
         sendTable(response);
-        return true;
     });
 }
 app.post("/add", [bodyParser.json(), convertDataToNum], addItem);
@@ -121,18 +114,21 @@ app.post("/add", [bodyParser.json(), convertDataToNum], addItem);
  * @return {boolean} true on successful modification, false otherwise.
  */
 const modifyItem = function(request, response){
-
     let game_stats = client.db("FPS_Stats").collection("game_stats");
     game_stats.findOne({_id: request.body.id}, {}, function(error, result){
         if(error){
             console.log("Error finding element to modify: " +error);
-            return false;
+            return;
         }else if(!result){
             console.log("Did not find element with specified ID");
-            return false;
+            return;
         }
 
-        let update = {
+        totalKills -= result.kills;
+        totalAssists -= result.assists;
+        totalDeaths -= result.deaths;
+
+        let updateData = {
             kills: result.kills,
             assists: result.assists,
             deaths: result.deaths
@@ -140,21 +136,24 @@ const modifyItem = function(request, response){
 
         //Modify only the fields that were provided
         if(!Number.isNaN(request.body.kills) && request.body.kills >= 0)
-            update.kills = request.body.kills;
+            updateData.kills = request.body.kills;
         if(!Number.isNaN(request.body.assists) && request.body.assists >= 0)
-            update.assists = request.body.assists;
+            updateData.assists = request.body.assists;
         if(!Number.isNaN(request.body.deaths) && request.body.deaths >= 0)
-            update.deaths = request.body.deaths;
+            updateData.deaths = request.body.deaths;
 
         //Recalculate derived fields
-        let ratios = calculateKDandAD(update.kills, update.assists, update.deaths);
-        update.kd_ratio = ratios.kd_ratio;
-        update.ad_ratio = ratios.ad_ratio;
-        updateTotalsAvgs(update.kills, update.assists, update.deaths);
+        let ratios = calculateKDandAD(updateData.kills, updateData.assists, updateData.deaths);
+        updateData.kd_ratio = ratios.kd_ratio;
+        updateData.ad_ratio = ratios.ad_ratio;
 
-        game_stats.updateOne({_id: request.body.id}, {$set: update}, function(error, result){
+        update(0, updateData.kills, updateData.assists, updateData.deaths);
+
+        game_stats.updateOne({_id: request.body.id}, {$set: updateData}, function(error, result){
             if(error){
                 console.log("Error occurred modifying item: " +error);
+            }else{
+                sendTable(response);
             }
         });
     });
@@ -178,16 +177,18 @@ const deleteItem = function(request, response){
     game_stats.findOne({_id:request.body.id}, function(error, result){
         if(error){
             console.log("Error occurred finding element to delete: " +error);
+            return;
         }
+
+        update(-1, -result.kills, -result.assists, -result.deaths, response);
 
         //Once we have successfully found the item to delete, update totals and averages,
         //and THEN it's safe to delete.
-        numEntries--;
-        updateNumEntries(-1);
-        updateTotalsAvgs(-result.kills, -result.assists, -result.deaths);
         game_stats.deleteOne({_id: request.body.id}, function (error, result) {
             if (error) {
                 console.log("Error occurred during deletion: " + error);
+            }else{
+                sendTable(response);
             }
         });
     });
@@ -229,24 +230,33 @@ const sendTable = function(response){
     let json = {
         "numRows": numEntries,
         "rows": [],
-        "totals_avgs": {},
+        "totals": [],
+        "avgs": [],
     }
-    for(let i = 0; i < numEntries; i++){
-        json["rows"].push(appdata[i]);
-    }
-    json["totals_avgs"] = {
-        "total_kills": totalKills,
-        "avg_kills": avgKills,
-        "total_assists": totalAssists,
-        "avg_assists": avgAssists,
-        "total_deaths": totalDeaths,
-        "avg_deaths": avgDeaths
-    }
-    response.json(json);
+    getAllStats().then(function(result){
+            console.log("result: " +result);
+            json["rows"] = result;
+            json["totals"] = {
+                kills: totalKills,
+                assists: totalAssists,
+                deaths: totalDeaths
+            }
+            json["avgs"] = {
+                kills: avgKills,
+                assists: avgAssists,
+                deaths: avgDeaths
+            }
+            response.json(json);
+    });
 }
 app.get('/results', function(request, response){
     sendTable(response);
 });
+
+const getAllStats = function(){
+    let game_stats = client.db("FPS_Stats").collection("game_stats");
+    return game_stats.find({}).toArray();
+}
 
 /**
  * Creates an HTTP response that contains the contents of a stats.csv file,
@@ -355,60 +365,51 @@ const calculateKDandAD = function(kills, assists, deaths){
  * @param assists number of assists from the game
  * @param deaths number of deaths from the game
  */
-const updateTotalsAvgs = function(kills, assists, deaths){
+const updateTotals = function(kills, assists, deaths){
+    console.log("kills: " +kills);
+    totalKills += kills;
+    console.log("totalKills: " + totalKills);
+    totalAssists += assists;
+    totalDeaths += deaths;
     let totals = client.db("FPS_Stats").collection("totals");
     let promises = [];
     promises.push(totals.updateOne({type: "kills"}, {$inc: {amount: kills}}, {}));
     promises.push(totals.updateOne({type: "assists"}, {$inc: {amount: assists}}, {}));
     promises.push(totals.updateOne({type: "deaths"}, {$inc: {amount: deaths}}, {}));
-    Promise.all(promises).then(function(results){
-        updateAvgs();
-    });
+    return Promise.all(promises);
 }
 
 /**
  * Update the average kills, assists and deaths based on the current number
  * of kills, assists and deaths.
  */
-const updateAvgs = function(){
+const updateAvgs = function() {
     if(numEntries <= 0){
         numEntries = 0;
         avgKills = 0;
         avgAssists = 0;
         avgDeaths = 0;
-    }
-
-    let totals = client.db("FPS_Stats").collection("totals");
-    totals.find({}).toArray(function(error, result){
-        if(error){
-            console.log("Error occurred get averages: " +error);
-            return false;
-        }
-        let totalKills = result[0].amount;
-        let totalAssists = result[1].amount;
-        let totalDeaths = result[2].amount;
-        let numEntries = result[3].amount;
-
+    }else{
         avgKills = parseFloat((totalKills / numEntries).toFixed(DECIMAL_PRECISION));
         avgAssists = parseFloat((totalAssists / numEntries).toFixed(DECIMAL_PRECISION));
         avgDeaths = parseFloat((totalDeaths / numEntries).toFixed(DECIMAL_PRECISION));
-
-        let avgs = client.db("FPS_Stats").collection("averages");
-        let promises = [];
-        promises.push(avgs.updateOne({type: "kills"}, {$set: {type:"kills", amount: avgKills}}, {}));
-        promises.push(avgs.updateOne({type: "assists"}, {$set: {type:"assists", amount: avgAssists}}, {}));
-        promises.push(avgs.updateOne({type: "deaths"}, {$set: {type:"deaths", amount: avgDeaths}}, {}));
-        Promise.all(promises).then(function(results){
-            return true;
-        })
-    });
+    }
+    let avgs = client.db("FPS_Stats").collection("averages");
+    let promises = [];
+    promises.push(avgs.updateOne({type: "kills"}, {$inc: {amount: avgKills}}, {}));
+    promises.push(avgs.updateOne({type: "assists"}, {$inc: {amount: avgAssists}}, {}));
+    promises.push(avgs.updateOne({type: "deaths"}, {$inc: {amount: avgDeaths}}, {}));
+    return Promise.all(promises);
 }
 
 const updateNumEntries = function(delta){
+    numEntries += delta;
     let totals = client.db("FPS_Stats").collection("totals");
-    totals.updateOne({type: "entries"}, {$inc: {amount: delta}}, function(error, result){
-        if(error){
-            console.log("Error updating number of entries: " +error);
-        }
-    });
+    return totals.updateOne({type: "entries"}, {$inc: {amount: delta}});
+}
+
+const update = function(entriesDelta, kills, assists, deaths){
+    updateNumEntries(entriesDelta);
+    updateTotals(kills, assists, deaths);
+    updateAvgs();
 }

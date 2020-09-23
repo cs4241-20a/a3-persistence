@@ -195,7 +195,7 @@ function updateResults(response){
         let rows = data.rows;
         for (let i = 0; i < numRows; i++) {
             let newRow = newBody.insertRow(i);
-            newRow.insertCell(0).innerHTML = `${rows[i].id}`;
+            newRow.insertCell(0).innerHTML = `${rows[i]._id}`;
             newRow.insertCell(1).innerHTML = `${rows[i].kills}`;
             newRow.insertCell(2).innerHTML = `${rows[i].assists}`;
             newRow.insertCell(3).innerHTML = `${rows[i].deaths}`;
@@ -204,11 +204,11 @@ function updateResults(response){
         }
 
         //Now updates the boxes holding the totals and averages
-        document.getElementById("total_kills").innerHTML = `${data.totals_avgs["total_kills"]}`
-        document.getElementById("avg_kills").innerHTML = `${data.totals_avgs["avg_kills"]}`
-        document.getElementById("total_assists").innerHTML = `${data.totals_avgs["total_assists"]}`
-        document.getElementById("avg_assists").innerHTML = `${data.totals_avgs["avg_assists"]}`
-        document.getElementById("total_deaths").innerHTML = `${data.totals_avgs["total_deaths"]}`
-        document.getElementById("avg_deaths").innerHTML = `${data.totals_avgs["avg_deaths"]}`
+        document.getElementById("total_kills").innerHTML = `${data.totals.kills}`;
+        document.getElementById("avg_kills").innerHTML = `${data.avgs.kills}`;
+        document.getElementById("total_assists").innerHTML = `${data.totals.assists}`;
+        document.getElementById("avg_assists").innerHTML = `${data.avgs.assists}`;
+        document.getElementById("total_deaths").innerHTML = `${data.totals.deaths}`;
+        document.getElementById("avg_deaths").innerHTML = `${data.avgs.deaths}`;
     });
 }
