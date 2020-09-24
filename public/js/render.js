@@ -6,78 +6,21 @@ import { AnimationMixer } from "https://cdn.jsdelivr.net/npm/three@0.120.1/src/a
 
 import { RGBELoader } from "https://cdn.jsdelivr.net/npm/three@0.120.1/examples/jsm/loaders/RGBELoader.min.js";
 
-// let pmremGenerator = new THREE.PMREMGenerator(renderer);
-// pmremGenerator.compileEquirectangularShader();
-
-// new RGBELoader()
-//   .setDataType(THREE.UnsignedByteType)
-//   .setPath("assets/")
-//   .load("quattro_canti_1k.hdr", function (texture) {
-//     let envMap = pmremGenerator.fromEquirectangular(texture).texture;
-
-//     scene.environment = envMap;
-
-//     texture.dispose();
-//     pmremGenerator.dispose();
-//   });
-
-// let gltfLoader = new GLTFLoader().setPath("assets/");
-
-// let carMaterial = new THREE.MeshPhysicalMaterial({
-//   color: 0xff0000,
-//   clearcoat: 0.8,
-// });
-
-// gltfLoader.load("animated.gltf", function (gltf) {
-//   mixer = new AnimationMixer(gltf.scene);
-//   gltf.animations.forEach((clip) => {
-//     const action = mixer.clipAction(clip);
-//     action.timeScale = 3.0;
-//     action.play();
-//   });
-
-//   let shadowAlpha = new THREE.TextureLoader().load("assets/shadow_plane.png");
-//   shadowAlpha.encoding = THREE.sRGBEncoding;
-
-//   let shadowMaterial = new THREE.MeshBasicMaterial({
-//     color: 0x000000,
-//     alphaMap: shadowAlpha,
-//     transparent: true,
-//   });
-
-//   gltf.scene.traverse((o) => {
-//     if (o.isMesh) {
-//       if (o.material.name === "shadow_plane") {
-//         o.material = shadowMaterial;
-//         o.rotation.y = Math.PI;
-//         o.position.z = -0.25;
-//       } else if (o.material.name === "paint") {
-//         o.material = carMaterial;
-//       } else if (o.name === "Cylinder_0") {
-//         o.position.z = -0.3;
-//       }
-//     }
-//   });
-
-//   scene.add(gltf.scene);
-//   document.getElementById("hide_on_load").style.display = "none";
-// });
-
 let world;
 let wheelBodies = [];
 let chassisBody;
 let vehicle;
+let planeBody;
 
 let drawingSurface, copySIZE;
 drawingSurface = document.getElementById("threeJS");
 copySIZE = document.getElementById("copySIZE");
 
-let scene, camera, renderer, mixer;
+let scene, camera, cameraRig, cameraTar, renderer, mixer;
 
 let wheelMeshes = [];
-let geometry;
-let material;
-let mesh;
+let carGroup;
+let floorMesh;
 
 initCannon();
 initThree();
@@ -94,13 +37,28 @@ let clock = new THREE.Clock();
 
   world.step(1 / 60);
 
-  mesh.position.copy(chassisBody.position);
-  mesh.quaternion.copy(chassisBody.quaternion);
+  if (carGroup) {
+
+    let temp = new THREE.Vector3();
+    temp = temp.setFromMatrixPosition(cameraRig.matrixWorld);
+
+    let tar = new THREE.Vector3();
+    tar = tar.setFromMatrixPosition(cameraTar.matrixWorld);
+
+    carGroup.position.copy(chassisBody.position);
+    carGroup.quaternion.copy(chassisBody.quaternion);
+    camera.position.lerp(temp, 0.2);
+    camera.lookAt(tar);
+  }
 
   wheelMeshes.forEach((wheelMesh, i) => {
     wheelMesh.position.copy(wheelBodies[i].position);
     wheelMesh.quaternion.copy(wheelBodies[i].quaternion);
   });
+
+  floorMesh.position.copy(planeBody.position);
+
+  
 
   //   let x = Math.sin(clock.getElapsedTime() / 3.0) * 5.0;
   //   let y = Math.cos(clock.getElapsedTime() / 5.0) * 2.0 + 3.0;
@@ -154,7 +112,7 @@ function initCannon() {
   world = new CANNON.World();
   world.broadphase = new CANNON.SAPBroadphase(world);
   world.gravity.set(0, -9.8, 0);
-  world.defaultContactMaterial.friction = 0;
+  //world.defaultContactMaterial.friction = 0;
 
   let groundMaterial = new CANNON.Material("groundMaterial");
   let wheelMaterial = new CANNON.Material("wheelMaterial");
@@ -170,16 +128,16 @@ function initCannon() {
   ));
 
   let options = {
-    radius: 1.5,
-    directionLocal: new CANNON.Vec3(0, 0, -1),
-    suspensionStiffness: 30,
+    radius: 0.3,
+    directionLocal: new CANNON.Vec3(0, 0, 1),
+    suspensionStiffness: 50,
     suspensionRestLength: 0.3,
     frictionSlip: 5,
     dampingRelaxation: 2.3,
     dampingCompression: 4.4,
     maxSuspensionForce: 100000,
     rollInfluence: 0.01,
-    axleLocal: new CANNON.Vec3(0, 0, 1),
+    axleLocal: new CANNON.Vec3(0, 1, 0),
     chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0),
     maxSuspensionTravel: 0.3,
     customSlidingRotationalSpeed: -30,
@@ -188,15 +146,18 @@ function initCannon() {
 
   world.addContactMaterial(wheelGroundContactMaterial);
 
-  let chassisShape = new CANNON.Box(new CANNON.Vec3(2, 1, 1));
+  let chassisShape = new CANNON.Box(new CANNON.Vec3(4, 1.5, 0.25));
   chassisBody = new CANNON.Body({ mass: 150 });
   chassisBody.addShape(chassisShape);
   chassisBody.position.set(0, 5, 0);
-  chassisBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1,0,0), -Math.PI / 2);
-  chassisBody.angularVelocity.set(0, 0, 0.5);
+  chassisBody.quaternion.setFromAxisAngle(
+    new CANNON.Vec3(1, 0, 0),
+    Math.PI / 2
+  );
 
-  let planeShape = new CANNON.Box(new CANNON.Vec3(10, 0.1, 10));
-  let planeBody = new CANNON.Body({ static: true });
+  let planeShape = new CANNON.Box(new CANNON.Vec3(25, 0.1, 25));
+  planeBody = new CANNON.Body({ static: true });
+  planeBody.position.set(0, 1, 0);
   planeBody.addShape(planeShape);
 
   world.addBody(chassisBody);
@@ -206,16 +167,16 @@ function initCannon() {
     chassisBody: chassisBody,
   });
 
-  options.chassisConnectionPointLocal.set(1, 1, 0);
+  options.chassisConnectionPointLocal.set(1.125, 0.70, -0.1);
   vehicle.addWheel(options);
 
-  options.chassisConnectionPointLocal.set(1, -1, 0);
+  options.chassisConnectionPointLocal.set(1.125, -0.70, -0.1);
   vehicle.addWheel(options);
 
-  options.chassisConnectionPointLocal.set(-1, 1, 0);
+  options.chassisConnectionPointLocal.set(-1.8, 0.70, -0.1);
   vehicle.addWheel(options);
 
-  options.chassisConnectionPointLocal.set(-1, -1, 0);
+  options.chassisConnectionPointLocal.set(-1.8, -0.70, -0.1);
   vehicle.addWheel(options);
 
   vehicle.addToWorld(world);
@@ -224,10 +185,14 @@ function initCannon() {
     let cylinderShape = new CANNON.Cylinder(
       wheel.radius,
       wheel.radius,
-      wheel.radius / 2,
+      wheel.radius,
       20
     );
-    let wheelBody = new CANNON.Body({ mass: 1 });
+    let wheelBody = new CANNON.Body({
+      mass: 0,
+    });
+    wheelBody.type = CANNON.Body.KINEMATIC;
+    wheelBody.collisionFilterGroup = 0; // turn off collisions
     let q = new CANNON.Quaternion();
     q.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2);
     wheelBody.addShape(cylinderShape, new CANNON.Vec3(), q);
@@ -247,39 +212,121 @@ function initCannon() {
 
 function initThree() {
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(20, 1.0, 0.1, 1000);
+  camera = new THREE.PerspectiveCamera(40, 1.0, 0.1, 1000);
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.tonMappingExposure = 1;
   renderer.outputEncoding = THREE.sRGBEncoding;
 
-  geometry = new THREE.BoxGeometry(2, 1, 1);
-  material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-  mesh = new THREE.Mesh(geometry, material);
+  let gltfLoader = new GLTFLoader().setPath("assets/");
 
-  let floorGeometry = new THREE.BoxGeometry(10, 0.1, 10);
+  gltfLoader.load("car_body.gltf", function (gltf) {
+    carGroup = new THREE.Group();
+
+    let boxGeo = new THREE.BoxGeometry(4, 1.5, 0.25);
+    let boxMat = new THREE.MeshBasicMaterial({
+      color: 0x0000ff,
+      wireframe: true,
+    });
+    let boxMesh = new THREE.Mesh(boxGeo, boxMat);
+
+    cameraRig = new THREE.Object3D;
+    cameraRig.position.set(-6, 0, -1.5);
+
+    cameraTar = new THREE.Object3D;
+    cameraTar.position.set(0, 0, -0.5);
+
+    gltf.scene.position.set(0, 0, 2.5);
+    gltf.scene.rotation.set(0, Math.PI / 2, -Math.PI / 2);
+    carGroup.add(gltf.scene);
+    carGroup.add(boxMesh);
+    carGroup.add(cameraRig);
+    carGroup.add(cameraTar);
+    scene.add(carGroup);
+  });
+
+  let floorGeometry = new THREE.BoxGeometry(50, 0.1, 50);
   let floorMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-  let floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
+  floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
 
   vehicle.wheelInfos.forEach((wheel) => {
     var geometry = new THREE.CylinderGeometry(
       wheel.radius,
       wheel.radius,
-      wheel.radius / 2,
+      wheel.radius,
       20
     );
-    var material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    var material = new THREE.MeshPhysicalMaterial({ color: 0x131313});
     var cylinder = new THREE.Mesh(geometry, material);
     wheelMeshes.push(cylinder);
     scene.add(cylinder);
   });
 
-  scene.add(mesh);
   scene.add(floorMesh);
 
-  camera.position.set(10, 10, 15);
-  camera.lookAt(0.0, 0.25, 0.0);
+  let pmremGenerator = new THREE.PMREMGenerator(renderer);
+  pmremGenerator.compileEquirectangularShader();
+
+  new RGBELoader()
+    .setDataType(THREE.UnsignedByteType)
+    .setPath("assets/")
+    .load("quattro_canti_1k.hdr", function (texture) {
+      let envMap = pmremGenerator.fromEquirectangular(texture).texture;
+
+      scene.environment = envMap;
+
+      texture.dispose();
+      pmremGenerator.dispose();
+    });
 
   drawingSurface.appendChild(renderer.domElement);
+}
+
+document.onkeydown = handler;
+document.onkeyup = handler;
+
+var maxSteerVal = 0.5;
+var maxForce = 700;
+var brakeForce = 200;
+function handler(event) {
+  var up = event.type == "keyup";
+
+  if (!up && event.type !== "keydown") {
+    return;
+  }
+
+  vehicle.setBrake(0, 0);
+  vehicle.setBrake(0, 1);
+  vehicle.setBrake(0, 2);
+  vehicle.setBrake(0, 3);
+
+  switch (event.keyCode) {
+    case 87: // forward
+      vehicle.applyEngineForce(up ? 0 : maxForce, 2);
+      vehicle.applyEngineForce(up ? 0 : maxForce, 3);
+      break;
+
+    case 83: // backward
+      vehicle.applyEngineForce(up ? 0 : -maxForce, 2);
+      vehicle.applyEngineForce(up ? 0 : -maxForce, 3);
+      break;
+
+    case 66: // b
+      vehicle.setBrake(brakeForce, 0);
+      vehicle.setBrake(brakeForce, 1);
+      vehicle.setBrake(brakeForce, 2);
+      vehicle.setBrake(brakeForce, 3);
+      break;
+
+    case 68: // right
+      vehicle.setSteeringValue(up ? 0 : -maxSteerVal, 0);
+      vehicle.setSteeringValue(up ? 0 : -maxSteerVal, 1);
+      break;
+
+    case 65: // left
+      vehicle.setSteeringValue(up ? 0 : maxSteerVal, 0);
+      vehicle.setSteeringValue(up ? 0 : maxSteerVal, 1);
+      break;
+  }
 }
