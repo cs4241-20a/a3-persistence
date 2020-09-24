@@ -7,8 +7,7 @@
           modelinput = document.querySelector( '#vehiclemodel' ),
           yearinput = document.querySelector( '#vehicleyear' ),
           table = document.querySelector( '#resultsTable'),
-          json = { vehiclemake: makeinput.value , vehiclemodel: modelinput.value , vehicleyear: yearinput.value , vehicleage: (new Date().getFullYear() - yearinput.value)},
-          body = JSON.stringify( json );
+          json = { vehiclemake: makeinput.value , vehiclemodel: modelinput.value , vehicleyear: yearinput.value , vehicleage: (new Date().getFullYear() - yearinput.value)}
 
     //check if inputs are empty
     if(makeinput.value == "" || modelinput.value == "" || yearinput == "") {
@@ -22,16 +21,15 @@
       return;
     }
 
+    console.log(json)
     fetch( '/submit', {
-      method:'POST',
-      body 
+      method: 'POST',
+      headers: {'Content-Type': 'application/json' },
+      body: JSON.stringify(json)
     })
-    .then( function(response) {
-      return response.text()
-    })
-    .then( function(txt) {
-      console.log(txt)
-      updateTable(table, JSON.parse(txt))
+    .then( response => response.json() )
+    .then( json => {
+      updateTable(table, json)
     })
 
     return false
@@ -55,12 +53,12 @@
     button.onclick = submit
 
     const table = document.querySelector( '#resultsTable' )
-    fetch( '/appdata' )
-    .then(function(response) {
-      return response.json()
+    fetch( '/appdata', {
+      method:'GET'
     })
-    .then(function(array) {
-      console.log(array);
-      array.forEach(element => updateTable(table, JSON.parse(element)))
+    .then( response => response.json() )
+    .then( array => {
+      console.log(array)
+      array.forEach(element => updateTable(table, element))
     })
   }
