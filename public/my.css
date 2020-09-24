@@ -2,3 +2,6 @@
     display: flex;
     justify-content: space-between;
 }
+.bucket {
+    min-height: 100%;
+}

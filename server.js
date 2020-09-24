@@ -84,17 +84,12 @@ app.get('/auth/github',
 app.get('/auth/github/callback', 
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
-    console.log('req.user')
-    console.log(req.user)
-    console.log('req.sess')
-    console.log(req.session)
     setSessionUser(req, req.user.username, req.user.id)
     res.redirect('/');
 });
 
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
-  console.log('lkjad')
   response.sendFile(__dirname + "/views/login.html");
 });
 
@@ -126,7 +121,6 @@ app.post('/login', (request, response) => {
 });
 
 app.post('/register', (request, response) => {
-  console.log('register')
   let username = request.body.username;
   let pass = request.body.password;
   let checkQuery = {'username': username}
@@ -137,7 +131,7 @@ app.post('/register', (request, response) => {
     if (result.length == 1){
       response.json({code: 'found'})
     } else {
-      usersDB.insertOne({'username': username, 'password': pass})
+      usersDB.insertOne({'username': username, 'password': pass, 'basket': []})
       .then(setSessionUser(request, username, pass));
     }
   })
@@ -146,20 +140,16 @@ app.post('/register', (request, response) => {
 app.get('/dataPage', (request, response) => {
   let username = request.session['User']|| null;
   let password = request.session['Pass']|| null;
-  console.log('access datapage')
-  console.log(username)
-  console.log(password)
   if (username == null || password == null){
     //redirect them to login
   } else {
     response.sendFile(__dirname + "/views/dataPage.html");
     let checkQuery = {'username': username}
     usersDB.find(checkQuery).toArray(function(err, result){
-    if (err){
-      throw err;
-    }
-    
-  })
+      if (err){
+        throw err;
+      }
+    })
   }
 })
 
@@ -182,12 +172,58 @@ app.get('/dragula.js', (request, response) => {
 })
 
 app.get('/currentUser', (request, response) => {
-  console.log('current user requested')
   let username = request.session['User'];
-  console.log(username)
   if (username != null){
-    response.send({username: username});
+    let userExistsQuery = {'username': username};
+    
+    usersDB.find(userExistsQuery).toArray(function(err, result){
+      if (err){
+        throw err;
+      } 
+      response.send({username: username, basket: result[0].basket});
+    })
+    
   }else {
     response.sendStatus(404)
   }
 })
+
+app.post('/addToBasket', (request, response) => {
+  console.log('add to basket POST');
+  let username = request.session['User'];
+  let inBasket = [];
+  if (username != null){
+    let userExistsQuery = {'username': username};
+    
+    usersDB.find(userExistsQuery).toArray(function(err, result){
+      if (err){
+        throw err;
+      } 
+      console.log(result[0])
+      console.log(result[0].basket != null)
+      if (result[0].basket != null){
+        inBasket = result[0].basket;
+      }
+    })
+    console.log(request.body);
+    inBasket.push(request.body.newItem);
+    console.log(`New basket: ${inBasket}`)
+    usersDB.update(
+      userExistsQuery,
+      {
+        $set: {
+          basket : inBasket
+        }
+      }
+    )
+    response.sendStatus(200);
+  }else {
+    response.sendStatus(404)
+  }
+})
+
+app.post('/test', (request, response) =>{
+  response.sendStatus(200);
+})
+
+app.get('/myBasket')
