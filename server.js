@@ -11,7 +11,7 @@ app.use(express.static('public'))
 app.listen(3000)
 
 const MongoClient = mongodb.MongoClient;
-const uri = 'mongodb+srv://hctrautz:zPhOWsTbSvEnD6cf@taskcluster.rsy8z.mongodb.net/TaskDatabase?retryWrites=true&w=majority';
+const uri = '';
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
 
 const calculateDeadline = function(prio){
