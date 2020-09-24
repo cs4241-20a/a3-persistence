@@ -19,26 +19,6 @@ function checkField(field) {
 }
 
 const submitLapTime = function () {
-  // prevent default form action from being carried out;
-
-  //   if (
-  //     !checkField(cname_input) ||
-  //     !checkField(dname_input) ||
-  //     !checkField(pname_input)
-  //   ) {
-  //     return false;
-  //   }
-
-  //   const json = {
-  //     cname: cname_input.value,
-  //     dname: dname_input.value,
-  //     pname: pname_input.value,
-  //     pcolor: pcolor_input.value,
-  //     ttype: ttype_input.value,
-  //     tangle: tangle_input.value,
-  //     drs: drs_input.checked,
-  //   };
-
   //   result_modal.classList.add("is-active");
   //   result_text.innerHTML = "";
   //   result_spin.style.display = "inline-block";
