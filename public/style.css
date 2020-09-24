@@ -1,56 +1,96 @@
-/* this file is loaded by index.html and styles the page */
+/*Style your own assignment! This is fun! */
 
-* {
-  box-sizing: border-box;
+body, button, input{
+  color: #605170;
+  background-color: #CEADF0;
+  font-family: 'Lexend Deca', sans-serif;
 }
 
-body {
-  font-family: sans-serif;
-  margin: 2em 1em;
-  line-height: 1.5em;
+button {
+  background-color: #7F4BB3;
+  color: #CEADF0;
+  border: black solid 1px;
+  border-radius: 15px;
+  height: 2em;
+  margin: auto;
+  width: 50%;
+  min-width: 200px;
 }
 
-h1 {
-  font-style: italic;
-  color: #373fff;
-  max-width: calc(100% - 5rem);
-  line-height: 1.1;
-}
-
-form {
-  background-color: #eee;
-  display: grid;
-  grid-gap: 1em;
-  padding: 1em;
-  max-width: 40ch;
+h1, h2 {
+  font-family: 'Raleway', sans-serif;
+  color: #7F4BB3;
 }
 
 input {
-  border: 1px solid silver;
-  display: block;
-  font-size: 16px;
-  margin-bottom: 10px;
-  padding: 5px;
+  width: 100%;
+  min-width: 200px;
+  border: black solid 1px;
+  background-color: #AA65F0;
+  color: white;
+}
+
+::placeholder {
+  color: #CCCCCC;
+  /* color: whitesmoke; */
+}
+
+#stats {
+  display: grid;
+  grid-template: 1fr 1fr / 30% 1fr;
+  grid-gap: 12px 12px;
+  padding: 12px;
+}
+
+#stats p {
+  margin: 0px;
+}
+
+#new-run-form {
+  display: grid;
+  grid-template: 1fr 1fr 1fr 1fr 1fr / 30% 1fr;
+  grid-gap: 12px 12px;
+  padding: 12px;
+}
+
+#form-submit {
+  grid-column: 1 / span 2;
+}
+
+#runs-table, #edit-runs-table {
   width: 100%;
 }
 
-form button {
-  background-color: #bbbbf2;
-  border: 2px solid currentColor;
-  border-radius: .25em;
-  cursor: pointer;
-  font-size: inherit;
-  line-height: 1.4em;
-  padding: 0.25em 1em;
-  max-width: 20ch;
+#edit-runs-table input {
+  width: 95%;
+  min-width: 0;
 }
 
-form button:hover {
-  background-color: lavender;
+#runs-table input {
+  width: 95%;
+  min-width: 0;
 }
 
-footer {
-  margin-top: 3em;
-  padding-top: 1.5em;
-  border-top: 1px solid lightgrey;
+table, th, td {
+  border: black solid 1px;
+  border-collapse: collapse;
+}
+
+.delete-button {
+  width: 100%;
+  min-width: 30px;
+}
+
+#wrapper {
+  padding: 0 2em 0 2em;
+}
+
+.full-width {
+  width: 100%;
+  display: block;
+  padding: 12px;
+}
+
+#submit-edits {
+  margin: auto;
 }

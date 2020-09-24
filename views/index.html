@@ -5,48 +5,71 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A cool thing made with Glitch">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Welcome to Glitch!</title>
+    <title>CS4241 Assignment 3</title>
 
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
-    <!-- import the webpage's stylesheet -->
+    <link id="favicon" rel="icon" href="https://www.watsoninc.ca/wp-content/uploads/2018/08/Running_shoe_icon.png" type="image/png">
     <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca&family=Raleway&display=swap" rel="stylesheet">
 
-    <!-- import the webpage's client-side javascript file -->
     <script src="/script.js" defer></script>
   </head>
   <body>
-    <header>
-      <h1>A Dream of the Future</h1>
-    </header>
+    <div id="wrapper">
+      <h1>Tagteam Marathon</h1>
+      <h2>About</h2>
+      <p>Welcome to Tagteam Marathon! </p>
+      <p>Tagteam Marathon is an app that helps you track how far your team has run. No matter where you are or how fast you're going, you can help your team run a collective marathon.</p>
+      <h2>Completed Runs</h2>
+      <table id="runs-table">
+        <tr>
+          <th>Runner</th>
+          <th>Location</th>
+          <th>Distance (miles)</th>
+          <th>Time (minutes)</th>
+          <th>Speed (miles/hour)</th>
+          <th>Delete</th>
+          <th>Edit</th>
+        </tr>
+      </table>
+      <div id="stats">
+        <p>Total Distance (miles):</p> <p id="total-distance"></p>
+        <p>Marathons Run:</p> <p id="num-marathons"></p>
+      </div>
 
-    <main>
-      <h2>Oh hi,</h2>
+      <h2>New Run</h2>
+      <form id="new-run-form">
 
-      <p>Tell me your hopes and dreams:</p>
+        <label>Your Name</label>
+        <input type="text" id="input-name" placeholder="ex. Jane Doe">
 
-      <form>
-        <label>
-          New Dream
-          <input name="dream" type="text" maxlength="100" required placeholder="Dreams!">
-        </label>
-        <button type="submit" id="submit-dream">Add Dream</button>
+        <label>Location</label>
+        <input type="text" id="input-location" placeholder="ex. Bancroft Tower">
+
+        <label>Distance (miles)</label>
+        <input type="number" id="input-distance" placeholder="ex. 2.75" min="0">
+
+        <label>Time (minutes)</label>
+        <input type="number" id="input-time" placeholder="ex. 30" min="0">
+
+        <button id="form-submit" type="submit">Submit Run</button>
       </form>
-
-      <section class="dreams">
-        <ul id="dreams">
-          <em>loading dreams&hellip;</em>
-        </ul>
-      </section>
-    </main>
-
-    <footer>Made with <a href="https://glitch.com">Glitch</a>!</footer>
-
-    <!-- include the Glitch button to show what the webpage is about and
-          to make it easier for folks to view source and remix -->
-    <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
-    <script src="https://button.glitch.me/button.js" defer></script>
+      <h2>Edit Runs</h2>
+      <table id="edit-runs-table">
+        <tr>
+          <th>Runner</th>
+          <th>Location</th>
+          <th>Distance (miles)</th>
+          <th>Time (minutes)</th>
+          <th>Speed (miles/hour)</th>
+          <th>Delete Run</th>
+        </tr>
+      </table>
+      <div class="full-width">
+        <button id="submit-edits" type="button">Submit Edits</button>
+      </div>
+    </div>
   </body>
 </html>

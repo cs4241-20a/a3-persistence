@@ -1,32 +1,17 @@
-// server.js
-// where your node app starts
-
-// we've started you off with Express (https://expressjs.com/)
-// but feel free to use whatever libraries or frameworks you'd like through `package.json`.
 const express = require("express");
-const secrets = require("secrets").DB;
+const secrets = require("./secrets");
 const bodyParser = require("body-parser");
 const app = express();
 
 const MongoDB = require('mongodb');
 const MongoClient = MongoDB.MongoClient;
-const uri = `mongodb+srv://gratitude-robot:${ process.env.DBPASS }@a3-primary.4sekk.mongodb.net/${ process.env.DBNAME }?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://gratitude-robot:${ secrets.DBPASS }@a3-primary.4sekk.mongodb.net/${ secrets.DBNAME }?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true });
 let collection = null;
 client.connect(err => {
   collection = client.db("test").collection("devices");
-  // perform actions on the collection object
   console.log(collection);
-  // client.close();
 });
-
-
-// our default array of dreams
-const dreams = [
-  "Find and count some sheep",
-  "Climb a really tall mountain",
-  "Wash the dishes"
-];
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
@@ -37,33 +22,55 @@ app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
 });
 
-// send the default array of dreams to the webpage
-app.get("/dreams", (request, response) => {
-  // express helps us take JS objects and send them as JSON
-  response.json(dreams);
-});
-
-app.post("/add", bodyParser.json(), (request, response) => {
-  console.log(`request: ${request.body}`);
-});
-
 // listen for requests :)
-const listener = app.listen(process.env.PORT, () => {
+const listener = app.listen(secrets.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
 
-app.post("/add", bodyParser.json(), function(req, res) {
-  console.log(`body: ${req.body}`);
-  collection.insertOne(req.body)
-  .then(dbresponse => {
-    console.log(`dbresponse: ${dbresponse}`);
-    res.json( dbresponse.ops[0] );
+// ----------------------
+// Requests and Responses
+// ----------------------
+
+app.get('/getRuns', function getRuns(request, response){
+  const cursor = collection.find({}) // get everything
+  cursor.toArray().then(array => {
+    console.log(`Array data: ${JSON.stringify(array)}`);
+    response.json(array);
   })
 });
 
-// assumes req.body takes form { _id:5d91fb30f3f81b282d7be0dd } etc.
-app.post( '/remove', (req,res) => {
-  collection
-    .deleteOne({ _id:MongoDB.ObjectID( req.body._id ) })
-    .then( result => res.json( result ) )
-})
+app.post('/addRun', bodyParser.json(), function addRun (request, response) {
+  console.log(`Body of add run request: ${JSON.stringify(request.body)}`);
+  collection.insertOne(request.body)
+  .then(dbresponse => {
+    console.log(`dbresponse: ${dbresponse}`);
+    response.json( dbresponse.ops[0] );
+  });
+});
+
+app.post('/deleteRun', bodyParser.json(), function deleteRun (request, response) {
+  console.log(`ID to delete :${JSON.stringify(request.body.id)}`);
+  collection.deleteOne({ _id:MongoDB.ObjectID( request.body.id ) })
+    .then( result => response.json(result) );
+});
+
+app.post('/editRuns', bodyParser.json(), function editRuns (request, response) {
+  let dataString = '';
+  request.on('data', function( editedRuns ) {
+    dataString += editedRuns;
+    console.log(`Run received: ${dataString}`);
+  });
+  request.on('end', function() {
+    let editedRuns = JSON.parse(dataString);
+    for(let i = 0; i < editedRuns.length; i++) {
+      editedRuns[i].speed = editedRuns[i].distance * 60 / editedRuns[i].time;
+    }
+    data.splice(0, data.length); // clear data
+    for (let i = 0; i < editedRuns.length; i++) {
+      data.push(editedRuns[i]);
+    }
+    console.log(`New runs: ${JSON.stringify(data)}`);
+    response.writeHead( 200, "OK", {'Content-Type': 'text/plain'});
+    response.end();
+  });
+});
