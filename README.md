@@ -9,7 +9,7 @@ For assignment 3 I developed a food/meal tracker which lets you enter any foods 
 
 In creating this application there were a few challenges that I came across. The largest problem was authenticating users. It proved to be a more complicated process than I presumed and took me longer than I wanted to spend implementing it. The other major problem I came across was user input and validation. When a user initially entered info the input fields provided forms of input validation but when editing an entry I used the prompt function which does not have built in input validation of any kind. This meant that I had to disable editing of the time field to make sure the data was always valid.  
 
-I chose the local authentication strategy. I chose this strategy because it was very easy and simple to implement and I don't really care much about security in this application.  
+I chose the local authentication strategy. I chose this strategy because it was very easy and simple to implement and I don't really care much about security in this application. A side note is passwords are stored in plain text because I didn't implement proper hashing and salting.  
 
 For CSS frameworks I went with the simple but still nice looking option of sakura. Sakura is a minimal classless css framework that allowed me to style my website nicely very quickly. All I had to do was download the css file and set the html to use it. The nice look combined with the rapid deployment time made it a very good choice. While it may not look as complicated as something like bootstrap I still think it looks nice enough and is much more lightweight than bootstrap. I did make slight modifications to some of the css elements to tweak it to my liking along with making slight use of divs to nicely space content out on the page. These were just very small changes I made to some buttons, items in table cells, and a div. I also used normalize before Sakura as it was recommended to normalize some parts before Sakura.  
 
@@ -23,7 +23,7 @@ The five express middleware packages I used were serve-static, body-parser, pass
 
 ### Technical Achievements
 
-- **Tech Achievement 1**: Hosted project on a different hosting service. I used Heroku for this. Overall I enjoyed the experience more than using glitch as often glitch seems to act up in strange ways. The biggest benefit is automatic code deploy from git with every push, so no more constantly having to update the glitch project if you make a slight change, it just does it for you. Otherwise it is just a more fluid and professional experience which makes it enjoyable over
+- **Heroku Hosting**: Hosted project on a different hosting service. I used Heroku for this. Overall I enjoyed the experience more than using glitch as often glitch seems to act up in strange ways. The biggest benefit is automatic code deploy from git with every push, so no more constantly having to update the glitch project if you make a slight change, it just does it for you. Otherwise it is just a more fluid and professional experience which makes it enjoyable over
 
 ### Design/Evaluation Achievements
 
