@@ -8,9 +8,10 @@ const app = express();
 app.use(express.json());
 
 const server = http.createServer(app);
-
-// Database
-const db = config.get("mongoURI");
+const db =
+    process.env.NODE_ENV === "production"
+        ? process.env.mongoURI
+        : config.get("mongoURI");
 mongoose
     .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log("Connected to database"))
