@@ -27,32 +27,13 @@ client.connect()
         console.log("Connected");
     })
 
-/*
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    });
-  }
-)); */
-
-passport.initialize()
-
 passport.use(new LocalStrategy(
     function (username, userPassword, done) {
-        console.log("Here");
         const userColl = client.db("a3").collection("users");
-        userColl.find({ username: username, password: userPassword }).toArray.then(function (result) {
-            console.log(result);
+        userColl.find({ username: username, password: userPassword }).toArray()
+        .then(function (result) {
             if (result.length >= 1) {
-                return done(null, user);
+                return done(null, username);
             } else {
                 return done(null, false, { message: "Incorrect username or password" });
             }
@@ -60,13 +41,21 @@ passport.use(new LocalStrategy(
     }
 ));
 
+passport.serializeUser(function(user, done) {
+    done(null, user);
+  });
+  
+  passport.deserializeUser(function(user, done) {
+    done(null, user);
+  });
 
+app.use(passport.initialize());
 
 app.use(helmet())
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
-app.use(express.static('public', {extensions: 'html', index: 'login.html'}))
+app.use(express.static('public', {extensions: 'html'}))
 
 app.post("/submit", bodyParser.json(), function (request, response) {
     //write post request code for a new item here
@@ -122,20 +111,29 @@ app.post("/data", bodyParser.json(), function (request, response) {
     collection.find({ username: request.body.username }).toArray().then(result => response.json(result));
 })
 
-app.post('/login',
-    passport.authenticate('local', {
-        successRedirect: '/index',
-        failureRedirect: '/login',
-        failureFlash: true
-    })
-);
-
-app.post("newUser", bodyParser.json(), function (request, response) {
+app.post("/newuser", bodyParser.json(), function (request, response) {
     console.log("New User");
     console.log(request.body);
     const userColl = client.db("a3").collection("users");
     userColl.insertOne(request.body)
-    .then(() => response.status(200));
+    .then(() => response.sendStatus(200));
 })
 
-app.listen(3000)
+app.post('/login', bodyParser.json(),
+    passport.authenticate('local', {failureFlash: false}), function(request, response) {
+        response.json({username: request.user});
+    }
+);
+
+
+let server = app.listen(3000)
+
+process.on('SIGTERM', shutDown);
+process.on('SIGINT', shutDown);
+
+
+function shutDown() {
+    console.log("Shutting down");
+    client.close();
+    server.close()
+}

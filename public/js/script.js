@@ -3,6 +3,7 @@
 
 //Get all items for a user
 function getAllItems(username) {
+    console.log(username);
     fetch('/data', {
         method: "POST",
         body: JSON.stringify({username: username}),
@@ -113,6 +114,55 @@ function submitFormData(e) {
     });
 }
 
+//Tries to log in the user
+function login(e) {
+    e.preventDefault();
+
+    let data = {};
+    data["username"] = document.getElementById("username").value;
+    data["password"] = document.getElementById("password").value;
+
+    fetch('/login', {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {"Content-Type":"application/json"}
+    })
+    .then(async function(response) {
+        if (response.status === 200) {
+            let json = await response.json();
+            username = json.username;
+            document.getElementById("loginDiv").hidden = true;
+            document.getElementById("mainDiv").hidden = false;
+            document.title = "Home • Food Tracker • CS4241 A3";
+            getAllItems(username);
+        } else {
+            window.alert("Incorrect username or password");
+        }
+    });
+}
+
+//Creates a new account
+function newAccount(e) {
+    e.preventDefault();
+
+    let data = {};
+    data["username"] = document.getElementById("newUsername").value;
+    data["password"] = document.getElementById("newPassword").value;
+    
+    fetch('/newuser', {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {"Content-Type":"application/json"}
+    })
+    .then(function(response) {
+        if (response.ok) {
+            window.alert("Created new account");
+        } else {
+            window.alert("Error creating new account");
+        }
+    })
+}
+
 //Handles edit button clicks and delete button clicks
 function clickHandler(e) {
     if (e.target.tagName === "BUTTON") {
@@ -125,9 +175,9 @@ function clickHandler(e) {
 }
 
 window.onload = function() {
-    username = "bob";
-    getAllItems(username);
     document.getElementById("submit").addEventListener("click", submitFormData, false);
+    document.getElementById("login").addEventListener("click", login, false);
+    document.getElementById("create").addEventListener("click", newAccount, false);
     document.addEventListener("click", clickHandler, false);
 }
 
