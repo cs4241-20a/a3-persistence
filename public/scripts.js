@@ -32,9 +32,12 @@ const submit = function( e ) {
 
   fetch( '/submit', {
     method:'POST',
-    body
+    body: body,
+    headers: {
+      "Content-Type": "application/json"
+    }
   })
-  .then(response => response.json())
+  .then(response => response.json() )
   .then(json => {
     getData(json);
     taskName.value = "";
@@ -52,7 +55,10 @@ const deleteTask = function (e) {
 
   fetch("/submit", {
     method: "POST",
-    body,
+    body: body,
+    headers: {
+      "Content-Type": "application/json"
+    }
   })
   .then(response => response.json())
   .then(json => getData(json));
