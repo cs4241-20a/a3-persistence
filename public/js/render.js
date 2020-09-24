@@ -153,7 +153,6 @@ function initCannon() {
     Math.PI / 2
   );
 
-
   let planeShape = new CANNON.Box(new CANNON.Vec3(150, 0.1, 150));
   planeBody = new CANNON.Body({ static: true });
   planeBody.position.set(0, 1, 0);
@@ -215,24 +214,41 @@ function initThree() {
   camera.position.set(10, 10, 10);
   camera.lookAt(0.0, 0.25, 0.0);
 
+  let colliders = new THREE.Group();
+  let boxMat = new THREE.MeshBasicMaterial({
+    color: 0x0000ff,
+    wireframe: true,
+  });
+
+  fetch("assets/colliders.json")
+    .then((response) => response.json())
+    .then((json) => {
+      json.forEach((collider) => {
+        let dim = collider.dim;
+        let pos = collider.pos;
+        let quat = collider.quat;
+
+        let boxGeo = new THREE.BoxGeometry(dim[0], dim[1], dim[2]);
+        let boxMesh = new THREE.Mesh(boxGeo, boxMat);
+        colliders.add(boxMesh);
+        boxMesh.position.set(pos[0], pos[1], pos[2]);
+        boxMesh.quaternion.set(quat[1], quat[2], quat[3], quat[0]);
+      });
+    });
+
+  scene.add(colliders);
+  colliders.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI / 2);
+
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.tonMappingExposure = 1;
   renderer.outputEncoding = THREE.sRGBEncoding;
 
-  let boxMat = new THREE.MeshBasicMaterial({
-    color: 0x0000ff,
-    wireframe: true,
-  });
-
   let gltfLoaderCar = new GLTFLoader().setPath("assets/");
 
   gltfLoaderCar.load("car_body.gltf", function (gltf) {
     carGroup = new THREE.Group();
-
-    let boxGeo = new THREE.BoxGeometry(4, 1.5, 0.25);
-    let boxMesh = new THREE.Mesh(boxGeo, boxMat);
 
     cameraRig = new THREE.Object3D();
     cameraRig.position.set(-6, 0, -1.5);
@@ -243,7 +259,6 @@ function initThree() {
     gltf.scene.position.set(0, 0, 2.5);
     gltf.scene.rotation.set(0, Math.PI / 2, -Math.PI / 2);
     carGroup.add(gltf.scene);
-    carGroup.add(boxMesh);
     carGroup.add(cameraRig);
     carGroup.add(cameraTar);
     scene.add(carGroup);
@@ -256,13 +271,11 @@ function initThree() {
 
     gltf.scene.traverse((o) => {
       if (o.name.includes("collider") && o.isMesh) {
-          console.log(o);
-        let bbox = new CANNON.Box(new CANNON.Vec3(
-            o.scale.x,
-            o.scale.y/ 8,
-            o.scale.z / 4
-        ));
-        let bbody = new CANNON.Body({static: true});
+        console.log(o);
+        let bbox = new CANNON.Box(
+          new CANNON.Vec3(o.scale.x, o.scale.y / 8, o.scale.z / 4)
+        );
+        let bbody = new CANNON.Body({ static: true });
         bbody.addShape(bbox);
         bbody.position.copy(o.position);
         bbody.quaternion.copy(o.quaternion);
