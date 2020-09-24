@@ -215,9 +215,10 @@ function initThree() {
   camera.lookAt(0.0, 0.25, 0.0);
 
   let colliders = new THREE.Group();
+  let colliderBody = new CANNON.Body({ static: true });
   let boxMat = new THREE.MeshBasicMaterial({
     color: 0x0000ff,
-    wireframe: true,
+    wireframe: true
   });
 
   fetch("assets/colliders.json")
@@ -228,6 +229,11 @@ function initThree() {
         let pos = collider.pos;
         let quat = collider.quat;
 
+        let colliderShape = new CANNON.Box(new CANNON.Vec3(dim[0] / 2, dim[1] / 4, dim[2] / 4));
+        let colliderQuat = new CANNON.Quaternion(quat[1], quat[2], quat[3], quat[0]);
+        let colliderPos = new CANNON.Vec3(pos[0], pos[1], pos[2]);
+        colliderBody.addShape(colliderShape, colliderPos, colliderQuat);
+
         let boxGeo = new THREE.BoxGeometry(dim[0], dim[1], dim[2]);
         let boxMesh = new THREE.Mesh(boxGeo, boxMat);
         colliders.add(boxMesh);
@@ -237,7 +243,9 @@ function initThree() {
     });
 
   scene.add(colliders);
+  world.addBody(colliderBody);
   colliders.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI / 2);
+  colliderBody.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI / 2);
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
