@@ -148,10 +148,7 @@ function initCannon() {
   chassisBody = new CANNON.Body({ mass: 150 });
   chassisBody.addShape(chassisShape);
   chassisBody.position.set(0, 5, 0);
-  chassisBody.quaternion.setFromAxisAngle(
-    new CANNON.Vec3(1, 0, 0),
-    Math.PI / 2
-  );
+  chassisBody.quaternion.set(0.51, 0.49, -0.49, 0.51);
 
   let planeShape = new CANNON.Box(new CANNON.Vec3(150, 0.1, 150));
   planeBody = new CANNON.Body({ static: true });
@@ -165,16 +162,16 @@ function initCannon() {
     chassisBody: chassisBody,
   });
 
-  options.chassisConnectionPointLocal.set(1.125, 0.7, -0.1);
+  options.chassisConnectionPointLocal.set(1.125, 0.7, 0.0);
   vehicle.addWheel(options);
 
-  options.chassisConnectionPointLocal.set(1.125, -0.7, -0.1);
+  options.chassisConnectionPointLocal.set(1.125, -0.7, 0.0);
   vehicle.addWheel(options);
 
-  options.chassisConnectionPointLocal.set(-1.8, 0.7, -0.1);
+  options.chassisConnectionPointLocal.set(-1.8, 0.7, 0.0);
   vehicle.addWheel(options);
 
-  options.chassisConnectionPointLocal.set(-1.8, -0.7, -0.1);
+  options.chassisConnectionPointLocal.set(-1.8, -0.7, 0.0);
   vehicle.addWheel(options);
 
   vehicle.addToWorld(world);
@@ -264,7 +261,7 @@ function initThree() {
     cameraTar = new THREE.Object3D();
     cameraTar.position.set(0, 0, -0.5);
 
-    gltf.scene.position.set(0, 0, 2.5);
+    gltf.scene.position.set(0, 0, 0);
     gltf.scene.rotation.set(0, Math.PI / 2, -Math.PI / 2);
     carGroup.add(gltf.scene);
     carGroup.add(cameraRig);
