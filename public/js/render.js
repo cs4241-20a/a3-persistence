@@ -113,25 +113,25 @@ window.onresize = () => {
   setRenderSize();
 };
 
-pcolor_input.onchange = () => {
-  switch (pcolor_input.value) {
-    case "red":
-      carMaterial.color.setHex(0xff0000);
-      break;
-    case "blue":
-      carMaterial.color.setHex(0x0000ff);
-      break;
-    case "green":
-      carMaterial.color.setHex(0x00ff00);
-      break;
-    case "orange":
-      carMaterial.color.setHex(0xff3500);
-      break;
-    case "black":
-      carMaterial.color.setHex(0x000000);
-      break;
-    case "white":
-      carMaterial.color.setHex(0xffffff);
-      break;
-  }
-};
+// pcolor_input.onchange = () => {
+//   switch (pcolor_input.value) {
+//     case "red":
+//       carMaterial.color.setHex(0xff0000);
+//       break;
+//     case "blue":
+//       carMaterial.color.setHex(0x0000ff);
+//       break;
+//     case "green":
+//       carMaterial.color.setHex(0x00ff00);
+//       break;
+//     case "orange":
+//       carMaterial.color.setHex(0xff3500);
+//       break;
+//     case "black":
+//       carMaterial.color.setHex(0x000000);
+//       break;
+//     case "white":
+//       carMaterial.color.setHex(0xffffff);
+//       break;
+//   }
+// };

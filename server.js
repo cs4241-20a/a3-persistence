@@ -62,24 +62,20 @@ passport.use(
 
       const userCollection = mongoClient.db("simcar").collection("users");
 
-      const users = await userCollection
-        .find({ username: profile.id })
-        .toArray();
+      const user = {
+        username: profile.username,
+      };
+
+      const users = await userCollection.find(user).toArray();
 
       if (users.length == 0) {
-        const user = {
-          username: profile.username,
-        };
-
         await userCollection.insertOne(user);
 
-        const dbUser = await userCollection.find({
-          username: profile.username,
-        });
+        const dbUser = await userCollection.find(user).toArray();
 
         await mongoClient.close();
 
-        callback(null, dbUser);
+        callback(null, dbUser[0]);
       } else {
         await mongoClient.close();
 
@@ -94,31 +90,33 @@ app.get("/auth/github", passport.authenticate("github"));
 app.get(
   "/callback/github",
   passport.authenticate("github", { failureRedirect: "/login" }),
-  function (req, res) {
+  (req, res) => {
     // Successful authentication, redirect home.
     res.redirect("/");
   }
 );
 
-app.get("/logout", (req, res) => {
+app.get("/auth/user", async (req, res) => {
+  if (req.user) {
+    return res.json(req.user);
+  } else {
+    return res.json({ failed: true });
+  }
+});
+
+app.get("/auth/logout", (req, res) => {
   req.logout();
-  return res.send();
+  res.redirect("/");
 });
 
 app.post("/submit", async (req, res) => {
   if (!req.user) {
-    return res.json({ success: false, auth: false });
+    return res.json({ failed: true });
   }
 
   const object = req.body;
 
-  object.user = req.user._id;
-
-  if (req.headers["x-forwarded-for"]) {
-    object.ip = req.headers["x-forwarded-for"].split(",")[0];
-  } else {
-    object.ip = "N/A";
-  }
+  object.username = req.user.username;
 
   const mongoClient = new MongoClient(mongoURI, mongoConfig);
 
@@ -126,22 +124,86 @@ app.post("/submit", async (req, res) => {
 
   const raceCollection = mongoClient.db("simcar").collection("races");
 
-  if (object.delete) {
-    await raceCollection.deleteOne({ _id: new mongo.ObjectID(object.id) });
-  } else if (object.id) {
-    await raceCollection.updateOne(
-      { _id: new mongo.ObjectID(object.id) },
-      { $set: { ...object, _id: new mongo.ObjectID(object.id) } }
-    );
-  } else {
-    await raceCollection.insertOne(object);
-  }
+  await raceCollection.insertOne(object);
 
-  const races = await raceCollection.find({ user: req.user._id }).toArray();
+  console.log(req.user.username + " requested submission of " + object._id);
+
+  const raceResults = await raceCollection
+    .find()
+    .sort({ laptime: 1 })
+    .toArray();
 
   await mongoClient.close();
 
-  return res.json(races);
+  raceResults.forEach((entry) => {
+    appendDateAndMine(entry, req.user);
+  });
+
+  return res.json({ failed: false, results: raceResults });
+});
+
+app.get("/results", async (req, res) => {
+  const mongoClient = new MongoClient(mongoURI, mongoConfig);
+
+  await mongoClient.connect();
+
+  const raceCollection = mongoClient.db("simcar").collection("races");
+
+  const raceResults = await raceCollection
+    .find()
+    .sort({ laptime: 1 })
+    .toArray();
+
+  await mongoClient.close();
+
+  raceResults.forEach((entry) => {
+    appendDateAndMine(entry, req.user);
+  });
+
+  return res.json({ failed: false, results: raceResults });
+});
+
+const appendDateAndMine = function (entry, user) {
+  if (!user) {
+    entry.mine = false;
+  } else if (entry.username === user.username) {
+    entry.mine = true;
+  } else {
+    entry.mine = false;
+  }
+  let date = entry._id.getTimestamp();
+  entry.settime = date;
+};
+
+app.post("/delete", async (req, res) => {
+  if (!req.user) {
+    return res.json({ failed: true });
+  }
+
+  const object = req.body;
+
+  const mongoClient = new MongoClient(mongoURI, mongoConfig);
+
+  await mongoClient.connect();
+
+  const raceCollection = mongoClient.db("simcar").collection("races");
+
+  await raceCollection.deleteOne({ _id: new mongo.ObjectID(object.lapID) });
+
+  console.log(req.user.username + " requested removal of " + object.lapID);
+
+  const raceResults = await raceCollection
+    .find()
+    .sort({ laptime: 1 })
+    .toArray();
+
+  await mongoClient.close();
+
+  raceResults.forEach((entry) => {
+    appendDateAndMine(entry, req.user);
+  });
+
+  return res.json({ failed: false, results: raceResults });
 });
 
 app.get("/", (_, response) => {
