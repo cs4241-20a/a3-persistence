@@ -28,7 +28,8 @@ passport.use(
         {
             clientID,
             clientSecret,
-            callbackURL: "/auth/github/redirect",
+            callbackURL:
+                "https://a3-jtutlis.herokuapp.com/auth/github/redirect",
         },
         (accessToken, refreshToken, profile, done) => {
             User.findOne({ githubID: profile.id }).then((currentUser) => {
