@@ -3,11 +3,32 @@ const mongoose = require("mongoose");
 const config = require("config");
 const http = require("http");
 const path = require("path");
+const passportSetup = require("./config/passport-setup");
+const cookieSession = require("cookie-session");
+const passport = require("passport");
 
 const app = express();
 app.use(express.json());
 
+const cookieKey =
+    process.env.NODE_ENV === "production"
+        ? process.env.cookieKey
+        : config.get("cookieKey");
+
+app.use(
+    cookieSession({
+        maxAge: 24 * 60 * 60 * 1000,
+        keys: [cookieKey],
+    })
+);
+
+// init passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 const server = http.createServer(app);
+
+// set up database
 const db =
     process.env.NODE_ENV === "production"
         ? process.env.mongoURI
@@ -18,8 +39,7 @@ mongoose
     .catch((err) => console.log(err));
 
 // // Sets up routes
-// app.use("/api/users", require("./routes/api/users"));
-// app.use("/api/auth", require("./routes/api/auth"));
+app.use("/auth", require("./routes/auth"));
 
 // production only
 if (process.env.NODE_ENV === "production") {
