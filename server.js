@@ -10,11 +10,11 @@ app.use(express.json());
 const server = http.createServer(app);
 
 // Database
-// const db = config.get("mongoURI");
-// mongoose
-//     .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
-//     .then(() => console.log("Connected to database"))
-//     .catch((err) => console.log(err));
+const db = config.get("mongoURI");
+mongoose
+    .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log("Connected to database"))
+    .catch((err) => console.log(err));
 
 // // Sets up routes
 // app.use("/api/users", require("./routes/api/users"));
