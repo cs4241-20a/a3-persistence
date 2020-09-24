@@ -6,6 +6,10 @@ import { AnimationMixer } from "https://cdn.jsdelivr.net/npm/three@0.120.1/src/a
 
 import { RGBELoader } from "https://cdn.jsdelivr.net/npm/three@0.120.1/examples/jsm/loaders/RGBELoader.min.js";
 
+import { ConvexHull } from "https://cdn.jsdelivr.net/npm/three@0.120.1/examples/jsm/math/ConvexHull.js";
+
+import * as CANNON from "https://cdn.jsdelivr.net/npm/cannon-es@0.15.1/dist/cannon-es.js";
+
 let world;
 let wheelBodies = [];
 let chassisBody;
@@ -20,7 +24,6 @@ let scene, camera, cameraRig, cameraTar, renderer, mixer;
 
 let wheelMeshes = [];
 let carGroup;
-let floorMesh;
 
 initCannon();
 initThree();
@@ -38,7 +41,6 @@ let clock = new THREE.Clock();
   world.step(1 / 60);
 
   if (carGroup) {
-
     let temp = new THREE.Vector3();
     temp = temp.setFromMatrixPosition(cameraRig.matrixWorld);
 
@@ -55,10 +57,6 @@ let clock = new THREE.Clock();
     wheelMesh.position.copy(wheelBodies[i].position);
     wheelMesh.quaternion.copy(wheelBodies[i].quaternion);
   });
-
-  floorMesh.position.copy(planeBody.position);
-
-  
 
   //   let x = Math.sin(clock.getElapsedTime() / 3.0) * 5.0;
   //   let y = Math.cos(clock.getElapsedTime() / 5.0) * 2.0 + 3.0;
@@ -155,7 +153,8 @@ function initCannon() {
     Math.PI / 2
   );
 
-  let planeShape = new CANNON.Box(new CANNON.Vec3(25, 0.1, 25));
+
+  let planeShape = new CANNON.Box(new CANNON.Vec3(150, 0.1, 150));
   planeBody = new CANNON.Body({ static: true });
   planeBody.position.set(0, 1, 0);
   planeBody.addShape(planeShape);
@@ -167,16 +166,16 @@ function initCannon() {
     chassisBody: chassisBody,
   });
 
-  options.chassisConnectionPointLocal.set(1.125, 0.70, -0.1);
+  options.chassisConnectionPointLocal.set(1.125, 0.7, -0.1);
   vehicle.addWheel(options);
 
-  options.chassisConnectionPointLocal.set(1.125, -0.70, -0.1);
+  options.chassisConnectionPointLocal.set(1.125, -0.7, -0.1);
   vehicle.addWheel(options);
 
-  options.chassisConnectionPointLocal.set(-1.8, 0.70, -0.1);
+  options.chassisConnectionPointLocal.set(-1.8, 0.7, -0.1);
   vehicle.addWheel(options);
 
-  options.chassisConnectionPointLocal.set(-1.8, -0.70, -0.1);
+  options.chassisConnectionPointLocal.set(-1.8, -0.7, -0.1);
   vehicle.addWheel(options);
 
   vehicle.addToWorld(world);
@@ -213,28 +212,32 @@ function initCannon() {
 function initThree() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(40, 1.0, 0.1, 1000);
+  camera.position.set(10, 10, 10);
+  camera.lookAt(0.0, 0.25, 0.0);
+
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.tonMappingExposure = 1;
   renderer.outputEncoding = THREE.sRGBEncoding;
 
-  let gltfLoader = new GLTFLoader().setPath("assets/");
+  let boxMat = new THREE.MeshBasicMaterial({
+    color: 0x0000ff,
+    wireframe: true,
+  });
 
-  gltfLoader.load("car_body.gltf", function (gltf) {
+  let gltfLoaderCar = new GLTFLoader().setPath("assets/");
+
+  gltfLoaderCar.load("car_body.gltf", function (gltf) {
     carGroup = new THREE.Group();
 
     let boxGeo = new THREE.BoxGeometry(4, 1.5, 0.25);
-    let boxMat = new THREE.MeshBasicMaterial({
-      color: 0x0000ff,
-      wireframe: true,
-    });
     let boxMesh = new THREE.Mesh(boxGeo, boxMat);
 
-    cameraRig = new THREE.Object3D;
+    cameraRig = new THREE.Object3D();
     cameraRig.position.set(-6, 0, -1.5);
 
-    cameraTar = new THREE.Object3D;
+    cameraTar = new THREE.Object3D();
     cameraTar.position.set(0, 0, -0.5);
 
     gltf.scene.position.set(0, 0, 2.5);
@@ -246,9 +249,32 @@ function initThree() {
     scene.add(carGroup);
   });
 
-  let floorGeometry = new THREE.BoxGeometry(50, 0.1, 50);
-  let floorMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-  floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
+  let gltfLoaderTrack = new GLTFLoader().setPath("assets/");
+
+  gltfLoaderTrack.load("track_simple.gltf", function (gltf) {
+    gltf.scene.position.set(0, 2, 0);
+
+    gltf.scene.traverse((o) => {
+      if (o.name.includes("collider") && o.isMesh) {
+          console.log(o);
+        let bbox = new CANNON.Box(new CANNON.Vec3(
+            o.scale.x,
+            o.scale.y/ 8,
+            o.scale.z / 4
+        ));
+        let bbody = new CANNON.Body({static: true});
+        bbody.addShape(bbox);
+        bbody.position.copy(o.position);
+        bbody.quaternion.copy(o.quaternion);
+        //bbody.addShape(bbox);
+        world.addBody(bbody);
+
+        o.visible = false;
+      }
+    });
+
+    scene.add(gltf.scene);
+  });
 
   vehicle.wheelInfos.forEach((wheel) => {
     var geometry = new THREE.CylinderGeometry(
@@ -257,13 +283,11 @@ function initThree() {
       wheel.radius,
       20
     );
-    var material = new THREE.MeshPhysicalMaterial({ color: 0x131313});
+    var material = new THREE.MeshPhysicalMaterial({ color: 0x131313 });
     var cylinder = new THREE.Mesh(geometry, material);
     wheelMeshes.push(cylinder);
     scene.add(cylinder);
   });
-
-  scene.add(floorMesh);
 
   let pmremGenerator = new THREE.PMREMGenerator(renderer);
   pmremGenerator.compileEquirectangularShader();
