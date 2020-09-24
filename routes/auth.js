@@ -16,8 +16,8 @@ router.get("/logout", (req, res) => {
 
 //callback github
 router.get("/github/redirect", passport.authenticate("github"), (req, res) => {
-    res.send(req.user);
-    // res.redirect("/profile");
+    // res.send(req.user);
+    res.redirect("/profile");
 });
 
 module.exports = router;
