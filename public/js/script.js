@@ -75,17 +75,17 @@ function addTableEntry(jsonData) {
 
    let cell1 = row.insertCell(1);
    cell1.className = "food";
-   cell1.innerHTML = jsonData.food + "<button class=\"edit\">✎</button>";
+   cell1.innerHTML = jsonData.food + "<button title=\"Edit\" class=\"edit\">✎</button>";
 
    let cell2 = row.insertCell(2);
    cell2.className = "calories";
-   cell2.innerHTML = jsonData.calories + "<button class=\"edit\">✎</button>";
+   cell2.innerHTML = jsonData.calories + "<button title=\"Edit\" class=\"edit\">✎</button>";
 
    let cell3 = row.insertCell(3);
    cell3.className = "meal";
-   cell3.innerHTML = jsonData.meal + "<button class=\"edit\">✎</button>";
+   cell3.innerHTML = jsonData.meal + "<button title=\"Edit\" class=\"edit\">✎</button>";
 
-   row.insertCell(4).innerHTML = "<button class=\"delete\">✘</button>";
+   row.insertCell(4).innerHTML = "<button title=\"Delete\" class=\"delete\">✘</button>";
 }
 
 //Submits form data to the server

@@ -4,8 +4,13 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const favicon = require('serve-favicon')
+const helmet = require('helmet')
+const path = require('path')
 const mongodb = require('mongodb')
 const MongoClient = mongodb.MongoClient;
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy;
 
 
 let user = process.env.USERNAME;
@@ -13,24 +18,62 @@ let password = process.env.PASSWORD;
 let dbname = process.env.DBNAME;
 
 const uri = "mongodb+srv://" + user + ":" + password + "@prod.npojt.mongodb.net/" + dbname + "?retryWrites=true&w=majority";
-const client = new MongoClient(uri, {useNewUrlParser: true, useUnifiedTopology: true});
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 let collection = null;
 client.connect()
-.then(() => client.db("a3").collection("meals"))
-.then(__collection => {
-    collection = __collection;
-    console.log("Connected");
-})
+    .then(() => client.db("a3").collection("meals"))
+    .then(__collection => {
+        collection = __collection;
+        console.log("Connected");
+    })
+
+/*
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+)); */
+
+passport.initialize()
+
+passport.use(new LocalStrategy(
+    function (username, userPassword, done) {
+        console.log("Here");
+        const userColl = client.db("a3").collection("users");
+        userColl.find({ username: username, password: userPassword }).toArray.then(function (result) {
+            console.log(result);
+            if (result.length >= 1) {
+                return done(null, user);
+            } else {
+                return done(null, false, { message: "Incorrect username or password" });
+            }
+        });
+    }
+));
 
 
-app.use(express.static('public'))
 
-app.post("/submit", bodyParser.json(), function(request, response) {
+app.use(helmet())
+
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+
+app.use(express.static('public', {extensions: 'html', index: 'login.html'}))
+
+app.post("/submit", bodyParser.json(), function (request, response) {
     //write post request code for a new item here
     console.log("Submit");
     let data = request.body;
 
-    collection.insertOne(data, function(err, obj) {
+    collection.insertOne(data, function (err, obj) {
         if (err) {
             response.sendStatus(500);
         } else {
@@ -39,7 +82,7 @@ app.post("/submit", bodyParser.json(), function(request, response) {
     })
 })
 
-app.post("/update", bodyParser.json(), function(request, response) {
+app.post("/update", bodyParser.json(), function (request, response) {
     //write post request code for an edited item here
     console.log("Edit");
 
@@ -52,7 +95,7 @@ app.post("/update", bodyParser.json(), function(request, response) {
         }
     }
 
-    collection.updateOne({_id: new mongodb.ObjectID(request.body.id)}, {$set: temp}, function(err, obj) {
+    collection.updateOne({ _id: new mongodb.ObjectID(request.body.id) }, { $set: temp }, function (err, obj) {
         if (err) {
             response.sendStatus(500);
         } else {
@@ -61,10 +104,10 @@ app.post("/update", bodyParser.json(), function(request, response) {
     })
 })
 
-app.post("/delete", bodyParser.json(), function(request, response) {
+app.post("/delete", bodyParser.json(), function (request, response) {
     //write post request code for a deleted item here
     console.log("Delete");
-    collection.deleteOne({_id: new mongodb.ObjectID(request.body.id)}, function(err, obj) {
+    collection.deleteOne({ _id: new mongodb.ObjectID(request.body.id) }, function (err, obj) {
         if (err) {
             response.sendStatus(500);
         } else {
@@ -73,10 +116,26 @@ app.post("/delete", bodyParser.json(), function(request, response) {
     })
 })
 
-app.post("/data", bodyParser.json(), function(request, response) {
+app.post("/data", bodyParser.json(), function (request, response) {
     //write post request code for getting all data for a user
     console.log("Get Data");
-    collection.find({username: request.body.username}).toArray().then(result => response.json(result));
+    collection.find({ username: request.body.username }).toArray().then(result => response.json(result));
+})
+
+app.post('/login',
+    passport.authenticate('local', {
+        successRedirect: '/index',
+        failureRedirect: '/login',
+        failureFlash: true
+    })
+);
+
+app.post("newUser", bodyParser.json(), function (request, response) {
+    console.log("New User");
+    console.log(request.body);
+    const userColl = client.db("a3").collection("users");
+    userColl.insertOne(request.body)
+    .then(() => response.status(200));
 })
 
 app.listen(3000)

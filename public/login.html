@@ -2,21 +2,40 @@
 <html lang="en">
 
 <head>
-  <title>CS4241 Assignment 3 Login</title>
+  <title>Login • Food Tracker • CS4241 A3</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/sakura.css">
 </head>
 
 <body>
+  <div>
     <h1>Login</h1>
-    <form>
-      <input id="username" type="text" placeholder="Username">
-      <input id="password" type="password" placeholder="Password">
-      <button id="submit">Login</button>
+    <form action="/login" method="post">
+      <div>
+        <label>Username:</label>
+        <input type="text" name="username" />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input type="password" name="password" />
+      </div>
+      <div>
+        <input type="submit" value="Log In" />
+      </div>
     </form>
-    <!-- script src="js/script.js"></script -->
+  </div>
+  <div style="margin-top: 10rem;">
+    <h3>Create a new account</h3>
+    <p>(This password is stored in plaintext, don't use something important)</p>
+    <form action="/newUser" method="post">
+      <input name="username" type="text" placeholder="New username">
+      <input name="password" type="password">
+      <input type="submit" value="Create">
+    </form>
+  </div>
+  <!-- script src="js/login.js"></script -->
 </body>
 
 </html>
