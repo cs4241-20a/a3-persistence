@@ -3,7 +3,6 @@
 
 //Get all items for a user
 function getAllItems(username) {
-    console.log(username);
     fetch('/data', {
         method: "POST",
         body: JSON.stringify({username: username}),
@@ -19,7 +18,6 @@ function getAllItems(username) {
 
 //Edit a field using a prompt
 function editField(e) {
-    console.log("Edit");
     let textNode = e.target.parentElement.firstChild;
     let entryID = e.target.parentElement.parentElement.id;
     let newValue = window.prompt("Enter a new value", textNode.data);
@@ -44,8 +42,6 @@ function editField(e) {
 
 //Delete an item from the database and list
 function deleteItem(e) {
-    console.log("Delete");
-    //console.log(e);
     let row = e.target.parentElement.parentElement;
     fetch('/delete', {
         method: "POST",
@@ -109,7 +105,6 @@ function submitFormData(e) {
     })
     .then(response => response.json())
     .then(function(data) {
-        console.log(data);
         addTableEntry(data);
     });
 }
@@ -182,4 +177,3 @@ window.onload = function() {
 }
 
 let username = null;
-console.log("Loaded JS")

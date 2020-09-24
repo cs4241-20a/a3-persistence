@@ -3,7 +3,7 @@
 ## Webware Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 
 **Jordan Gold**
-Link to project: https://a3-jordan-gold.herokuapp.com  
+Link to project: https://a3-jordan-gold.herokuapp.com/  
 
 For assignment 3 I developed a food/meal tracker which lets you enter any foods you ate, when you ate them and for what meal, and their calorie content to keep track of your daily habits. Once a food/meal has been entered you can always edit a field in an item or delete an item at will. All items are stored in MongoDB and are kept seperate between users. The server was created using express to provide a simple server that did everything it needed too.  
 

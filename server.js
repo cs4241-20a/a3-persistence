@@ -59,7 +59,6 @@ app.use(express.static('public', {extensions: 'html'}))
 
 app.post("/submit", bodyParser.json(), function (request, response) {
     //write post request code for a new item here
-    console.log("Submit");
     let data = request.body;
 
     collection.insertOne(data, function (err, obj) {
@@ -72,9 +71,7 @@ app.post("/submit", bodyParser.json(), function (request, response) {
 })
 
 app.post("/update", bodyParser.json(), function (request, response) {
-    //write post request code for an edited item here
-    console.log("Edit");
-
+    //Editing items here
     let keys = Object.keys(request.body);
     let temp = {};
     for (let i = 0; i < keys.length; i++) {
@@ -94,8 +91,7 @@ app.post("/update", bodyParser.json(), function (request, response) {
 })
 
 app.post("/delete", bodyParser.json(), function (request, response) {
-    //write post request code for a deleted item here
-    console.log("Delete");
+    //Deleted items here
     collection.deleteOne({ _id: new mongodb.ObjectID(request.body.id) }, function (err, obj) {
         if (err) {
             response.sendStatus(500);
@@ -106,14 +102,12 @@ app.post("/delete", bodyParser.json(), function (request, response) {
 })
 
 app.post("/data", bodyParser.json(), function (request, response) {
-    //write post request code for getting all data for a user
-    console.log("Get Data");
+    //Get all user data
     collection.find({ username: request.body.username }).toArray().then(result => response.json(result));
 })
 
 app.post("/newuser", bodyParser.json(), function (request, response) {
-    console.log("New User");
-    console.log(request.body);
+    //Creating new user account
     const userColl = client.db("a3").collection("users");
     userColl.insertOne(request.body)
     .then(() => response.sendStatus(200));
