@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/login-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+    <script src="js/login-script.js"></script>
+</head>
+
+<body>
+    <h1>LOGIN</h1>
+
+    <div class="container center" style="background-color: aqua;">
+        <div class="flex-container">
+            <form>
+                <div class="horizontal-flex margin-spacer">
+                    <label>Username: </label>
+                    <input type='text' id='username'>
+                </div>
+                <div class="horizontal-flex margin-spacer">
+                    <label>Password: </label>
+                    <input type='text' id='password'>
+                </div>
+                <div class="buttons-flexContainer" style="margin-top: 200px;">
+                    <button id='login' onclick=redirect()>Login</button>
+                    <button id='signUp' onclick="redirect2()">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
