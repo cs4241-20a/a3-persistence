@@ -1,0 +1,9 @@
+{
+    "name": "a3-persistence",
+    "version": "",
+    "description": "",
+    "author": "",
+    "scripts": {
+        "start": "node server.improved.js"
+    }
+}
