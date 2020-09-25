@@ -23,13 +23,17 @@ const clientSecret =
         ? process.env.clientSecret
         : config.get("clientSecret");
 
+const callbackURL =
+    process.env.NODE_ENV === "production"
+        ? "https://a3-jtutlis.herokuapp.com/auth/github/redirect"
+        : "auth/github/redirect";
+
 passport.use(
     new GithubStrategy(
         {
             clientID,
             clientSecret,
-            callbackURL:
-                "https://a3-jtutlis.herokuapp.com/auth/github/redirect",
+            callbackURL,
         },
         (accessToken, refreshToken, profile, done) => {
             User.findOne({ githubID: profile.id }).then((currentUser) => {

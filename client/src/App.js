@@ -1,21 +1,19 @@
-import React from "react";
-import "./App.css";
+import React, { Component } from "react";
 import AppNavbar from "./components/AppNavbar";
-import Login from "./components/Login";
-import Profile from "./components/Profile";
-
+import "bootstrap/dist/css/bootstrap.css";
+import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-function App() {
-    return (
-        <Router>
-            <div className="App">
-                <Route path="/" exact component={Home} />
-                <Route path="/Login" component={Login} />
-                <Route path="/Profile" component={Profile} />
-            </div>
-        </Router>
-    );
+class App extends Component {
+    render() {
+        return (
+            <Router>
+                <div className="App">
+                    <Route path="/" exact component={Home} />
+                </div>
+            </Router>
+        );
+    }
 }
 
 function Home() {
