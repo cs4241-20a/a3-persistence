@@ -1,31 +1,72 @@
 const http = require( 'http' ),
       fs   = require( 'fs' ),
       // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library used in the following line of code
-      mime = require( 'mime' ),
       express = require( 'express' ),
-      app = express(),
       bodyparser = require( 'body-parser' ),
-      port = 3000
-
-      //          json = { vehiclemake: makeinput.value , vehiclemodel: modelinput.value , vehicleyear: yearinput.value , vehicleage: (new Date().getFullYear() - yearinput.value)}
-
-const appdata = []
+      app = express(),
+      port = 3000;
 
 app.use( express.static( 'public' ) )
 
 
 app.get( '/', (request, response) => response.sendFile( __dirname + '/views/index.html' ) )
 
+app.post( '/edit', bodyparser.json(), (request, response) => {
+  
+  const json = { vehiclemake: request.body.vehiclemake, vehiclemodel: request.body.vehiclemodel, vehicleyear: request.body.vehicleyear, vehicleage: request.body.vehicleage };
+  const row = request.body.index;
+
+  
+})
+
+// DB STUFF //
+require('dotenv').config()
+const mongodb = require('mongodb')
+const MongoClient = mongodb.MongoClient;
+
+const uri = `mongodb+srv://admin:${process.env.DBPASSWORD}@cluster0.lm4cx.mongodb.net/<dbname>?retryWrites=true&w=majority`;
+const client = new MongoClient(uri, { useNewUrlParser: true });
+
+let collection = null
+client.connect(err => {
+  collection = client.db("assignment3").collection("db1");
+});
+
 app.get( '/appdata', bodyparser.json(), (request, response) => {
-  response.json(appdata)
+  var array = [];
+  collection.find().forEach( doc => {
+    //console.log(doc);
+    array.push(doc);
+  })
+  .then(() => {
+    //console.log(array)
+    response.json(array)
+  })
 })
 
 app.post( '/submit', bodyparser.json(), (request, response) => {
-  //console.log(request.body)
-  appdata.push( request.body );
+  collection.insertOne( request.body )
+  .then( dbresponse => {
+    //console.log( dbresponse.ops[0] )
+    response.json( dbresponse.ops[0] )
+  })
+})
 
-  response.json( request.body );
+app.post( '/delete', bodyparser.json(), (request, response) => {
+  //console.log( request.body._id );
+
+  collection.deleteOne( { _id:mongodb.ObjectID( request.body._id ) } ) 
+  .then( () => {
+    var array = [];
+    collection.find().forEach( doc => {
+      //console.log(doc)
+      array.push(doc)
+    })
+    .then( () => {
+      //console.log(array)
+      response.json( array );
+    })
+  })
 })
 
 app.listen( process.env.PORT || port )
