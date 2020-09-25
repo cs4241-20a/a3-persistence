@@ -1,17 +1,21 @@
 const express = require('express')
-const bodyParser = require('body-parser');
-const e = require('express');
+const bodyParser = require('body-parser')
+const favicon = require('serve-favicon')
+const path = require('path')
 const app = express()
+
 
 app.use(bodyParser.urlencoded({
     extended: true
 }))
 app.use(bodyParser.json())
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 var appdata = []
 
 // Serve files to index.html
 app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/views'));
 app.use(express.static(__dirname + '/node_modules'));
 
 // Set default path as index.html
@@ -117,8 +121,5 @@ function addPriority(data) {
     }
     return data
 }
-
-
-// For sending things to server: response.json(whatever) mintute 7
 
 app.listen(3000)

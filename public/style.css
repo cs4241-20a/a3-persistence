@@ -1,3 +1,6 @@
+
+
+/* 
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
@@ -37,7 +40,6 @@ p {
 }
 
 
-/* Form Styles */
 .form_div {
     text-align: left;
     margin: 20px 40px 20px 40px;
@@ -50,7 +52,7 @@ form {
 }
 
 
-/* Input Styles */
+
 input {
     margin: 10px 20px 10px 0px; 
 }
@@ -77,7 +79,7 @@ input[data-polyfill='all'] {
 }
 
 
-/* Button Styles */
+
 button {
     font-family: 'Raleway', sans-serif;
     padding: 10px 20px; 
@@ -114,7 +116,7 @@ button:disabled {
 }
 
 
-/* Table Syles */
+
 table {
     padding: 10px;
     width: 80%; 
@@ -135,4 +137,4 @@ th, td {
 
 .table_header {
     font-family: 'Raleway', sans-serif;  
-}
+} */

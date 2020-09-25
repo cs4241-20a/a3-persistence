@@ -15,11 +15,11 @@ const submit = function (e) {
 function validateForm() {
     // Check all fields are filled out 
     let errorMsg = ""
-    if (document.forms["billForm"]["name"].value == "") {
+    if (document.getElementById("name").value == "") {
         errorMsg = "Please enter a bill name"
-    } else if (document.forms["billForm"]["amt"].value == "") {
+    } else if (document.getElementById("amt").value == "") {
         errorMsg = "Please enter a bill amount"
-    } else if (document.forms["billForm"]["date"].value == "") {
+    } else if (document.getElementById("date").value == "") {
         errorMsg = "Please enter a date"
     }
     document.getElementById("errorMsg").innerHTML = errorMsg
@@ -37,8 +37,6 @@ function submitForm() {
         billDate: document.getElementById("date").value,
         billPay: document.getElementById("paid").checked
     }
-
-    console.log("in add : " + JSON.stringify(json))
 
     fetch('/add', {
             method: 'POST',
@@ -63,29 +61,20 @@ function submitForm() {
             }
             // Otherwise clear form 
             else if (status == "OK") {
-                billForm.reset()
+                document.getElementById("billForm").reset()
             }
         })
 
-    // If 'all bills' section is expanded, update them
-    if (document.getElementById("hidden").style.visibility == "visible") {
-        getAllBills(true)
-    }
+    getAllBills(true)
 }
 
 // Retrieve all bills from server
 function getAllBills(stayOpen) {
 
-    // If div will remain open and be updated
-    if (!stayOpen) {
-        // Toggle button text and div visibility
-        if (document.getElementById("hidden").style.visibility == "visible") {
-            document.getElementById("allBillBtn").innerHTML = "Show all bills"
-            document.getElementById("hidden").style.visibility = "hidden"
-        } else {
-            document.getElementById("allBillBtn").innerHTML = "Hide all bills"
-            document.getElementById("hidden").style.visibility = "visible"
-        }
+    if (document.getElementById("all_bills").visibility == "visible") {
+        document.getElementById("allBillBtn").innerText = "Hide all bills"
+    } else {
+        document.getElementById("allBillBtn".innerText = "Show all bills")
     }
 
     // Retrieve all data from server
