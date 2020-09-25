@@ -1,0 +1,87 @@
+<div class="content-container">
+
+
+  <div class="row">
+    <H3>Add / Update your runs</H3>
+    <div class="form-container">
+        <form action="/runs" method="POST" class="col s12" id="add-update-form">
+          <input type="hidden" name="_method" value="PUT">
+
+          <div class="row">
+              <div class="input-field col s12">
+                  <input type="text" id="id" name="id">
+                  <label for="id">Enter unique id to update a run</label>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="input-field col s6">
+                  <input type="number" id="miles" name="miles" min="0">
+                  <label for="miles">How many miles?</label>
+              </div>
+            <div class="input-field col s6">
+                  <input type="number" id="mph" name="mph" min="0"/>
+                  <label for="mph">How fast in mph?</label>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="input-field col s12">
+                <label for="notes">Any notes or reflection on your run</label>
+                  <textarea id="notes" name="notes" class="materialize-textarea"></textarea>
+              </div>
+          </div>
+
+          <div class="row crud-container">
+            <div class="input-field col">
+              <button type="submit" value="Add new" class="btn crud add"> Add </button>
+
+              <button type="update" value="Update" class="btn crud update" formaction="/runs/update"> Update </button>
+            </div>
+          </div>
+        </form>
+    </div>
+  </div>
+  
+  
+  <div class="row">
+    <H3>
+        Your runs
+      </H3>
+    <div class="results-container">
+      <table id="res-table" class="striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Miles</th>
+            <th>Speed (mph)</th>
+            <th>Notes</th>
+            <th>Calories burnt</th>
+            <th></th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          {{#each runs}}
+            <tr>
+              <td>{{_id}}</td>
+              <td>{{miles}}</td>
+              <td>{{mph}}</td>
+              <td>{{notes}}</td>
+              <td>{{caloriesBurnt}}</td>
+              <td>
+                <form action="/runs/{{_id}}" method="POST" id="delete-form">
+                  <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn red">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+        
+      </table>
+    </div>
+  </div>
+</div>
