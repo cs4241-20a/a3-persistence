@@ -33,7 +33,7 @@ app.use(passport.session());
 
 app.use(compression());
 
-app.use((req, res, next) => {
+app.use((_req, _res, next) => {
   // log stuff here
   next();
 });
@@ -55,7 +55,7 @@ passport.use(
         "https://3000-d3e10579-b991-4946-a9d3-5c35c3e9b444.ws-us02.gitpod.io/callback/github",
       //callbackURL: "https://a3-rmanky.herokuapp.com/callback/github",
     },
-    async (accessToken, refreshToken, profile, callback) => {
+    async (_accessToken, _refreshToken, profile, callback) => {
       const mongoClient = new MongoClient(mongoURI, mongoConfig);
 
       await mongoClient.connect();
@@ -90,7 +90,7 @@ app.get("/auth/github", passport.authenticate("github"));
 app.get(
   "/callback/github",
   passport.authenticate("github", { failureRedirect: "/login" }),
-  (req, res) => {
+  (_, res) => {
     // Successful authentication, redirect home.
     res.redirect("/");
   }

@@ -5,3 +5,11 @@
 #openweathermap-widget-15 {
   z-index: 0;
 }
+
+#threeJS {
+    visibility: hidden;
+}
+
+#hud {
+    z-index: 1;
+}

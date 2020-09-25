@@ -2,11 +2,7 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.120.1/build/three.m
 
 import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.120.1/examples/jsm/loaders/GLTFLoader.min.js";
 
-import { AnimationMixer } from "https://cdn.jsdelivr.net/npm/three@0.120.1/src/animation/AnimationMixer.min.js";
-
 import { RGBELoader } from "https://cdn.jsdelivr.net/npm/three@0.120.1/examples/jsm/loaders/RGBELoader.min.js";
-
-import { ConvexHull } from "https://cdn.jsdelivr.net/npm/three@0.120.1/examples/jsm/math/ConvexHull.js";
 
 import * as CANNON from "https://cdn.jsdelivr.net/npm/cannon-es@0.15.1/dist/cannon-es.js";
 
@@ -23,14 +19,16 @@ let forwardAxis = 0.0,
   leftAxis = 0.0,
   rightAxis = 0.0;
 
-let engineAxis = 0.0,
-  turnAxis = 0.0;
+let maxSteerVal = 0;
+let maxForce = 0;
+
+let turnAxis = 0.0;
 
 let drawingSurface, copySIZE;
 drawingSurface = document.getElementById("threeJS");
 copySIZE = document.getElementById("copySIZE");
 
-let scene, camera, cameraRig, cameraTar, renderer, mixer;
+let scene, camera, cameraRig, cameraTar, renderer;
 
 let wheelMeshes = [];
 let carGroup;
@@ -40,44 +38,48 @@ let lights = new Array(5);
 initCannon();
 initThree();
 
-document.getElementById("hide_on_load").style.display = "none";
-
-let clock = new THREE.Clock();
-
 function setIntervalX(callback, delay, repetitions) {
-    var x = 0;
-    var intervalID = window.setInterval(function () {
+  let x = 0;
+  let intervalID = window.setInterval(function () {
+    callback();
 
-       callback();
-
-       if (++x === repetitions) {
-           window.clearInterval(intervalID);
-       }
-    }, delay);
+    if (++x === repetitions) {
+      window.clearInterval(intervalID);
+    }
+  }, delay);
 }
 
 function increaseLoad() {
-    loaded += 25;
-    console.log(loaded + "%");
+  loaded += 25;
+  console.log(loaded + "%");
 
-
-    let i = 0;
-    if(loaded == 100) {
-        console.log("Done loading all assets");
-        setIntervalX(() => {
-            lights[i].emissive.set(0xff0000);
-            i++;
-        }, 1000, 5);
-    }
+  let i = 0;
+  if (loaded == 100) {
+    document.getElementById("hide_on_load").style.display = "none";
+    drawingSurface.style.visibility = "visible";
+    console.log("Done loading all assets");
+    setIntervalX(
+      () => {
+        if (i < 5) {
+          lights[i].emissive.set(0xff0000);
+          i++;
+        } else {
+          lights.forEach((material) => {
+            material.emissive.set(0x000000);
+            console.log("It's lights out and away we go!");
+            maxSteerVal = 0.5;
+            maxForce = 700;
+          });
+        }
+      },
+      1000,
+      6
+    );
+  }
 }
 
 (function animate() {
-  let delta = clock.getDelta();
-  //   if (mixer) {
-  //     mixer.update(delta);
-  //   }
-
-  if(loaded == 100) {
+  if (loaded == 100) {
     world.step(1 / 60);
   }
 
@@ -167,6 +169,69 @@ function initCannon() {
   world.gravity.set(0, -9.8, 0);
   //world.defaultContactMaterial.friction = 0;
 
+  let colliderBody = new CANNON.Body({ static: true });
+
+  fetch("assets/colliders.json")
+    .then((response) => response.json())
+    .then((json) => {
+      json.forEach((collider) => {
+        let dim = collider.dim;
+        let pos = collider.pos;
+        let quat = collider.quat;
+
+        let colliderShape = new CANNON.Box(
+          new CANNON.Vec3(dim[0] / 2, dim[1] / 4, dim[2] / 4)
+        );
+        let colliderQuat = new CANNON.Quaternion(
+          quat[1],
+          quat[2],
+          quat[3],
+          quat[0]
+        );
+        let colliderPos = new CANNON.Vec3(pos[0], pos[1], pos[2]);
+        colliderBody.addShape(colliderShape, colliderPos, colliderQuat);
+      });
+    });
+
+  world.addBody(colliderBody);
+  colliderBody.quaternion.setFromAxisAngle(
+    new CANNON.Vec3(-1, 0, 0),
+    Math.PI / 2
+  );
+
+  fetch("assets/trackers.json")
+    .then((response) => response.json())
+    .then((json) => {
+      json.forEach((collider, i) => {
+        let dim = collider.dim;
+        let pos = collider.pos;
+        let quat = collider.quat;
+
+        let trackerBody = new CANNON.Body({ static: true });
+
+        let trackerShape = new CANNON.Box(
+          new CANNON.Vec3(dim[0] / 2, dim[1] / 4, dim[2] / 4)
+        );
+        trackerShape.collisionResponse = false;
+        let trackerQuat = new CANNON.Quaternion(
+          quat[1],
+          quat[2],
+          quat[3],
+          quat[0]
+        );
+        let trackerPos = new CANNON.Vec3(pos[0], pos[1], pos[2]);
+        trackerBody.addShape(trackerShape, trackerPos, trackerQuat);
+        world.addBody(trackerBody);
+        trackerBody.quaternion.setFromAxisAngle(
+          new CANNON.Vec3(-1, 0, 0),
+          Math.PI / 2
+        );
+        trackerBody.addEventListener("collide", function (e) {
+          console.log("something collided with " + i);
+        });
+      });
+    });
+
   let groundMaterial = new CANNON.Material("groundMaterial");
   let wheelMaterial = new CANNON.Material("wheelMaterial");
 
@@ -202,7 +267,7 @@ function initCannon() {
   let chassisShape = new CANNON.Box(new CANNON.Vec3(4, 1.5, 0.25));
   chassisBody = new CANNON.Body({ mass: 150 });
   chassisBody.addShape(chassisShape);
-  chassisBody.position.set(-0.6, 5, 35);
+  chassisBody.position.set(-0.6, 2, 35);
   chassisBody.quaternion.set(0.5, 0.5, -0.5, 0.5);
 
   let planeShape = new CANNON.Box(new CANNON.Vec3(150, 0.1, 150));
@@ -266,36 +331,6 @@ function initThree() {
   camera.position.set(10, 10, 10);
   camera.lookAt(0.0, 0.25, 0.0);
 
-  let colliderBody = new CANNON.Body({ static: true });
-
-  fetch("assets/colliders.json")
-    .then((response) => response.json())
-    .then((json) => {
-      json.forEach((collider) => {
-        let dim = collider.dim;
-        let pos = collider.pos;
-        let quat = collider.quat;
-
-        let colliderShape = new CANNON.Box(
-          new CANNON.Vec3(dim[0] / 2, dim[1] / 4, dim[2] / 4)
-        );
-        let colliderQuat = new CANNON.Quaternion(
-          quat[1],
-          quat[2],
-          quat[3],
-          quat[0]
-        );
-        let colliderPos = new CANNON.Vec3(pos[0], pos[1], pos[2]);
-        colliderBody.addShape(colliderShape, colliderPos, colliderQuat);
-      });
-    });
-
-  world.addBody(colliderBody);
-  colliderBody.quaternion.setFromAxisAngle(
-    new CANNON.Vec3(-1, 0, 0),
-    Math.PI / 2
-  );
-
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -329,28 +364,34 @@ function initThree() {
     gltf.scene.position.set(0, 2, 0);
 
     gltf.scene.traverse((o) => {
-        if(o.isMesh) {
-      if (o.name.includes("collider")) {
-        console.log(o);
-        let bbox = new CANNON.Box(
-          new CANNON.Vec3(o.scale.x, o.scale.y / 8, o.scale.z / 4)
-        );
-        let bbody = new CANNON.Body({ static: true });
-        bbody.addShape(bbox);
-        bbody.position.copy(o.position);
-        bbody.quaternion.copy(o.quaternion);
-        //bbody.addShape(bbox);
-        world.addBody(bbody);
+      if (o.isMesh) {
+        if (o.name.includes("collider")) {
+          console.log(o);
+          let bbox = new CANNON.Box(
+            new CANNON.Vec3(o.scale.x, o.scale.y / 8, o.scale.z / 4)
+          );
+          let bbody = new CANNON.Body({ static: true });
+          bbody.addShape(bbox);
+          bbody.position.copy(o.position);
+          bbody.quaternion.copy(o.quaternion);
+          //bbody.addShape(bbox);
+          world.addBody(bbody);
 
-        o.visible = false;
-      } else if (o.name.includes("light") && o.material.name.includes("emit")) {
-        let lightMat = new THREE.MeshStandardMaterial({color: 0x111111, emissive: 0x000000});
-        o.material = lightMat;
-        let match = o.name.match(/(\d+)/);
-        lights[parseInt(match[0]) - 1] = lightMat;
-        console.log(lights);
+          o.visible = false;
+        } else if (
+          o.name.includes("light") &&
+          o.material.name.includes("emit")
+        ) {
+          let lightMat = new THREE.MeshStandardMaterial({
+            color: 0x111111,
+            emissive: 0x000000,
+          });
+          o.material = lightMat;
+          let match = o.name.match(/(\d+)/);
+          lights[parseInt(match[0]) - 1] = lightMat;
+          console.log(lights);
+        }
       }
-    }
     });
 
     scene.add(gltf.scene);
@@ -361,7 +402,7 @@ function initThree() {
   let gltfTire = new GLTFLoader().setPath("assets/");
 
   gltfTire.load("tire.gltf", function (gltf) {
-    vehicle.wheelInfos.forEach((wheel, i) => {
+    vehicle.wheelInfos.forEach((_, i) => {
       let group = new THREE.Group();
       let clone = gltf.scene.clone();
       group.add(clone);
@@ -403,11 +444,7 @@ function initThree() {
   drawingSurface.appendChild(renderer.domElement);
 }
 
-var maxSteerVal = 0.5;
-var maxForce = 700;
-var brakeForce = 200;
-
-var onKeyDown = function (event) {
+const onKeyDown = function (event) {
   switch (event.keyCode) {
     case 38: // up
     case 87: // w
@@ -431,7 +468,7 @@ var onKeyDown = function (event) {
   }
 };
 
-var onKeyUp = function (event) {
+const onKeyUp = function (event) {
   switch (event.keyCode) {
     case 38: // up
     case 87: // w
@@ -457,44 +494,3 @@ var onKeyUp = function (event) {
 
 document.addEventListener("keydown", onKeyDown, false);
 document.addEventListener("keyup", onKeyUp, false);
-function handler(event) {
-  var up = event.type == "keyup";
-
-  if (!up && event.type !== "keydown") {
-    return;
-  }
-
-  vehicle.setBrake(0, 0);
-  vehicle.setBrake(0, 1);
-  vehicle.setBrake(0, 2);
-  vehicle.setBrake(0, 3);
-
-  switch (event.keyCode) {
-    case 87: // forward
-      vehicle.applyEngineForce(up ? 0 : maxForce, 2);
-      vehicle.applyEngineForce(up ? 0 : maxForce, 3);
-      break;
-
-    case 83: // backward
-      vehicle.applyEngineForce(up ? 0 : -maxForce, 2);
-      vehicle.applyEngineForce(up ? 0 : -maxForce, 3);
-      break;
-
-    case 66: // b
-      vehicle.setBrake(brakeForce, 0);
-      vehicle.setBrake(brakeForce, 1);
-      vehicle.setBrake(brakeForce, 2);
-      vehicle.setBrake(brakeForce, 3);
-      break;
-
-    case 68: // right
-      vehicle.setSteeringValue(up ? 0 : -maxSteerVal, 0);
-      vehicle.setSteeringValue(up ? 0 : -maxSteerVal, 1);
-      break;
-
-    case 65: // left
-      vehicle.setSteeringValue(up ? 0 : maxSteerVal, 0);
-      vehicle.setSteeringValue(up ? 0 : maxSteerVal, 1);
-      break;
-  }
-}

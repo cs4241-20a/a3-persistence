@@ -49,12 +49,36 @@
         </header>
       </div>
       <!-- Hero content: will be in the middle -->
-      <div class="hero-body has-text-centered" id="noman">
+      <div class="hero-body has-text-centered">
         <div class="container" id="hide_on_load">
           <i class="fas is-size-1 fa-sync fa-spin"></i>
         </div>
       </div>
-      <div class="cheat-time" id="threeJS" style="position: absolute"></div>
+      <nav class="level is-mobile" id="hud">
+        <div class="level-left ml-5">
+          <div class="level-item has-text-centered box has-background-dark has-text-light">
+            <div>
+              <p class="heading">Throttle</p>
+              <p class="title">3,456</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered box has-background-dark has-text-light">
+            <div>
+              <p class="heading">Steering</p>
+              <p class="title">123</p>
+            </div>
+          </div>
+        </div>
+        <div class="level-right mr-5">
+          <div class="level-item has-text-centered box has-background-dark has-text-light">
+            <div>
+              <p class="heading">Time</p>
+              <p class="title">0:00.000</p>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div id="threeJS" style="position: absolute"></div>
       <!-- Hero footer: will stick at the bottom -->
       <div class="hero-foot">
         <nav class="tabs is-boxed is-centered">
@@ -125,7 +149,6 @@
     </div>
     <script src="js/scripts.js"></script>
     <script src="js/leaderboard.js"></script>
-    <script src="js/cannonHelper.js"></script>
     <script type="module" src="js/render.js"></script>
   </body>
 </html>

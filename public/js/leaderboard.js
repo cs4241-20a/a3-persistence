@@ -57,7 +57,7 @@ function createTable(dataJSON) {
 
     if (element.mine) {
       remove_button.addEventListener("click", () =>
-        removeEntry(entry, element._id)
+        removeEntry(element._id)
       );
     } else {
       remove_button.disabled = true;
@@ -68,7 +68,7 @@ function createTable(dataJSON) {
   });
 }
 
-function removeEntry(entry, removeID) {
+function removeEntry(removeID) {
   console.log("Request to remove " + removeID);
 
   const lapObject = JSON.stringify({ lapID: removeID });
