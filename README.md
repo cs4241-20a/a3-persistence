@@ -21,6 +21,7 @@ This is a project to track your runs. You can enter # miles, your speed and calc
   - connect-mongo - to store user session in Database
   - method-override - since I used html form to make POST/PUT/DELETE requests (not front end javascript), this middleware allowed me to have PUT/DELETE headers
   - errorhandler - I tried to launch it, but it didn't work :()
+  - Passport.js - GitHub Auth
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
