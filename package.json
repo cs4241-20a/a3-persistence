@@ -1,0 +1,12 @@
+{
+  "name": "WPI Themed To Do List",
+  "version": "V0.1",
+  "description": "A task managment webpage that is WPI color theymed",
+  "author": "Charles Kittler",
+  "scripts": {
+    "start": "node server.improved.js"
+  },
+  "dependencies": {
+    "mime": "^2.4.4"
+  }
+}
