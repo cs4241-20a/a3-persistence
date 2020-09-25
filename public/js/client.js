@@ -8,24 +8,23 @@ var allData = [
 ];
 
 const submit = function(e) {
-  let i;
   // prevent default form action from being carried out
   e.preventDefault();
 
   const date = document.querySelector("#date").value,
-    track = document.getElementsByName("radio"),
     race = document.querySelector("#race").value,
-    place = document.querySelector("#place").value;
+    place = document.querySelector("#place").value,
+    track = document.getElementsByName("track");
 
   let trackValue = null;
-  for (i = 0; i < track.length; i++) {
+  for (let i = 0; i < track.length; i++) {
     if (track[i].checked) {
       trackValue = track[i].value;
       break;
     }
   }
-
-  if (!date || !race || !place) {
+  
+  if (!date || !trackValue || !race || !place) {
     alert("All fields are required to submit a new race result.");
   } else {
     const json = {
