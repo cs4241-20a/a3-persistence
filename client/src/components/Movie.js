@@ -71,7 +71,7 @@ class Movie extends Component {
 
     render() {
         let tableBody = null;
-        if (this.state.movies) {
+        if (this.state.movies.length > 0) {
             tableBody = this.state.movies.map((movie, index) => (
                 <tr key={index}>
                     <th scope="row">{movie.movieName}</th>
