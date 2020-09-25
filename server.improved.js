@@ -11,14 +11,6 @@ app.use( express.static( 'public' ) )
 
 app.get( '/', (request, response) => response.sendFile( __dirname + '/views/index.html' ) )
 
-app.post( '/edit', bodyparser.json(), (request, response) => {
-  
-  const json = { vehiclemake: request.body.vehiclemake, vehiclemodel: request.body.vehiclemodel, vehicleyear: request.body.vehicleyear, vehicleage: request.body.vehicleage };
-  const row = request.body.index;
-
-  
-})
-
 // DB STUFF //
 require('dotenv').config()
 const mongodb = require('mongodb')
@@ -67,6 +59,25 @@ app.post( '/delete', bodyparser.json(), (request, response) => {
       response.json( array );
     })
   })
+})
+
+app.post( '/edit', bodyparser.json(), (request, response) => {
+  
+  const json = { vehiclemake: request.body.vehiclemake, vehiclemodel: request.body.vehiclemodel, vehicleyear: request.body.vehicleyear, vehicleage: request.body.vehicleage };
+  const id = request.body._id;
+  const newVal = { $set: json }
+  collection.updateOne( {_id:mongodb.ObjectID( request.body._id )}, newVal, (error, response) => {
+    if (error) throw error;
+    return
+  })
+
+  var array = [];
+  collection.find().forEach( doc => {
+    array.push(doc)
+  })
+  .then( () => response.json( array ))
+
+  
 })
 
 app.listen( process.env.PORT || port )

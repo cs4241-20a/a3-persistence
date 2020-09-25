@@ -35,7 +35,7 @@
     return false
   }
 
-  const startEdit = function( table, row ) {
+  const startEdit = function( table, row, id) {
     const makeinput = document.querySelector( '#vehiclemake' ),
           modelinput = document.querySelector( '#vehiclemodel' ),
           yearinput = document.querySelector( '#vehicleyear' ),
@@ -45,12 +45,12 @@
     modelinput.value = row.cells[1].innerHTML;
     yearinput.value = row.cells[2].innerHTML;
 
-    button.onclick = function() {edit( makeinput, modelinput, yearinput, table, row.rowIndex, button)}
+    button.onclick = function() {edit( makeinput, modelinput, yearinput, table, id, button)}
 
     return false;
   }
 
-  const edit = function ( makeinput, modelinput, yearinput, table, id , button) {
+  const edit = function ( makeinput, modelinput, yearinput, table, id, button) {
 
     //set button back to submit no matter what
     button.onclick = submit
@@ -129,6 +129,7 @@
     var model = row.insertCell(1);
     var year = row.insertCell(2);
     var age = row.insertCell(3);
+    var btnCell = row.insertCell(4);
 
     make.innerHTML = data.vehiclemake;
     model.innerHTML = data.vehiclemodel;
@@ -139,7 +140,7 @@
     editBtn.type = "button";
     editBtn.id = "editButton";
     editBtn.value = "Edit";
-    editBtn.onclick = function() {startEdit(table, row)}
+    editBtn.onclick = function() {startEdit(table, row, data._id)}
     btnCell.appendChild(editBtn);
 
     var delBtn = document.createElement('input');
