@@ -1,10 +1,8 @@
-const http = require('http'),
-  fs = require('fs'),
-  // IMPORTANT: you must run `npm install` in the directory for this assignment
-  // to install the mime library used in the following line of code
-  mime = require('mime'),
-  dir = 'public/',
+const express = require('express'),
+  app = express(),
+  bodyparser = require('body-parser'),
   port = 3000
+
 
 const appdata = [
   { 'make': 'Ford', 'model': 'Bronco', 'year': 1976, 'price': 57000, 'priority': 3, 'id': 123456 },
@@ -12,85 +10,66 @@ const appdata = [
   { 'make': 'Chevrolet', 'model': 'Camaro', 'year': 1969, 'price': 88900, 'priority': 1, 'id': 122543 }
 ]
 
-const server = http.createServer(function (request, response) {
-  if (request.method === 'GET') {
-    handleGet(request, response)
-  } else if (request.method === 'POST') {
-    handlePost(request, response)
-  }
-  else if (request.method === 'DELETE') {
-    handleDelete(request, response)
-  }
-  else if(request.method === 'PUT') {
-    handlePut(request, response)
-  }
+// defined middleware functions
+var submitFunc = function (request, response, next) {
+  let json = request.body
+
+  let priority = getPriority(json.year, json.price)
+  let id = getUniqueID()
+  json.priority = priority
+  json.id = id
+
+  let tempdata = []
+  appdata.push(json)
+  tempdata.push(json)
+  request.json = tempdata
+  next()
+}
+
+var delFunc = function (request, response, next) {
+  let id = request.body.id
+
+  // find idx of data element to delete and remove
+  const idx = appdata.map(d => d.id.toString()).indexOf(id.toString())
+  appdata.splice(idx, 1);
+  next()
+}
+
+var putFunc = function (request, response, next) {
+  let dataJson = request.body
+  let id = dataJson.id
+  const idx = appdata.map(d => d.id.toString()).indexOf(id.toString())
+  appdata.splice(idx, 1, dataJson); // add modifed entry
+  next()
+}
+
+// middleware functions to always use
+app.use(express.static('public'))
+app.use(bodyparser.json())
+
+//
+app.get('/', function (request, response) {
+  response.sendFile(__dirname + '/public/index.html')
 })
 
-const handleGet = function (request, response) {
-  const filename = dir + request.url.slice(1)
+app.get('/data', function (request, response) {
+  sendData(response)
+})
 
-  if (request.url === '/') {
-    sendFile(response, 'public/index.html')
-  } else if (request.url === '/data'){
-    sendData(response)
-  }
-  else {
-    sendFile(response, filename)
-  }
-}
+app.post('/submit', submitFunc, function (request, response) {
+  console.log("Submit.")
+  sendData(response, request.json)
+})
 
-const handlePost = function (request, response) {
-  let dataJson = null
+app.delete('/delete', delFunc, function (request, response) {
+  console.log("Delete.")
+  sendData(response)
+})
 
-  request.on('data', function (data) {
-    let json = JSON.parse(data)
-
-    let priority = getPriority(json.year, json.price)
-    let id = getUniqueID()
-    json.priority = priority
-    json.id = id
-
-    dataJson = json
-  })
-
-  request.on('end', function () {
-    let tempdata = []
-    appdata.push(dataJson)
-    tempdata.push(dataJson)
-    sendData(response, tempdata)
-  })
-}
-
-
-const handleDelete = function (request, response) {
-  let dataJson = null
-
-  request.on('data', function (data) {
-    dataJson = JSON.parse(data)
-  })
-
-  request.on('end', function () {
-    let id = dataJson.id
-    const idx = appdata.map(d=>d.id.toString()).indexOf(id.toString())
-    appdata.splice(idx, 1);
-    sendData(response)
-  })
-}
-
-const handlePut = function (request, response) {
-  let dataJson = null
-
-  request.on('data', function (data) {
-    dataJson = JSON.parse(data)
-  })
-
-  request.on('end', function () {
-    let id = dataJson.id
-    const idx = appdata.map(d=>d.id.toString()).indexOf(id.toString())
-    appdata.splice(idx, 1, dataJson); // add modifed entry
-    sendData(response)
-  })
-}
+app.put('/put', putFunc, function (request, response) {
+  console.log("Put.")
+  sendData(response)
+})
 
 const getPriority = function (year, price) {
   let priority = 5
@@ -113,32 +92,10 @@ const getUniqueID = function () {
   return Math.random().toString().substr(2, 8)
 }
 
-const sendFile = function (response, filename) {
-  const type = mime.getType(filename)
-
-  fs.readFile(filename, function (err, content) {
-
-    // if the error = null, then we've loaded the file successfully
-    if (err === null) {
-
-      // status code: https://httpstatuses.com
-      response.writeHeader(200, { 'Content-Type': type })
-      response.end(content)
-
-    } else {
-
-      // file not found, error code 404
-      response.writeHeader(404)
-      response.end('404 Error: File Not Found')
-
-    }
-  })
-}
-
-const sendData = function (response, data=appdata) {
+const sendData = function (response, data = appdata) {
   response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
   response.write(JSON.stringify(data))
   response.end()
 }
 
-server.listen(process.env.PORT || port)
+app.listen(process.env.PORT || port)

@@ -1,4 +1,4 @@
-console.log("Welcome to assignment 2!")
+console.log("Welcome to assignment 3!")
 
 const submit = function (e) {
   // prevent default form action from being carried out
