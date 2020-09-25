@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { Button, Form, Table, Label, Input } from "reactstrap";
 
 class Movie extends Component {
@@ -17,30 +18,17 @@ class Movie extends Component {
     }
 
     getMovies = () => {
-        fetch("/api/movie", {
-            method: "GET",
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                // let stubData = [
-                //     {
-                //         _id: "5f6e4cef2f0b6b4b94ced583",
-                //         movieName: "test",
-                //         seen: "on",
-                //         userID: "69",
-                //         __v: 0,
-                //     },
-                //     {
-                //         _id: "5f6e509de85c354cacc84ca7",
-                //         movieName: "abc",
-                //         seen: null,
-                //         userID: "69",
-                //         __v: 0,
-                //     },
-                // ];
-                this.setState({ movies: data });
-            });
+        axios.get("/api/movie").then((res) => {
+            this.setState({ movies: res.data });
+        });
+        // fetch("/api/movie", {
+        //     method: "GET",
+        // })
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         console.log(data);
+        //         this.setState({ movies: data });
+        //     });
     };
 
     /*
@@ -55,18 +43,23 @@ class Movie extends Component {
         if (data.get("movieName")) {
             // console.log(data.get("movieName"));
             // console.log(data.get("seen"));
-
-            fetch("/api/movie/add", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
+            axios
+                .post("/api/movie/add", {
                     movieName: data.get("movieName"),
                     seen: data.get("seen"),
-                }),
-            }).then(this.getMovies());
+                })
+                .then(this.getMovies());
+            // fetch("/api/movie/add", {
+            //     method: "POST",
+            //     headers: {
+            //         Accept: "application/json",
+            //         "Content-Type": "application/json",
+            //     },
+            //     body: JSON.stringify({
+            //         movieName: data.get("movieName"),
+            //         seen: data.get("seen"),
+            //     }),
+            // }).then(this.getMovies());
         }
     }
 
