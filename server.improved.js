@@ -3,11 +3,12 @@ const http = require( 'http' ),
       // IMPORTANT: you must run `npm install` in the directory for this assignment
       express = require( 'express' ),
       bodyparser = require( 'body-parser' ),
+      compression = require( 'compression' ),
       app = express(),
       port = 3000;
 
 app.use( express.static( 'public' ) )
-
+app.use( compression() )
 
 app.get( '/', (request, response) => response.sendFile( __dirname + '/views/index.html' ) )
 

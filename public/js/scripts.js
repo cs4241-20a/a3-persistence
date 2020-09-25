@@ -32,6 +32,11 @@
       updateTable(table, json)
     })
 
+    // clear inputs
+    makeinput.value = "";
+    modelinput.value = "";
+    yearinput.value = "";
+
     return false
   }
 
