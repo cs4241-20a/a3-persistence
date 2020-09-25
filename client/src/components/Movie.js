@@ -7,6 +7,11 @@ class Movie extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    /*
+        TODO
+        Check cookie on post request
+        when component loads send get request to api   
+    */
 
     handleSubmit(event) {
         event.preventDefault();
@@ -14,7 +19,7 @@ class Movie extends Component {
         console.log(data.get("movieName"));
         console.log(data.get("seen"));
 
-        fetch("/api/movie", {
+        fetch("/api/movie/add", {
             method: "POST",
             headers: {
                 Accept: "application/json",
