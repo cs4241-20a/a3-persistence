@@ -8,14 +8,16 @@
     <title>Registration</title>
 </head>
 <body>
-    <div class="columns">
-        <div class = "column">
+    <div class="columns is-centered" style = "margin: 10px;">
+        <div class = "column has-text-centered">
+            <p id = "errormsg"></p>
             <input type='text' id='username' placeholder="Username here">
             <br>
             <input type='text' id='password' placeholder="Password here">
+            <br>
             <button>Submit</button>
         </div>
-        <div class = "column">
+        <div class = "column has-text-centered ">
             <a href = "/auth/github" target="_blank" rel="noopener noreferrer">
                 <p>Register with github OAuth</p>
                 <img src = "img/githubLogo.png">

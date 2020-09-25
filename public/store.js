@@ -49,6 +49,7 @@ function fillBasket(){
   let basketBar = document.getElementById('basket');
   storeItems.forEach(function(item){
       let root = document.createElement("div");
+      root.classList.add('has-text-centered')
       let img = document.createElement("img");
       let title = document.createElement("p");
       let price = document.createElement("p");

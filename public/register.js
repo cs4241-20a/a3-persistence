@@ -24,7 +24,7 @@ const submit = function( e ) {
         if (json.code == 'found'){
             alert('This username already exists')
         } else {
-            
+            window.open('/dataPage', "_self")
         }
     })
 

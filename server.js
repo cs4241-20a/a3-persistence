@@ -150,7 +150,8 @@ app.post('/register', (request, response) => {
       response.json({code: 'found'})
     } else {
       usersDB.insertOne({'username': username, 'password': pass, 'basket': []})
-      .then(setSessionUser(request, username, pass));
+      .then(setSessionUser(request, username, pass))
+      .then(() => response.json({code: 'made'}));
     }
   })
 })

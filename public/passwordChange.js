@@ -8,6 +8,12 @@ function submit(){
       headers:{
           "Content-Type": "application/json"
       }
+    }).then(function(){
+        fetch( '/logOut', {
+            method:'POST'
+          }).then(() => {
+            window.open('/', "_self")
+          })
     })
 }
 
