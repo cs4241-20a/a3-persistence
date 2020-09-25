@@ -3,7 +3,7 @@ const Movie = require("../models/movie-model");
 const passport = require("passport");
 
 //callback github
-router.post("/movie/add", passport.authenticate("github"), (req, res) => {
+router.post("/movie/add", (req, res) => {
     console.log(req.body);
     Movie.findOne({ movieName: req.body.movieName, userID: req.user }).then(
         (currentMovie) => {
@@ -35,6 +35,8 @@ router.post("/movie/add", passport.authenticate("github"), (req, res) => {
     );
 });
 
-router.get("/movie");
+router.post("/movie", (req, res) => {
+    res.send(req.user);
+});
 
 module.exports = router;
