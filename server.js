@@ -40,6 +40,7 @@ mongoose
 
 // // Sets up routes
 app.use("/auth", require("./routes/auth"));
+app.use("/api", require("./routes/movie"));
 
 // production only
 if (process.env.NODE_ENV === "production") {
