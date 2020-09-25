@@ -23,10 +23,11 @@ router.post("/movie/add", (req, res) => {
                     { seen: req.body.seen }
                 ).then((updatedMovie) => {
                     console.log("updated movie:", updatedMovie);
+                    res.send("ok");
                 });
+            } else {
+                res.send("ok");
             }
-
-            res.end("ok");
         } else {
             new Movie({
                 movieName: req.body.movieName,
@@ -37,7 +38,7 @@ router.post("/movie/add", (req, res) => {
                 .save()
                 .then((newMovie) => {
                     console.log("new movie:", newMovie);
-                    res.end("ok");
+                    res.send("ok");
                 });
         }
     });
