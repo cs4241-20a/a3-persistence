@@ -5,15 +5,31 @@ const http = require( 'http' ),
       bodyparser = require( 'body-parser' ),
       compression = require( 'compression' ),
       responseTime = require( 'response-time' ),
+      fetch = require( 'node-fetch' ),
+      cookieSession = require( 'cookie-session' ),
+      cors = require( 'cors' ),
       app = express(),
       port = 3000;
 
+app.use( cookieSession({
+  name: 'cooooookie krisps',
+  keys: ['i want steak for dinner tonight'],
+  secret: process.env.COOKIE_SECRET
+}))
 app.use( express.static( 'public' ) )
 app.use( compression() )
 app.use( responseTime( (request, response, time) => console.log( request.method, request.url, time + 'ms' ) ) )
 app.use( bodyparser.json() )
+app.use(cors());
 
-app.get( '/', (request, response) => response.sendFile( __dirname + '/views/index.html' ) )
+app.get( '/', (request, response) => {
+  // if(request.session.GHid) {
+  //   response.sendFile( __dirname + '/views/index.html' ) 
+  // } else {
+  //   response.sendFile( __dirname + '/views/login.html' )
+  // }
+  response.sendFile( __dirname + '/views/index.html' ) 
+})
 
 // DB STUFF //
 require('dotenv').config()
@@ -27,6 +43,52 @@ let collection = null
 client.connect(err => {
   collection = client.db("assignment3").collection("db1");
 });
+
+// GITHUB LOGIN STUFF //
+app.get('/login/github', (request, response) => {
+  const path = request.protocol + '://' + request.get('host');
+  const url = `https://github.com/login/oauth/authorize?client_id=${process.env.GHID}&redirect_uri=${path}/login/github/callback`;
+  response.redirect(url);
+})
+
+async function getAccessToken(code, client_id, client_secret) {
+  const response = await fetch('https://github.com/login/oauth/access_token', {
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      client_id,
+      client_secret,
+      code
+    })
+  })
+  .then( response => response.text() );
+  
+  const params = new URLSearchParams(response);
+  return params.get('access_token');
+}
+
+async function getGHUser(accessToken) {
+  const request = await fetch('https://api.github.com/user', {
+    headers: { Authorization: `bearer ${accessToken}`}
+  })
+  .then ( request => request.json() )
+
+  return request;
+}
+
+app.get('/login/github/callback', async (request, response) => {
+  const accessToken = await getAccessToken(request.query.code, process.env.GHID, process.env.GHSECRET);
+  const GHData = await getGHUser(accessToken);
+  
+  if(GHData) {
+    request.session.GHid = GHData.id;
+    request.session.token = token;
+    response.redirect("/views/index.html")
+  } else {
+    console.log('Error in login');
+    response.redirect("/views/login.html")
+  }
+})
 
 app.get( '/appdata', (request, response) => {
   var array = [];

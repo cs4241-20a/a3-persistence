@@ -157,7 +157,7 @@
   }
 
   window.onload = function() {
-    const button = document.querySelector( 'button' )
+    const button = document.querySelector( '#submitButton' )
     button.onclick = submit
 
     const table = document.querySelector( '#resultsTable' )
