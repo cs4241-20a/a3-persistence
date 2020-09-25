@@ -66,9 +66,8 @@ class Movie extends Component {
                     movieName: data.get("movieName"),
                     seen: data.get("seen"),
                 }),
-            });
+            }).then(this.getMovies());
         }
-        this.getMovies();
     }
 
     render() {
