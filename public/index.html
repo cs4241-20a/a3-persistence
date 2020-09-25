@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>CS4241 Assignment 2</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script src="js/scripts.js"></script>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="box header">classic cars wishlist</div>
+
+    <div class="box sidebar">
+      <p>Enter your dream cars in this handy wishlist!</p>
+      <p>Based on the car year and price, a priority will be calculated. <br> Priority 1 is the highest and means you
+        should get the car right away!</p>
+
+      <div class="data-form">
+        <form id="form">
+          <input type='text' id='Make' placeholder="Make">
+          <input type='text' id='Model' placeholder="Model">
+          <input type='number' id='Year' placeholder="Year">
+          <input type='number' id='Price' placeholder="Price">
+          <button id="submit-btn">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="box content">
+      <table id="data-table">
+        <tr>
+          <th>Make</th>
+          <th>Model</th>
+          <th>Year</th>
+          <th>Price</th>
+          <th>Priority</th>
+        </tr>
+      </table>
+    </div>
+
+    <div class="box footer">
+    </div>
+  </div>
+</body>
+
+</html>
