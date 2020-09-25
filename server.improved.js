@@ -4,11 +4,14 @@ const http = require( 'http' ),
       express = require( 'express' ),
       bodyparser = require( 'body-parser' ),
       compression = require( 'compression' ),
+      responseTime = require( 'response-time' ),
       app = express(),
       port = 3000;
 
 app.use( express.static( 'public' ) )
 app.use( compression() )
+app.use( responseTime( (request, response, time) => console.log( request.method, request.url, time + 'ms' ) ) )
+app.use( bodyparser.json() )
 
 app.get( '/', (request, response) => response.sendFile( __dirname + '/views/index.html' ) )
 
@@ -25,7 +28,7 @@ client.connect(err => {
   collection = client.db("assignment3").collection("db1");
 });
 
-app.get( '/appdata', bodyparser.json(), (request, response) => {
+app.get( '/appdata', (request, response) => {
   var array = [];
   collection.find().forEach( doc => {
     //console.log(doc);
@@ -37,7 +40,7 @@ app.get( '/appdata', bodyparser.json(), (request, response) => {
   })
 })
 
-app.post( '/submit', bodyparser.json(), (request, response) => {
+app.post( '/submit', (request, response) => {
   collection.insertOne( request.body )
   .then( dbresponse => {
     //console.log( dbresponse.ops[0] )
@@ -45,7 +48,7 @@ app.post( '/submit', bodyparser.json(), (request, response) => {
   })
 })
 
-app.post( '/delete', bodyparser.json(), (request, response) => {
+app.post( '/delete', (request, response) => {
   //console.log( request.body._id );
 
   collection.deleteOne( { _id:mongodb.ObjectID( request.body._id ) } ) 
@@ -62,7 +65,7 @@ app.post( '/delete', bodyparser.json(), (request, response) => {
   })
 })
 
-app.post( '/edit', bodyparser.json(), (request, response) => {
+app.post( '/edit', (request, response) => {
   
   const json = { vehiclemake: request.body.vehiclemake, vehiclemodel: request.body.vehiclemodel, vehicleyear: request.body.vehicleyear, vehicleage: request.body.vehicleage };
   const id = request.body._id;
