@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Login • Food Tracker • CS4241 A3</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/sakura.css">
+</head>
+
+<body>
+  <div id="loginDiv">
+    <h1>Login</h1>
+    <form action="">
+      <div>
+        <label>Username:</label>
+        <input id="username" type="text" name="username" />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input id="password" type="password" name="password" />
+      </div>
+      <div>
+        <button id="login">Log In</button>
+      </div>
+    </form>
+
+    <div style="margin-top: 10rem;">
+      <h3>Create a new account</h3>
+      <p>(This password is stored in plaintext, don't use something important)</p>
+      <form action="">
+        <input id="newUsername" name="username" type="text" placeholder="New username">
+        <input id="newPassword" name="password" type="password">
+        <button id="create">Create</button>
+      </form>
+    </div>
+  </div>
+  <div id="mainDiv" hidden>
+    <div>
+      <h2>Food Tracker</h2>
+    </div>
+    <div class="mid">
+      <form action="">
+        <h4>Enter food info:</h4>
+        <input id="food" class="entry" type="text" placeholder="Food">
+        <input id="calories" class="entry" type="number" placeholder="Calories">
+
+        <select id="meal" class="entry">
+          <option value="Breakfast">Breakfast</option>
+          <option value="Lunch">Lunch</option>
+          <option value="Dinner">Dinner</option>
+          <option value="Snack">Snack</option>
+        </select>
+
+        <input id="time" class="entry" type="time" placeholder="Time">
+        <button title="Submit" id="submit">Submit</button>
+      </form>
+    </div>
+
+    <div>
+      <table id="mealTable">
+        <thead>
+          <tr>
+            <th>Time Eaten</th>
+            <th>Food</th>
+            <th>Calories</th>
+            <th>Meal</th>
+            <th>Delete?</th>
+          </tr>
+        </thead>
+        <tbody id="mealBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+
+</html>
