@@ -19,26 +19,28 @@ class Movie extends Component {
     getMovies = () => {
         fetch("/api/movie", {
             method: "GET",
-        }).then((data) => {
-            console.log(data);
-            // let stubData = [
-            //     {
-            //         _id: "5f6e4cef2f0b6b4b94ced583",
-            //         movieName: "test",
-            //         seen: "on",
-            //         userID: "69",
-            //         __v: 0,
-            //     },
-            //     {
-            //         _id: "5f6e509de85c354cacc84ca7",
-            //         movieName: "abc",
-            //         seen: null,
-            //         userID: "69",
-            //         __v: 0,
-            //     },
-            // ];
-            this.setState({ movies: data });
-        });
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                // let stubData = [
+                //     {
+                //         _id: "5f6e4cef2f0b6b4b94ced583",
+                //         movieName: "test",
+                //         seen: "on",
+                //         userID: "69",
+                //         __v: 0,
+                //     },
+                //     {
+                //         _id: "5f6e509de85c354cacc84ca7",
+                //         movieName: "abc",
+                //         seen: null,
+                //         userID: "69",
+                //         __v: 0,
+                //     },
+                // ];
+                this.setState({ movies: data });
+            });
     };
 
     /*
