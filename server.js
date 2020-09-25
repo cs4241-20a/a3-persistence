@@ -5,7 +5,7 @@ const fs   = require("fs"),
       port = 3000;
 
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://joe_swetz:ginger0304@cs4241-a3.catjb.gcp.mongodb.net/CS4241?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.username}:${process.env.password}@cs4241-a3.catjb.gcp.mongodb.net/CS4241?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
     if(err){
