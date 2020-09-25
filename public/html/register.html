@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/bootstrap-social.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-6 m-auto">
+              <div class="card card-body">
+                <a class="btn btn-block btn-social btn-github" href="/users/login/github">
+                  <span class="fa fa-github"></span> Sign in with Github
+                </a>
+                <p class="m-auto pt-2">Or</p>
+                <form action="/users/register" method="POST">
+                  <div class="form-group">
+                    <label for="user">Name</label>
+                    <input
+                      type="name"
+                      id="user"
+                      name="user"
+                      class="form-control"
+                      placeholder="Enter Name"
+                      value=""
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      class="form-control"
+                      placeholder="Enter Email"
+                      value=""
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      class="form-control"
+                      placeholder="Create Password"
+                      value=""
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      class="form-control"
+                      placeholder="Confirm Password"
+                      value=""
+                      required
+                    />
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block">
+                    Register
+                  </button>
+                </form>
+                <p class="lead mt-4">Have An Account? <a href="/loginpage">Login</a></p>
+              </div>
+            </div>
+          </div>
+    </div>
+</body>
+</html>
