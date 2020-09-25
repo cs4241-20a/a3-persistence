@@ -1,33 +1,24 @@
 const express = require('express')
-const path = require('path')
 const router = express.Router()
 const Book = require('../models/Book')
-const { ensureAuthenticated } = require('../config/auth');
-const passport = require('passport');
+const { ensureAuthenticated, forwardAuthenticated  } = require('../config/auth');
 
-router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/html/welcome.html'))
+router.get('/', forwardAuthenticated, (req, res) => res.render('welcome'))
+
+router.get('/home', ensureAuthenticated, (req, res) => {
+    res.render(
+        'home', {
+        user: req.user
+        })
 })
 
-router.get('/registerpage', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/html/register.html'))
-})
-
-router.get('/loginpage', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/html/login.html'))
-})
-
-router.get('/homepage',ensureAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/html/home.html'))
-})
-
-router.get('/books', async (req, res) => {
+router.get('/books', ensureAuthenticated, async (req, res) => {
     Book.find({ })
     .then(books => res.send(books))
     .catch(e => res.status(500).send(e))
 })
 
-router.post('/add', async(req, res) => {
+router.post('/add', ensureAuthenticated, async(req, res) => {
     const errors = []
     const book = new Book({
         ...req.body,
@@ -44,7 +35,7 @@ router.post('/add', async(req, res) => {
     }
 })
 
-router.delete('/delete', async(req, res) => {
+router.delete('/delete', ensureAuthenticated, async(req, res) => {
     const errors = []
     try {
         const book = await Book.findOneAndDelete({ isbn: req.body.isbn })
@@ -62,7 +53,7 @@ router.delete('/delete', async(req, res) => {
 })
 
 
-router.patch('/modify', async(req, res) => {
+router.patch('/modify', ensureAuthenticated, async(req, res) => {
     const errors = []
     const allowUpdate = ["title", "author", "reviews"]
     const updates = Object.keys(req.body)

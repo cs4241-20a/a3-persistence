@@ -1,8 +1,8 @@
 const express = require('express')
+const expressLayouts = require('express-ejs-layouts')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const passport = require('passport')
-const cors = require('cors')
 const flash = require('flash')
 const session = require('express-session')
 require('dotenv').config()
@@ -46,6 +46,10 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
+// EJS
+app.use(expressLayouts);
+app.set('view engine', 'ejs');
+
 app.use(flash())
 
 app.use((req, res, next) => {
@@ -55,7 +59,6 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use( cors() )
 
 // Routes
 app.use('/', require('./routes/index'));
