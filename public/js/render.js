@@ -10,11 +10,21 @@ import { ConvexHull } from "https://cdn.jsdelivr.net/npm/three@0.120.1/examples/
 
 import * as CANNON from "https://cdn.jsdelivr.net/npm/cannon-es@0.15.1/dist/cannon-es.js";
 
+let loaded = 0;
+
 let world;
 let wheelBodies = [];
 let chassisBody;
 let vehicle;
 let planeBody;
+
+let forwardAxis = 0.0,
+  backwardAxis = 0.0,
+  leftAxis = 0.0,
+  rightAxis = 0.0;
+
+let engineAxis = 0.0,
+  turnAxis = 0.0;
 
 let drawingSurface, copySIZE;
 drawingSurface = document.getElementById("threeJS");
@@ -25,6 +35,8 @@ let scene, camera, cameraRig, cameraTar, renderer, mixer;
 let wheelMeshes = [];
 let carGroup;
 
+let lights = new Array(5);
+
 initCannon();
 initThree();
 
@@ -32,13 +44,42 @@ document.getElementById("hide_on_load").style.display = "none";
 
 let clock = new THREE.Clock();
 
+function setIntervalX(callback, delay, repetitions) {
+    var x = 0;
+    var intervalID = window.setInterval(function () {
+
+       callback();
+
+       if (++x === repetitions) {
+           window.clearInterval(intervalID);
+       }
+    }, delay);
+}
+
+function increaseLoad() {
+    loaded += 25;
+    console.log(loaded + "%");
+
+
+    let i = 0;
+    if(loaded == 100) {
+        console.log("Done loading all assets");
+        setIntervalX(() => {
+            lights[i].emissive.set(0xff0000);
+            i++;
+        }, 1000, 5);
+    }
+}
+
 (function animate() {
   let delta = clock.getDelta();
   //   if (mixer) {
   //     mixer.update(delta);
   //   }
 
-  world.step(1 / 60);
+  if(loaded == 100) {
+    world.step(1 / 60);
+  }
 
   if (carGroup) {
     let temp = new THREE.Vector3();
@@ -49,7 +90,7 @@ let clock = new THREE.Clock();
 
     carGroup.position.copy(chassisBody.position);
     carGroup.quaternion.copy(chassisBody.quaternion);
-    camera.position.lerp(temp, 0.2);
+    camera.position.lerp(temp, 0.5);
     camera.lookAt(tar);
   }
 
@@ -65,10 +106,24 @@ let clock = new THREE.Clock();
   //   camera.position.set(x, y, z);
   //   camera.lookAt(0.0, 0.25, 0.0);
 
+  if (vehicle) {
+    vehicle.applyEngineForce((forwardAxis - backwardAxis) * maxForce, 2);
+    vehicle.applyEngineForce((forwardAxis - backwardAxis) * maxForce, 3);
+
+    turnAxis = lerp(turnAxis, leftAxis - rightAxis, 0.25);
+
+    vehicle.setSteeringValue(turnAxis * maxSteerVal, 0);
+    vehicle.setSteeringValue(turnAxis * maxSteerVal, 1);
+  }
+
   renderer.render(scene, camera);
 
   requestAnimationFrame(animate);
 })();
+
+function lerp(start, end, amt) {
+  return (1 - amt) * start + amt * end;
+}
 
 function setRenderSize() {
   camera.aspect = copySIZE.clientWidth / copySIZE.offsetHeight;
@@ -126,7 +181,7 @@ function initCannon() {
   ));
 
   let options = {
-    radius: 0.3,
+    radius: 0.32,
     directionLocal: new CANNON.Vec3(0, 0, 1),
     suspensionStiffness: 50,
     suspensionRestLength: 0.3,
@@ -135,7 +190,7 @@ function initCannon() {
     dampingCompression: 4.4,
     maxSuspensionForce: 100000,
     rollInfluence: 0.01,
-    axleLocal: new CANNON.Vec3(0, 1, 0),
+    axleLocal: new CANNON.Vec3(0, -1, 0),
     chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0),
     maxSuspensionTravel: 0.3,
     customSlidingRotationalSpeed: -30,
@@ -147,8 +202,8 @@ function initCannon() {
   let chassisShape = new CANNON.Box(new CANNON.Vec3(4, 1.5, 0.25));
   chassisBody = new CANNON.Body({ mass: 150 });
   chassisBody.addShape(chassisShape);
-  chassisBody.position.set(0, 5, 0);
-  chassisBody.quaternion.set(0.51, 0.49, -0.49, 0.51);
+  chassisBody.position.set(-0.6, 5, 35);
+  chassisBody.quaternion.set(0.5, 0.5, -0.5, 0.5);
 
   let planeShape = new CANNON.Box(new CANNON.Vec3(150, 0.1, 150));
   planeBody = new CANNON.Body({ static: true });
@@ -211,12 +266,7 @@ function initThree() {
   camera.position.set(10, 10, 10);
   camera.lookAt(0.0, 0.25, 0.0);
 
-  let colliders = new THREE.Group();
   let colliderBody = new CANNON.Body({ static: true });
-  let boxMat = new THREE.MeshBasicMaterial({
-    color: 0x0000ff,
-    wireframe: true
-  });
 
   fetch("assets/colliders.json")
     .then((response) => response.json())
@@ -226,23 +276,25 @@ function initThree() {
         let pos = collider.pos;
         let quat = collider.quat;
 
-        let colliderShape = new CANNON.Box(new CANNON.Vec3(dim[0] / 2, dim[1] / 4, dim[2] / 4));
-        let colliderQuat = new CANNON.Quaternion(quat[1], quat[2], quat[3], quat[0]);
+        let colliderShape = new CANNON.Box(
+          new CANNON.Vec3(dim[0] / 2, dim[1] / 4, dim[2] / 4)
+        );
+        let colliderQuat = new CANNON.Quaternion(
+          quat[1],
+          quat[2],
+          quat[3],
+          quat[0]
+        );
         let colliderPos = new CANNON.Vec3(pos[0], pos[1], pos[2]);
         colliderBody.addShape(colliderShape, colliderPos, colliderQuat);
-
-        let boxGeo = new THREE.BoxGeometry(dim[0], dim[1], dim[2]);
-        let boxMesh = new THREE.Mesh(boxGeo, boxMat);
-        colliders.add(boxMesh);
-        boxMesh.position.set(pos[0], pos[1], pos[2]);
-        boxMesh.quaternion.set(quat[1], quat[2], quat[3], quat[0]);
       });
     });
 
-  scene.add(colliders);
   world.addBody(colliderBody);
-  colliders.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI / 2);
-  colliderBody.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI / 2);
+  colliderBody.quaternion.setFromAxisAngle(
+    new CANNON.Vec3(-1, 0, 0),
+    Math.PI / 2
+  );
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
@@ -256,10 +308,10 @@ function initThree() {
     carGroup = new THREE.Group();
 
     cameraRig = new THREE.Object3D();
-    cameraRig.position.set(-6, 0, -1.5);
+    cameraRig.position.set(-6, 0, -1);
 
     cameraTar = new THREE.Object3D();
-    cameraTar.position.set(0, 0, -0.5);
+    cameraTar.position.set(2.0, 0, -0.2);
 
     gltf.scene.position.set(0, 0, 0);
     gltf.scene.rotation.set(0, Math.PI / 2, -Math.PI / 2);
@@ -267,15 +319,18 @@ function initThree() {
     carGroup.add(cameraRig);
     carGroup.add(cameraTar);
     scene.add(carGroup);
+
+    increaseLoad();
   });
 
   let gltfLoaderTrack = new GLTFLoader().setPath("assets/");
 
-  gltfLoaderTrack.load("track_simple.gltf", function (gltf) {
+  gltfLoaderTrack.load("track.gltf", function (gltf) {
     gltf.scene.position.set(0, 2, 0);
 
     gltf.scene.traverse((o) => {
-      if (o.name.includes("collider") && o.isMesh) {
+        if(o.isMesh) {
+      if (o.name.includes("collider")) {
         console.log(o);
         let bbox = new CANNON.Box(
           new CANNON.Vec3(o.scale.x, o.scale.y / 8, o.scale.z / 4)
@@ -288,23 +343,44 @@ function initThree() {
         world.addBody(bbody);
 
         o.visible = false;
+      } else if (o.name.includes("light") && o.material.name.includes("emit")) {
+        let lightMat = new THREE.MeshStandardMaterial({color: 0x111111, emissive: 0x000000});
+        o.material = lightMat;
+        let match = o.name.match(/(\d+)/);
+        lights[parseInt(match[0]) - 1] = lightMat;
+        console.log(lights);
       }
+    }
     });
 
     scene.add(gltf.scene);
+
+    increaseLoad();
   });
 
-  vehicle.wheelInfos.forEach((wheel) => {
-    var geometry = new THREE.CylinderGeometry(
-      wheel.radius,
-      wheel.radius,
-      wheel.radius,
-      20
-    );
-    var material = new THREE.MeshPhysicalMaterial({ color: 0x131313 });
-    var cylinder = new THREE.Mesh(geometry, material);
-    wheelMeshes.push(cylinder);
-    scene.add(cylinder);
+  let gltfTire = new GLTFLoader().setPath("assets/");
+
+  gltfTire.load("tire.gltf", function (gltf) {
+    vehicle.wheelInfos.forEach((wheel, i) => {
+      let group = new THREE.Group();
+      let clone = gltf.scene.clone();
+      group.add(clone);
+      wheelMeshes.push(group);
+      scene.add(group);
+      if (i % 2 == 0) {
+        clone.quaternion.setFromAxisAngle(
+          new CANNON.Vec3(0, 0, -1),
+          Math.PI / 2
+        );
+      } else {
+        clone.quaternion.setFromAxisAngle(
+          new CANNON.Vec3(0, 0, 1),
+          Math.PI / 2
+        );
+      }
+    });
+
+    increaseLoad();
   });
 
   let pmremGenerator = new THREE.PMREMGenerator(renderer);
@@ -320,17 +396,67 @@ function initThree() {
 
       texture.dispose();
       pmremGenerator.dispose();
+
+      increaseLoad();
     });
 
   drawingSurface.appendChild(renderer.domElement);
 }
 
-document.onkeydown = handler;
-document.onkeyup = handler;
-
 var maxSteerVal = 0.5;
 var maxForce = 700;
 var brakeForce = 200;
+
+var onKeyDown = function (event) {
+  switch (event.keyCode) {
+    case 38: // up
+    case 87: // w
+      forwardAxis = 1.0;
+      break;
+
+    case 37: // left
+    case 65: // a
+      leftAxis = 1.0;
+      break;
+
+    case 40: // down
+    case 83: // s
+      backwardAxis = 1.0;
+      break;
+
+    case 39: // right
+    case 68: // d
+      rightAxis = 1.0;
+      break;
+  }
+};
+
+var onKeyUp = function (event) {
+  switch (event.keyCode) {
+    case 38: // up
+    case 87: // w
+      forwardAxis = 0.0;
+      break;
+
+    case 37: // left
+    case 65: // a
+      leftAxis = 0.0;
+      break;
+
+    case 40: // down
+    case 83: // s
+      backwardAxis = 0.0;
+      break;
+
+    case 39: // right
+    case 68: // d
+      rightAxis = 0.0;
+      break;
+  }
+};
+
+document.addEventListener("keydown", onKeyDown, false);
+document.addEventListener("keyup", onKeyUp, false);
 function handler(event) {
   var up = event.type == "keyup";
 
