@@ -123,7 +123,7 @@ const addUser = async () => {
 		alert("Please fill out the required fields!");
 	} else {
 		const body = JSON.stringify({name: `${fName.value} ${lName.value}`, email: email.value, dob: dob.value});
-		const res = await fetch("/api/users", {method: "POST", body});
+		const res = await fetch("/api/users", {method: "POST", body, headers:{"Content-Type": "application/json"}});
 		if (res) {
 			const data = await res.json();
 			formatDataAsTable(data);
@@ -138,36 +138,21 @@ const addUser = async () => {
 const editUser = async (editedUser) => {
 	const {id, name, email, dob} = editedUser;
 	if (id) {
-		const params = new URLSearchParams({id});
 		const body = JSON.stringify({name, email, dob});
-		const res = await fetch(`/api/users?${params}`, {method: "PATCH", body});
+		const res = await fetch(`/api/users/${id}`, {
+			method: "PATCH", body, headers: {"Content-Type": "application/json"}
+		});
 		if (res) {
-			const data = await res.json();
-			formatDataAsTable(data);
+			formatDataAsTable(await res.json());
 		}
 	}
 }
 
 const deleteUser = async ({id}) => {
 	if (id) {
-		const params = new URLSearchParams({id});
-		const res = await fetch(`/api/users?${params}`, {method: "DELETE"});
+		const res = await fetch(`/api/users/${id}`, {method: "DELETE"});
 		if (res) {
-			const data = await res.json();
-			formatDataAsTable(data);
+			formatDataAsTable(await res.json());
 		}
 	}
 }
-
-window.addEventListener('load', function() {
-    const forms = document.getElementsByClassName("needs-validation");
-		const validation = Array.prototype.filter.call(forms, (form) => {
-		form.addEventListener("submit", function(evt) {
-			if (form.checkValidity() === false) {
-			evt.preventDefault();
-			evt.stopPropagation();
-			}
-			form.classList.add('was-validated');
-		}, false);
-	});
-}, false);
