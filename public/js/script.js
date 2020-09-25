@@ -94,7 +94,12 @@ function submitFormData(e) {
     let fields = document.getElementsByClassName("entry");
     for (let i = 0; i < fields.length; i++) {
         const element = fields[i];
-        data[element.id] = element.value;
+        if (element.value === "") {
+            window.alert("All fields must be fully filled out");
+            return 0;
+        } else {
+            data[element.id] = element.value;
+        }
     }
 
 
