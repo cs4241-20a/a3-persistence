@@ -90,8 +90,8 @@ app.get('/auth/github',
 app.get('/auth/github/callback', 
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
-    setSessionUser(req, req.user.username, req.user.id)
-    res.redirect('/');
+    usersDB.insertOne({'username': req.user.username, 'password': req.user.id, 'basket': []}).then(setSessionUser(req, req.user.username, req.user.id))
+    res.redirect('/dataPage');
 });
 
 // https://expressjs.com/en/starter/basic-routing.html
