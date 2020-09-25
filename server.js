@@ -1,7 +1,10 @@
 const express = require("express");
 const passport = require('passport');
 const mongodb = require( 'mongodb' );
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const path = require('path');
+const slash   = require('express-slash');
+const favicon = require('serve-favicon')
 const cookieSession = require('cookie-session');
 const { request, response } = require("express");
 require('dotenv').config();
@@ -15,6 +18,9 @@ let usersDB = null
 const GitHubStrategy = require('passport-github2').Strategy;
 
 const app = express();
+app.enable('strict routing');
+//app.use(slash());
+app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')))
 
 client.connect()
 .then( () => {
@@ -58,8 +64,10 @@ function(accessToken, refreshToken, profile, done) {
 ));
 
 // https://expressjs.com/en/starter/static-files.html
+console.log(path.join(__dirname, 'public', 'img', 'favicon.ico'))
 app.use(express.static("public"));
 app.use(express.static("views"));
+
 
 app.use( (req,res,next) => {
   if( usersDB !== null ) {
@@ -199,24 +207,26 @@ app.post('/addToBasket', (request, response) => {
       if (err){
         throw err;
       } 
+      console.log('in usersDB find')
       console.log(result[0])
       console.log(result[0].basket != null)
       if (result[0].basket != null){
         inBasket = result[0].basket;
-      }
-    })
-    console.log(request.body);
-    inBasket.push(request.body.newItem);
-    console.log(`New basket: ${inBasket}`)
-    usersDB.update(
-      userExistsQuery,
-      {
-        $set: {
-          basket : inBasket
+      }    
+      console.log(request.body);
+      inBasket.push(request.body.newItem);
+      console.log(`New basket: ${inBasket}`)
+      usersDB.update(
+        userExistsQuery,
+        {
+          $set: {
+            basket : inBasket
+          }
         }
-      }
-    )
-    response.sendStatus(200);
+      )
+      response.sendStatus(200);
+    })
+
   }else {
     response.sendStatus(404)
   }

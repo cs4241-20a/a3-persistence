@@ -16,10 +16,12 @@
     "dotenv": "^8.2.0",
     "dragula": "^3.7.2",
     "express": "^4.17.1",
+    "express-slash": "^2.0.1",
     "mongodb": "^3.6.2",
     "passport": "^0.4.1",
     "passport-github2": "^0.1.12",
-    "passport-oauth2": "^1.5.0"
+    "passport-oauth2": "^1.5.0",
+    "serve-favicon": "^2.5.0"
   },
   "engines": {
     "node": "12.x"

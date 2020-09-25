@@ -1,9 +1,9 @@
 window.onload = fillItems;
 
 let storeItems = [
-  {id: 0, img: "img/githubLogo.png", imgAlt: "imgAlt", name: "test0", price: "000"},
-  {id: 1, img: "img/githubLogo.png", imgAlt: "imgAlt", name: "test1", price: "111"},
-  {id: 2, img: "img/githubLogo.png", imgAlt: "imgAlt", name: "test2", price: "222"}]
+  {id: 0, img: "img/item1.png", imgAlt: "firstItem", name: "firstItem", price: "1"},
+  {id: 1, img: "img/item2.png", imgAlt: "secondItem", name: "secondItem", price: "2"},
+  {id: 2, img: "img/item3.png", imgAlt: "thirdItem", name: "thirdItem", price: "3"}]
 let currentBasket = []
 
 function fillItems(){
