@@ -16,7 +16,6 @@ const submit = function( e ) {
       }
     })
     .then(function(response){
-      console.log(response)
       if (response.redirected == true){
         window.open(response.url, "_self")
       } else {

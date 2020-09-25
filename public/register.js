@@ -16,11 +16,9 @@ const submit = function( e ) {
       }
     })
     .then(function(response){
-      console.log(response)
       return  response.json()
     })
     .then( function( json ) {
-        console.log(json)
         if (json.code == 'found'){
             alert('This username already exists')
         } else {

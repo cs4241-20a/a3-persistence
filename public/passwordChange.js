@@ -24,7 +24,6 @@ window.onload = function() {
     }).then(function(response){
         return response.json();
     }).then(function(json){
-        console.log(json)
         let oldPass = document.getElementById('oldPass');
         oldPass.innerText = `Old password: ${json.pass}`;
     })

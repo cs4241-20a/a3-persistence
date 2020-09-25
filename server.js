@@ -19,7 +19,7 @@ const GitHubStrategy = require('passport-github2').Strategy;
 
 const app = express();
 app.enable('strict routing');
-//app.use(slash());
+app.use(slash());
 app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')))
 
 client.connect()
@@ -64,7 +64,6 @@ function(accessToken, refreshToken, profile, done) {
 ));
 
 // https://expressjs.com/en/starter/static-files.html
-console.log(path.join(__dirname, 'public', 'img', 'favicon.ico'))
 app.use(express.static("public"));
 app.use(express.static("views"));
 
@@ -102,7 +101,6 @@ app.get("/", (request, response) => {
 
 app.get('/register', (request, response) => {
   let username = request.session['User'];
-  console.log(username);
   if (username != null){
     response.redirect('/dataPage')
   } else {
@@ -182,13 +180,13 @@ function setSessionUser(req, username, password){
   req.session['Pass'] = password;
 }
 
-app.get('/dragula.css', (request, response) => {
-  response.sendFile(__dirname + "/node_modules/dragula/dist/dragula.min.css");
-})
+// app.get('/dragula.css', (request, response) => {
+//   response.sendFile(__dirname + "/node_modules/dragula/dist/dragula.min.css");
+// })
 
-app.get('/dragula.js', (request, response) => {
-  response.sendFile(__dirname + "/node_modules/dragula/dist/dragula.min.js");
-})
+// app.get('/dragula.js', (request, response) => {
+//   response.sendFile(__dirname + "/node_modules/dragula/dist/dragula.min.js");
+// })
 
 app.get('/currentUser', (request, response) => {
   let username = request.session['User'];
@@ -208,7 +206,6 @@ app.get('/currentUser', (request, response) => {
 })
 
 app.post('/addToBasket', (request, response) => {
-  console.log('add to basket POST');
   let username = request.session['User'];
   let inBasket = [];
   if (username != null){
@@ -218,15 +215,10 @@ app.post('/addToBasket', (request, response) => {
       if (err){
         throw err;
       } 
-      console.log('in usersDB find')
-      console.log(result[0])
-      console.log(result[0].basket != null)
       if (result[0].basket != null){
         inBasket = result[0].basket;
       }    
-      console.log(request.body);
       inBasket.push(request.body.newItem);
-      console.log(`New basket: ${inBasket}`)
       usersDB.update(
         userExistsQuery,
         {
@@ -241,14 +233,42 @@ app.post('/addToBasket', (request, response) => {
   }else {
     response.sendStatus(404)
   }
-})
+});
+
+app.post('/removeFromBasket', (request, response) => {
+  let username = request.session['User'];
+  let inBasket = [];
+  if (username != null){
+    let userExistsQuery = {'username': username};
+    usersDB.find(userExistsQuery).toArray(function(err, result){
+      if (err){
+        throw err;
+      } 
+      if (result[0].basket != null){
+        inBasket = result[0].basket;
+      }    
+      inBasket = inBasket.filter((x) => {return x != request.body.newItem});
+      usersDB.update(
+        userExistsQuery,
+        {
+          $set: {
+            basket : inBasket
+          }
+        }
+      )
+      response.sendStatus(200);
+    })
+
+  }else {
+    response.sendStatus(404)
+  }
+});
 
 app.post('/test', (request, response) =>{
   response.sendStatus(200);
 })
 
 app.post('/updatePassword', (request, response) => {
-  console.log('updatePassword reached')
   let username = request.session['User'];
   usersDB.updateOne(
     { username:username},
@@ -258,7 +278,6 @@ app.post('/updatePassword', (request, response) => {
 })
 
 app.post('/logOut', (request, response) => {
-  console.log('logout in server side')
   setSessionUser(request, null, null)
   response.sendStatus(200)
 })
