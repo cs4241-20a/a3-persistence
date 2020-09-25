@@ -23,7 +23,7 @@ const submit = function(e) {
       break;
     }
   }
-  
+
   if (!date || !trackValue || !race || !place) {
     alert("All fields are required to submit a new race result.");
   } else {
@@ -44,7 +44,6 @@ const submit = function(e) {
       .then(function(text) {
         allData.push(JSON.parse(text));
         updateTable();
-        console.log(allData);
       });
   }
   document.querySelector("#date").value = "mm/dd/yyyy";

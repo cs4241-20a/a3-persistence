@@ -1,5 +1,4 @@
 const express = require('express')
-const app = express()
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 const flash = require('express-flash')
@@ -9,10 +8,14 @@ const low = require('lowdb')
 const FileSync = require('lowdb/adapters/FileSync')
 const adapter = new FileSync('.data/db.json')
 const db = low(adapter)
+const mongodb = require('mongodb')
+const MongoClient = mongodb.MongoClient;
+const app = express()
 
-
-
-
+let email = process.env.USERNAME;
+let password = process.env.PASSWORD;
+let dbname = process.env.DBNAME;
+const uri = "mongodb+srv://" + email + ":" + password + "@prod.npojt.mongodb.net/" + dbname + "?retryWrites=true&w=majority";
 
 const http = require("http"),
   fs = require("fs"),
@@ -45,6 +48,7 @@ const handlePost = function(request, response) {
     dataString += data;
   });
   request.on("end", function() {
+    let app = JSON.parse(dataString);
     response.writeHead(200, "OK", { "Content-Type": "text/plain" });
     response.end(JSON.stringify(app));
   });
@@ -66,12 +70,6 @@ const sendFile = function(response, filename) {
     }
   });
 };
-
-
-
-
-
-
 
 
 var listener = app.listen(process.env.PORT, function () {
