@@ -1,12 +1,46 @@
 import React, { Component } from "react";
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { Button, Form, Table, Label, Input } from "reactstrap";
 
 class Movie extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            movies: [],
+        };
+
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    componentDidMount() {
+        this.getMovies();
+    }
+
+    getMovies = () => {
+        fetch("/api/movie", {
+            method: "GET",
+        }).then((data) => {
+            console.log(data);
+            // let stubData = [
+            //     {
+            //         _id: "5f6e4cef2f0b6b4b94ced583",
+            //         movieName: "test",
+            //         seen: "on",
+            //         userID: "69",
+            //         __v: 0,
+            //     },
+            //     {
+            //         _id: "5f6e509de85c354cacc84ca7",
+            //         movieName: "abc",
+            //         seen: null,
+            //         userID: "69",
+            //         __v: 0,
+            //     },
+            // ];
+            this.setState({ movies: data });
+        });
+    };
+
     /*
         TODO
         Check cookie on post request
@@ -16,32 +50,47 @@ class Movie extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const data = new FormData(event.target);
-        console.log(data.get("movieName"));
-        console.log(data.get("seen"));
+        if (data.get("movieName")) {
+            // console.log(data.get("movieName"));
+            // console.log(data.get("seen"));
 
-        fetch("/api/movie/add", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                movieName: data.get("movieName"),
-                seen: data.get("seen"),
-            }),
-        });
+            fetch("/api/movie/add", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    movieName: data.get("movieName"),
+                    seen: data.get("seen"),
+                }),
+            });
+        }
+        this.getMovies();
     }
 
     render() {
+        let tableBody = null;
+        if (this.state.movies) {
+            tableBody = this.state.movies.map((movie, index) => (
+                <tr key={index}>
+                    <th scope="row">{movie.movieName}</th>
+                    <th>{movie.seen ? "yes" : "no"}</th>
+                </tr>
+            ));
+        }
+
         return (
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <Form inline onSubmit={this.handleSubmit}>
+            <div>
+                <Form
+                    inline
+                    onSubmit={this.handleSubmit}
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
                     {" "}
                     <Label for="exampleEmail" className="mr-sm-2">
                         Movie
@@ -57,6 +106,16 @@ class Movie extends Component {
                     </Label>
                     <Button>Submit</Button>
                 </Form>
+                <br />
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>Movie</th>
+                            <th>Seen?</th>
+                        </tr>
+                    </thead>
+                    <tbody>{tableBody}</tbody>
+                </Table>
             </div>
         );
     }

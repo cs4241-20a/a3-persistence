@@ -2,12 +2,14 @@ const router = require("express").Router();
 const Movie = require("../models/movie-model");
 const passport = require("passport");
 
+const ID = 69;
 //callback github
 router.post("/movie/add", (req, res) => {
     console.log(req.body);
     Movie.findOne({
         movieName: req.body.movieName,
         userID: req.user.githubID,
+        // userID: ID,
     }).then((currentMovie) => {
         if (currentMovie) {
             console.log("current movie:", currentMovie);
@@ -16,6 +18,7 @@ router.post("/movie/add", (req, res) => {
                     {
                         movieName: req.body.movieName,
                         userID: req.user.githubID,
+                        // userID: ID,
                     },
                     { seen: req.body.seen }
                 ).then((updatedMovie) => {
@@ -28,7 +31,8 @@ router.post("/movie/add", (req, res) => {
             new Movie({
                 movieName: req.body.movieName,
                 seen: req.body.seen,
-                userID: req.user,
+                userID: req.user.githubID,
+                // userID: ID,
             })
                 .save()
                 .then((newMovie) => {
@@ -40,7 +44,12 @@ router.post("/movie/add", (req, res) => {
 });
 
 router.get("/movie", (req, res) => {
-    res.send(req.user);
+    Movie.find({ userID: req.user.githubID }, function (err, movies) {
+        if (err) {
+            res.send(err);
+        }
+        res.json(movies);
+    });
 });
 
 module.exports = router;
