@@ -1,0 +1,66 @@
+body {
+  background-image: url("https://cdn.glitch.com/2b4f94d8-8a95-4c65-a62c-e765c6bbc3ac%2FA3LoginPic.JPG?v=1600975957620");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  background-size: cover;
+}
+
+h1 {
+  margin-top: 20px;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+  font-weight: lighter;
+  font-size: 60px;
+}
+
+button {
+  background-color: darkgrey;
+  text-align: center;
+  border-radius: 10px;
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+  border: 1px solid black;
+  height: 45px;
+  padding: 0px;
+  width: 100px;
+}
+
+a {
+  color: grey;
+  font-family: "Oswald", sans-serif;
+}
+
+.loginbox {
+  text-align: center;
+  background-color: lightgrey;
+  border-radius: 15px;
+}
+
+.split {
+  position: fixed;
+  height: 50%;
+  top: 25%;
+  padding: 0px;
+  z-index: 1;
+  overflow-x: hidden;
+}
+
+.left {
+  left: 10%;
+  width: 30%;
+}
+
+#name,
+#email,
+#password {
+  left: 50%;
+  height: 45px;
+  width: 200px;
+  border-radius: 10px;
+  text-align: center;
+  font-family: "Oswald", sans-serif;
+  font-size: 20px;
+  border: 1px solid black;
+  display: inline;
+}

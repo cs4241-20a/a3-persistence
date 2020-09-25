@@ -1,0 +1,88 @@
+<script src="https://code.jquery.com/jquery-2.2.1.min.js" integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="/css/index.css" />
+
+<div class="box">
+  <h1>WELCOME BACK, <%= name.toUpperCase() %>!</h1>
+</div>
+
+<main>
+  <script src = "js/client.js"></script>
+
+<body>
+  <div class="split left">
+    <h2>NEW RACE RESULT:</h2>
+    <br>
+    <form id="newrace">
+      <div class="split left2">
+        <p>DATE:
+          <label for="name"></label>
+          <input type="date" id="date" placeholder="DATE" />
+        </p>
+        <br>
+        <p>TRACK:</p>
+        <label for="capeway">
+          <input type="radio" id="capeway" name="track" value="Capeway" /> 
+        Capeway</label>
+        <label for="crowhill">
+          <input type="radio" id="crowhill" name="track" value="Crowhill" />
+        Crowhill</label>
+        <label for="mx207">
+          <input type="radio" id="mx207" name="track" value="MX207" />
+        MX207</label>
+        <br><br>
+        <label for="nhmx">
+          <input type="radio" id="nhmx" name="track" value="NHMX" />
+        NHMX</label>
+        <label for="southwick">
+          <input type="radio" id="southwick" name="track" value="Southwick" />
+        Southwick</label>
+        <label for="winchester">
+          <input type="radio" id="winchester" name="track" value="Winchester" />
+        Winchester</label>
+        <br><br>
+        <p>CLASS:
+          <label for="race"></label>
+          <input type="text" id="race" placeholder="i.e. 250 PRO" />
+        </p>
+        <br>
+        <p>PLACE:
+          <label for="place"></label>
+          <input type="number" id="place" placeholder="i.e. 4" />
+        </p>
+        <br>
+        <p>
+          <button class="submit" type="submit" id="submit">
+          SUBMIT</button>
+        </p>
+        <script id = user> 
+          let user = email
+        </script>
+      </div>
+    </form>
+  </div>
+
+  <div class="split right">
+    <h2>PAST RACE RESULTS:</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>DATE</th>
+          <th>TRACK</th>
+          <th>CLASS</th>
+          <th>PLACE</th>
+          <th><i class="fa fa-pencil" style="font-size:30px;"></i></th>
+          <th><i class="fa fa-trash" style="font-size:30px;"></i></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</body>
+
+<form action="/logout?_method=DELETE" method="POST">
+  <button class="logout" type="submit">LOG OUT</button>
+</form>'
+
+</main>
