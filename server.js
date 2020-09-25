@@ -3,24 +3,110 @@ const bodyParser = require('body-parser')
 const favicon = require('serve-favicon')
 const path = require('path')
 const app = express()
+const cookieParser = require('cookie-parser')
+const dotenv = require('dotenv')
 
+const mongodb = require('mongodb')
+dotenv.config()
 
 app.use(bodyParser.urlencoded({
     extended: true
 }))
 app.use(bodyParser.json())
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+app.use(cookieParser())
+app.use(express.json()) // add with mongodb
+
+// Mongo
+const uri = 'mongodb+srv://'+process.env.USERNAME+':'+process.env.PASS+'@'+process.env.HOST+'/'+process.env.DB
+const client = new mongodb.MongoClient(uri, {useNewUrlParser: true, useUnifiedTopology: true})
+let collection = null 
+//connectDB()
+
+// async function connectDB() {
+//     await client.connect( err => {
+//         collection = client.db('billtracker').collection('users')
+//         // Check Mongo connection
+//         // app.use((req, res, next) => {
+//         //     if(collection !== null) {
+//         //         next()
+//         //     } else {
+//         //         res.status(503).send()
+//         //     }
+//         // })
+//     })
+// }
+
+
+
+
+    client.connect( err => {
+        collection = client.db('billtracker').collection('users')
+        // Check Mongo connection
+        // app.use((req, res, next) => {
+        //     if(collection !== null) {
+        //         next()
+        //     } else {
+        //         res.status(503).send()
+        //     }
+        // })
+    })
+
+
+
 
 var appdata = []
 
 // Serve files to index.html
-app.use(express.static(__dirname + '/public'));
-app.use(express.static(__dirname + '/views'));
-app.use(express.static(__dirname + '/node_modules'));
+app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/views'))
+app.use(express.static(__dirname + '/node_modules'))
 
 // Set default path as index.html
 app.get('/', (req, res) => {
+    if (collection !== null) {
+        // Pass array to res.json
+        collection.find({ }).toArray().then(result => res.json(result))
+    }
+    res.cookie('name', 'test').send('cookie set') 
     res.sendFile(__dirname + '/views/index.html')
+})
+
+// Route to insert user
+app.post('/addUser', (req, res) => {
+    console.log("here")
+    console.log(req.body)
+
+    // Assumes there is only 1 user to insert
+    collection.insertOne(req.body)
+    .then(result => {
+        console.log(result.ops[0])
+        res.json(result.ops[0])
+    })
+
+    collection.find({}).toArray(function (err, result) {
+        console.log("all results")
+        console.log(result)
+    })
+
+})
+
+
+// Route to remove user ****** USE FOR BILLS *********
+app.post('/removeUser', (req, res) => {
+    collection
+    .deleteOne({_id:mongodb.ObjectID(req.body._id)})
+    .then(result => res.json(result))
+})
+
+// Update entry
+app.post('/update', (req, res) => {
+    collection
+    .updateOne(
+        {_id:mongodb.ObjectID(req.body._id)},
+        {$set:{name:req.body.name}}
+    )
+    .then(result => res.json(result))
 })
 
 // Send results to server

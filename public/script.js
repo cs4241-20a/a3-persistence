@@ -1,7 +1,9 @@
-window.onload = function () {
-    const button = document.querySelector('button')
-    button.onclick = submit
-}
+// window.onload = function () {
+//     const button = document.querySelector('button')
+//     button.onclick = submit
+// }
+
+
 
 // Form Submit + validation
 const submit = function (e) {
@@ -341,5 +343,35 @@ function showOptions(eltId) {
     else {
         document.getElementById("editRowBtn").style.visibility = "visible"
         document.getElementById("deleteRowBtn").style.visibility = "visible"
+    }
+}
+
+
+function login() {
+    // Get username, password from HTML
+    let user = document.getElementById("username").value
+    let pass = document.getElementById("password").value
+    console.log(user, pass)
+
+    // Validate
+    if (user == "" || pass == "") {
+        errorMsg.innerHTML = "Please enter a username and password"
+    } else {
+        errorMsg.innerHTML = ""
+
+        // Post to server, DB
+        fetch('/addUser', {
+                method: 'POST',
+                body: JSON.stringify({
+                    username: user,
+                    password: pass
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(function (response) {
+                console.log(response)
+            })
     }
 }

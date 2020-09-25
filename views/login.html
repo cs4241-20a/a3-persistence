@@ -19,7 +19,7 @@
 
 <body>
 
-    <div class="container">
+    <div class="container ">
         <div class="row">
             <div class="col-sm-12 text-center mt-5 mb-1">
                 <h1>Bill Tracker</h1>
@@ -30,21 +30,26 @@
                 <h5>Please log in to continue</h5>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12 text-center">
-                <form action="/public/script.js">
-                    <div class="form-group">
+        <div class="row ">
+            <div class="col-sm-12">
+                <form action="/public/script.js" class="justify-content-center">
+                    <div class="form-group w-50">
                         <input type="text" id="username" placeholder="Username" class="form-control" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group w-50">
                         <input type="password" id="password" placeholder="Password" class="form-control" required>
                     </div>
                 </form>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12 text-center">
-                <button class="btn btn-primary btn-block">Log in</button>
+            <div class="col-sm-12">
+                <p id="errorMsg" style="color: red"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-center w-50">
+                <button class="btn btn-info btn-block w-50" onClick="login()">Log in</button>
             </div>
         </div>
     </div>
