@@ -64,11 +64,11 @@ function addTableEntry(jsonData) {
     row.id = jsonData["_id"];
 
     let [hours, minutes] = jsonData.time.split(":");
-    time = ((hours > 12)? hours-12 : hours-0) + ":" + minutes + " " + ((hours >= 12)? 'PM' : 'AM');
+    let newTime = ((hours > 12)? hours-12 : hours-0) + ":" + minutes + " " + ((hours >= 12)? 'PM' : 'AM');
 
    let cell0 = row.insertCell(0);
    cell0.className = "time";
-   cell0.innerHTML = time;// + "<button class=\"edit\">✎</button>";
+   cell0.innerHTML = newTime;// + "<button class=\"edit\">✎</button>";
 
    let cell1 = row.insertCell(1);
    cell1.className = "food";

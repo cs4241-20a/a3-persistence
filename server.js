@@ -120,11 +120,22 @@ app.post('/login', bodyParser.json(),
 );
 
 
-let server = app.listen(process.env.PORT || 3000)
+let server = null;
+waitForElement();
+
+//Wait for the database connection to be made before the server
+function waitForElement(){
+    if (collection !== null){
+        console.log("Server started");
+        server = app.listen(process.env.PORT || 3000);
+    }
+    else{
+        setTimeout(waitForElement, 500);
+    }
+}
 
 process.on('SIGTERM', shutDown);
 process.on('SIGINT', shutDown);
-
 
 function shutDown() {
     console.log("Shutting down");
