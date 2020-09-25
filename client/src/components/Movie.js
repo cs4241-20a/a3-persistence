@@ -14,10 +14,15 @@ class Movie extends Component {
     }
 
     componentDidMount() {
-        this.getMovies();
+        this.getMovies(0);
     }
+    delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-    getMovies = () => {
+    getMovies = async (a) => {
+        if (a) {
+            await this.delay(500);
+        }
+
         axios.get("/api/movie").then((res) => {
             this.setState({ movies: res.data });
         });
@@ -48,7 +53,7 @@ class Movie extends Component {
                     movieName: data.get("movieName"),
                     seen: data.get("seen"),
                 })
-                .then(this.getMovies());
+                .then(this.getMovies(1));
             // fetch("/api/movie/add", {
             //     method: "POST",
             //     headers: {
