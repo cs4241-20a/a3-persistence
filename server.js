@@ -68,7 +68,6 @@ console.log(path.join(__dirname, 'public', 'img', 'favicon.ico'))
 app.use(express.static("public"));
 app.use(express.static("views"));
 
-
 app.use( (req,res,next) => {
   if( usersDB !== null ) {
     next()
@@ -100,6 +99,17 @@ app.get('/auth/github/callback',
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/login.html");
 });
+
+app.get('/register', (request, response) => {
+  let username = request.session['User'];
+  console.log(username);
+  if (username != null){
+    response.redirect('/dataPage')
+  } else {
+    response.sendFile(__dirname + "/views/register.html");
+  }
+})
+
 
 app.post('/login', (request, response) => {
   let username = request.body.username;
@@ -188,7 +198,7 @@ app.get('/currentUser', (request, response) => {
       if (err){
         throw err;
       } 
-      response.send({username: username, basket: result[0].basket});
+      response.send({username: username, basket: result[0].basket, pass: result[0].password});
     })
     
   }else {
@@ -236,4 +246,18 @@ app.post('/test', (request, response) =>{
   response.sendStatus(200);
 })
 
-app.get('/myBasket')
+app.post('/updatePassword', (request, response) => {
+  console.log('updatePassword reached')
+  let username = request.session['User'];
+  usersDB.updateOne(
+    { username:username},
+    { $set:{ password:request.body.password } }
+  )
+  .then(response.redirect('/'));
+})
+
+app.post('/logOut', (request, response) => {
+  console.log('logout in server side')
+  setSessionUser(request, null, null)
+  response.sendStatus(200)
+})

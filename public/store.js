@@ -16,7 +16,9 @@ function fillItems(){
         let welcome = document.getElementById('welcomeText');
         welcome.innerText = `Hello ${json.username}`;
         currentBasket = json.basket
-      }).then(fillBasket)
+      }).then(fillBasket);
+    document.getElementById('changePass').onclick = changePassword;
+    document.getElementById('logOut').onclick = logOut;
     addDragula();
 }
 
@@ -65,4 +67,19 @@ function fillBasket(){
         basketBar.appendChild(root)
       }
   })
+}
+
+function logOut(){
+  console.log('logout in user side')
+  fetch('/logOut', {
+    method:'POST'
+  }).then(() => {
+    window.open('/', "_self");
+  })
+  
+}
+
+function changePassword(){
+  console.log('change pass')
+  window.open('/passwordChange.html', "_self")
 }
