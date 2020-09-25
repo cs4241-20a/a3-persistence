@@ -20,27 +20,13 @@ class Movie extends Component {
 
     getMovies = async (a) => {
         if (a) {
-            await this.delay(500);
+            await this.delay(50);
         }
 
         axios.get("/api/movie").then((res) => {
             this.setState({ movies: res.data });
         });
-        // fetch("/api/movie", {
-        //     method: "GET",
-        // })
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //         console.log(data);
-        //         this.setState({ movies: data });
-        //     });
     };
-
-    /*
-        TODO
-        Check cookie on post request
-        when component loads send get request to api   
-    */
 
     handleSubmit(event) {
         event.preventDefault();
@@ -54,17 +40,6 @@ class Movie extends Component {
                     seen: data.get("seen"),
                 })
                 .then(this.getMovies(1));
-            // fetch("/api/movie/add", {
-            //     method: "POST",
-            //     headers: {
-            //         Accept: "application/json",
-            //         "Content-Type": "application/json",
-            //     },
-            //     body: JSON.stringify({
-            //         movieName: data.get("movieName"),
-            //         seen: data.get("seen"),
-            //     }),
-            // }).then(this.getMovies());
         }
     }
 
