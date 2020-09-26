@@ -20,16 +20,7 @@ app.use( express.static( 'public' ) )
 app.use( compression() )
 app.use( responseTime( (request, response, time) => console.log( request.method, request.url, time + 'ms' ) ) )
 app.use( bodyparser.json() )
-app.use(cors());
-
-app.get( '/', (request, response) => {
-  // if(request.session.GHid) {
-  //   response.sendFile( __dirname + '/views/index.html' ) 
-  // } else {
-  //   response.sendFile( __dirname + '/views/login.html' )
-  // }
-  response.sendFile( __dirname + '/views/index.html' ) 
-})
+app.use( cors() );
 
 // DB STUFF //
 require('dotenv').config()
@@ -44,11 +35,20 @@ client.connect(err => {
   collection = client.db("assignment3").collection("db1");
 });
 
+app.get( '/', (request, response) => {
+  if(request.session.GHid) {
+    response.sendFile( __dirname + '/public/inv.html' ) 
+  } else {
+    response.sendFile( __dirname + '/public/login.html' )
+  }
+  //response.send("test: "+request.session.GHid)
+})
+
 // GITHUB LOGIN STUFF //
-app.get('/login/github', (request, response) => {
+app.get('/geturl', (request, response) => {
   const path = request.protocol + '://' + request.get('host');
   const url = `https://github.com/login/oauth/authorize?client_id=${process.env.GHID}&redirect_uri=${path}/login/github/callback`;
-  response.redirect(url);
+  response.json(url);
 })
 
 async function getAccessToken(code, client_id, client_secret) {
@@ -81,47 +81,47 @@ app.get('/login/github/callback', async (request, response) => {
   const GHData = await getGHUser(accessToken);
   
   if(GHData) {
+    console.log("GHData.id: "+GHData.id)
     request.session.GHid = GHData.id;
-    request.session.token = token;
-    response.redirect("/views/index.html")
+    request.session.token = GHData.token;
+    response.redirect("/")
   } else {
     console.log('Error in login');
-    response.redirect("/views/login.html")
+    response.redirect("/login.html")
   }
 })
 
 app.get( '/appdata', (request, response) => {
   var array = [];
   collection.find().forEach( doc => {
-    //console.log(doc);
     array.push(doc);
   })
   .then(() => {
-    //console.log(array)
     response.json(array)
   })
+})
+
+app.get( '/logout', (request, response) => {
+  request.session = null
+  response.clearCookie()
+  response.redirect('/')
 })
 
 app.post( '/submit', (request, response) => {
   collection.insertOne( request.body )
   .then( dbresponse => {
-    //console.log( dbresponse.ops[0] )
     response.json( dbresponse.ops[0] )
   })
 })
 
 app.post( '/delete', (request, response) => {
-  //console.log( request.body._id );
-
-  collection.deleteOne( { _id:mongodb.ObjectID( request.body._id ) } ) 
+collection.deleteOne( { _id:mongodb.ObjectID( request.body._id ) } ) 
   .then( () => {
     var array = [];
     collection.find().forEach( doc => {
-      //console.log(doc)
       array.push(doc)
     })
     .then( () => {
-      //console.log(array)
       response.json( array );
     })
   })

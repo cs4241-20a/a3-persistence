@@ -1,5 +1,4 @@
-
-  const submit = function( e ) {
+const submit = function( e ) {
     // prevent default form action from being carried out
     e.preventDefault()
 
@@ -40,7 +39,20 @@
     return false
   }
 
-  const startEdit = function( table, row, id) {
+const logout = function( e ) {
+    e.preventDefault()
+
+    fetch( '/logout', {
+      method: 'GET'
+    })
+    .then( () => {
+      window.location.href="/"
+    })
+
+    return false;
+  }
+
+const startEdit = function( table, row, id) {
     const makeinput = document.querySelector( '#vehiclemake' ),
           modelinput = document.querySelector( '#vehiclemodel' ),
           yearinput = document.querySelector( '#vehicleyear' ),
@@ -55,7 +67,7 @@
     return false;
   }
 
-  const edit = function ( makeinput, modelinput, yearinput, table, id, button) {
+const edit = function ( makeinput, modelinput, yearinput, table, id, button) {
 
     //set button back to submit no matter what
     button.onclick = submit
@@ -96,7 +108,7 @@
     return false;
   }
 
-  const del = function( table, id ) {
+const del = function( table, id ) {
     
     json = { _id: id }
     console.log(json)
@@ -128,7 +140,7 @@
     return false;
   }
 
-  const updateTable = function(table, data) {
+const updateTable = function(table, data) {
     var row = table.insertRow(-1)
     var make = row.insertCell(0);
     var model = row.insertCell(1);
@@ -156,9 +168,12 @@
     btnCell.appendChild(delBtn);
   }
 
-  window.onload = function() {
+window.onload = function() {
     const button = document.querySelector( '#submitButton' )
     button.onclick = submit
+
+    const logoutButton = document.querySelector( '#logoutButton' )
+    logoutButton.onclick = logout
 
     const table = document.querySelector( '#resultsTable' )
     fetch( '/appdata', {

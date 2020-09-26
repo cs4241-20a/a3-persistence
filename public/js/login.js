@@ -2,16 +2,21 @@
 const login = function( e ) {
     e.preventDefault();
 
-    console.log("test")
-    fetch( '/login/github', {
-        method: 'GET',
-        mode: 'no-cors',
-    } )
-    
+    fetch('/geturl', {
+        method:'GET'
+    })
+    .then( response => response.json() )
+    .then( url => {
+        window.location.href=url
+    })
+
     return false;
 }
+
 
 window.onload = function() {
     const button = document.querySelector( '#loginButton' )
     button.onclick = login
-  }
+}
+
+//GHData.id: 13186984 <-- my id :)
