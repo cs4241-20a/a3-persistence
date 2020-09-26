@@ -81,7 +81,7 @@ app.get('/login/github/callback', async (request, response) => {
   const GHData = await getGHUser(accessToken);
   
   if(GHData) {
-    console.log("GHData.id: "+GHData.id)
+    //console.log("GHData.id: "+GHData.id)
     request.session.GHid = GHData.id;
     request.session.token = GHData.token;
     response.redirect("/")
@@ -93,7 +93,7 @@ app.get('/login/github/callback', async (request, response) => {
 
 app.get( '/appdata', (request, response) => {
   var array = [];
-  collection.find().forEach( doc => {
+  collection.find({"GHid": request.session.GHid}).forEach( doc => {
     array.push(doc);
   })
   .then(() => {
@@ -108,7 +108,8 @@ app.get( '/logout', (request, response) => {
 })
 
 app.post( '/submit', (request, response) => {
-  collection.insertOne( request.body )
+  json = { GHid: request.session.GHid, vehiclemake: request.body.vehiclemake, vehiclemodel: request.body.vehiclemodel, vehicleyear: request.body.vehicleyear, vehicleage: request.body.vehicleage }
+  collection.insertOne( json )
   .then( dbresponse => {
     response.json( dbresponse.ops[0] )
   })
@@ -118,7 +119,7 @@ app.post( '/delete', (request, response) => {
 collection.deleteOne( { _id:mongodb.ObjectID( request.body._id ) } ) 
   .then( () => {
     var array = [];
-    collection.find().forEach( doc => {
+    collection.find({"GHid": request.session.GHid}).forEach( doc => {
       array.push(doc)
     })
     .then( () => {
@@ -129,7 +130,7 @@ collection.deleteOne( { _id:mongodb.ObjectID( request.body._id ) } )
 
 app.post( '/edit', (request, response) => {
   
-  const json = { vehiclemake: request.body.vehiclemake, vehiclemodel: request.body.vehiclemodel, vehicleyear: request.body.vehicleyear, vehicleage: request.body.vehicleage };
+  const json = { GHid: request.session.GHid, vehiclemake: request.body.vehiclemake, vehiclemodel: request.body.vehiclemodel, vehicleyear: request.body.vehicleyear, vehicleage: request.body.vehicleage };
   const id = request.body._id;
   const newVal = { $set: json }
   collection.updateOne( {_id:mongodb.ObjectID( request.body._id )}, newVal, (error, response) => {
@@ -138,7 +139,7 @@ app.post( '/edit', (request, response) => {
   })
 
   var array = [];
-  collection.find().forEach( doc => {
+  collection.find({"GHid": request.session.GHid}).forEach( doc => {
     array.push(doc)
   })
   .then( () => response.json( array ))
