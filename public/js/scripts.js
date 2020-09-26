@@ -32,8 +32,6 @@ const submit = function (e) {
   })
     .then(response => response.json())
     .then(json => {
-      console.log("Submitted")
-      console.log(json)
       updateTable(json)
     })
 
@@ -136,9 +134,6 @@ const saveItem = function () {
       "Content-Type":"application/json"
     }
   }).then(response => response.json())
-    .then(json => {
-      console.log(JSON.stringify(json))
-    })
 
   // delete selected row from table 
   document.getElementById("data-table").deleteRow(i);
@@ -155,8 +150,6 @@ window.onload = function () {
   fetch('/data')
     .then(response => response.json())
     .then(json => {
-      console.log("Got data.")
-      console.log(json)
       updateTable(json)
     })
 }

@@ -1,7 +1,11 @@
 const express = require('express'),
   app = express(),
   bodyparser = require('body-parser'),
+  morgan = require('morgan'),
   mongodb = require('mongodb'),
+  serveStatic = require('serve-static'),
+  responseTime = require('response-time'),
+  passport = require('passport'),
   port = 3000
 
 const MongoClient = mongodb.MongoClient;
@@ -27,8 +31,12 @@ var submitFunc = function (request, response, next) {
 }
 
 // middleware functions to always use
-app.use(express.static('public'))
+app.use(serveStatic('public'))
 app.use(bodyparser.json())
+app.use(morgan('combined'))
+app.use(responseTime())
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', function (request, response) {
   response.sendFile(__dirname + '/public/index.html')
