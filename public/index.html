@@ -3,67 +3,120 @@
     <head>
         <title>CS4241 Assignment 2</title>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link type="text/css" rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
         <script src="js/scripts.js"></script>
     </head>
     <body onload="getLatestResults()">
-        <h1>FPS Stat Calculator</h1>
-        <div class="appgrid">
+        <h1 class="title has-text-centered">FPS Stat Calculator</h1>
+        <div class="columns is-centered">
 
-            <!-- Form for adding an item -->
-            <form class="app-item" id="add" action="">
-                <h3>Add new stats</h3>
-                <label for="kills"># Kills</label>
-                <input type="text" id="kills">
-                <br>
-                <label for="assists"># Assists</label>
-                <input type="text" id="assists">
-                <br>
-                <label for="deaths"># Deaths</label>
-                <input type="text" id="deaths">
-                <!--
-                The following source was used to learn about different button types:
-                https://www.w3schools.com/tags/att_button_formmethod.asp
-                -->
-                <button type="button" onclick="handle_add()">Add</button>
-            </form>
+            <!-- First Column -->
+            <div class="column is-one-fifth">
+                <!-- Form for adding an item -->
+                <form class="app-item, container is-bordered" id="add" action="">
+                    <h3 class="heading">Add new stats</h3>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label class="label" for="kills">Kills</label>
+                        </div>
+                        <div class="field-body">
+                            <input class="field-body input is-inline" type="text" id="kills">
+                        </div>
+                    </div>
 
-            <!-- Form for modify a row in the table -->
-            <form class="app-item" id="modify" action="">
-                <h3>Modify row of stats</h3>
-                <label for="id_num">ID #</label>
-                <input type="text" id="id_num">
-                <br>
-                <label for="modify_kills"># Kills</label>
-                <input type="text" id="modify_kills">
-                <br>
-                <label for="modify_assists"># Assists</label>
-                <input type="text" id="modify_assists">
-                <br>
-                <label for="modify_deaths"># Deaths</label>
-                <input type="text" id="modify_deaths">
-                <button type="button" onclick="handle_modify()">Modify</button>
-            </form>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label class="label" for="assists">Assists</label>
+                        </div>
+                        <div class="field-body">
+                            <input class="field-body input is-inline" type="text" id="assists">
+                        </div>
+                    </div>
 
-            <!-- Form for deleting a row in the table -->
-            <form class="app-item" id="delete" action="">
-                <h3>Delete row of stats</h3>
-                <label for="delete_id_num">ID #</label>
-                <input type="text" id="delete_id_num">
-                <button type="button" onclick="handle_delete()">Delete</button>
-            </form>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label class="label" for="deaths">Deaths</label>
+                        </div>
+                        <div class="field-body">
+                            <input class="field-body input is-inline" type="text" id="deaths">
+                        </div>
+                    </div>
+                    <button class="button is-success is-block" type="button" onclick="handle_add()">Add</button>
+                </form>
+                <br>
+                <!-- Form for modify a row in the table -->
+                <form class="app-item" id="modify" action="">
+                    <h3 class="heading">Modify selected row of stats</h3>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label class="label" for="modify_kills">Kills</label>
+                        </div>
+                        <div class="field-body">
+                            <input class="field-body input is-inline" type="text" id="modify_kills">
+                        </div>
+                    </div>
 
-            <!-- Table that displays total and average of each stat -->
-            <table class="app-item" id="total_avg_results">
-                <thead>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label class="label" for="modify_assists">Assists</label>
+                        </div>
+                        <div class="field-body">
+                            <input class="field-body input is-inline" type="text" id="modify_assists">
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label class="label" for="modify_deaths">Deaths</label>
+                        </div>
+                        <div class="field-body">
+                            <input class="field-body input is-inline" type="text" id="modify_deaths">
+                        </div>
+                    </div>
+                    <button class="button is-info is-block" type="button" onclick="handle_modify()">Modify</button>
+                </form>
+                <br>
+                <!-- Form for deleting a row in the table -->
+                <form class="app-item" id="delete" action="">
+                    <h3 class="heading">Delete selected row of stats</h3>
+                    <button class="button is-danger" type="button" onclick="handle_delete()">Delete</button>
+                </form>
+            </div>
+
+            <!-- Second Column -->
+            <div class="column is-one-third">
+                <!-- Table for displaying all stats from each game -->
+                <table class="table is-bordered" id="results_list">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <!--<th>ID #</th>-->
+                            <th>Kills</th>
+                            <th>Assists</th>
+                            <th>Deaths</th>
+                            <th>K/D Ratio</th>
+                            <th>A/D Ratio</th>
+                        </tr>
+                    </thead>
+                    <!-- This body will be replaced with a new one whenever
+                    the content of the table is updated -->
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="column is-one-fifth">
+                <!-- Table that displays total and average of each stat -->
+                <table class="table is-bordered" id="total_avg_results">
+                    <thead>
                     <tr>
                         <th></th>
                         <th>Total</th>
                         <th>Average</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr>
                         <td>Kills</td>
                         <td id="total_kills">0</td>
@@ -79,33 +132,16 @@
                         <td id="total_deaths">0</td>
                         <td id="avg_deaths">0</td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-            <div class="button_container">
-                <!-- Lets user download all table data as a .csv file -->
-                <button id="download_button" type="button" onclick="handle_csv()">Download as CSV</button>
-                <button id="clear_button" type="button" onclick="handle_clear()">Clear Stats</button>
+                <div class="button_container">
+                    <!-- Lets user download all table data as a .csv file -->
+                    <button class="button is-link" id="download_button" type="button" onclick="handle_csv()">Download as CSV</button>
+                    <button class="button is-primary" id="clear_button" type="button" onclick="handle_clear()">Clear Stats</button>
+                </div>
             </div>
 
-            <!-- Table for displaying all stats from each game -->
-            <table class="app-item" id="results_list">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <!--<th>ID #</th>-->
-                        <th>Kills</th>
-                        <th>Assists</th>
-                        <th>Deaths</th>
-                        <th>K/D Ratio</th>
-                        <th>A/D Ratio</th>
-                    </tr>
-                </thead>
-                <!-- This body will be replaced with a new one whenever
-                the content of the table is updated -->
-                <tbody></tbody>
-            </table>
-
-        </div><!-- End of .appgrid -->
+        </div><!--End of columns-->
     </body>
 </html>

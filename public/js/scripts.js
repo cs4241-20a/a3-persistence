@@ -45,9 +45,9 @@ function handle_modify(){
     const input = document.getElementById("modify");
     let json = {
         "rows": [],
-        "kills": input.elements[1].value,
-        "assists": input.elements[2].value,
-        "deaths": input.elements[3].value,
+        "kills": input.elements[0].value,
+        "assists": input.elements[1].value,
+        "deaths": input.elements[2].value,
     }
     let table = document.getElementById("results_list").getElementsByTagName("tbody")[0];
     for(let i = 0; i < table.rows.length; i++){
