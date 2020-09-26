@@ -12,6 +12,7 @@ const express = require("express");
 // Express middleware
 const handlebars = require("express-handlebars");
 const passport = require("passport");
+const expressSession = require("express-session")
 const bodyParser = require("body-parser");
 
 const API = require("./API");
@@ -30,6 +31,14 @@ app.use(express.static("public"));
 // PassportJS
 var GitHubStrategy = require('passport-github').Strategy;
 
+app.use(expressSession({
+   secret: 'cookie_secret',
+    name: 'cookie_name',
+    proxy: true,
+    resave: true,
+    saveUninitialized: true
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -41,7 +50,6 @@ passport.use(new GitHubStrategy({
   },
   function(accessToken, refreshToken, profile, cb) {
     console.log(profile.id)
-    users.push(profile)
     return cb(null, profile)
   }
 ));
@@ -56,6 +64,7 @@ passport.deserializeUser(function(obj, cb) {
 
 // Check if user is authenticated. If so, send them thru, if not make them login
 function isAuthenticated(req, res, next) {
+  console.log("IN ISAUTHENTICATED!", req.user)
   if(req.user) {
     return next();
   }
@@ -104,7 +113,7 @@ app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect to secure site
-    res.redirect('/secure/?id=' + req.user.id);
+    res.redirect('/recipes/add?id=' + req.user.id);
   });
 
 app.listen(port, () => {
