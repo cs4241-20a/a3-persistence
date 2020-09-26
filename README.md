@@ -1,40 +1,42 @@
-## simcar
+## simcar 2
 
-https://a2-rmanky.glitch.me/
+https://a3-rmanky.herokuapp.com/
 
-**simcar** is a multiplayer strategy simulation racing game, though I would likely throw air qoutes over every single one of those words if I was saying that out loud.\
-A *fancy* 3D model of a Formula 1 car is displayed front and center, then scrolling down leads to a form where users can simulate their own Monaco races.\
-*Please give the model some time to load, it's only 4MB*
+**simcar 2** is the remake that nobody asked for! Now instead of punching in 
+random tires, players will have to prove themselves by *actually* driving 
+their own Formula 1 car around a race track!
 
-Realtime weather information is used to calculate lap times, so that information is provided to the user as well.
+Baseline Requirements
+---
 
-The 3D rendering is powered by ThreeJS, with a model from SketchFab that has been modified by me to be customizable and animated (here is the [original](https://skfb.ly/6TzIR)).
+Your application is required to implement the following functionalities:
 
-For styling I wanted to try Bootstrap but it seemed like a little much, so I opted for [Bulma](https://bulma.io/) instead. It's a single CSS file, but golly is it usefull.\
-The only downside is that I had to write all the clientside Javascript myself, but that wasn't too painful after doing the ThreeJS code.
+- ✔️ a `Server`, created using Express (no alternatives will be accepted for this assignment)
+- ✔️ a `Results` functionality which shows the entire dataset residing in the server's memory
+- ✔️ a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
+- ✔️ Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
+    - body-parser
+    - compression
+    - cookie-session
+    - serve-favicon
+    - [passport.js](http://www.passportjs.org/)
+- ✔️ Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
+- ✔️ Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
+    - [Bulma](https://bulma.io/) was carried over from Assignment 2
 
-This does mean that the W3C validator throws a **warning** about not having a header for a `<section>`. I would have thrown in a header with `visibility: hidden` to get around it, but that seems like cheating.\
-Lastly, the website works pretty great on mobile (except for ThreeJS which renders lighting *slightly* differently for some reason).
+Achievements
+---
 
-Realtime weather at Monaco is provided to the client and the server by [OpenWeatherMap](https://openweathermap.org/).\
-My API key is only the free version, so please don't share this site with 10 of your friends :)
-
-When a user enters the required information (the input highlights in red if it's not filled), they get their final laptime and their position.
-
-## Technical Achievements
-- **Tech Achievement 1**: ThreeJS to render a 3D visualization of the user's car, with a color-changing paint to match their selection.\
-I've done a few tricks to make it as realistic as possible:
-    - Lighting comes soley from an HDRI
-    - The car paint has a clearcoat to mimic real life paint
-    - I pre-baked a shadow in Blender to place below the car (as ThreeJS shadows are *slow*)
-    - `ACESFilmicToneMapping` is used to give a *filmic* look
-- **Tech Achievement 2**: Upon submitting their simulation settings, the data is sent to the server and the real weather at Monaco is used to calculate a lap time.
-- **Tech Achievement 3**: On the "Leaderboard" page, pre-entered results are provided to give the user some sense of good (and bad) lap times. 
-They can (of course) also see their lap time and position both when submitting and when viewing the leaderboard.
-- **Tech Achievement 4**: Each lap time is stored with an internal unique ID (I have set the ID of the "Invalidate Lap" button to that ID if you want to see it).
-This ID is used to delete lap times from the table, then update the table with new positions.
-
-### Design/Evaluation Achievements
-- **Design Achievement 1**: Bulma to style the website in a modern style, with a large hero element and button that smoothly scrolls the user down to a seperate section where they can enter their simulation setup.
-
-*Maybe next project, you'll be able to drive the car around*
+*Technical*
+- ✔️ (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authentication or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
+- ✔️ (5 points) Instead of Glitch, host your site on a different service like Heroku or Digital Ocean. Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse?
+    - I decided to use Heroku because I've seen other projects/samples use it before. It was pretty straightforward to setup and has automatic GitHub syncing, which 
+    instantly makes it 100x better than glitch. Also, Heroku seems to wake up apps quicker than Glitch (which is a plus).
+- 🏎️ Build an entire racing game with [ThreeJS](https://threejs.org/) and [CannonJS](https://schteppe.github.io/cannon.js/)
+    - I am a little worried that performance might be sub-optimal on some computers,
+    so I have recorded a short demo of me completing 2 laps: 
+    - The controls are:
+        - W / Up Arrow = Forward
+        - A / Left Arrow = Left
+        - S / Down Arrow = Reverse/Brake
+        - D / Right Arrow = Right

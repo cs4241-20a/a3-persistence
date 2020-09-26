@@ -1,7 +1,10 @@
 require("dotenv").config();
 
-const express = require("express"),
+const path = require("path"),
+  express = require("express"),
+  bodyParser = require("body-parser"),
   cookie = require("cookie-session"),
+  favicon = require("serve-favicon"),
   passport = require("passport"),
   compression = require("compression"),
   mongo = require("mongodb"),
@@ -17,6 +20,8 @@ const mongoConfig = {
 
 const app = express();
 
+app.use(favicon(path.join(__dirname, "public/icon", "favicon.ico")));
+
 app.set("trust proxy", 1); // trust first proxy
 
 app.use(
@@ -25,7 +30,10 @@ app.use(
     secret: process.env.COOKIE_SECRET,
   })
 );
-app.use(express.json());
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 app.use(express.static("public"));
 
 app.use(passport.initialize());
@@ -51,9 +59,9 @@ passport.use(
     {
       clientID: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-      callbackURL:
-        "https://3000-d3e10579-b991-4946-a9d3-5c35c3e9b444.ws-us02.gitpod.io/callback/github",
-      //callbackURL: "https://a3-rmanky.herokuapp.com/callback/github",
+      //callbackURL:
+      //"https://3000-d3e10579-b991-4946-a9d3-5c35c3e9b444.ws-us02.gitpod.io/callback/github",
+      callbackURL: "https://a3-rmanky.herokuapp.com/callback/github",
     },
     async (_accessToken, _refreshToken, profile, callback) => {
       const mongoClient = new MongoClient(mongoURI, mongoConfig);
