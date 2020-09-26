@@ -89,3 +89,5 @@ middlleware =
 - body parser
 - passport / passport.initialize()
 - morgan
+- favicon
+- dotenv (? if not remove from server)

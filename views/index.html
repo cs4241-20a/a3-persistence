@@ -22,16 +22,17 @@
     <div class="jumbotron text-center" style="background-color: #13a2b8; color: #fff; position: relative;">
         <a style="position: absolute; top:10px; right: 10px; color: #fff;" href="login.html">Log Out</a>
         <h1>Bill Tracker</h1>
-        <h4><small>The easiest way to manage your bills</small></h4>
+        <h5>The easiest way to manage your bills</h5>
     </div>
+
 
     <div class="container">
 
         <div class="row">
-            <div class="col-sm-12 mt-5 mb-3">
+            <div class="col-sm-12 mt-5 mb-5">
                 <h5 id="welcome"></h5>
             </div>
-            <div class="col-sm-12 mt-5 mb-3">
+            <div class="col-sm-12 mb-3">
                 <h5>Enter your bill</h5>
             </div>
         </div>
@@ -56,14 +57,14 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <p id="errorMsg" style="color: red"></p>
+                <h5 id="errorMsg" style="color: red"></h5>
             </div>
         </div>
 
 
         <div class="row">
             <div class="col-sm-12">
-                <button class="btn btn-primary btn-block submit mt-2 mb-2" onClick="submitBill()">Submit</button>
+                <button style="background-color: #9b8679; border: none;" class="btn btn-primary btn-block submit mt-2 mb-2" onClick="submitBill()" >Submit</button>
             </div>
         </div>
 
@@ -71,7 +72,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <button data-toggle="collapse" data-target="#all_bills" class="btn-text btn btn-info mb-3 mt-5" id="allBillBtn"
-                    onClick="getAllBills(false)">Show all bills</button>
+                    onClick="getAllBills(false)" >Show all bills</button>
             </div>
         </div>
 

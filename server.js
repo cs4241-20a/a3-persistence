@@ -7,10 +7,9 @@ const cookieParser = require('cookie-parser')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
 const passport = require('passport')
-
-
 const mongodb = require('mongodb')
 dotenv.config()
+var currentUser = {username: ""}
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -18,48 +17,55 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json())
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(cookieParser())
-app.use(express.json()) // add with mongodb
+app.use(express.json())
 app.use(morgan('tiny'))
 app.use(passport.initialize())
 app.use(passport.session())
 
-
-passport.serializeUser(function(user, done) {
-    done(null, user);
-  });
+dotenv.config()
   
-  passport.deserializeUser(function(user, done) {
-    done(null, user);
-  });
+
+/***** Passport setup *****/
 
 var GitHubStrategy = require('passport-github').Strategy;
+
+passport.serializeUser(function (user, done) {
+    done(null, user);
+})
+passport.deserializeUser(function (user, done) {
+    done(null, user);
+})
+
+// Set strategy
 passport.use(new GitHubStrategy({
         clientID: process.env.GITHUB_ID,
         clientSecret: process.env.GITHUB_SECRET,
-        callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+        callbackURL: "http://127.0.0.1:3000/auth/github/callback"   // CHANGE TO GLITCH
     },
-    function(accessToken, refreshToken, profile, cb) {
-        console.log("profile: " + profile);
+    function (accessToken, refreshToken, profile, cb) {
         cb(null, profile);
     }
 ));
 
+// Set routes
 app.get('/auth/github',
-    passport.authenticate('github'));
+    passport.authenticate('github'))
 
 app.get('/auth/github/callback',
     passport.authenticate('github', {
         failureRedirect: '/login'
     }),
     function (req, res) {
-        // Successful authentication, redirect home.
-        res.redirect('../../index.html');
-    });
+        // Set username
+        currentUser.username = req.user.displayName
+        //res.cookies.user = undefined
+        // Successful authentication, redirect home
+        res.redirect('../../index.html')
+    })
 
 
 
-
-// Mongo
+/***** MongoDB Setup *****/
 const uri = 'mongodb+srv://' + process.env.USERNAME + ':' + process.env.PASS + '@' + process.env.HOST + '/' + process.env.DB
 const client = new mongodb.MongoClient(uri, {
     useNewUrlParser: true,
@@ -68,47 +74,36 @@ const client = new mongodb.MongoClient(uri, {
 let userCollection = null
 let billCollection = null
 
+// Connect to DB
 client.connect(err => {
     userCollection = client.db('billtracker').collection('users')
     billCollection = client.db('billtracker').collection('bills')
-    //billCollection.deleteMany({})
-
-    if (userCollection !== null) {
-        // Pass array to res.json
-        userCollection.find({}).toArray().then(result => {
-            console.log("USERS")
-            console.log(result)
-        })
-    }
-
-    if (billCollection !== null) {
-        // Pass array to res.json
-        billCollection.find({}).toArray().then(result => {
-            console.log("BILLS")
-            console.log(result)
-        })
-    }
+    //billCollection.deleteMany({})     // Wipe DB
 })
 
 
-// Serve files to index.html
+// Serve files 
 app.use(express.static(__dirname + '/public'))
 app.use(express.static(__dirname + '/views'))
 app.use(express.static(__dirname + '/node_modules'))
 
-// Set default path as index.html
+// Set default path as login screen
+// Or not, what does this even do 
 app.get('/', (req, res) => {
-
-    //res.cookie('name', 'test').send('cookie set')
-    //res.send(req.cookies)
-
     res.sendFile(__dirname + '/views/index.html')
 })
 
+// Read cookies from user login 
 app.get('/read', (req, res) => {
     console.log("HERE")
+    console.log("is cookie empty? -> " + req.cookies.user)
+    if (req.cookies.user != undefined){
+        currentUser = req.cookies.user
+    }
     console.log(req.cookies.user)
-    res.send(req.cookies.user)
+    // res.send(req.cookies.user)
+    console.log("username = " + currentUser.username)
+    res.json(currentUser)
 })
 
 // Route to insert user
@@ -181,18 +176,26 @@ app.post('/add', (req, res) => {
     })
 })
 
-// app.post('/login', (req, res) => {
-//     res.cookie("user", req.body)
-//     return res.redirect('/index.html')
-// })
+app.post('/login', (req, res) => {
+    console.log("LOGIN HERE")
+    res.cookie("user", req.body)
+    console.log(req.cookies.user)
+    console.log(req.cookies.username)
+    // USERNAME = req.body
+    // console.log(USERNAME)
+    // currentUser.user = req.body
+    return res.redirect('/index.html')
+})
 
-app.post('/login', passport.authenticate('local', {
-        failureRedirect: 'login.html'
-    }),
-    function (req, res) {
-        res.cookie("user", req.body)
-        res.redirect('/');
-    });
+// app.post('/login', passport.authenticate('local', {
+//         failureRedirect: 'login.html'
+//     }),
+//     function (req, res) {
+//         res.cookie("user", req.body)
+//         USERNAME = req.body
+//         console.log("USERNAME = " + USERNAME)
+//         res.redirect('/');
+//     });
 
 
 // app.get( '/auth/google/callback', 
@@ -211,7 +214,7 @@ app.post('/delete', (req, res) => {
 
 app.post('/edit', (req, res) => {
     billCollection.deleteMany({
-        'billUser': currentUser
+        'billUser': currentUser.username             // change
     })
     billCollection.insertMany(req.body)
 

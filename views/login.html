@@ -25,37 +25,38 @@
                 <h1>Bill Tracker</h1>
             </div>
         </div>
+
         <div class="row">
             <div class="col-sm-12 text-center mb-5">
                 <h5>Please log in to continue</h5>
             </div>
         </div>
-        <div>
+
+        <form action="/public/script.js">
+            <div class="form-group">
+                <input type="text" id="username" placeholder="Username" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" placeholder="Password" class="form-control" required>
+            </div>
+        </form>
+
+        <div class="row">
             <div class="text-center">
-                <form action="/public/script.js">
-                    <div class="form-group w-50">
-                        <input type="text" id="username" placeholder="Username" class="form-control" required>
-                    </div>
-                    <div class="form-group w-50">
-                        <input type="password" id="password" placeholder="Password" class="form-control" required>
-                    </div>
-                </form>
+                <h5 id="errorMsg" style="color: red; padding: .375rem .75rem; border-radius: 25rem;"></h5>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-sm-12 text-center">
-                <p id="errorMsg" style="color: red"></p>
+            <div class="col-sm-12">
+                <button class="btn btn-info btn-block" onClick="login()">Log in</button>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-sm-12 text-center w-50">
-                <button class="btn btn-info btn-block w-50" onClick="login()">Log in</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 text-center w-50">
-                <a href="/auth/github">Log In with OAuth 2.0 Provider</a>
-                <p>Don't have an account? <a href="signup.html">Sign up here.</a></p>
+            <div class="col-sm-12 text-center mt-5 mb-5">
+                <a href="/auth/github" style="color: #9b8679">Log In with OAuth 2.0 Provider</a>
+                <p>Don't have an account? <a href="signup.html" style="color: #9b8679">Sign up here.</a></p>
             </div>
         </div>
     </div>

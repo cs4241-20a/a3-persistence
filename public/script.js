@@ -10,7 +10,8 @@ window.onload = function () {
             // })
             .then(response => response.json())
             .then(json => {
-                console.log(json)
+                console.log("USERNAME IN SCRIPT = " + json.username)
+                console.log(json.username)
                 document.getElementById('welcome').innerText = "Welcome "+ json.username + "!"
                 currentUser = json.username
             })
