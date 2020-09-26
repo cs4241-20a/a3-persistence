@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Example App</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- VueJS -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="app">
+            <form method="post" onsubmit="submit">
+                <h3>{{ message }}</h3>
+                <p>Fill out the form below to add a new recipe to the recipe database.</p>
+
+                <div class="card card-body">
+
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Recipe Title</span>
+                        </div>
+                        <input type="text" class="form-control" id="titleInput" placeholder="Name your recipe!">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Ingredients</span>
+                        </div>
+                        <input type="text" class="form-control" id="ingredientInput" placeholder="Type in an ingredient, then click 'Add'.">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button" @click="addIngredient()">Add</button>
+                        </div>
+                    </div>
+                
+                    <h4 v-if="ingredients.length > 0">Ingredients:</h4>
+                    <ul v-if="ingredients.length > 0">
+                        <li v-for="i in ingredients">{{ i }}</li>
+                    </ul>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Directions</span>
+                        </div>
+                        <textarea class="form-control" id="directionsInput"></textarea>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <input id="submitButton" type="button" @click="sendData()" class="btn btn-primary" value="Submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+
+        const addIngredient = function(e) {
+            console.log("Adding ingredient!");
+        }
+
+        const submit = function(e) {
+            console.log("Submit called");
+            e.preventDefault()
+        }
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: "New Recipe",
+                recipeTitle: "",
+                ingredients: [],
+                directions: ""
+            },
+            methods: {
+                addIngredient: function() {
+                    var val = document.getElementById("ingredientInput").value
+                    // Make sure this is a valid, unique ingredient
+                    if(val.length > 0 && !this.ingredients.includes(val)) {
+                        console.log(val)
+                        this.ingredients.push(val)
+                    }
+                },
+                getRecipe: function() {
+                    const recipeTitle = document.getElementById("titleInput").value;
+                    const directions = document.getElementById("directionsInput").value;
+                    
+                    const recipe = {
+                        title: recipeTitle,
+                        ingredients: this.ingredients,
+                        directions: directions,
+                    }
+                    
+                    return recipe;
+                }
+            }
+        })
+
+        function sendData() {
+            fetch('/recipes/add', {
+                method: 'POST',
+                body: JSON.stringify(app.getRecipe()),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then( (res) => console.log(res)
+            )
+        }
+
+
+    </script>
+</body>
+</html>
