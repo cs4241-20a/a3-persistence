@@ -63,23 +63,11 @@ app.use(express.static("public"));
 //routes
 app.use('/', require('./routes/index'))
 app.use('/users', require('./routes/users'))
+app.use('/groceries', require('./routes/groceries'))
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
-
-// https://expressjs.com/en/starter/basic-routing.html
-/* app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/login.html");
-});*/
-
-/*
-// listen for requests :)
-const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
-});
-
-
 
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
@@ -105,4 +93,4 @@ app.post("/delete", bodyParser.json(), function(request, response){
     collection
     .deleteOne({ _id:mongodb.ObjectID( request.body.id ) })
     .then( result => response.json( result ) )
-})*/
+})
