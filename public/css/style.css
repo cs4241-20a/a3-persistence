@@ -11,8 +11,13 @@ E: (Yellow) #F5BF00
 
 html,
 body {
+    background: url(../resources/bimage.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
     height: 100%;
-    background: white;
     z-index: -1;
 }
 
@@ -86,6 +91,11 @@ input {
 
 .grid-container {
     display: grid;
+    background-color: rgba(255,255,255,.9);
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+    border-radius: 25px;
     grid-template-areas: 
         'header header header header header'
         'left content content content content';
