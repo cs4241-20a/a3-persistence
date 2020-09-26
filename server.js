@@ -11,8 +11,7 @@ app.use(express.static('public'))
 app.listen(3000)
 
 const MongoClient = mongodb.MongoClient;
-const uri = '';
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
+const uri = "mongodb+srv://hctrautz:zPhOWsTbSvEnD6cf@taskcollector.rsy8z.mongodb.net/TaskDatabase?retryWrites=true&w=majority";
 
 const calculateDeadline = function(prio){
   var deadlineVal = 0;
@@ -31,13 +30,14 @@ const calculateDeadline = function(prio){
   return finalDeadline;
 }
 
-var taskID = 3;
+var taskID = 1;
 
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/index.html")
 })
 
 app.get("/api/getData", async (request, response) => {
+  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
   await client.connect()
   const collection = client.db("TaskDatabase").collection("Tasks");
   const tasks = await collection.find().toArray();
@@ -59,25 +59,38 @@ app.post("/submit", bodyParser.json(), async (request, response) => {
     const object = request.body
 
     if(object.hasOwnProperty('delete')){
-      // appdata.splice(appdata.findIndex(task => compareIDs(task, object)), 1);
-      // response.writeHead(200, "OK", {'Content-Type': 'application/json'})
-      // response.write(JSON.stringify(appdata));
-      // response.end();
-      // return false;
+      const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
+      await client.connect()
+      const collection = client.db("TaskDatabase").collection("Tasks");
+      await collection.deleteOne({_id: new mongodb.ObjectID(object.id)});
+      console.log(taskID)
+      taskID--;
+      const appdata = await collection.find({}).toArray()
+      await client.close()
+      response.json(appdata)
+      return response.end()
     }
+
+    //updating object
+    // if(object.hasOwnProperty('id')){
+    //   await client.connect()
+    //   const collection = client.db("TaskDatabase").collection("Tasks");
+    //
+    // }
 
     object.deadline = calculateDeadline(object.priority);
     taskID++;
     object.id = taskID;
     console.log(object)
 
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
     await client.connect()
     const collection = client.db("TaskDatabase").collection("Tasks");
     await collection.insertOne(object)
-      .then(dbresponse => {
-        response.json(object)
-      });
+    const appdata = await collection.find().toArray()
     await client.close()
+    response.json(appdata)
+    return response.end()
 })
 
 const listener = app.listen(process.env.PORT, () => {
