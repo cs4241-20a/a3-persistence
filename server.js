@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const moment = require("moment");
-const {v4: uuid} = require("uuid");
+const compression = require("compression");
+const errorhandler = require("errorhandler");
 
 const users = require("./routes/api/users");
 
@@ -15,19 +16,26 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI;
 
-// let users = [
-// 	{id: uuid(), name: "John Smith", email: "jsmith@gmail.com", dob: "11/26/1992", age: "27"}
-// ];
-
 mongoose.connect(MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => console.log("Connected to db"))
-.catch((err) => console.error(err));
+.catch(err => console.error(err));
 
+app.use(compression());
 app.use(express.json());
-app.use(morgan("combined"));
 
+if (process.env.NODE_ENV === "development") {
+	//app.use(morgan("combined"));
+}
+
+app.use("/api/users", users.router);
 app.use("/", express.static(path.join(__dirname, "public")));
-app.use("/api/users", users);
+
+app.use((err, req, res, next) => {
+	console.log("here");
+	console.error(err);
+	res.status(500).send("Sum Ting Wong");
+});
+
 
 /*app.get("/api/users", (req, res) => {
 	handleSuccess(res);
@@ -73,10 +81,6 @@ const handleSuccess = res => {
 const handleResourceNotFound = res => {
 	res.writeHeader(404);
 	res.end("Error 404 Not Found.");
-}
-
-const calculateUserAge = dob => {
-	return moment().diff(moment(dob, "MM/DD/YYYY"), "years");
 }*/
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

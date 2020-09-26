@@ -1,19 +1,60 @@
 const express = require("express");
-const router = express.Router();
+const moment = require("moment");
 
 const User = require("../../models/User");
 
-router.get("/", (req, res) => {
-	User.find().then(users => res.json(users));
+const router = express.Router();
+
+router.get("/", async (req, res) => {
+	res.json(await User.find());
 });
 
-router.post("/", (req, res) => {
-	console.log(req.body);
-	const newUser = new User({
-		name: req.body.name
-	});
-
-	newUser.save().then(user => res.json(user));
+router.get("/:id", async (req, res) => {
+	try {
+		res.json(await User.findById(req.params.id));
+	} catch {
+		res.status(404);
+		res.send({error: "User not found"});
+	}
 });
 
-module.exports = router;
+router.post("/", async (req, res) => {
+	let {name, email, dob} = req.body;
+	// Consider moving to frontend
+	dob = moment(new Date(dob)).add(1, "days").format("MM/DD/YYYY");
+	const age = calculateUserAge(dob);
+	const newUser = new User({name, email, dob, age});
+	
+	res.json(await newUser.save());
+});
+
+router.delete("/:id", async (req, res) => {
+	try {
+		await User.findByIdAndDelete(req.params.id);
+		res.status(204).send();
+	} catch {
+		res.status(404);
+		res.send({error: "User not found"});
+	}
+});
+
+router.patch("/:id", async (req, res) => {
+	try {
+		const user = await User.findById(req.params.id);
+		const {name, email, dob} = req.body;
+		user.name = name ? name : user.name;
+		user.email = email ? email : user.email;
+		user.dob = dob ? dob : user.dob;
+
+		res.json(await user.save());
+	} catch {
+		res.status(404);
+		res.send({error: "User not found"});
+	}
+})
+
+const calculateUserAge = dob => {
+	return moment().diff(moment(dob, "MM/DD/YYYY"), "years");
+}
+
+module.exports = {router, calculateUserAge};

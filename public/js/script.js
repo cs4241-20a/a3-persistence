@@ -15,17 +15,20 @@ window.setInterval(() => {
 	}
 }, 10000);
 
-document.getElementById("submit-button").addEventListener("click", async (evt) => {
+document.getElementById("submit-button").addEventListener("click", async evt => {
 	evt.preventDefault();
 	addUser();
 });
  
-const formatDataAsTable = (data) => {
+const formatDataAsTable = data => {
 	let keys = [];
 
 	data.forEach(row => {
 		for (let key in row) {
 			if (!keys.includes(key)) {
+				if (key === "__v") {
+					continue;
+				}
 				keys.push(key);
 			}
 		}
@@ -37,7 +40,11 @@ const formatDataAsTable = (data) => {
 
 	keys.forEach(key => {
 		const tableHeader = document.createElement("th");
-		tableHeader.innerHTML = key.slice(0, 1).toUpperCase() + key.slice(1);
+		if (key === "_id") {
+			tableHeader.innerHTML = "Id";
+		} else {
+			tableHeader.innerHTML = key.slice(0, 1).toUpperCase() + key.slice(1);
+		}
 		tableRow.appendChild(tableHeader);
 	});
 
@@ -81,7 +88,7 @@ const formatDataAsTable = (data) => {
 			deleteButton.value = "X";
 			deleteButton.style="border-radius: 8px";
 			deleteCell.appendChild(deleteButton);
-			deleteButton.onclick = () => deleteUser(data[deleteCell.parentNode.rowIndex - 1]);
+			deleteButton.onclick = () => deleteUser(data[deleteCell.parentNode.rowIndex - 1]._id);
 		}
 	});
 
@@ -105,11 +112,23 @@ const handleUserEditing = (data, editButton, row) => {
 		editButton.value = "Submit";
 	} else {
 		editButton.value = "Edit";
-		const name = row.cells[1].innerHTML;
-		const email = row.cells[2].innerHTML;
-		const dob = row.cells[3].innerHTML;
-		const editedUser = {...data[row.rowIndex - 1], name, email, dob};
-		editUser(editedUser);
+		const currentUser = {...data[row.rowIndex - 1]};
+		let editedFields = {};
+		const newName = row.cells[1].innerHTML;
+		const newEmail = row.cells[2].innerHTML;
+		const newDob = row.cells[3].innerHTML;
+
+		if (newName !== currentUser.name) {
+			editedFields.name = newName
+		}
+		if (newEmail !== currentUser.email) {
+			editedFields.email = newEmail;
+		}
+		if (newDob !== currentUser.dob) {
+			editedFields.dob = newDob;
+		}
+
+		editUser(currentUser._id, editedFields);
 	}
 }
 
@@ -126,7 +145,8 @@ const addUser = async () => {
 		const res = await fetch("/api/users", {method: "POST", body, headers:{"Content-Type": "application/json"}});
 		if (res) {
 			const data = await res.json();
-			formatDataAsTable(data);
+			console.log(data);
+			updateData();
 			fName.value = "";
 			lName.value = "";
 			email.value = "";
@@ -135,24 +155,19 @@ const addUser = async () => {
 	}
 }
 
-const editUser = async (editedUser) => {
-	const {id, name, email, dob} = editedUser;
-	if (id) {
-		const body = JSON.stringify({name, email, dob});
-		const res = await fetch(`/api/users/${id}`, {
-			method: "PATCH", body, headers: {"Content-Type": "application/json"}
-		});
-		if (res) {
-			formatDataAsTable(await res.json());
-		}
+const editUser = async (userId, editedFields) => {
+	const body = JSON.stringify(editedFields);
+	const res = await fetch(`/api/users/${userId}`, {
+		method: "PATCH", body, headers: {"Content-Type": "application/json"}
+	});
+	if (res) {
+		updateData();
 	}
 }
 
-const deleteUser = async ({id}) => {
-	if (id) {
-		const res = await fetch(`/api/users/${id}`, {method: "DELETE"});
-		if (res) {
-			formatDataAsTable(await res.json());
-		}
+const deleteUser = async userId => {
+	const res = await fetch(`/api/users/${userId}`, {method: "DELETE"});
+	if (res) {
+		updateData();
 	}
 }
