@@ -156,15 +156,15 @@ const updateTable = function(table, data) {
 
     var editBtn = document.createElement('button');
     editBtn.id = "editButton";
-    editBtn.className += "mui-btn mui-btn--raised";
-    editBtn.innerHTML = '<span class="google-icon"><span class="material-icons">create</span></span>'
+    editBtn.className += "mui-btn mui-btn--raised mui-btn--primary";
+    editBtn.innerHTML = '<span class="google-icon"><span class="material-icons">create</span>Edit</span>'
     editBtn.onclick = function() {startEdit(table, row, data._id)}
     btnCell.appendChild(editBtn);
 
     var delBtn = document.createElement('button');
     delBtn.id = "deleteButton";
-    delBtn.className += "mui-btn mui-btn--raised";
-    delBtn.innerHTML = '<span class="google-icon"><span class="material-icons">delete_outline</span></span>'
+    delBtn.className += "mui-btn mui-btn--raised mui-btn--danger";
+    delBtn.innerHTML = '<span class="google-icon"><span class="material-icons">delete_outline</span>Delete</span>'
     delBtn.onclick = function() {del(table, data._id)}
     btnCell.appendChild(delBtn);
   }
