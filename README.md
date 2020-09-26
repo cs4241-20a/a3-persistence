@@ -46,7 +46,8 @@ Achievements
         - A / Left Arrow = Left
         - S / Down Arrow = Reverse/Brake
         - D / Right Arrow = Right
-    - The track and vehicle tires (which were too high-poly before) were created by me in Blender.
+    - Everything was modeled by me in Blender (the original car was too high poly, but I have left the credits in the footer)
+    - The HDRI was adapted to a cubemap for file size reasons, the project has gone from ~15 MB (just the car + tires) to ~4MB (car + track + tires)
 
 *Some Notes*
 - Every user can see all other users results, but to prove I can filter the results by user I have made the text **bold**

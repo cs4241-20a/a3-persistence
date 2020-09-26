@@ -1,3 +1,5 @@
+// Code is adapted from https://stackoverflow.com/questions/31948235/stopwatch-timer-save-var-and-show-in-high-score-list-html-js
+
 //	Simple example of using private variables
 //
 //	To start the stopwatch:

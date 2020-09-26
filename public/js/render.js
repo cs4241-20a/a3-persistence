@@ -414,7 +414,7 @@ function initThree() {
     clearcoat: 0.8,
   });
 
-  gltfLoaderCar.load("car_body.gltf", function (gltf) {
+  gltfLoaderCar.load("car_simple.gltf", function (gltf) {
     carGroup = new THREE.Group();
 
     cameraRig = new THREE.Object3D();
