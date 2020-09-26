@@ -13,6 +13,7 @@
 
 #hud {
     visibility: hidden;
+    font-family: monospace;
     z-index: 1;
 }
 
