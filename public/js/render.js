@@ -90,12 +90,12 @@ function restartRace() {
   }
 }
 
-export function beginLoading() {
-  initCannon();
-  initThree();
-  setRenderSize();
-  animate();
-}
+//export function beginLoading() {
+initCannon();
+initThree();
+setRenderSize();
+animate();
+//}
 
 function raceStart() {
   let i = 0;
@@ -133,6 +133,7 @@ function increaseLoad() {
 }
 
 function animate() {
+  requestAnimationFrame(animate);
   if (loaded == 100) {
     world.step(1 / 60);
   }
@@ -181,10 +182,9 @@ function animate() {
   });
 
   if (renderer) {
+    updateDynamic();
     renderer.render(scene, camera);
   }
-
-  requestAnimationFrame(animate);
 }
 
 function lerp(start, end, amt) {
@@ -196,6 +196,7 @@ function setRenderSize() {
     camera.aspect = copySIZE.clientWidth / copySIZE.offsetHeight;
     camera.updateProjectionMatrix();
 
+    //renderer.setPixelRatio(window.devicePixelRatio / 4);
     renderer.setSize(copySIZE.clientWidth, copySIZE.offsetHeight);
   }
 }
@@ -403,6 +404,8 @@ function initThree() {
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.tonMappingExposure = 1;
   renderer.outputEncoding = THREE.sRGBEncoding;
+
+  setup(renderer);
 
   let gltfLoaderCar = new GLTFLoader().setPath("assets/");
 
