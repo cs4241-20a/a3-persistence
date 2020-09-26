@@ -1,11 +1,11 @@
-const highFrequencyThreshold = 18; // ~58 FPS
+const highFrequencyThreshold = 15; // ~58 FPS
 const lowFrequencyThreshold = 20; // ~50 FPS
 
 const minDpr = 0.25;
 const maxDpr = window.devicePixelRatio;
 const deltaDpr = 0.1;
 
-const relaxPeriod = 250;
+const relaxPeriod = 1000;
 const accumulatorLength = 20;
 
 let frameTimestamp = performance.now();
