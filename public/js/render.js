@@ -34,6 +34,8 @@ let chassisBody;
 let vehicle;
 let wheelBodies = [];
 
+const randomColors = [0xff0000, 0x0000ff, 0x00ff00, 0xff3500, 0x000000, 0xffffff];
+
 let forwardAxis = 0.0,
   backwardAxis = 0.0,
   leftAxis = 0.0,
@@ -81,12 +83,12 @@ function restartRace() {
   }
 }
 
-export function beginLoading() {
-  initCannon();
-  initThree();
-  setRenderSize();
-  animate();
-}
+//export function beginLoading() {
+initCannon();
+initThree();
+setRenderSize();
+animate();
+//}
 
 function raceStart() {
   let i = 0;
@@ -194,29 +196,6 @@ function setRenderSize() {
 window.onresize = () => {
   setRenderSize();
 };
-
-// pcolor_input.onchange = () => {
-//   switch (pcolor_input.value) {
-//     case "red":
-//       carMaterial.color.setHex(0xff0000);
-//       break;
-//     case "blue":
-//       carMaterial.color.setHex(0x0000ff);
-//       break;
-//     case "green":
-//       carMaterial.color.setHex(0x00ff00);
-//       break;
-//     case "orange":
-//       carMaterial.color.setHex(0xff3500);
-//       break;
-//     case "black":
-//       carMaterial.color.setHex(0x000000);
-//       break;
-//     case "white":
-//       carMaterial.color.setHex(0xffffff);
-//       break;
-//   }
-// };
 
 function initCannon() {
   world = new CANNON.World();
@@ -420,7 +399,7 @@ function initThree() {
 
   let gltfLoaderCar = new GLTFLoader().setPath("assets/");
 
-  let randomColor = Math.floor(Math.random()*16777215)
+  const randomColor = randomColors[Math.floor(Math.random() * randomColors.length)];
 
   let carMaterial = new THREE.MeshPhysicalMaterial({
     color: randomColor,
@@ -497,6 +476,7 @@ function initThree() {
 
   gltfTire.load("tire.gltf", function (gltf) {
     vehicle.wheelInfos.forEach((_, i) => {
+      console.log(gltf.scene);
       let group = new THREE.Group();
       let clone = gltf.scene.clone();
       group.add(clone);
