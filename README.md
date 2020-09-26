@@ -1,16 +1,19 @@
 ## Car Wishlist
 By: William Yang
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+Glitch: https://a3-william-yang.glitch.me/
+Heroku: https://a3-william-yang.herokuapp.com/
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+The goal of this application was to provide users a website to compile their car wishlist. I faced two main challenges when developing the site. Both challenges were related to my having a hard time understanding how my server would connect to and draw information from mongodb and the GitHub OAuth. I decided to use the GitHub authentication strategy because that was what would give me the technical achievement.
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+I used the Material UI framework because I think it is a good design language and the template looked well designed. I did not make any modifications to the framework, although I needed to include my own css file to format the pages themselves.
+
+Express Middleware Packages:
+1. cookie-session: Enables storage of cookies in the browser (in this case, login status).
+2. static: Allows the server to access files all files in the /public folder and its subdirectories.
+3. compression: Compresses the server responses to a smaller size.
+4. response-time: Allows the server to log the server response time of a request.
+5. body-parser.json: Makes it easier for the server to handle json GET/POST requests.
 
 ## Technical Achievements
 - **(10 Points Max) Implement OAuth authentication**: I used OAuth authentication via the GitHub strategy. I took inspiration from https://github.com/kevinsimper/node-github-auth-example/ and https://github.com/Sivanesh-S/github-oauth-express#readme in order to achieve this.
