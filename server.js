@@ -175,6 +175,40 @@ const appendDateAndMine = function (entry, user) {
   entry.settime = date;
 };
 
+app.post("/update", async (req, res) => {
+  if (!req.user) {
+    return res.json({ failed: true });
+  }
+
+  const object = req.body;
+
+  const mongoClient = new MongoClient(mongoURI, mongoConfig);
+
+  await mongoClient.connect();
+
+  const raceCollection = mongoClient.db("simcar").collection("races");
+
+  await raceCollection.updateOne(
+    { _id: new mongo.ObjectID(object.id) },
+    { $set: { ...object, _id: new mongo.ObjectID(object.id) } }
+  );
+
+  console.log(req.user.username + " requested update of " + object.id);
+
+  const raceResults = await raceCollection
+    .find()
+    .sort({ laptime: 1 })
+    .toArray();
+
+  await mongoClient.close();
+
+  raceResults.forEach((entry) => {
+    appendDateAndMine(entry, req.user);
+  });
+
+  return res.json({ failed: false, results: raceResults });
+});
+
 app.post("/delete", async (req, res) => {
   if (!req.user) {
     return res.json({ failed: true });

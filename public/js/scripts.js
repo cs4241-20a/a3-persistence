@@ -1,6 +1,4 @@
-const result_modal = document.getElementById("result_modal");
-const result_text = document.getElementById("result_text");
-const result_spin = document.getElementById("result_spin");
+import { beginLoading, getLapTime } from "./render.js";
 
 const login_button = document.getElementById("login_button");
 const logout_button = document.getElementById("logout_button");
@@ -8,80 +6,69 @@ const logout_button = document.getElementById("logout_button");
 const welcome_user = document.getElementById("welcome_user");
 const welcome_user_text = document.getElementById("welcome_user_text");
 
-function checkField(field) {
-  if (field.value.length == 0) {
-    field.classList.add("is-danger");
-    return false;
-  } else {
-    field.classList.remove("is-danger");
-    return true;
+const submitResult = document.getElementById("submit_result");
+
+const fullname_input = document.getElementById("fullname");
+const teamname_input = document.getElementById("teamname");
+
+const submitButton = document.getElementById("submit_button");
+
+submitButton.addEventListener("click", () => {
+  if (checkField(fullname_input) && checkField(teamname_input)) {
+    const lapTime = getLapTime();
+    const lapData = JSON.stringify({
+      laptime: lapTime,
+      fullname: fullname_input.value,
+      teamname: teamname_input.value,
+    });
+    submitResult.classList.remove("is-active");
+    scrollToTable();
+
+    startLoad();
+
+    fetch("/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: lapData,
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        createTable(json.results);
+      });
   }
-}
+});
 
-const submitLapTime = function () {
-  //   result_modal.classList.add("is-active");
-  //   result_text.innerHTML = "";
-  //   result_spin.style.display = "inline-block";
-
-  //   fetch("/submit", {
-  //     method: "POST",
-  //     body: JSON.stringify(json),
-  //   })
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       let time_seconds = Number(data.ltime);
-
-  //       let minutes = Math.floor(time_seconds / 60);
-  //       let seconds = time_seconds - minutes * 60;
-
-  //       result_spin.style.display = "none";
-
-  //       result_text.innerHTML =
-  //         "Your time was <b> " +
-  //         minutes +
-  //         ":" +
-  //         seconds.toFixed(3) +
-  //         "</b>, putting you in <b> P" +
-  //         data.position;
-  //     });
-
-  const testData = JSON.stringify({ laptime: Math.random() * (50.0) + 50.0});
-
-  fetch("/submit", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: testData,
-  })
+const checkLogin = function () {
+  fetch("/auth/user")
     .then((response) => response.json())
     .then((json) => {
-      createTable(json.results);
+      if (json.failed) {
+      } else {
+        handleLogin(json);
+      }
     });
-
-  return false;
 };
 
 const handleLogin = (json) => {
-  console.log(json);
-  if (!json.username) return;
+  if (!json.username) {
+  } else {
+    logout_button.classList.remove("is-hidden");
+    welcome_user.classList.remove("is-hidden");
+    welcome_user_text.innerText = json.username;
 
-  logout_button.classList.remove("is-hidden");
-  welcome_user.classList.remove("is-hidden");
-  welcome_user_text.innerText = json.username;
+    login_button.classList.add("is-hidden");
 
-  login_button.classList.add("is-hidden");
+    beginLoading();
+  }
 };
 
 window.onload = function () {
   fetch("/auth/user")
     .then((response) => response.json())
     .then((json) => {
-      if (json.failed) {
-        console.log("user has not authenticated");
-      } else {
+      if (!json.failed) {
         handleLogin(json);
       }
     });

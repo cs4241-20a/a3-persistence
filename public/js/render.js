@@ -2,85 +2,155 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.120.1/build/three.m
 
 import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.120.1/examples/jsm/loaders/GLTFLoader.min.js";
 
-import { RGBELoader } from "https://cdn.jsdelivr.net/npm/three@0.120.1/examples/jsm/loaders/RGBELoader.min.js";
-
 import * as CANNON from "https://cdn.jsdelivr.net/npm/cannon-es@0.15.1/dist/cannon-es.js";
+
+let prevInterval = 0;
 
 let loaded = 0;
 
+let lastLap = "00:00.000";
+
+let lastSector = 0;
+
+let currentLap = 1;
+
+const restartModalButton = document.getElementById("restart_button");
+const submitResult = document.getElementById("submit_result");
+const resultTime = document.getElementById("result_time");
+
+const stopWatch = new clsStopwatch();
+
+const stopWatchText = document.getElementById("stopwatch");
+const throttleText = document.getElementById("throttle");
+const steeringText = document.getElementById("steering");
+const restartButton = document.getElementById("restart");
+const lapText = document.getElementById("lap");
+
+let raceStarted = false;
+
 let world;
-let wheelBodies = [];
+let planeBody;
 let chassisBody;
 let vehicle;
-let planeBody;
+let wheelBodies = [];
 
 let forwardAxis = 0.0,
   backwardAxis = 0.0,
   leftAxis = 0.0,
   rightAxis = 0.0;
 
-let maxSteerVal = 0;
-let maxForce = 0;
+const maxSteerVal = 0.5;
+const maxForce = 500;
 
 let turnAxis = 0.0;
+let engineAxis = 0.0;
 
-let drawingSurface, copySIZE;
-drawingSurface = document.getElementById("threeJS");
-copySIZE = document.getElementById("copySIZE");
+let drawingSurface = document.getElementById("threeJS");
+let copySIZE = document.getElementById("copySIZE");
 
 let scene, camera, cameraRig, cameraTar, renderer;
 
 let wheelMeshes = [];
 let carGroup;
 
-let lights = new Array(5);
+const lights = new Array(5);
 
-initCannon();
-initThree();
+restartButton.addEventListener("click", () => restartRace());
+restartModalButton.addEventListener("click", () => restartRace());
 
-function setIntervalX(callback, delay, repetitions) {
-  let x = 0;
-  let intervalID = window.setInterval(function () {
-    callback();
+export function getLapTime() {
+  return lastLap;
+}
 
-    if (++x === repetitions) {
-      window.clearInterval(intervalID);
-    }
-  }, delay);
+function restartRace() {
+  if (renderer) {
+    raceStarted = false;
+    stopWatch.reset();
+    lastSector = 0;
+    currentLap = 1;
+    lapText.innerHTML = currentLap + "/2";
+    lights.forEach((material) => {
+      material.emissive.set(0x000000);
+    });
+    submitResult.classList.remove("is-active");
+    chassisBody.position.set(-0.6, 2, 35);
+    chassisBody.quaternion.set(0.5, 0.5, -0.5, 0.5);
+    chassisBody.velocity.set(0, 0, 0);
+    chassisBody.angularVelocity.set(0, 0, 0);
+    raceStart();
+  }
+}
+
+export function beginLoading() {
+  initCannon();
+  initThree();
+  setRenderSize();
+  animate();
+}
+
+function raceStart() {
+  let i = 0;
+  window.clearInterval(prevInterval);
+  prevInterval = setIntervalX(
+    () => {
+      if (i < 5) {
+        lights[i].emissive.set(0xff0000);
+        i++;
+      } else {
+        raceStarted = true;
+        stopWatch.start();
+        console.log("It's lights out and away we go!");
+        lights.forEach((material) => {
+          material.emissive.set(0x000000);
+        });
+      }
+    },
+    1000,
+    6
+  );
 }
 
 function increaseLoad() {
   loaded += 25;
-  console.log(loaded + "%");
+  console.log("Loaded " + loaded + "%");
 
-  let i = 0;
   if (loaded == 100) {
     document.getElementById("hide_on_load").style.display = "none";
+    document.getElementById("hud").style.visibility = "visible";
     drawingSurface.style.visibility = "visible";
     console.log("Done loading all assets");
-    setIntervalX(
-      () => {
-        if (i < 5) {
-          lights[i].emissive.set(0xff0000);
-          i++;
-        } else {
-          lights.forEach((material) => {
-            material.emissive.set(0x000000);
-            console.log("It's lights out and away we go!");
-            maxSteerVal = 0.5;
-            maxForce = 700;
-          });
-        }
-      },
-      1000,
-      6
-    );
+    raceStart();
   }
 }
 
-(function animate() {
+function animate() {
   if (loaded == 100) {
     world.step(1 / 60);
+  }
+
+  if (raceStarted) {
+    engineAxis = lerp(engineAxis, forwardAxis - backwardAxis, 0.8);
+    vehicle.applyEngineForce(engineAxis * maxForce, 2);
+    vehicle.applyEngineForce(engineAxis * maxForce, 3);
+
+    turnAxis = lerp(turnAxis, leftAxis - rightAxis, 0.25);
+
+    vehicle.setSteeringValue(turnAxis * maxSteerVal, 0);
+    vehicle.setSteeringValue(turnAxis * maxSteerVal, 1);
+
+    stopWatchText.innerHTML = formatTime(stopWatch.time());
+    throttleText.innerHTML = Math.round(engineAxis * 100);
+    steeringText.innerHTML = Math.round(-turnAxis * 45);
+  } else {
+    vehicle.applyEngineForce(0, 2);
+    vehicle.applyEngineForce(0, 3);
+
+    vehicle.setSteeringValue(0, 0);
+    vehicle.setSteeringValue(0, 1);
+
+    stopWatchText.innerHTML = "00:00.000";
+    throttleText.innerHTML = "0";
+    steeringText.innerHTML = "0";
   }
 
   if (carGroup) {
@@ -101,40 +171,25 @@ function increaseLoad() {
     wheelMesh.quaternion.copy(wheelBodies[i].quaternion);
   });
 
-  //   let x = Math.sin(clock.getElapsedTime() / 3.0) * 5.0;
-  //   let y = Math.cos(clock.getElapsedTime() / 5.0) * 2.0 + 3.0;
-  //   let z = 10.0;
-
-  //   camera.position.set(x, y, z);
-  //   camera.lookAt(0.0, 0.25, 0.0);
-
-  if (vehicle) {
-    vehicle.applyEngineForce((forwardAxis - backwardAxis) * maxForce, 2);
-    vehicle.applyEngineForce((forwardAxis - backwardAxis) * maxForce, 3);
-
-    turnAxis = lerp(turnAxis, leftAxis - rightAxis, 0.25);
-
-    vehicle.setSteeringValue(turnAxis * maxSteerVal, 0);
-    vehicle.setSteeringValue(turnAxis * maxSteerVal, 1);
+  if (renderer) {
+    renderer.render(scene, camera);
   }
 
-  renderer.render(scene, camera);
-
   requestAnimationFrame(animate);
-})();
+}
 
 function lerp(start, end, amt) {
   return (1 - amt) * start + amt * end;
 }
 
 function setRenderSize() {
-  camera.aspect = copySIZE.clientWidth / copySIZE.offsetHeight;
-  camera.updateProjectionMatrix();
+  if (renderer) {
+    camera.aspect = copySIZE.clientWidth / copySIZE.offsetHeight;
+    camera.updateProjectionMatrix();
 
-  renderer.setSize(copySIZE.clientWidth, copySIZE.offsetHeight);
+    renderer.setSize(copySIZE.clientWidth, copySIZE.offsetHeight);
+  }
 }
-
-setRenderSize();
 
 window.onresize = () => {
   setRenderSize();
@@ -169,7 +224,9 @@ function initCannon() {
   world.gravity.set(0, -9.8, 0);
   //world.defaultContactMaterial.friction = 0;
 
-  let colliderBody = new CANNON.Body({ static: true });
+  let colliderBody = new CANNON.Body({
+    static: true,
+  });
 
   fetch("assets/colliders.json")
     .then((response) => response.json())
@@ -207,7 +264,9 @@ function initCannon() {
         let pos = collider.pos;
         let quat = collider.quat;
 
-        let trackerBody = new CANNON.Body({ static: true });
+        let trackerBody = new CANNON.Body({
+          static: true,
+        });
 
         let trackerShape = new CANNON.Box(
           new CANNON.Vec3(dim[0] / 2, dim[1] / 4, dim[2] / 4)
@@ -227,15 +286,30 @@ function initCannon() {
           Math.PI / 2
         );
         trackerBody.addEventListener("collide", function (e) {
-          console.log("something collided with " + i);
+          console.log("Vehicle passed sector " + (i + 1));
+          if (lastSector == 1 && i == 0) {
+            if (currentLap == 1) {
+              currentLap++;
+              lapText.innerHTML = currentLap + "/2";
+            } else {
+              stopWatch.stop();
+              raceStarted = false;
+              const formattedTime = formatTime(stopWatch.time());
+              stopWatchText.innerHTML = formattedTime;
+              resultTime.innerHTML = formattedTime;
+              lastLap = formattedTime;
+              submitResult.classList.add("is-active");
+            }
+          }
+          lastSector = i;
         });
       });
     });
 
-  let groundMaterial = new CANNON.Material("groundMaterial");
-  let wheelMaterial = new CANNON.Material("wheelMaterial");
+  const groundMaterial = new CANNON.Material("groundMaterial");
+  const wheelMaterial = new CANNON.Material("wheelMaterial");
 
-  let wheelGroundContactMaterial = (window.wheelGroundContactMaterial = new CANNON.ContactMaterial(
+  const wheelGroundContactMaterial = (window.wheelGroundContactMaterial = new CANNON.ContactMaterial(
     wheelMaterial,
     groundMaterial,
     {
@@ -265,13 +339,17 @@ function initCannon() {
   world.addContactMaterial(wheelGroundContactMaterial);
 
   let chassisShape = new CANNON.Box(new CANNON.Vec3(4, 1.5, 0.25));
-  chassisBody = new CANNON.Body({ mass: 150 });
+  chassisBody = new CANNON.Body({
+    mass: 150,
+  });
   chassisBody.addShape(chassisShape);
   chassisBody.position.set(-0.6, 2, 35);
   chassisBody.quaternion.set(0.5, 0.5, -0.5, 0.5);
 
   let planeShape = new CANNON.Box(new CANNON.Vec3(150, 0.1, 150));
-  planeBody = new CANNON.Body({ static: true });
+  planeBody = new CANNON.Body({
+    static: true,
+  });
   planeBody.position.set(0, 1, 0);
   planeBody.addShape(planeShape);
 
@@ -331,13 +409,23 @@ function initThree() {
   camera.position.set(10, 10, 10);
   camera.lookAt(0.0, 0.25, 0.0);
 
-  renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  renderer = new THREE.WebGLRenderer({
+    alpha: true,
+    antialias: true,
+  });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.tonMappingExposure = 1;
   renderer.outputEncoding = THREE.sRGBEncoding;
 
   let gltfLoaderCar = new GLTFLoader().setPath("assets/");
+
+  let randomColor = Math.floor(Math.random()*16777215)
+
+  let carMaterial = new THREE.MeshPhysicalMaterial({
+    color: randomColor,
+    clearcoat: 0.8,
+  });
 
   gltfLoaderCar.load("car_body.gltf", function (gltf) {
     carGroup = new THREE.Group();
@@ -355,6 +443,12 @@ function initThree() {
     carGroup.add(cameraTar);
     scene.add(carGroup);
 
+    gltf.scene.traverse((o) => {
+      if (o.isMesh && o.material.name.includes("paint")) {
+        o.material = carMaterial;
+      }
+    });
+
     increaseLoad();
   });
 
@@ -366,11 +460,12 @@ function initThree() {
     gltf.scene.traverse((o) => {
       if (o.isMesh) {
         if (o.name.includes("collider")) {
-          console.log(o);
           let bbox = new CANNON.Box(
             new CANNON.Vec3(o.scale.x, o.scale.y / 8, o.scale.z / 4)
           );
-          let bbody = new CANNON.Body({ static: true });
+          let bbody = new CANNON.Body({
+            static: true,
+          });
           bbody.addShape(bbox);
           bbody.position.copy(o.position);
           bbody.quaternion.copy(o.quaternion);
@@ -389,7 +484,6 @@ function initThree() {
           o.material = lightMat;
           let match = o.name.match(/(\d+)/);
           lights[parseInt(match[0]) - 1] = lightMat;
-          console.log(lights);
         }
       }
     });
@@ -425,21 +519,23 @@ function initThree() {
   });
 
   let pmremGenerator = new THREE.PMREMGenerator(renderer);
-  pmremGenerator.compileEquirectangularShader();
+  pmremGenerator.compileCubemapShader();
 
-  new RGBELoader()
-    .setDataType(THREE.UnsignedByteType)
-    .setPath("assets/")
-    .load("quattro_canti_1k.hdr", function (texture) {
-      let envMap = pmremGenerator.fromEquirectangular(texture).texture;
+  new THREE.CubeTextureLoader()
+    .setPath("assets/quattro/")
+    .load(
+      ["px.png", "nx.png", "py.png", "ny.png", "pz.png", "nz.png"],
+      function (texture) {
+        let envMap = pmremGenerator.fromCubemap(texture).texture;
 
-      scene.environment = envMap;
+        scene.environment = envMap;
 
-      texture.dispose();
-      pmremGenerator.dispose();
+        texture.dispose();
+        pmremGenerator.dispose();
 
-      increaseLoad();
-    });
+        increaseLoad();
+      }
+    );
 
   drawingSurface.appendChild(renderer.domElement);
 }
@@ -447,21 +543,25 @@ function initThree() {
 const onKeyDown = function (event) {
   switch (event.keyCode) {
     case 38: // up
+      event.preventDefault();
     case 87: // w
       forwardAxis = 1.0;
       break;
 
     case 37: // left
+      event.preventDefault();
     case 65: // a
       leftAxis = 1.0;
       break;
 
     case 40: // down
+      event.preventDefault();
     case 83: // s
       backwardAxis = 1.0;
       break;
 
     case 39: // right
+      event.preventDefault();
     case 68: // d
       rightAxis = 1.0;
       break;
@@ -471,21 +571,25 @@ const onKeyDown = function (event) {
 const onKeyUp = function (event) {
   switch (event.keyCode) {
     case 38: // up
+      event.preventDefault();
     case 87: // w
       forwardAxis = 0.0;
       break;
 
     case 37: // left
+      event.preventDefault();
     case 65: // a
       leftAxis = 0.0;
       break;
 
     case 40: // down
+      event.preventDefault();
     case 83: // s
       backwardAxis = 0.0;
       break;
 
     case 39: // right
+      event.preventDefault();
     case 68: // d
       rightAxis = 0.0;
       break;

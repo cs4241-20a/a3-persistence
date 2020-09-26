@@ -8,8 +8,15 @@
 
 #threeJS {
     visibility: hidden;
+    position: absolute;
+    background: linear-gradient(0deg, #FDBB2D 0%, #3A1C71 100%);
 }
 
 #hud {
+    visibility: hidden;
     z-index: 1;
+}
+
+#restart {
+    cursor: pointer;
 }
