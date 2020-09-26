@@ -4,14 +4,6 @@ const express = require('express'),
   mongodb = require('mongodb'),
   port = 3000
 
-
-const appdata = [
-  { 'make': 'Ford', 'model': 'Bronco', 'year': 1976, 'price': 57000, 'priority': 3, 'id': 123456 },
-  { 'make': 'Cadillac', 'model': 'LaSalle', 'year': 1938, 'price': 59000, 'priority': 2, 'id': 135426 },
-  { 'make': 'Chevrolet', 'model': 'Camaro', 'year': 1969, 'price': 88900, 'priority': 1, 'id': 122543 }
-]
-
-
 const MongoClient = mongodb.MongoClient;
 const uri = "mongodb+srv://testuser:abcd1234@cluster0.6usct.gcp.mongodb.net/testdatabase?retryWrites=true&w=majority";
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -21,47 +13,16 @@ client.connect(err => {
   collection = client.db("testdatabase").collection("cars");
 });
 
-var updateDoc = function (req, res, next) {
-  collection
-    .updateOne(
-      { _id: mongodb.ObjectID(req.body.id) },
-      { $set: { name: req.body.name } }
-    )
-    .then(result => res.json(result))
-
-  next()
-}
-
 // defined middleware functions
 var submitFunc = function (request, response, next) {
   let json = request.body
 
   let priority = getPriority(json.year, json.price)
-  let id = getUniqueID()
   json.priority = priority
-  json.id = id
 
   let tempdata = []
-  // appdata.push(json)
   tempdata.push(json)
   request.json = tempdata
-  next()
-}
-
-var delFunc = function (request, response, next) {
-  let id = request.body.id
-
-  // find idx of data element to delete and remove from server data
-  const idx = appdata.map(d => d.id.toString()).indexOf(id.toString())
-  appdata.splice(idx, 1);
-  next()
-}
-
-var putFunc = function (request, response, next) {
-  let dataJson = request.body
-  let id = dataJson.id
-  const idx = appdata.map(d => d.id.toString()).indexOf(id.toString())
-  appdata.splice(idx, 1, dataJson); // add modifed entry
   next()
 }
 
@@ -69,7 +30,6 @@ var putFunc = function (request, response, next) {
 app.use(express.static('public'))
 app.use(bodyparser.json())
 
-//
 app.get('/', function (request, response) {
   response.sendFile(__dirname + '/public/index.html')
 })
@@ -79,12 +39,12 @@ app.get('/data', function (request, response) {
   if (collection !== null) {
     // get array and pass to res.json
     collection.find({}).toArray()
-    .then(result => response.json(result))
-    .then(json => function(req, res){
-      response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
-      response.write(JSON.stringify(json))
-      response.end()
-    })
+      .then(result => response.json(result))
+      .then(json => function (req, res) {
+        response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
+        response.write(JSON.stringify(json))
+        response.end()
+      })
   }
 })
 
@@ -95,28 +55,47 @@ app.post('/submit', submitFunc, function (request, response) {
       console.log(dbresponse)
       response.json(dbresponse.ops)
     })
-    .then(json => function(req, res){
+    .then(json => function (req, res) {
       response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
       response.write(JSON.stringify(json))
       response.end()
     })
 })
 
-app.delete('/delete', delFunc, function (request, response) {
+app.delete('/delete', function (request, response) {
   console.log("Delete.")
   console.log(request.body.id)
   collection.deleteOne({ _id: mongodb.ObjectID(request.body.id) })
     .then(result => response.json(result))
-    .then(json => function(req, res){
+    .then(json => function (req, res) {
       response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
       response.write(JSON.stringify(json))
       response.end()
     })
 })
 
-app.put('/put', putFunc, updateDoc, function (request, response) {
+app.put('/put', function (request, response) {
   console.log("Put.")
-  sendData(response)
+
+  collection
+    .updateOne(
+      { _id: mongodb.ObjectID(request.body.id) },
+      {
+        $set: {
+          make: request.body.make,
+          model: request.body.model,
+          year: request.body.year,
+          price: request.body.price,
+          priority: request.body.priority
+        }
+      }
+    )
+    .then(result => response.json(result))
+    .then(json => function (req, res) {
+      response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
+      response.write(JSON.stringify(json))
+      response.end()
+    })
 })
 
 const getPriority = function (year, price) {
@@ -134,16 +113,6 @@ const getPriority = function (year, price) {
     priority = 4
   }
   return priority
-}
-
-const getUniqueID = function () {
-  return Math.random().toString().substr(2, 8)
-}
-
-const sendData = function (response, data = appdata) {
-  response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
-  response.write(JSON.stringify(data))
-  response.end()
 }
 
 app.listen(process.env.PORT || port)
