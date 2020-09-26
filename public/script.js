@@ -1,25 +1,24 @@
+// User based on cookies
 var currentUser = ""
+
+// Read user cookies on main page load
 window.onload = function () {
     if (window.location.href.match('index.html')) {
         fetch('/read', {
                 method: 'GET'
             })
-            // .then(response => {
-            //     console.log("hi")
-            //     console.log(response.json())
-            // })
             .then(response => response.json())
             .then(json => {
-                console.log("USERNAME IN SCRIPT = " + json.username)
-                console.log(json.username)
-                document.getElementById('welcome').innerText = "Welcome "+ json.username + "!"
+                // Set welcome message for user
+                document.getElementById('welcome').innerText = "Welcome " + json.username + "!"
                 currentUser = json.username
             })
     }
-
 }
 
+// On submit button click
 function submitBill() {
+    // If form is validated, submit to server
     if (validateForm()) {
         submitForm()
     }
@@ -43,7 +42,7 @@ function validateForm() {
     return true
 }
 
-// Submit form data to server
+// Submit form data to server + DB
 function submitForm() {
     let status = ""
     json = {
@@ -54,6 +53,7 @@ function submitForm() {
         billUser: currentUser
     }
 
+    // Attempt add to database
     fetch('/add', {
             method: 'POST',
             body: JSON.stringify(json),
@@ -62,6 +62,7 @@ function submitForm() {
             }
         })
         .then(response => {
+            // Get status code
             status = response.statusText
             return response.json()
         })
@@ -73,32 +74,30 @@ function submitForm() {
                     paidStr = "unpaid"
                 }
                 document.getElementById("errorMsg").innerHTML = `Bill ${json.billName} issued on ${json.billDate} for $${json.billAmt} (${paidStr}) already exists. Please enter a unique bill.`
-
             }
             // Otherwise clear form 
             else if (status == "OK") {
                 document.getElementById("billForm").reset()
             }
-        }).then(function () {
-            getAllBills(true)
         })
-
-
 }
 
 // Retrieve all bills from server
-function getAllBills(stayOpen) {
+function getAllBills() {
 
-    // if (document.getElementById("all_bills").visibility == "visible") {
-    //     document.getElementById("allBillBtn").innerText = "Hide all bills"
-    // } else {
-    //     document.getElementById("allBillBtn".innerText = "Show all bills")
-    // }
+    // Change button text based on table 
+    if ($(document.getElementById("all_bills")).is('.collapse:not(.show)')) {
+        document.getElementById('allBillBtn').innerText = "Hide all bills"
+    } else {
+        document.getElementById('allBillBtn').innerText = "Show all bills"
+    }
 
-    // Retrieve all data from server
+    // Retrieve all data from database
     fetch('/results', {
             method: 'POST',
-            body: JSON.stringify({user: currentUser}),
+            body: JSON.stringify({
+                user: currentUser
+            }),
             headers: {
                 "Content-Type": "application/json"
             }
@@ -129,11 +128,12 @@ function displayBills(jsonArray) {
       <td class="editable" id="${obj}priority">${jsonArray[obj].priority}</td>`
         billDiv.appendChild(newRow)
     }
+
     // Color based on prioirty number
     colorPrioritization()
 }
 
-// Edit entries in all bills section
+// Edit entries in table
 function editEntry() {
     let rows = document.getElementById('all_bills').rows.length
     let editRows = []
@@ -221,7 +221,6 @@ function saveChanges() {
     colorPrioritization()
 }
 
-
 // Overwrite all server data with updated client data
 function editOnServer() {
     let jsonObjs = []
@@ -232,23 +231,6 @@ function editOnServer() {
     for (let i = 0; i < rows - 1; i++) {
         allElts.push(i)
     }
-
-
-    // for (let i = 0 ; i < changedElts.length ; i+=5) {
-    //     let payBool = false
-    //     if (changedElts[i+3].value == 'true') {
-    //         payBool = true
-    //     }
-    //     jsonObjs.push({
-    //         billName: changedElts[i].value,
-    //         billAmt: changedElts[i+1].value,
-    //         billDate: changedElts[i+2].value,
-    //         billPay: payBool,
-    //         priority: changedElts[i+4].value
-    //     })
-
-    //     console.log(changedElts[i].value, changedElts[i+1].value, changedElts[i+2].value, changedElts[i+3].value, changedElts[i+4].value)
-    // }
 
     // Create JSON object to send to server
     for (obj in allElts) {
@@ -290,15 +272,18 @@ function deleteEntry() {
         }
     }
 
+    // Delete from database
     deleteFromServer(doDelete)
-    getAllBills(true)
+
+    // Get updated data
+    getAllBills()
 
     document.getElementById("editRowBtn").style.visibility = "hidden"
     document.getElementById("deleteRowBtn").style.visibility = "hidden"
 
 }
 
-
+// Delete from database
 function deleteFromServer(deleteArr) {
     let jsonObjs = []
 
@@ -312,12 +297,10 @@ function deleteFromServer(deleteArr) {
             billName: document.getElementById(deleteArr[obj] + 'name').innerText,
             billAmt: document.getElementById(deleteArr[obj] + 'amt').innerText,
             billDate: document.getElementById(deleteArr[obj] + 'date').innerText,
-            billPay: payBool, 
+            billPay: payBool,
             billUser: currentUser
         })
     }
-
-    console.log(JSON.stringify(jsonObjs))
 
     // POST to server
     fetch('/delete', {
@@ -331,8 +314,6 @@ function deleteFromServer(deleteArr) {
             console.log(response)
         })
 }
-
-
 
 // Color based on prioirty number
 function colorPrioritization() {
@@ -386,8 +367,9 @@ function showOptions(eltId) {
     }
 }
 
-
+// Login with user credentials 
 async function login() {
+
     // Get username, password from HTML
     let user = document.getElementById("username").value
     let pass = document.getElementById("password").value
@@ -412,10 +394,12 @@ async function login() {
                 allUsers = json
             })
 
-        // Is the login creds valid? 
+        // Are the login creds valid?
+        let msg = ""
         for (cred in allUsers) {
+
+            // If creds exist in database, send user as cookie and redirect
             if (allUsers[cred].username == user && allUsers[cred].password == pass) {
-                //window.location.replace("/index.html")
                 fetch('/login', {
                         method: 'POST',
                         body: JSON.stringify({
@@ -423,22 +407,24 @@ async function login() {
                         }),
                         headers: {
                             "Content-Type": "application/json"
-                            //"user": user
                         }
                     })
                     .then(function (response) {
                         console.log(response)
                         window.location.href = "index.html"
                     })
+                break
             } else {
-                errorMsg.innerHTML = "An account for this username and password was not found"
+                msg = "An account for this username and password was not found"
             }
         }
-
+        errorMsg.innerHTML = msg
     }
 }
 
+// Sign up a new user
 async function signup() {
+
     // Get username, password from HTML
     let user = document.getElementById("username").value
     let pass = document.getElementById("password").value
@@ -468,7 +454,7 @@ async function signup() {
                 allUsers = json
             })
 
-        // Is the login creds valid? 
+        // Check that user doesn't already exist in database
         let cont = true
         for (cred in allUsers) {
             if (allUsers[cred].username == user) {
@@ -477,6 +463,7 @@ async function signup() {
             }
         }
 
+        // If username is unique, add new crednetials to database
         if (cont) {
             errorMsg.innerHTML = ""
 
@@ -495,6 +482,7 @@ async function signup() {
                     console.log(response)
                 })
 
+            // Log in with new credentials
             fetch('/login', {
                     method: 'POST',
                     body: JSON.stringify({
@@ -502,19 +490,12 @@ async function signup() {
                     }),
                     headers: {
                         "Content-Type": "application/json"
-                        //"user": user
                     }
                 })
                 .then(function (response) {
                     console.log(response)
                     window.location.href = "index.html"
                 })
-            //window.location.replace("/index.html")
         }
-
-
-
-
-
     }
 }

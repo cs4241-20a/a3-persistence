@@ -8,25 +8,22 @@ const dotenv = require('dotenv')
 const morgan = require('morgan')
 const passport = require('passport')
 const mongodb = require('mongodb')
-dotenv.config()
-var currentUser = {username: ""}
 
-app.use(bodyParser.urlencoded({
-    extended: true
-}))
+app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(cookieParser())
-app.use(express.json())
 app.use(morgan('tiny'))
 app.use(passport.initialize())
 app.use(passport.session())
 
 dotenv.config()
+var currentUser = {username: ""}
   
 
-/***** Passport setup *****/
 
+/***** Passport setup *****/
 var GitHubStrategy = require('passport-github').Strategy;
 
 passport.serializeUser(function (user, done) {
@@ -82,31 +79,26 @@ client.connect(err => {
 })
 
 
+
+/***** Application Routes *****/
 // Serve files 
 app.use(express.static(__dirname + '/public'))
 app.use(express.static(__dirname + '/views'))
 app.use(express.static(__dirname + '/node_modules'))
 
-// Set default path as login screen
-// Or not, what does this even do 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/views/index.html')
 })
 
 // Read cookies from user login 
 app.get('/read', (req, res) => {
-    console.log("HERE")
-    console.log("is cookie empty? -> " + req.cookies.user)
     if (req.cookies.user != undefined){
         currentUser = req.cookies.user
     }
-    console.log(req.cookies.user)
-    // res.send(req.cookies.user)
-    console.log("username = " + currentUser.username)
     res.json(currentUser)
 })
 
-// Route to insert user
+// Route to insert user into database
 app.post('/addUser', (req, res) => {
     userCollection.insertOne(req.body)
         .then(result => {
@@ -121,32 +113,8 @@ app.get('/getAllUsers', (req, res) => {
     })
 })
 
-
-// Route to remove user ****** USE FOR BILLS *********
-app.post('/removeUser', (req, res) => {
-    userCollection
-        .deleteOne({
-            _id: mongodb.ObjectID(req.body._id)
-        })
-        .then(result => res.json(result))
-})
-
-// // Update entry
-// app.post('/update', (req, res) => {
-//     billCollection
-//         .updateOne({
-//             _id: mongodb.ObjectID(req.body._id)
-//         }, {
-//             $set: {
-//                 name: req.body.name
-//             }
-//         })
-//         .then(result => res.json(result))
-// })
-
-// Send results to server
+// Get all bills for a user from the database
 app.post('/results', (req, res) => {
-    console.log(req.body)
     billCollection.find({
         'billUser': req.body.user
     }).toArray(function (err, result) {
@@ -158,7 +126,7 @@ app.post('/results', (req, res) => {
     })
 })
 
-// Add new entry to appdata 
+// Add new bill to database
 app.post('/add', (req, res) => {
     let bills = req.body
     billCollection.find({}).toArray(function (err, result) {
@@ -176,105 +144,37 @@ app.post('/add', (req, res) => {
     })
 })
 
+// Login users
 app.post('/login', (req, res) => {
-    console.log("LOGIN HERE")
+    // Set cookie and redirect
     res.cookie("user", req.body)
-    console.log(req.cookies.user)
-    console.log(req.cookies.username)
-    // USERNAME = req.body
-    // console.log(USERNAME)
-    // currentUser.user = req.body
     return res.redirect('/index.html')
 })
 
-// app.post('/login', passport.authenticate('local', {
-//         failureRedirect: 'login.html'
-//     }),
-//     function (req, res) {
-//         res.cookie("user", req.body)
-//         USERNAME = req.body
-//         console.log("USERNAME = " + USERNAME)
-//         res.redirect('/');
-//     });
-
-
-// app.get( '/auth/google/callback', 
-//     passport.authenticate( 'google', { 
-//         successRedirect: '/auth/google/success',
-//         failureRedirect: '/auth/google/failure'
-// }));
-
+// Delete bills for a user from database 
 app.post('/delete', (req, res) => {
     for (bill in req.body) {
-        console.log(req.body[bill])
         billCollection.deleteOne(req.body[bill])
     }
 })
 
-
+// Psuedo "edit" bills for a user
 app.post('/edit', (req, res) => {
+    // Delete and replace all with new versions
     billCollection.deleteMany({
-        'billUser': currentUser.username             // change
+        'billUser': currentUser.username          
     })
     billCollection.insertMany(req.body)
-
-
-    // for (bill in req.body) {
-
-    // }
-    // Can i just edit instead of wiping?
-    // let nameArr = []
-    // let amtArr = []
-    // let dateArr = []
-    // let paidArr = []
-    // let priArr = []
-
-    // for (bill in req.body){
-    //     nameArr.push(req.body[bill].billName)
-    //     amtArr.push(req.body[bill].billAmt)
-    //     dateArr.push(req.body[bill].billDate)
-    //     paidArr.push(req.body[bill].billPay)
-    //     priArr.push(req.body[bill].priority)
-    // }
-    // console.log(nameArr)
-    // console.log(amtArr)
-    // console.log(dateArr)
-    // console.log(paidArr)
-    // console.log(priArr)
-
-    // let query = {
-    //     'billName': {$in: nameArr}, 
-    //     'billAmt': {$in: amtArr}, 
-    //     'billDate': {$in: dateArr}, 
-    //     'billPay': {$in: paidArr}, 
-    //     'priority': {$in: priArr} 
-    // }
-
-    // query = {}
-    // let update = {$set: {'billAmt': '44444'}}
-    // billCollection.updateMany(query, update)
-    // .then(result => {
-    //     const { matchedCount, modifiedCount } = result;
-    //     console.log(`Successfully matched ${matchedCount} and modified ${modifiedCount} items.`)
-    //     return result
-    //   })
-    //.then(result => console.log(result))
-
-    // res.writeHead(200, "OK")
-    // res.end()
 })
 
 
-// function addUser(bills) {
-//     //bills["user"] = "user1"
-//     bills.user = "user1"
-//     return bills
-// }
 
+/***** Helper functions *****/
+
+// Check if bill already exists for user in database
 function isDuplicate(data, dbData) {
-    // Iterate over appdata to search for matching entries 
     for (obj in dbData) {
-        // Object is a match if first four fields match 
+        // Object is a match if first four fields + user matches 
         if (dbData.user == data.user && dbData[obj].billName == data.billName && dbData[obj].billAmt == data.billAmt && dbData[obj].date == data.date && dbData[obj].billPay == data.billPay) {
             return true
         }
@@ -282,7 +182,7 @@ function isDuplicate(data, dbData) {
     return false
 }
 
-// Calculate bill priorty on a scale of 1-3 based on amount, date, and if it has been paid
+// Calculate bill priority on a scale of 1-3 based on amount, date, and if it has been paid
 function addPriority(data) {
 
     // If data is single entry (not in an array), add prioirty to JSON obj
