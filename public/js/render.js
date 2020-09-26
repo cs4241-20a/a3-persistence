@@ -34,7 +34,14 @@ let chassisBody;
 let vehicle;
 let wheelBodies = [];
 
-const randomColors = [0xff0000, 0x0000ff, 0x00ff00, 0xff3500, 0x000000, 0xffffff];
+const randomColors = [
+  0xff0000,
+  0x0000ff,
+  0x00ff00,
+  0xff3500,
+  0x000000,
+  0xffffff,
+];
 
 let forwardAxis = 0.0,
   backwardAxis = 0.0,
@@ -83,12 +90,12 @@ function restartRace() {
   }
 }
 
-//export function beginLoading() {
-initCannon();
-initThree();
-setRenderSize();
-animate();
-//}
+export function beginLoading() {
+  initCannon();
+  initThree();
+  setRenderSize();
+  animate();
+}
 
 function raceStart() {
   let i = 0;
@@ -399,7 +406,8 @@ function initThree() {
 
   let gltfLoaderCar = new GLTFLoader().setPath("assets/");
 
-  const randomColor = randomColors[Math.floor(Math.random() * randomColors.length)];
+  const randomColor =
+    randomColors[Math.floor(Math.random() * randomColors.length)];
 
   let carMaterial = new THREE.MeshPhysicalMaterial({
     color: randomColor,
