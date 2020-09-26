@@ -136,9 +136,9 @@ app.get('/recipes/results', isAuthenticated, (req, res) => {
 
 // Endpoint for submitting recipe
 app.post('/recipes/add', isAuthenticated, bodyParser.json(), (req, res) => {
-  console.log(req.body);
   // Set user ID so we know whose recipe it is
-  req.body.user = req.user;
+  req.body.user = req.user.id;
+  console.log(req.body);
   API.insert(req.body, req.user);
   res.send("Recipe submitted");
 })
