@@ -1,9 +1,27 @@
+var currentUser = ""
+window.onload = function () {
+    if (window.location.href.match('index.html')) {
+        fetch('/read', {
+                method: 'GET'
+            })
+            // .then(response => {
+            //     console.log("hi")
+            //     console.log(response.json())
+            // })
+            .then(response => response.json())
+            .then(json => {
+                console.log(json)
+                document.getElementById('welcome').innerText = "Welcome "+ json.username + "!"
+                currentUser = json.username
+            })
+    }
+
+}
 
 function submitBill() {
     if (validateForm()) {
         submitForm()
     }
-
 }
 
 // Validate form, block submission if missing fields
@@ -19,9 +37,9 @@ function validateForm() {
     }
     document.getElementById("errorMsg").innerHTML = errorMsg
     if (errorMsg != "") {
-        return false 
+        return false
     }
-    return true 
+    return true
 }
 
 // Submit form data to server
@@ -31,8 +49,8 @@ function submitForm() {
         billName: document.getElementById("name").value,
         billAmt: document.getElementById("amt").value,
         billDate: document.getElementById("date").value,
-        billPay: document.getElementById("paid").checked
-        //billUser: 'user1'
+        billPay: document.getElementById("paid").checked,
+        billUser: currentUser
     }
 
     fetch('/add', {
@@ -60,8 +78,11 @@ function submitForm() {
             else if (status == "OK") {
                 document.getElementById("billForm").reset()
             }
+        }).then(function () {
+            getAllBills(true)
         })
-    getAllBills(true)
+
+
 }
 
 // Retrieve all bills from server
@@ -75,7 +96,11 @@ function getAllBills(stayOpen) {
 
     // Retrieve all data from server
     fetch('/results', {
-            method: 'GET'
+            method: 'POST',
+            body: JSON.stringify({user: currentUser}),
+            headers: {
+                "Content-Type": "application/json"
+            }
         })
         .then(response => response.json())
         .then(json => displayBills(json))
@@ -286,7 +311,8 @@ function deleteFromServer(deleteArr) {
             billName: document.getElementById(deleteArr[obj] + 'name').innerText,
             billAmt: document.getElementById(deleteArr[obj] + 'amt').innerText,
             billDate: document.getElementById(deleteArr[obj] + 'date').innerText,
-            billPay: payBool
+            billPay: payBool, 
+            billUser: currentUser
         })
     }
 
@@ -388,11 +414,26 @@ async function login() {
         // Is the login creds valid? 
         for (cred in allUsers) {
             if (allUsers[cred].username == user && allUsers[cred].password == pass) {
-                window.location.replace("/index.html")
+                //window.location.replace("/index.html")
+                fetch('/login', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            username: user
+                        }),
+                        headers: {
+                            "Content-Type": "application/json"
+                            //"user": user
+                        }
+                    })
+                    .then(function (response) {
+                        console.log(response)
+                        window.location.href = "index.html"
+                    })
+            } else {
+                errorMsg.innerHTML = "An account for this username and password was not found"
             }
         }
 
-        errorMsg.innerHTML = "An account for this username and password was not found"
     }
 }
 
@@ -452,7 +493,22 @@ async function signup() {
                 .then(function (response) {
                     console.log(response)
                 })
-            window.location.replace("/index.html")
+
+            fetch('/login', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        username: user
+                    }),
+                    headers: {
+                        "Content-Type": "application/json"
+                        //"user": user
+                    }
+                })
+                .then(function (response) {
+                    console.log(response)
+                    window.location.href = "index.html"
+                })
+            //window.location.replace("/index.html")
         }
 
 

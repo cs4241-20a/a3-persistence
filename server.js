@@ -5,6 +5,28 @@ const path = require('path')
 const app = express()
 const cookieParser = require('cookie-parser')
 const dotenv = require('dotenv')
+const morgan = require('morgan')
+// const passport = require('passport')
+// var OAuth2Strategy = require('passport-oauth').OAuth2Strategy
+
+// passport.use('provider', new OAuth2Strategy({
+//     authorizationURL: 'https://www.provider.com/oauth2/authorize',
+//     tokenURL: 'https://www.provider.com/oauth2/token',
+//     clientID: '123-456-789',
+//     clientSecret: 'shhh-its-a-secret',
+//     callbackURL: 'https://www.example.com/auth/provider/callback'
+//   },
+//   function(accessToken, refreshToken, profile, done) {
+//     User.findOrCreate(..., function(err, user) {
+//       done(err, user);
+//     });
+//   }
+// ));
+
+// app.get('/auth/provider', passport.authenticate('provider'));
+// app.get('/auth/provider/callback',
+//   passport.authenticate('provider', { successRedirect: '/',
+//                                       failureRedirect: '/login' }));
 
 const mongodb = require('mongodb')
 dotenv.config()
@@ -16,6 +38,7 @@ app.use(bodyParser.json())
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(cookieParser())
 app.use(express.json()) // add with mongodb
+app.use(morgan('tiny'))
 
 // Mongo
 const uri = 'mongodb+srv://' + process.env.USERNAME + ':' + process.env.PASS + '@' + process.env.HOST + '/' + process.env.DB
@@ -29,7 +52,7 @@ let billCollection = null
 client.connect(err => {
     userCollection = client.db('billtracker').collection('users')
     billCollection = client.db('billtracker').collection('bills')
-    // billCollection.deleteMany({})
+    //billCollection.deleteMany({})
 
     if (userCollection !== null) {
         // Pass array to res.json
@@ -57,8 +80,16 @@ app.use(express.static(__dirname + '/node_modules'))
 // Set default path as index.html
 app.get('/', (req, res) => {
 
-    res.cookie('name', 'test').send('cookie set')
+    //res.cookie('name', 'test').send('cookie set')
+    //res.send(req.cookies)
+
     res.sendFile(__dirname + '/views/index.html')
+})
+
+app.get('/read', (req, res) => {
+    console.log("HERE")
+    console.log(req.cookies.user)
+    res.send(req.cookies.user)
 })
 
 // Route to insert user
@@ -100,8 +131,9 @@ app.post('/removeUser', (req, res) => {
 // })
 
 // Send results to server
-app.get('/results', (req, res) => {
-    billCollection.find({}).toArray(function (err, result) {
+app.post('/results', (req, res) => {
+    console.log(req.body)
+    billCollection.find({'billUser': req.body.user}).toArray(function (err, result) {
         res.setHeader("Content-Type", "application/json")
         res.json(result)
         if (err) {
@@ -128,56 +160,70 @@ app.post('/add', (req, res) => {
     })
 })
 
+app.post('/login', (req, res) => {
+    res.cookie("user", req.body)
+    return res.redirect('/index.html')
+})
+
+
+// app.get( '/auth/google/callback', 
+//     passport.authenticate( 'google', { 
+//         successRedirect: '/auth/google/success',
+//         failureRedirect: '/auth/google/failure'
+// }));
+
 app.post('/delete', (req, res) => {
     for (bill in req.body) {
+        console.log(req.body[bill])
         billCollection.deleteOne(req.body[bill])
     }
 })
 
+
 app.post('/edit', (req, res) => {
-    billCollection.deleteMany({})
+    billCollection.deleteMany({'billUser': currentUser})
     billCollection.insertMany(req.body)
 
 
-    for (bill in req.body) {
+    // for (bill in req.body) {
 
-    }
+    // }
     // Can i just edit instead of wiping?
-    let nameArr = []
-    let amtArr = []
-    let dateArr = []
-    let paidArr = []
-    let priArr = []
+    // let nameArr = []
+    // let amtArr = []
+    // let dateArr = []
+    // let paidArr = []
+    // let priArr = []
 
-    for (bill in req.body){
-        nameArr.push(req.body[bill].billName)
-        amtArr.push(req.body[bill].billAmt)
-        dateArr.push(req.body[bill].billDate)
-        paidArr.push(req.body[bill].billPay)
-        priArr.push(req.body[bill].priority)
-    }
-    console.log(nameArr)
-    console.log(amtArr)
-    console.log(dateArr)
-    console.log(paidArr)
-    console.log(priArr)
+    // for (bill in req.body){
+    //     nameArr.push(req.body[bill].billName)
+    //     amtArr.push(req.body[bill].billAmt)
+    //     dateArr.push(req.body[bill].billDate)
+    //     paidArr.push(req.body[bill].billPay)
+    //     priArr.push(req.body[bill].priority)
+    // }
+    // console.log(nameArr)
+    // console.log(amtArr)
+    // console.log(dateArr)
+    // console.log(paidArr)
+    // console.log(priArr)
 
-    let query = {
-        'billName': {$in: nameArr}, 
-        'billAmt': {$in: amtArr}, 
-        'billDate': {$in: dateArr}, 
-        'billPay': {$in: paidArr}, 
-        'priority': {$in: priArr} 
-    }
+    // let query = {
+    //     'billName': {$in: nameArr}, 
+    //     'billAmt': {$in: amtArr}, 
+    //     'billDate': {$in: dateArr}, 
+    //     'billPay': {$in: paidArr}, 
+    //     'priority': {$in: priArr} 
+    // }
 
-    query = {}
-    let update = {$set: {'billAmt': '44444'}}
-    billCollection.updateMany(query, update)
-    .then(result => {
-        const { matchedCount, modifiedCount } = result;
-        console.log(`Successfully matched ${matchedCount} and modified ${modifiedCount} items.`)
-        return result
-      })
+    // query = {}
+    // let update = {$set: {'billAmt': '44444'}}
+    // billCollection.updateMany(query, update)
+    // .then(result => {
+    //     const { matchedCount, modifiedCount } = result;
+    //     console.log(`Successfully matched ${matchedCount} and modified ${modifiedCount} items.`)
+    //     return result
+    //   })
     //.then(result => console.log(result))
 
     // res.writeHead(200, "OK")
