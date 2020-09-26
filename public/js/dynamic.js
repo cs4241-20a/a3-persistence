@@ -41,8 +41,10 @@ function monitor(frameTimestamp, now) {
   const frequencyMedian = median(frequencyAccumulator);
 
   if (frequencyMedian > lowFrequencyThreshold && dpr > minDpr) {
+    console.log("Low FPS, setting resolution factor to " + (dpr - deltaDpr));
     updateDpr(dpr, -deltaDpr, now);
   } else if (frequencyMedian < highFrequencyThreshold && dpr < maxDpr) {
+    console.log("High FPS, setting resolution factor to " + (dpr + deltaDpr));
     updateDpr(dpr, deltaDpr, now);
   }
 }
@@ -59,7 +61,6 @@ function collectFrequency(frequency) {
 }
 
 function updateDpr(dpr, delta, now) {
-  console.log("Low FPS, setting resolution factor to " + (dpr + delta));
   renderer.setPixelRatio(dpr + delta);
   frequencyAccumulator = [];
   lastUpdatedAt = now;
