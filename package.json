@@ -13,6 +13,9 @@
     "helmet": "^4.1.1",
     "mime": "^2.4.4",
     "mongodb": "^3.6.2",
-    "passport-local": "^1.0.0"
+    "passport-github2": "^0.1.12",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7",
+    "serve-favicon": "^2.5.0"
   }
 }

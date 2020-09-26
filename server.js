@@ -1,14 +1,18 @@
-const { response } = require('express');
+const { response, request } = require('express');
 
 const express = require('express'),
     bodyParser = require('body-parser'),
     mongodb = require('mongodb'),
+    ObjectID = require('mongodb').ObjectID,
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     cookieSession = require('cookie-session'),
     helmet = require('helmet'),
+    favicon = require('serve-favicon'),
+    path = require('path')
     app = express();
 
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico'))) // middleware
 app.use(express.static("public")); // middleware
 app.use(bodyParser.json()); // middleware
 app.use(helmet()); //middleware
@@ -101,34 +105,6 @@ app.post("/login", bodyParser.json(),
     }
 );
 
-app.get("/getData", bodyParser.json(), (request, response) => {
-    console.log('Here')
-    let currentUser = request.session['User'];
-    console.log(currentUser);
-    response.sendFile(__dirname + "/public/main.html")
-})
-
-
-app.get("/reviews", (request, response) => {
-    console.log('HERE')
-    let currentUser = request.session['User'];
-
-    if (currentUser == null) {
-        response.sendStatus(404);
-    }
-
-    const userNameColumn = client.db('Webware').collection('reviews');
-        userNameColumn.find({
-            username: currentUser
-        }).toArray()
-            .then(function (result) {
-                response.send(JSON.stringify(result))
-            });
-
-    //response.json({username: currentUser}) // here do the mongodb get reviews from user
-});
-
-
 app.post("/signUp", bodyParser.json(), (request, response) => {
     console.log("Got request for main webpage");
 
@@ -144,7 +120,7 @@ app.post("/signUp", bodyParser.json(), (request, response) => {
                 user.insertOne(request.body)
                     .then(() => {
                         let userName = request.body.username;
-                        setUserSession(request, userName, "123");
+                        setUserSession(request, userName);
                         response.redirect("/getData");
                     });
 
@@ -158,27 +134,149 @@ app.post("/signUp", bodyParser.json(), (request, response) => {
 });
 
 
+app.get("/getData", bodyParser.json(), (request, response) => {
+    let currentUser = request.session['User'];
+    response.sendFile(__dirname + "/public/main.html")
+})
+
+app.get("/getUser", (request, response) => {
+    let currentUser = request.session['User'];
+
+    if (currentUser == null) {
+        response.sendStatus(404);
+    }
+
+    let jsonObj = {username: currentUser};
+
+    response.send(JSON.stringify(jsonObj));
+});
+
+app.get("/reviews", (request, response) => {
+    let currentUser = request.session['User'];
+
+    if (currentUser == null) {
+        response.sendStatus(404);
+    }
+
+    const userNameColumn = client.db('Webware').collection('reviews');
+    userNameColumn.find({
+        username: currentUser
+    }).toArray()
+        .then(function (result) {
+            response.send(JSON.stringify(result))
+        });
+});
+
 app.post('/submit', bodyParser.json(), (request, response) => {
     console.log("Got Submit");
-    collection.countDocuments()
-        .then((count) => {
-            console.log(count);
-        });
+    recievedData = request.body;
 
-    console.log(request.body);
+    recievedData = cleanUpJSON(recievedData)
+
+    collection.insertOne(recievedData)
+    .then(() => {
+        console.log("Inserted to DB")
+        response.sendStatus(200);
+    });
+
 });
+
+app.post('/save', bodyParser.json(), (request, response) => {
+    console.log("Got Save");
+    recievedData = request.body;
+
+    recievedData = cleanUpJSON(recievedData)
+
+    let entryID = recievedData.entryID;
+
+    console.log(recievedData)
+
+    let findID = {_id: ObjectID(entryID)};
+
+    let updatedValues = { 
+        $set: {
+            name: recievedData.name,
+            deviceName: recievedData.deviceName,
+            priceRating: recievedData.priceRating,
+            batteryRating: recievedData.batteryRating,
+            performanceRating: recievedData.performanceRating,
+            feelRating: recievedData.feelRating,
+            overallRating: recievedData.overallRating
+        }
+    };
+
+    collection.updateOne(findID, updatedValues, function(err, res) {
+        if (err) throw err;
+
+        console.log("Updated 1 Document!");
+    })
+    
+    response.sendStatus(200);
+});
+
+function cleanUpJSON(recievedData) {
+    let priceRating = parseInt(recievedData.priceRating.charAt(0));
+    let batteryRating = parseInt(recievedData.batteryRating.charAt(0));
+    let performanceRating = parseInt(recievedData.performanceRating.charAt(0));
+    let feelRating = parseInt(recievedData.feelRating.charAt(0));
+
+    var overallRating = calculateOverallRating(priceRating, batteryRating, performanceRating, feelRating)
+
+    recievedData.priceRating = priceRating;
+    recievedData.batteryRating = batteryRating;
+    recievedData.performanceRating = performanceRating;
+    recievedData.feelRating = feelRating;
+    recievedData.overallRating = parseFloat(overallRating);
+
+    return recievedData;
+}
 
 
 app.post('/modify', bodyParser.json(), (request, response) => {
     console.log("Got Modify");
-    console.log(request.body);
+    console.log(request.body.entryID)
+    collection.find({
+        _id: ObjectID(request.body.entryID)
+    }).toArray()
+    .then(function (result) {
+        if (result.length <= 0) {
+            console.log("Not Found!")
+            response.sendStatus(404);
+        
+        } else {
+            console.log(result)
+            response.send(JSON.stringify(result[0]))
+        }
+        
+    });
+    
 });
 
 app.post('/deletion', bodyParser.json(), (request, response) => {
     console.log("Got Deletion");
-    console.log(request.body);
+    recievedData = request.body;
+
+    let entryID = recievedData.entryID;
+
+    let findID = {_id: ObjectID(entryID)};
+
+    collection.deleteOne(findID, function(err, obj) {
+        if (err) throw err;
+
+        console.log("Deleted 1 Document!");
+    });
+
+    response.sendStatus(200);
 });
 
+
+function calculateOverallRating(price, battery, performance, feel) {
+    var overallRating = (price + battery + performance + feel) / 4;
+
+    overallRating = overallRating.toFixed(2);
+
+    return overallRating;
+}
 
 
 // listen for requests :)

@@ -2,49 +2,44 @@
 
 console.log("Welcome to assignment 2!")
 
+var modifyFlag = false;
+var saveID = null;
+var username = null;
 
-function generateBody(action) {
-    let username = document.getElementById('username');
+function generateBody(action, id) {
+    const usernameInput = document.getElementById('username');
+    let name = document.getElementById('name');
     let device = document.getElementById('device')
     let priceRating = document.getElementById('price');
     let batteryRating = document.getElementById('battery');
     let performanceRating = document.getElementById('performance');
     let feelRating = document.getElementById('device-feel');
-    let index = document.getElementById('index')
-    
-    if (action == 3) {
-        const jsonObject = { 
-            delete: 'true',
-            index: index.value
-        }, body = JSON.stringify(jsonObject)
-    
-        return body;
-    }
 
-    else if (action == 2) {
-        const jsonObject = { 
-            index: index.value,
-            username: username.value, 
-            device: device.value,
-            priceRating: priceRating.value, 
-            batteryRating: batteryRating.value, 
+    if (action == 1) {
+        const jsonObject = {
+            username: usernameInput.value,
+            name: name.value,
+            deviceName: device.value,
+            priceRating: priceRating.value,
+            batteryRating: batteryRating.value,
             performanceRating: performanceRating.value,
             feelRating: feelRating.value
         }, body = JSON.stringify(jsonObject)
-    
-        return body;
-    }
 
-    else {
-        const jsonObject = { 
-            username: username.value, 
-            device: device.value,
-            priceRating: priceRating.value, 
-            batteryRating: batteryRating.value, 
+        return body;
+    
+    } else {
+        const jsonObject = {
+            entryID: id,
+            username: usernameInput.value,
+            name: name.value,
+            deviceName: device.value,
+            priceRating: priceRating.value,
+            batteryRating: batteryRating.value,
             performanceRating: performanceRating.value,
             feelRating: feelRating.value
         }, body = JSON.stringify(jsonObject)
-    
+
         return body;
     }
 }
@@ -55,50 +50,60 @@ function performFetch(name, body) {
     table.style.visibility = "visible";
     // fetching data from the input entries
     // POST used to send to server
-    fetch( name, {
+    fetch(name, {
         // adding method type POST
-        method:'POST',
-        headers: {'Content-Type': 'application/json'},
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body // adding body of the input to send to server (is in JSON)
     })
-    // response is from the server
-    .then( function( response ) { // once this async promise task completes then run this particular function
-        // do something with the reponse 
-        console.log( response )
-        updateTable()
-    })
+        // response is from the server
+        .then(function (response) { // once this async promise task completes then run this particular function
+            // do something with the reponse 
+            console.log(response)
+            updateTable()
+        })
 
     resetForm();
 }
 
 
-const submit = function( e ) {
+const submit = function (e) {
     // prevent default form action from being carried out
     e.preventDefault()
-    
-    body = generateBody(1)
+
+    body = generateBody(1, -1)
 
     performFetch('/submit', body)
 
-    return false;
-}
-
-
-const modify = function( e ) {
-    // prevent default form action from being carried out
-    e.preventDefault()
-    
-    body = generateBody(2)
-
-    performFetch('/modify', body)
+    resetFlags();
 
     return false;
 }
 
-const deletion = function( e ) {
+const save = function (e) {
     // prevent default form action from being carried out
     e.preventDefault()
-    
+
+    if (!modifyFlag) {
+        window.alert("Not Modifying Any Entries Right Now!");
+        return false;
+    }
+
+    body = generateBody(2, saveID)
+
+    performFetch('/save', body)
+
+    resetFlags();
+
+    return false;
+}
+
+
+
+const deletion = function (e) {
+    // prevent default form action from being carried out
+    e.preventDefault()
+
     body = generateBody(3);
 
     performFetch('/deletion', body)
@@ -109,17 +114,17 @@ const deletion = function( e ) {
 
 function updateTable() {
     fetch('/reviews') // using fetch to GET the reviews array in server
-    .then(response => response.json())
-    .then(data => {
-        console.log("Got Data from Server");
-        console.log(data);
+        .then(response => response.json())
+        .then(data => {
+            console.log("Got Data from Server");
+            console.log(data);
 
-        createTable(data)
-        
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+            createTable(data)
+
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
 
@@ -134,69 +139,156 @@ function createTable(data) {
 
     for (let i = 0; i < data.length; i++) {
         let row = table.insertRow(1);
-        let indexCol = row.insertCell(0);
-        let usernameCol = row.insertCell(1); 
+        let usernameCol = row.insertCell(0);
+        let nameCol = row.insertCell(1);
         let devicenameCol = row.insertCell(2);
         let priceCol = row.insertCell(3);
         let batteryCol = row.insertCell(4);
         let performanceCol = row.insertCell(5);
         let feelCol = row.insertCell(6);
         let overallCol = row.insertCell(7);
+        let modifyCol = row.insertCell(8);
+        let deleteCol = row.insertCell(9);
 
-        indexCol.innerHTML = data[i].currentIndex;
+        let id = data[i]._id
         usernameCol.innerHTML = data[i].username;
+        nameCol.innerHTML = data[i].name;
         devicenameCol.innerHTML = data[i].deviceName;
         priceCol.innerHTML = data[i].priceRating;
         batteryCol.innerHTML = data[i].batteryRating;
         performanceCol.innerHTML = data[i].performanceRating;
         feelCol.innerHTML = data[i].feelRating;
         overallCol.innerHTML = data[i].overallRating;
+
+        let modifyID = "modify_" + i;
+        let deleteID = "delete_" + i;
+        modifyCol.innerHTML = '<button id="' + modifyID + '" onclick="modifyEntry(\'' + id + '\', \'' + i + '\');">modify</button>';
+        deleteCol.innerHTML = '<button id="' + deleteID + '" onclick="deleteEntry(\'' + id + '\');">delete</button>';
     }
 }
 
+function modifyEntry(id, index) {
+    let name = document.getElementById('name');
+    let device = document.getElementById('device')
+    let priceRating = document.getElementById('price');
+    let batteryRating = document.getElementById('battery');
+    let performanceRating = document.getElementById('performance');
+    let feelRating = document.getElementById('device-feel');
+
+    let modifyID = "modify_" + index;
+
+
+    const jsonObject = {
+        entryID: id
+    }, body = JSON.stringify(jsonObject)
+
+
+    fetch('/modify', {
+        // adding method type POST
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body // adding body of the input to send to server (is in JSON)
+    })
+    .then(function(response) {
+        if (response.status === 404) {
+            window.alert("ERROR: Entry Not Found in DB! Refresh Page");
+        
+        } else {
+            return response.json();
+        }
+    })
+    .then(data => {
+        name.value = data.name;
+        device.value = data.deviceName;
+        priceRating.value = getDropdownValue(data.priceRating);
+        batteryRating.value = getDropdownValue(data.batteryRating);
+        performanceRating.value = getDropdownValue(data.performanceRating);
+        feelRating.value = getDropdownValue(data.feelRating);
+    })
+
+    modifyFlag = true;
+    saveID = id;
+}
+
+function getDropdownValue(rating) {
+    let value = "";
+    if (rating === 1) {
+        value = rating + " Star";
+    
+    } else {
+        value = rating + " Stars";
+    }
+
+    return value
+}
+
+function deleteEntry(id) {
+    const jsonObject = {
+        entryID: id
+    }, body = JSON.stringify(jsonObject)
+
+
+    fetch('/deletion', {
+        // adding method type POST
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body // adding body of the input to send to server (is in JSON)
+    })
+    .then(function(response) {
+        if (response.status === 404) {
+            window.alert("ERROR: Deletion Failed");
+        
+        } else {
+            updateTable();
+        }
+    })
+
+    resetFlags();
+}
 
 function resetForm() {
+    const usernameInput = document.getElementById('username');
+    let userName = usernameInput.value;
     document.getElementById("formID").reset();
+    usernameInput.value = userName;
+
+}
+
+function resetFlags() {
+    modifyFlag = false;
+    saveID = null;
 }
 
 
-window.onload = function() {
-    const submitButton = document.getElementById( 'submit' )
+window.onload = function () {
+    const submitButton = document.getElementById('submit')
     submitButton.onclick = submit;
 
-    const modifyButton = document.getElementById('modify');
-    modifyButton.onclick = modify;
+    const saveButton = document.getElementById('save')
+    saveButton.onclick = save;
+    
+    const usernameInput = document.getElementById('username');
 
-    const deleteButton = document.getElementById('delete');
-    deleteButton.onclick = deletion;
+    fetch('/getUser') 
+    .then(response => response.json())
+    .then(data => {
+        usernameInput.value = data.username;
+    });
 
     fetch('/reviews')
-    .then(response => response.json())
-    .then(data => {
-        if (data.length != 0) {
-            let table = document.getElementById('table');
-            table.style.visibility = "visible";
-        }
-        createTable(data)
-    
-    }).catch((error) => {
-        console.error('Error:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.length != 0) {
+                //window.alert(data[0]._id)
+                let table = document.getElementById('table');
+                table.style.visibility = "visible";
+                
+            }
 
-    //fetch('/reviews') // using fetch to GET the reviews array in server
-    /*
-    .then(response => response.json())
-    .then(data => {
-        if (data.length != 0) {
-            let table = document.getElementById('table');
-            table.style.visibility = "visible";
-        }
-        createTable(data)
-        
-    })
-    
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-    */
+            createTable(data)
+
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+
 }
