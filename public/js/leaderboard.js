@@ -96,6 +96,7 @@ function createTable(dataJSON) {
       );
     } else {
       remove_button.disabled = true;
+      edit_button.disabled = true;
     }
 
     modify_td.appendChild(edit_button);
