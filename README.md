@@ -48,6 +48,7 @@ Achievements
         - D / Right Arrow = Right
     - Everything was modeled by me in Blender (the original car was too high poly, but I have left the credits in the footer)
     - The HDRI was adapted to a cubemap for file size reasons, the project has gone from ~15 MB (just the car + tires) to ~4MB (car + track + tires)
+    - The resolution will scale dynamically to try and [hit 60 FPS](https://stackoverflow.com/questions/47681058/keeping-fps-in-a-certain-range-with-three-js)
 
 *Some Notes*
 - Every user can see all other users results, but to prove I can filter the results by user I have made the text **bold**

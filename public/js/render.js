@@ -90,12 +90,12 @@ function restartRace() {
   }
 }
 
-//export function beginLoading() {
-initCannon();
-initThree();
-setRenderSize();
-animate();
-//}
+export function beginLoading() {
+  initCannon();
+  initThree();
+  setRenderSize();
+  animate();
+}
 
 function raceStart() {
   let i = 0;
@@ -196,7 +196,6 @@ function setRenderSize() {
     camera.aspect = copySIZE.clientWidth / copySIZE.offsetHeight;
     camera.updateProjectionMatrix();
 
-    //renderer.setPixelRatio(window.devicePixelRatio / 4);
     renderer.setSize(copySIZE.clientWidth, copySIZE.offsetHeight);
   }
 }
