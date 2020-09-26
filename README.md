@@ -46,6 +46,7 @@ Achievements
         - A / Left Arrow = Left
         - S / Down Arrow = Reverse/Brake
         - D / Right Arrow = Right
+    - The track and vehicle tires (which were too high-poly before) were created by me in Blender.
 
 *Some Notes*
 - Every user can see all other users results, but to prove I can filter the results by user I have made the text **bold**
@@ -54,3 +55,5 @@ for the results of the user that is logged in.
 - The users are stored in the MongoDB database in a separate collection, but this isn't really used anywhere (just for me to track logins).
 - I don't really have `"HTML input tags and form fields of various flavors (<textarea>, <input>, checkboxes, radio buttons etc.)"`, but I couldn't
     find anywhere to insert these that would make sense.
+- The collisions are not with the visual barriers, but involve cubes that were placed by hand.
+Apologies if some of the collision boxes are inaccurate, I tried my best.
