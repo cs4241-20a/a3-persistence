@@ -106,7 +106,7 @@ app.get( '/logout', (request, response) => {
 })
 
 app.post( '/submit', (request, response) => {
-  json = { GHid: request.session.GHid, vehiclemake: request.body.vehiclemake, vehiclemodel: request.body.vehiclemodel, vehicleyear: request.body.vehicleyear, vehicleage: request.body.vehicleage }
+  const json = { GHid: request.session.GHid, vehiclemake: request.body.vehiclemake, vehiclemodel: request.body.vehiclemodel, vehicleyear: request.body.vehicleyear, vehicleage: request.body.vehicleage }
   collection.insertOne( json )
   .then( dbresponse => {
     response.json( dbresponse.ops[0] )
