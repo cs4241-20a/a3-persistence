@@ -87,5 +87,5 @@ middlleware =
 - express static
 - cookie parser
 - body parser
-- passport 
+- passport / passport.initialize()
 - morgan

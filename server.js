@@ -6,27 +6,8 @@ const app = express()
 const cookieParser = require('cookie-parser')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
-// const passport = require('passport')
-// var OAuth2Strategy = require('passport-oauth').OAuth2Strategy
+const passport = require('passport')
 
-// passport.use('provider', new OAuth2Strategy({
-//     authorizationURL: 'https://www.provider.com/oauth2/authorize',
-//     tokenURL: 'https://www.provider.com/oauth2/token',
-//     clientID: '123-456-789',
-//     clientSecret: 'shhh-its-a-secret',
-//     callbackURL: 'https://www.example.com/auth/provider/callback'
-//   },
-//   function(accessToken, refreshToken, profile, done) {
-//     User.findOrCreate(..., function(err, user) {
-//       done(err, user);
-//     });
-//   }
-// ));
-
-// app.get('/auth/provider', passport.authenticate('provider'));
-// app.get('/auth/provider/callback',
-//   passport.authenticate('provider', { successRedirect: '/',
-//                                       failureRedirect: '/login' }));
 
 const mongodb = require('mongodb')
 dotenv.config()
@@ -39,6 +20,44 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(cookieParser())
 app.use(express.json()) // add with mongodb
 app.use(morgan('tiny'))
+app.use(passport.initialize())
+app.use(passport.session())
+
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+  });
+  
+  passport.deserializeUser(function(user, done) {
+    done(null, user);
+  });
+
+var GitHubStrategy = require('passport-github').Strategy;
+passport.use(new GitHubStrategy({
+        clientID: process.env.GITHUB_ID,
+        clientSecret: process.env.GITHUB_SECRET,
+        callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+        console.log("profile: " + profile);
+        cb(null, profile);
+    }
+));
+
+app.get('/auth/github',
+    passport.authenticate('github'));
+
+app.get('/auth/github/callback',
+    passport.authenticate('github', {
+        failureRedirect: '/login'
+    }),
+    function (req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('../../index.html');
+    });
+
+
+
 
 // Mongo
 const uri = 'mongodb+srv://' + process.env.USERNAME + ':' + process.env.PASS + '@' + process.env.HOST + '/' + process.env.DB
@@ -133,7 +152,9 @@ app.post('/removeUser', (req, res) => {
 // Send results to server
 app.post('/results', (req, res) => {
     console.log(req.body)
-    billCollection.find({'billUser': req.body.user}).toArray(function (err, result) {
+    billCollection.find({
+        'billUser': req.body.user
+    }).toArray(function (err, result) {
         res.setHeader("Content-Type", "application/json")
         res.json(result)
         if (err) {
@@ -160,10 +181,18 @@ app.post('/add', (req, res) => {
     })
 })
 
-app.post('/login', (req, res) => {
-    res.cookie("user", req.body)
-    return res.redirect('/index.html')
-})
+// app.post('/login', (req, res) => {
+//     res.cookie("user", req.body)
+//     return res.redirect('/index.html')
+// })
+
+app.post('/login', passport.authenticate('local', {
+        failureRedirect: 'login.html'
+    }),
+    function (req, res) {
+        res.cookie("user", req.body)
+        res.redirect('/');
+    });
 
 
 // app.get( '/auth/google/callback', 
@@ -181,7 +210,9 @@ app.post('/delete', (req, res) => {
 
 
 app.post('/edit', (req, res) => {
-    billCollection.deleteMany({'billUser': currentUser})
+    billCollection.deleteMany({
+        'billUser': currentUser
+    })
     billCollection.insertMany(req.body)
 
 
