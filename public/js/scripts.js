@@ -32,6 +32,8 @@ const submit = function (e) {
   })
     .then(response => response.json())
     .then(json => {
+      console.log("Submitted")
+      console.log(json)
       updateTable(json)
     })
 
@@ -153,6 +155,8 @@ window.onload = function () {
   fetch('/data')
     .then(response => response.json())
     .then(json => {
+      console.log("Got data.")
+      console.log(json)
       updateTable(json)
     })
 }
