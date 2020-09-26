@@ -1,7 +1,7 @@
 {
   "name": "A3-Persistence-WBY",
   "version": "1.0.1",
-  "description": "Inventory application for car dealership",
+  "description": "Car wishlist",
   "author": "William Yang",
   "scripts": {
     "start": "node server.improved.js"
@@ -9,7 +9,6 @@
   "dependencies": {
     "compression": "^1.7.4",
     "cookie-session": "^1.4.0",
-    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mime": "^2.4.4",

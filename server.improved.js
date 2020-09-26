@@ -7,7 +7,6 @@ const http = require( 'http' ),
       responseTime = require( 'response-time' ),
       fetch = require( 'node-fetch' ),
       cookieSession = require( 'cookie-session' ),
-      cors = require( 'cors' ),
       app = express(),
       port = 3000;
 
@@ -20,7 +19,6 @@ app.use( express.static( 'public' ) )
 app.use( compression() )
 app.use( responseTime( (request, response, time) => console.log( request.method, request.url, time + 'ms' ) ) )
 app.use( bodyparser.json() )
-app.use( cors() );
 
 // DB STUFF //
 require('dotenv').config()
