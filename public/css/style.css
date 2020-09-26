@@ -1,0 +1,112 @@
+/*
+Color Wheel:
+A: (Blue)   #0011A8
+B: (Blue)   #1930FF
+C: (Base)   #0119F5
+D: (Yellow) #A88300
+E: (Yellow) #F5BF00
+*/
+
+/* GENERAL PROPERTIES */
+
+html,
+body {
+    background: url(../resources/bimage.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    height: 100%;
+    z-index: -1;
+}
+
+html,
+body,
+input,
+textarea,
+button {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+    font-family: 'Rajdhani', sans-serif;
+}
+
+button {
+    font-size: 1em;
+}
+
+input {
+    font-size: 1em;
+}
+
+.centeredItem {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+.google-icon {
+    display: flex;
+    align-items: center;
+}
+
+/* LOGIN PAGE PROPERTIES */
+#loginTitle {
+    color:white;
+}
+
+.backgroundVid {
+    position:fixed;
+    right:0;
+    bottom:0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index:0;
+}
+
+/* MAIN PAGE PROPERTIES */
+#mainForm {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    grid-auto-flow: row;
+}
+
+#mainForm > input {
+    text-align: center;
+}
+
+#resultsTable{
+    font-size: x-large;
+    width: 90%;
+    border-collapse: collapse;
+}
+
+.grid-container {
+    display: grid;
+    background-color: rgba(255,255,255,0.95);
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+    border-radius: 25px;
+    grid-template-areas: 
+        'header header header header header'
+        'left content content content content';
+}
+
+.grid-container > div {
+    padding: 20px 0;
+}
+
+.header { 
+    grid-area: header; 
+    text-align: center;
+}
+.left { 
+    grid-area: left; 
+    text-align: center;
+}
+.content { grid-area: content; }

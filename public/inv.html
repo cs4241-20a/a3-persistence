@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Main - CS4241 Assignment 3</title>
+  <meta charset="utf-8">
+  <link href="//cdn.muicss.com/mui-0.10.3/css/mui.min.css" rel="stylesheet" type="text/css" />
+  <script src="//cdn.muicss.com/mui-0.10.3/js/mui.min.js"></script>
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+  <script src="js/scripts.js" defer></script>
+</head>
+
+<body>
+  <div class="grid-container">
+    <div class="header">
+      <header>
+        <h1>Car Wishlist</h1>
+      </header>
+    </div>
+    <div class="left">
+      <section>
+        <h2>Add New Car</h2>
+        <form id="mainForm" class="mui-form">
+          <div class="mui-textfield">
+            <input type='text' id='vehiclemake' placeholder="Vehicle Make (e.g. Ford, Audi)">
+            <input type='text' id='vehiclemodel' placeholder="Vehicle Model (e.g. F150, S5)">
+            <input type='text' id='vehicleyear' name="vehicleyear" placeholder="Vehicle Year (e.g 2005, 2015)" pattern="[0-9]+">
+            <p>Vehicle year must be between 1879 and this year.</p>
+          </div>
+          <button id="submitButton" class="mui-btn mui-btn--raised mui-btn--primary">Submit</button>
+        </form>
+        <button id="logoutButton" class="mui-btn mui-btn--raised mui-btn--danger">Logout</button>
+      </section>
+    </div>
+    <div class="content">
+      <aside>
+        <h2 style="text-align: center;">Cars On Your Wishlist</h2>
+        <table id="resultsTable" class="mui-table mui-table--bordered">
+          <thead>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Age</th>
+            <th>Edit/Delete</th>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>
