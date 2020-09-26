@@ -3,10 +3,10 @@ const lowFrequencyThreshold = 20; // ~50 FPS
 
 const minDpr = 0.25;
 const maxDpr = window.devicePixelRatio;
-const deltaDpr = 0.1;
+const deltaDpr = 0.2;
 
-const relaxPeriod = 1000;
-const accumulatorLength = 20;
+const relaxPeriod = 2000;
+const accumulatorLength = 10;
 
 let frameTimestamp = performance.now();
 let frequencyAccumulator = [];
@@ -59,7 +59,7 @@ function collectFrequency(frequency) {
 }
 
 function updateDpr(dpr, delta, now) {
-  console.log("Low FPS, setting resolution factor to " + dpr);
+  console.log("Low FPS, setting resolution factor to " + (dpr + delta));
   renderer.setPixelRatio(dpr + delta);
   frequencyAccumulator = [];
   lastUpdatedAt = now;
