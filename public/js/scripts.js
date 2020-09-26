@@ -145,7 +145,7 @@ function createTable(data) {
 
         indexCol.innerHTML = data[i].currentIndex;
         usernameCol.innerHTML = data[i].username;
-        devicenameCol.innerHTML = data[i].device;
+        devicenameCol.innerHTML = data[i].deviceName;
         priceCol.innerHTML = data[i].priceRating;
         batteryCol.innerHTML = data[i].batteryRating;
         performanceCol.innerHTML = data[i].performanceRating;
@@ -170,8 +170,21 @@ window.onload = function() {
     const deleteButton = document.getElementById('delete');
     deleteButton.onclick = deletion;
 
+    fetch('/reviews')
+    .then(response => response.json())
+    .then(data => {
+        if (data.length != 0) {
+            let table = document.getElementById('table');
+            table.style.visibility = "visible";
+        }
+        createTable(data)
+    
+    }).catch((error) => {
+        console.error('Error:', error);
+    });
 
-    fetch('/reviews') // using fetch to GET the reviews array in server
+    //fetch('/reviews') // using fetch to GET the reviews array in server
+    /*
     .then(response => response.json())
     .then(data => {
         if (data.length != 0) {
@@ -181,7 +194,9 @@ window.onload = function() {
         createTable(data)
         
     })
+    
     .catch((error) => {
         console.error('Error:', error);
     });
+    */
 }

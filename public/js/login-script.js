@@ -2,41 +2,51 @@
 
 console.log("Welcome to assignment 2!")
 
-function redirect() {
-    let username = document.getElementById('username')
-    let password = document.getElementById('password')
+
+const login = function(e) {
+    e.preventDefault();
+
+    let username = document.getElementById('username');
+    let password = document.getElementById('password');
 
     const jsonObject = {
         username: username.value,
         password: password.value,
-        signUp: false
     }, body = JSON.stringify(jsonObject)
-
+    
     if (username.value === '' || password.value == '') {
         window.alert("ERROR: Must Enter Username and Password!")
     
     } else {
-        fetch('/main', {
+        fetch('/login', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body 
         })
         .then(function(response) {
-            console.log(response.url)
-            window.location.href = response.url + ".html";
+            if (response.status === 200) {
+                window.location.href="/main.html"
+            
+            } else {
+                window.alert("Incorrect Username or Password!")
+            }
         })
     }
     
+    return false;
 }
 
-function redirect2() {
+
+const signUp = function(e) {
+
+    e.preventDefault();
+
     let username = document.getElementById('username')
     let password = document.getElementById('password')
 
     const jsonObject = {
         username: username.value,
         password: password.value,
-        signUp: true
     }, body = JSON.stringify(jsonObject)
 
     if (username.value === '1' || password.value == '1') {
@@ -49,13 +59,24 @@ function redirect2() {
             body 
         })
         .then(function(response) {
-            if (response.status() === 200) {
-                window.location.href = "/main.html";
+            if (response.status === 200) {
+                window.location.href="/main.html"
             
             } else {
-                window.alert("Username taken!")
+                window.alert("Username Taken!")
             }
         })
     }
     
+    return false;
+}
+
+window.onload = function() {
+    const loginButton = document.getElementById('login');
+    loginButton.onclick = login;
+
+    const signupButton = document.getElementById('signUp');
+    signupButton.onclick = signUp;
+
+
 }
