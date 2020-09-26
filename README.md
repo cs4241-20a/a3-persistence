@@ -14,6 +14,7 @@ Include a very brief summary of your project here. Images are encouraged, along 
 
 ## Technical Achievements
 - **(10 Points Max) Implement OAuth authentication**: I used OAuth authentication via the GitHub strategy. I took inspiration from https://github.com/kevinsimper/node-github-auth-example/ and https://github.com/Sivanesh-S/github-oauth-express#readme in order to achieve this.
+- **(5 Points Max) Deploy on Heroku**: Deployed on Heroku instead of Twitch. I liked it better than Glitch because it allowed me to directly integrate with my GitHub branch instead of having to constantly manually import from it in order to update my Glitch app. Thus, it saves me a bit of time every time I want to make changes.
 
 ### Design/Evaluation Achievements
 - **(10 Points Max) Follow 12 Tips from W3C**: I followed the following tips from the W3C writing, designing, and development tips.
