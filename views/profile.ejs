@@ -1,0 +1,9 @@
+<% if (!user) { %>
+<script>window.location.href = "https://a3-margaretearnest.glitch.me/";</script>
+<% } else { %>
+<p>
+ID: <%= user.id %><br/>
+Username: <%= user.username %><br/>
+Profile: <%= user.profileUrl %><br/>  
+</p>
+<% } %>

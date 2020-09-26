@@ -70,7 +70,7 @@ class Wall {
 
 //from here https://stackoverflow.com/questions/4959975/generate-random-number-between-two-numbers-in-javascript
 function randInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 function makeMaze(mazeCol, mazeRow) {
@@ -129,11 +129,11 @@ function drawMaze(grid, pS) {
   document.getElementById("maze").innerHTML = ""
   for(let r=0; r<grid.length; r++) {
     let row = document.createElement('div')
-    row.style.cssText = 'display:block;width:' + (pS * grid[0].length) + 'px;height:' + pS + 'px;';
+    row.style.cssText = 'display:block;width:' + (pS * grid[0].length) + 'px;height:' + pS + 'px;'
     document.getElementById("maze").appendChild(row)
     for(let c=0; c<grid[0].length; c++) {
       let cell = document.createElement('div')
-      cell.style.cssText = 'display:inline-block;width:' + pS + 'px;height:' + pS + 'px;background:#E3E3E3';
+      cell.style.cssText = 'display:inline-block;width:' + pS + 'px;height:' + pS + 'px;background:#E3E3E3'
       if(grid[r][c].getWalls()[0].exists) {cell.style.cssText += 'border-top: 1px solid black'} //top
       if(grid[r][c].getWalls()[1].exists) {cell.style.cssText += 'border-right: 1px solid black'} //right
       if(grid[r][c].getWalls()[2].exists) {cell.style.cssText += 'border-bottom: 1px solid black'} //down
@@ -143,6 +143,23 @@ function drawMaze(grid, pS) {
   }
 }
 
-let newMaze = makeMaze(70,50)
-drawMaze(newMaze, 10)
-console.log("Done Drawing")
+function newMaze() {
+  let name = document.getElementById("name").value
+  let row = parseInt(document.getElementById("rowNum").value, 10)
+  let col = parseInt(document.getElementById("colNum").value, 10)
+  let s = parseInt(document.getElementById("size").value, 10)
+  if(name == "") {
+    alert("You must enter a name for your maze.");
+  } else if(isNaN(row)) {
+    alert("You must enter a number of rows.");
+  } else if(isNaN(col)) {
+    alert("You must enter a number of columns.");
+  } else if(isNaN(s)) {
+    alert("You must enter a number for passage width.");
+  } else {
+    let newMaze = makeMaze(col,row)
+    drawMaze(newMaze, s)
+    document.getElementById("mazeName").innerText = name
+    console.log("Done Drawing") 
+  }
+}
