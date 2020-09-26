@@ -1,5 +1,5 @@
-const highFrequencyThreshold = 20; // ~55 FPS
-const lowFrequencyThreshold = 30; // ~50 FPS
+const highFrequencyThreshold = 1000/58.0; // ~58 FPS
+const lowFrequencyThreshold = 1000/50.0; // ~50 FPS
 
 const minDpr = 0.25;
 const maxDpr = window.devicePixelRatio;
