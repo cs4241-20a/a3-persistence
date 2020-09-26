@@ -19,11 +19,11 @@
 
 <body>
 
-    <div class="jumbotron text-center" style="background-color: #13a2b8; color: #fff">
+    <div class="jumbotron text-center" style="background-color: #13a2b8; color: #fff; position: relative;">
+        <a style="position: absolute; top:10px; right: 10px; color: #fff;" href="login.html">Log Out</a>
         <h1>Bill Tracker</h1>
         <h4><small>The easiest way to manage your bills</small></h4>
     </div>
-
 
     <div class="container">
 
@@ -60,7 +60,7 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <button class="btn btn-primary btn-block submit mt-2 mb-2">Submit</button>
+                <button class="btn btn-primary btn-block submit mt-2 mb-2" onClick="submitBill()">Submit</button>
             </div>
         </div>
 
@@ -78,6 +78,7 @@
                 <table class="table collapse" id="all_bills">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Name</th>
                             <th>Amount</th>
                             <th>Date Issued</th>

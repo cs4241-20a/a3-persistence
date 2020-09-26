@@ -1,16 +1,9 @@
-// window.onload = function () {
-//     const button = document.querySelector('button')
-//     button.onclick = submit
-// }
 
+function submitBill() {
+    if (validateForm()) {
+        submitForm()
+    }
 
-
-// Form Submit + validation
-const submit = function (e) {
-    // Prevent default form action from being carried out
-    e.preventDefault()
-    validateForm()
-    return false
 }
 
 // Validate form, block submission if missing fields
@@ -25,9 +18,10 @@ function validateForm() {
         errorMsg = "Please enter a date"
     }
     document.getElementById("errorMsg").innerHTML = errorMsg
-    if (!errorMsg) {
-        submitForm()
+    if (errorMsg != "") {
+        return false 
     }
+    return true 
 }
 
 // Submit form data to server
@@ -38,6 +32,7 @@ function submitForm() {
         billAmt: document.getElementById("amt").value,
         billDate: document.getElementById("date").value,
         billPay: document.getElementById("paid").checked
+        //billUser: 'user1'
     }
 
     fetch('/add', {
@@ -66,18 +61,17 @@ function submitForm() {
                 document.getElementById("billForm").reset()
             }
         })
-
     getAllBills(true)
 }
 
 // Retrieve all bills from server
 function getAllBills(stayOpen) {
 
-    if (document.getElementById("all_bills").visibility == "visible") {
-        document.getElementById("allBillBtn").innerText = "Hide all bills"
-    } else {
-        document.getElementById("allBillBtn".innerText = "Show all bills")
-    }
+    // if (document.getElementById("all_bills").visibility == "visible") {
+    //     document.getElementById("allBillBtn").innerText = "Hide all bills"
+    // } else {
+    //     document.getElementById("allBillBtn".innerText = "Show all bills")
+    // }
 
     // Retrieve all data from server
     fetch('/results', {
@@ -213,6 +207,23 @@ function editOnServer() {
         allElts.push(i)
     }
 
+
+    // for (let i = 0 ; i < changedElts.length ; i+=5) {
+    //     let payBool = false
+    //     if (changedElts[i+3].value == 'true') {
+    //         payBool = true
+    //     }
+    //     jsonObjs.push({
+    //         billName: changedElts[i].value,
+    //         billAmt: changedElts[i+1].value,
+    //         billDate: changedElts[i+2].value,
+    //         billPay: payBool,
+    //         priority: changedElts[i+4].value
+    //     })
+
+    //     console.log(changedElts[i].value, changedElts[i+1].value, changedElts[i+2].value, changedElts[i+3].value, changedElts[i+4].value)
+    // }
+
     // Create JSON object to send to server
     for (obj in allElts) {
         let payBool = false
@@ -278,6 +289,8 @@ function deleteFromServer(deleteArr) {
             billPay: payBool
         })
     }
+
+    console.log(JSON.stringify(jsonObjs))
 
     // POST to server
     fetch('/delete', {
@@ -347,31 +360,104 @@ function showOptions(eltId) {
 }
 
 
-function login() {
+async function login() {
     // Get username, password from HTML
     let user = document.getElementById("username").value
     let pass = document.getElementById("password").value
-    console.log(user, pass)
 
-    // Validate
+    // Validate form 
     if (user == "" || pass == "") {
         errorMsg.innerHTML = "Please enter a username and password"
     } else {
-        errorMsg.innerHTML = ""
+        let allUsers = []
 
-        // Post to server, DB
-        fetch('/addUser', {
-                method: 'POST',
-                body: JSON.stringify({
-                    username: user,
-                    password: pass
-                }),
+        // Get all users in database
+        await fetch('/getAllUsers', {
+                method: 'GET',
                 headers: {
                     "Content-Type": "application/json"
                 }
             })
-            .then(function (response) {
-                console.log(response)
+            .then(response => {
+                return response.json()
             })
+            .then(json => {
+                allUsers = json
+            })
+
+        // Is the login creds valid? 
+        for (cred in allUsers) {
+            if (allUsers[cred].username == user && allUsers[cred].password == pass) {
+                window.location.replace("/index.html")
+            }
+        }
+
+        errorMsg.innerHTML = "An account for this username and password was not found"
+    }
+}
+
+async function signup() {
+    // Get username, password from HTML
+    let user = document.getElementById("username").value
+    let pass = document.getElementById("password").value
+    let confirmPass = document.getElementById("confirm_password").value
+
+    // Validate form 
+    if (user == "" || pass == "") {
+        errorMsg.innerHTML = "Please enter a username and password"
+    } else if (confirmPass == "") {
+        errorMsg.innerHTML = "Please confirm your password"
+    } else if (pass !== confirmPass) {
+        errorMsg.innerHTML = "Passwords don't match"
+    } else {
+        let allUsers = []
+
+        // Get all users in database
+        await fetch('/getAllUsers', {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => {
+                return response.json()
+            })
+            .then(json => {
+                allUsers = json
+            })
+
+        // Is the login creds valid? 
+        let cont = true
+        for (cred in allUsers) {
+            if (allUsers[cred].username == user) {
+                errorMsg.innerHTML = "A user by that name already exists"
+                cont = false
+            }
+        }
+
+        if (cont) {
+            errorMsg.innerHTML = ""
+
+            // Post to server, DB
+            fetch('/addUser', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        username: user,
+                        password: pass
+                    }),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(function (response) {
+                    console.log(response)
+                })
+            window.location.replace("/index.html")
+        }
+
+
+
+
+
     }
 }
