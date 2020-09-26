@@ -12,9 +12,9 @@ function handle_add(){
     //form: https://www.w3schools.com/jsref/coll_form_elements.asp
     const input = document.getElementById("add"),
           json = {
-              kills: input.elements[0].value,
-              assists: input.elements[1].value,
-              deaths: input.elements[2].value,
+              "kills": input.elements[0].value,
+              "assists": input.elements[1].value,
+              "deaths": input.elements[2].value,
           },
           body = JSON.stringify(json);
 
@@ -23,10 +23,10 @@ function handle_add(){
         headers: {"Content-Type": "application/json"},
         body
     }).then(function( response ) {
-        if(response.status === 200){
-            updateResults(response);
-            return true;
-        }
+          if(response.status === 200){
+              updateResults(response);
+              return true;
+          }
     });
 
     return false;
@@ -42,15 +42,27 @@ function handle_add(){
  *      false otherwise.
  */
 function handle_modify(){
-    const input = document.getElementById("modify"),
-          json = {
-              id: input.elements[0].value,
-              kills: input.elements[1].value,
-              assists: input.elements[2].value,
-              deaths: input.elements[3].value,
-          },
-          body = JSON.stringify(json);
-
+    const input = document.getElementById("modify");
+    let json = {
+        "rows": [],
+        "kills": input.elements[1].value,
+        "assists": input.elements[2].value,
+        "deaths": input.elements[3].value,
+    }
+    let table = document.getElementById("results_list").getElementsByTagName("tbody")[0];
+    for(let i = 0; i < table.rows.length; i++){
+        let rowItems = table.rows[i].childNodes;
+        let checkbox = rowItems[0].childNodes[0];
+        if(checkbox.checked){
+            json.rows.push({
+                id: checkbox.id,
+                kills: rowItems[1].innerHTML,
+                assists: rowItems[2].innerHTML,
+                deaths: rowItems[3].innerHTML,
+            });
+        }
+    }
+    let body = JSON.stringify(json);
     fetch( '/modify', {
         method:'POST',
         headers: {"Content-Type": "application/json"},
@@ -75,12 +87,23 @@ function handle_modify(){
  *      false otherwise.
  */
 function handle_delete(){
-    const input = document.getElementById("delete"),
-          json = {
-              id: input.elements[0].value
-          },
-          body = JSON.stringify(json);
-
+    let json = {
+        "rows": []
+    }
+    let table = document.getElementById("results_list").getElementsByTagName("tbody")[0];
+    for(let i = 0; i < table.rows.length; i++){
+        let rowItems = table.rows[i].childNodes;
+        let checkbox = rowItems[0].childNodes[0];
+        if(checkbox.checked){
+            json.rows.push({
+                "id": checkbox.id,
+                "kills": rowItems[1].innerHTML,
+                "assists": rowItems[2].innerHTML,
+                "deaths": rowItems[3].innerHTML,
+            });
+        }
+    }
+    let body = JSON.stringify(json);
     fetch( '/delete', {
         method:'POST',
         headers: {"Content-Type": "application/json"},
@@ -166,7 +189,6 @@ function handle_csv(){
           return true;
       });
 
-
     return false;
 }
 
@@ -183,8 +205,10 @@ function updateResults(response){
     //table, and showed me how to do it:
     //https://stackoverflow.com/questions/7271490/delete-all-rows-in-an-html-table
     let table = document.getElementById("results_list");
+    //table.removeChild(table.children[1]);
+    let tbody = table.getElementsByTagName("tbody")[0];
     let newBody = document.createElement("tbody");
-    table.replaceChild(newBody, table.lastChild);
+    table.replaceChild(newBody, tbody);
 
     //The following source showed me how to extract json from the HTTP
     //response: https://developer.mozilla.org/en-US/docs/Web/API/Body/json
@@ -195,7 +219,11 @@ function updateResults(response){
         let rows = data.rows;
         for (let i = 0; i < numRows; i++) {
             let newRow = newBody.insertRow(i);
-            newRow.insertCell(0).innerHTML = `${rows[i]._id}`;
+            let checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            console.log("For i: " +i +", id is: " +rows[i]._id);
+            checkbox.id = rows[i]._id;
+            newRow.insertCell(0).appendChild(checkbox);
             newRow.insertCell(1).innerHTML = `${rows[i].kills}`;
             newRow.insertCell(2).innerHTML = `${rows[i].assists}`;
             newRow.insertCell(3).innerHTML = `${rows[i].deaths}`;

@@ -1,11 +1,16 @@
 const fs   = require("fs"),
       express = require("express"),
       app = express(),
+      mongo = require("mongodb"),
       bodyParser = require("body-parser"),
-      port = 3000;
+      port = process.env.PORT || 3000;
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = `mongodb+srv://${process.env.username}:${process.env.password}@cs4241-a3.catjb.gcp.mongodb.net/CS4241?retryWrites=true&w=majority`;
+//Allow for use of .env file
+require("dotenv").config();
+
+const MongoClient = mongo.MongoClient;
+const ObjectID = mongo.ObjectID;//Will use to search for documents by their ObjectId strings
+const uri = `mongodb+srv://${process.env.name}:${process.env.password}@cs4241-a3.catjb.gcp.mongodb.net/CS4241?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
     if(err){
@@ -15,12 +20,12 @@ client.connect(err => {
 
 app.listen(port);
 app.use(express.static("./public"));
+app.use(bodyParser.json());
 
 //Format: { "id": 0, "kills": 0, "assists": 0, "deaths": 0, "kd_ratio": 0, "ad_ratio": 0 },
 let appdata = [];
 const DECIMAL_PRECISION = 2;
 
-let id = 1;//Unique IDs to indicate rows to modify or delete
 let numEntries = 0;//Length of appdata
 
 //Track running totals and averages of all three main stats
@@ -43,7 +48,7 @@ let avgDeaths = 0;
  * @param next the next middleware function the call
  */
 const convertDataToNum = function(request, response, next){
-    console.log(request.body);
+    console.log(request);
     if(request.body.hasOwnProperty("id"))
         request.body.id = parseInt(request.body.id, 10);
 
@@ -55,6 +60,17 @@ const convertDataToNum = function(request, response, next){
 
     if(request.body.hasOwnProperty("deaths"))
         request.body.deaths = parseInt(request.body.deaths, 10);
+
+    if(request.body.hasOwnProperty("rows")){
+        for(let i = 0; i < request.body.rows.length; i++){
+            request.body.rows[i].kills = parseInt(request.body.rows[i].kills, 10);
+            request.body.rows[i].assists = parseInt(request.body.rows[i].assists, 10);
+            request.body.rows[i].deaths = parseInt(request.body.rows[i].deaths, 10);
+            console.log("kills: " +request.body.rows[i].kills);
+            console.log("assists: " +request.body.rows[i].assists);
+            console.log("deaths: " +request.body.rows[i].deaths);
+        }
+    }
 
     next();
 }
@@ -81,7 +97,6 @@ const addItem = function(request, response){
 
     let ratios = calculateKDandAD(request.body.kills, request.body.assists, request.body.deaths);
     let obj = {
-        "_id": id,
         "kills": request.body.kills,
         "assists": request.body.assists,
         "deaths": request.body.deaths,
@@ -89,7 +104,6 @@ const addItem = function(request, response){
         "ad_ratio": ratios.ad_ratio
     };
 
-    id++;
     update(1, request.body.kills, request.body.assists, request.body.deaths);
 
     let collection = client.db("FPS_Stats").collection("game_stats");
@@ -114,51 +128,61 @@ app.post("/add", [bodyParser.json(), convertDataToNum], addItem);
  * @return {boolean} true on successful modification, false otherwise.
  */
 const modifyItem = function(request, response){
+    //Determine which fields were actually provided for modification
+    let fieldsToUpdate = {};
+    if(valid(request.body.kills)){
+        fieldsToUpdate["kills"] = request.body.kills;
+    }
+    if(valid(request.body.assists)){
+        fieldsToUpdate["assists"] = request.body.assists;
+    }
+    if(valid(request.body.deaths)){
+        fieldsToUpdate["deaths"] = request.body.deaths;
+    }
+
     let game_stats = client.db("FPS_Stats").collection("game_stats");
-    game_stats.findOne({_id: request.body.id}, {}, function(error, result){
-        if(error){
-            console.log("Error finding element to modify: " +error);
-            return;
-        }else if(!result){
-            console.log("Did not find element with specified ID");
-            return;
-        }
+    let rows = request.body.rows;
 
-        totalKills -= result.kills;
-        totalAssists -= result.assists;
-        totalDeaths -= result.deaths;
+    //Have to use updateOne since each row will have a new kd ration and ad
+    //ratio based on the stats that were no modified in their respective rows.
+    //So collect all promises and use Promise.all to only send table once all
+    //all modifications are done.
+    let promises = [];
+    for(let i = 0; i < rows.length; i++){
+        let item = rows[i];
+        if((isNaN(item.kills) || item.kills < 0 ) ||
+            (isNaN(item.assists) || item.assists < 0) ||
+            (isNaN(item.deaths) || item.deaths < 0)){
+            console.log(`Skipping modify of ${item._id}, invalid stats`);
+        }else {
+            let id = new ObjectID(item.id);
 
-        let updateData = {
-            kills: result.kills,
-            assists: result.assists,
-            deaths: result.deaths
-        };
-
-        //Modify only the fields that were provided
-        if(!Number.isNaN(request.body.kills) && request.body.kills >= 0)
-            updateData.kills = request.body.kills;
-        if(!Number.isNaN(request.body.assists) && request.body.assists >= 0)
-            updateData.assists = request.body.assists;
-        if(!Number.isNaN(request.body.deaths) && request.body.deaths >= 0)
-            updateData.deaths = request.body.deaths;
-
-        //Recalculate derived fields
-        let ratios = calculateKDandAD(updateData.kills, updateData.assists, updateData.deaths);
-        updateData.kd_ratio = ratios.kd_ratio;
-        updateData.ad_ratio = ratios.ad_ratio;
-
-        update(0, updateData.kills, updateData.assists, updateData.deaths);
-
-        game_stats.updateOne({_id: request.body.id}, {$set: updateData}, function(error, result){
-            if(error){
-                console.log("Error occurred modifying item: " +error);
-            }else{
-                sendTable(response);
+            let updatedObj = {
+                kills: valid(request.body.kills) ? request.body.kills : item.kills,
+                assists: valid(request.body.assists) ? request.body.assists : item.assists,
+                deaths: valid(request.body.deaths) ? request.body.deaths : item.deaths,
             }
-        });
+            let ratios = calculateKDandAD(updatedObj.kills, updatedObj.assists, updatedObj.deaths);
+            updatedObj.kd_ratio = ratios.kd_ratio;
+            updatedObj.ad_ratio = ratios.ad_ratio;
+
+            update(0, -item.kills, -item.assists, -item.deaths);
+            update(0, updatedObj.kills, updatedObj.assists, updatedObj.deaths);
+            promises.push(game_stats.updateOne({_id: id}, {$set: updatedObj}));
+        }
+    }
+
+    //Once all modifications have finished, safely send the new table
+    Promise.all(promises).then(function(results){
+        console.log("all modifications done, sending table");
+        sendTable(response);
     });
 }
 app.post("/modify", [bodyParser.json(), convertDataToNum], modifyItem);
+
+const valid = function(value){
+    return (!isNaN(value) && value >= 0);
+}
 
 /**
  * Delete the row in the appdata table with the given id.
@@ -170,27 +194,31 @@ app.post("/modify", [bodyParser.json(), convertDataToNum], modifyItem);
  * @return {boolean} true on successful deletion, false otherwise.
  */
 const deleteItem = function(request, response){
-    if(Number.isNaN(request.body.id) || request.body.id < 0)
-        return false;
-
     let game_stats = client.db("FPS_Stats").collection("game_stats");
-    game_stats.findOne({_id:request.body.id}, function(error, result){
-        if(error){
-            console.log("Error occurred finding element to delete: " +error);
-            return;
+    let rows = request.body.rows;
+    let ids = [];//Array of ids to be provided for the deletion query.
+
+    //Go through each item to be deleted, and update the local and remote
+    //variables for totals and averages.
+    for(let i = 0; i < rows.length; i++){
+        let item = rows[i];
+        if((isNaN(item.kills) || item.kills < 0 ) ||
+           (isNaN(item.assists) || item.assists < 0) ||
+           (isNaN(item.deaths) || item.deaths < 0)){
+            console.log(`Skipping deletion of ${item.id}, invalid stats`);
+        }else {
+            ids.push(new ObjectID(item.id));
+            update(-1, -item.kills, -item.assists, -item.deaths);
         }
+    }
 
-        update(-1, -result.kills, -result.assists, -result.deaths, response);
-
-        //Once we have successfully found the item to delete, update totals and averages,
-        //and THEN it's safe to delete.
-        game_stats.deleteOne({_id: request.body.id}, function (error, result) {
-            if (error) {
-                console.log("Error occurred during deletion: " + error);
-            }else{
-                sendTable(response);
-            }
-        });
+    //Not that all running stats are updated, erase from database.
+    game_stats.deleteMany({_id: {$in: ids}}, function(error, result){
+        if (error) {
+            console.log("Error occurred during deletion: " + error);
+        }else{
+            sendTable(response);
+        }
     });
 }
 app.post("/delete", [bodyParser.json(), convertDataToNum], deleteItem);
@@ -228,13 +256,13 @@ app.post("/delete", [bodyParser.json(), convertDataToNum], deleteItem);
  */
 const sendTable = function(response){
     let json = {
-        "numRows": numEntries,
+        "numRows": 0,
         "rows": [],
         "totals": [],
         "avgs": [],
     }
     getAllStats().then(function(result){
-            console.log("result: " +result);
+            json["numRows"] = result.length;
             json["rows"] = result;
             json["totals"] = {
                 kills: totalKills,
@@ -310,8 +338,9 @@ const clearStats = function(response){
         }
     }
 
-    id = 1;
     numEntries = 0;
+    totalKills = totalAssists = totalDeaths = 0;
+    avgKills = avgAssists = avgDeaths = 0;
 
     //Set all running stats back to zero
     let total = client.db("FPS_Stats").collection("totals");
@@ -366,11 +395,11 @@ const calculateKDandAD = function(kills, assists, deaths){
  * @param deaths number of deaths from the game
  */
 const updateTotals = function(kills, assists, deaths){
-    console.log("kills: " +kills);
+    console.log("before, kda was: " +totalKills +", " +totalAssists +", " +totalDeaths);
     totalKills += kills;
-    console.log("totalKills: " + totalKills);
     totalAssists += assists;
     totalDeaths += deaths;
+    console.log("after, kda was: " +totalKills +", " +totalAssists +", " +totalDeaths);
     let totals = client.db("FPS_Stats").collection("totals");
     let promises = [];
     promises.push(totals.updateOne({type: "kills"}, {$inc: {amount: kills}}, {}));
@@ -396,9 +425,9 @@ const updateAvgs = function() {
     }
     let avgs = client.db("FPS_Stats").collection("averages");
     let promises = [];
-    promises.push(avgs.updateOne({type: "kills"}, {$inc: {amount: avgKills}}, {}));
-    promises.push(avgs.updateOne({type: "assists"}, {$inc: {amount: avgAssists}}, {}));
-    promises.push(avgs.updateOne({type: "deaths"}, {$inc: {amount: avgDeaths}}, {}));
+    promises.push(avgs.updateOne({type: "kills"}, {$set: {amount: avgKills}}, {}));
+    promises.push(avgs.updateOne({type: "assists"}, {$set: {amount: avgAssists}}, {}));
+    promises.push(avgs.updateOne({type: "deaths"}, {$set: {amount: avgDeaths}}, {}));
     return Promise.all(promises);
 }
 
