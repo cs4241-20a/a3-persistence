@@ -2,11 +2,55 @@ const fs   = require("fs"),
       express = require("express"),
       app = express(),
       mongo = require("mongodb"),
+      passport = require("passport"),
       bodyParser = require("body-parser"),
       port = process.env.PORT || 3000;
 
 //Allow for use of .env file
 require("dotenv").config();
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, cb) {
+    cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+    cb(null, obj);
+});
+
+let GitHubStrategy = require('passport-github').Strategy;
+passport.use(new GitHubStrategy({
+        clientID: process.env.clientID,
+        clientSecret: process.env.clientSecret,
+        callbackURL: process.env.callbackURL
+    },
+    function(accessToken, refreshToken, profile, cb) {
+        console.log("profile: " + profile);
+        cb(null, profile);
+        //User.findOrCreate({ githubId: profile.id }, function (err, user) {
+        //  return cb(err, user);
+        //});
+    }
+));
+
+app.get('/auth/github', passport.authenticate('github'));
+app.get('/auth/github/callback',
+    passport.authenticate('github', { failureRedirect: '/login' }),
+    function(req, res) {
+        console.log("here");
+        // Successful authentication, redirect home.
+        res.redirect("/");
+    }
+);
+app.get('/login', function(request, response){
+    response.sendFile("./public/login.html", {root: "./" }, function(error){
+        if(error){
+            console.log("Error occurred sending file: " +error);
+        }
+    });
+});
 
 const MongoClient = mongo.MongoClient;
 const ObjectID = mongo.ObjectID;//Will use to search for documents by their ObjectId strings
