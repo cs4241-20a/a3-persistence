@@ -75,13 +75,13 @@ const createEntry = function (dataTable, json, rowPos = -1) {
   delBtn.innerHTML = "Delete"
   delBtn.addEventListener("click", deleteItem)
   delBtn.className = 'del-btn'
-  delBtn.id = json.id
+  delBtn.id = json._id
 
   var saveBtn = document.createElement("button")
   saveBtn.innerHTML = "Save"
   saveBtn.addEventListener("click", saveItem)
   saveBtn.className = 'save-btn'
-  saveBtn.id = json.id
+  saveBtn.id = json._id
 
   // data displayed
   make.innerHTML = json.make

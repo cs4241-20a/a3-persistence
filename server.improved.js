@@ -21,14 +21,6 @@ client.connect(err => {
   collection = client.db("testdatabase").collection("cars");
 });
 
-var removeDoc = function (req, res, next) {
-  console.log(req.body._id)
-  collection.deleteOne({ _id: mongodb.ObjectID(req.body.id) })
-    .then(result => res.json(result))
-
-  next()
-}
-
 var updateDoc = function (req, res, next) {
   collection
     .updateOne(
@@ -50,7 +42,7 @@ var submitFunc = function (request, response, next) {
   json.id = id
 
   let tempdata = []
-  appdata.push(json)
+  // appdata.push(json)
   tempdata.push(json)
   request.json = tempdata
   next()
@@ -110,9 +102,16 @@ app.post('/submit', submitFunc, function (request, response) {
     })
 })
 
-app.delete('/delete', delFunc, removeDoc, function (request, response) {
+app.delete('/delete', delFunc, function (request, response) {
   console.log("Delete.")
-  sendData(response)
+  console.log(request.body.id)
+  collection.deleteOne({ _id: mongodb.ObjectID(request.body.id) })
+    .then(result => response.json(result))
+    .then(json => function(req, res){
+      response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
+      response.write(JSON.stringify(json))
+      response.end()
+    })
 })
 
 app.put('/put', putFunc, updateDoc, function (request, response) {
