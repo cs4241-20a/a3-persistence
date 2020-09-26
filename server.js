@@ -10,6 +10,6 @@ const port = 3000
    res.sendFile(__dirname + '/public/login.html')
  })
 
-app.listen(port, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
