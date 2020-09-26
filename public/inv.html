@@ -4,9 +4,12 @@
 <head>
   <title>CS4241 Assignment 2</title>
   <meta charset="utf-8">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-    rel="stylesheet">
+  <link href="//cdn.muicss.com/mui-0.10.3/css/mui.min.css" rel="stylesheet" type="text/css" />
+  <script src="//cdn.muicss.com/mui-0.10.3/js/mui.min.js"></script>
   <link href="css/style.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
   <script src="js/scripts.js" defer></script>
 </head>
 
@@ -16,23 +19,30 @@
       <h1>Car Wishlist</h1>
     </div>
     <div class="left">
-      <form id="mainForm">
-        <input type='text' id='vehiclemake' placeholder="Vehicle Make Here">
-        <input type='text' id='vehiclemodel' placeholder="Vehicle Model Here">
-        <input type='text' id='vehicleyear' placeholder="Vehicle Year Here">
-        <button id="submitButton">Submit</button>
+      <br>
+      <br>
+      <br>
+      <form id="mainForm" class="mui-form">
+        <div class="mui-textfield">
+          <input type='text' id='vehiclemake' placeholder="Vehicle Make Here">
+          <input type='text' id='vehiclemodel' placeholder="Vehicle Model Here">
+          <input type='text' id='vehicleyear' placeholder="Vehicle Year Here">
+        </div>
+        <button id="submitButton" class="mui-btn mui-btn--raised">Submit</button>
       </form>
-      <button id="logoutButton">Logout</button>
+      <button id="logoutButton" class="mui-btn mui-btn--raised mui-btn--danger">Logout</button>
     </div>
     <div class="content">
-      <table id="resultsTable">
-        <tr>
+      <table id="resultsTable" class="mui-table mui-table--bordered">
+        <thead>
           <th>Make</th>
           <th>Model</th>
           <th>Year</th>
           <th>Age</th>
           <th>Edit/Delete</th>
-        </tr>
+        </thead>
+        <tbody>
+        </tbody>
       </table>
     </div>
   </div>

@@ -141,7 +141,8 @@ const del = function( table, id ) {
   }
 
 const updateTable = function(table, data) {
-    var row = table.insertRow(-1)
+    var tbody = table.getElementsByTagName('tbody')[0]
+    var row = tbody.insertRow(-1);
     var make = row.insertCell(0);
     var model = row.insertCell(1);
     var year = row.insertCell(2);
@@ -153,17 +154,17 @@ const updateTable = function(table, data) {
     year.innerHTML = data.vehicleyear;
     age.innerHTML = data.vehicleage;
 
-    var editBtn = document.createElement('input');
-    editBtn.type = "button";
+    var editBtn = document.createElement('button');
     editBtn.id = "editButton";
-    editBtn.value = "Edit";
+    editBtn.className += "mui-btn mui-btn--raised";
+    editBtn.innerHTML = '<span class="google-icon"><span class="material-icons">create</span></span>'
     editBtn.onclick = function() {startEdit(table, row, data._id)}
     btnCell.appendChild(editBtn);
 
-    var delBtn = document.createElement('input');
-    delBtn.type = "button";
+    var delBtn = document.createElement('button');
     delBtn.id = "deleteButton";
-    delBtn.value = "Delete";
+    delBtn.className += "mui-btn mui-btn--raised";
+    delBtn.innerHTML = '<span class="google-icon"><span class="material-icons">delete_outline</span></span>'
     delBtn.onclick = function() {del(table, data._id)}
     btnCell.appendChild(delBtn);
   }
