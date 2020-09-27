@@ -14,8 +14,6 @@ Your application is required to implement the following functionalities:
 - Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
 bodyParser, 
 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-
 Your application is required to demonstrate the use of the following concepts:
 
 HTML:
@@ -26,10 +24,9 @@ Note that it might make sense to have two simple pages for this assignment, one 
 
 
 JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
 
 Node.js:
-- At least five pieces of Express middleware, and a persistent database (mongodb).
+- At least five pieces of Express middleware
 
 Deliverables
 ---

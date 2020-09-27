@@ -113,8 +113,8 @@ const deleteName = function (e) {
         console.log("Delete Response:", response);
         console.log("Returned data: ", data);
 
-        buildTable(data);
         document.getElementById('delname').value = "";
+        initializeTable();
       })
     })
 
