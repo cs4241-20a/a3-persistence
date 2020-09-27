@@ -16,6 +16,7 @@
             <div class="card" v-for="r in recipes">
               <div class="card-body">
                 <h2>{{ r.title }}</h2>
+                <h3>{{r._id}}</h3>
                 <h4>Ingredients</h4>
                 <ul>
                   <li v-for="i in r.ingredients"> {{ i }}</li> 
@@ -25,10 +26,10 @@
                   {{ r.directions }}  
                 </p>
                 <div class="col text-center">
-                  <button class="btn btn-info" style="padding: 1rem 3rem; margin: 2rem; min-width: 10rem">
+                  <button class="btn btn-info" onclick="console.log('{{ r._id }}')" style="padding: 1rem 3rem; margin: 2rem; min-width: 10rem">
                     EDIT
                   </button>
-                  <button class="btn btn-danger" style="padding: 1rem 3rem; margin: 2rem; ">
+                  <button class="btn btn-danger" onclick="console.log(\{\{ r._id }})"  style="padding: 1rem 3rem; margin: 2rem; ">
                     DELETE
                   </button>
                 </div>
