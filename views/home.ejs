@@ -1,5 +1,5 @@
 <%- include('./partials/messages.ejs'); %>
-<div class="row mt-5">
+<div class="row my-5">
   <div class="col-md-6 m-auto">
     <div class="card card-body">
       <form action="/add" method="POST">
@@ -61,7 +61,7 @@
               <label class="form-check-label" for="inlineRadio2">No</label>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">
+        <button type="submit" class="btn btn-dark btn-block">
           Register
         </button>
       </form>
@@ -69,7 +69,7 @@
   </div>
 </div>
 
-<span><h1 id="book-shelf">Book Shelf</h1> <small>Click rows to see book reviews</small></span>
+<span id="shelf-note"><h1 class="d-inline" id="book-shelf">Book Shelf</h1> <small class="d-inline mx-3">Click rows to see book reviews</small></span>
 <div class="modal" id="myModal">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -108,6 +108,7 @@
           return res.json()
       })
       .then(data => data.forEach(book => books.push(book)))
+      console.log(books)
       const list = document.querySelector('#book-list')
       display(books)
   }
@@ -271,12 +272,10 @@ function createModal(book) {
               <label class="form-check-label" for="inlineRadio2">No</label>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">
+        <button type="submit" class="btn btn-dark btn-block">
           Update
         </button>
     </form>
   `
 }
-
-
 </script>

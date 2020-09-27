@@ -1,12 +1,8 @@
-/* .modal {
-    display: none;
-    justify-content: center;
+* {
+    font-family: 'Courier Prime', monospace;
+}
+
+#shelf-note {
+    display: flex;
     align-items: center;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: none;
-} */
+}

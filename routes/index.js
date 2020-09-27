@@ -3,7 +3,9 @@ const router = express.Router()
 const Book = require('../models/Book')
 const { ensureAuthenticated, forwardAuthenticated  } = require('../config/auth');
 
-router.get('/', forwardAuthenticated, (req, res) => res.render('welcome'))
+router.get('/', forwardAuthenticated, (req, res) => {
+    res.render('welcome')
+})
 
 router.get('/home', ensureAuthenticated, (req, res) => {
     res.render('home', {
@@ -61,23 +63,18 @@ router.post('/add', ensureAuthenticated, async(req, res) => {
 })
 
 router.post('/delete', ensureAuthenticated, (req, res) => {
-    const errors = []
     Book.findOneAndDelete({ isbn: req.body.isbn })
     .then(book => {
-        if(!book) errors.push({ msg: 'Book not found' })
+        if(!book) {
+            req.flash('errormsg', 'Book not found')
+            res.redirect('/home')
+        } else{
+            req.flash('successmsg', 'Book deleted successfully')
+            res.redirect('/home')
+        }
+
     })
-    .catch(e => errors.push({ msg: e }))
-
-    if(errors.length > 0) return res.render('home', { errors })
-
-    else{
-        req.flash(
-            'successmsg',
-            'Book deleted successfully'
-        )
-        res.redirect('/home')
-    }
-
+    .catch(e => res.flash('errormsg', e))
 })
 
 
@@ -87,12 +84,10 @@ router.post('/modify', ensureAuthenticated, async(req, res) => {
     console.log(updates)
     try {
         const book = await Book.findOne({ isbn: req.body.isbn })
-        console.log(book)
 
         if(!book) return res.status(404).send()
 
         updates.forEach(update => book[update] = req.body[update])
-        console.log(book)
         await book.save()
         req.flash(
             'successmsg',

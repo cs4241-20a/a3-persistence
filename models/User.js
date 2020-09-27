@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         trim: true, 
+        unique: true,
         validate(email) {
             if(!validator.isEmail(email)) {
                 throw new Error('Error, please provide an email address.')

@@ -54,7 +54,11 @@ app.set('view engine', 'ejs');
 app.use(flash())
 
 // Helmet
-app.use(helmet())
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+)
 
 app.use((req, res, next) => {
     res.locals.successmsg = req.flash('successmsg')

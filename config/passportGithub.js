@@ -4,7 +4,7 @@ const User = require('../models/User')
 module.exports = function(passport){
     const callbackURL = 
     process.env.ON_HEROKU === 1
-    ? 'https://a3-persistence.herokuapp.com/users/login/github/callback'
+    ? 'https://a3-persistence.herokuapp.com/users/signin/github/callback'
     : 'http://localhost:3000/users/login/github/callback'
 
     passport.use(
@@ -16,8 +16,6 @@ module.exports = function(passport){
     async (accessToken, refreshToken, profile, done) => {
         try {
           const user = await User.findOne({ user: profile.username })
-          console.log(user)
-  
           if (user) {
             return done(null, user);
           } else {
