@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>AccuMouse - CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <script  src="js/scripts.js" async></script>
+    
+  </head>
+  
+  <body>
+    <h1>AccuMouse - The Mouse Accuracy Game</h1>
+    <h2>Try to click on as many circles as possible</h2>
+    <button onclick="playGame()">START</button>
+      <div id = "gameWindow"></div>
+      <h3 id = "score">Score = 0</h3>
+    <form >
+      <input type='text' id='yourname' value="your name here">
+      <button id="form">submit</button>
+    </form>
+    <table  id = "leaderboard">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Name</th>
+          <th>Score</th>
+          <th>Date</th>
+          <th>Game Length</th>
+          <th>Score per Second</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </body>
+  
+</html>
