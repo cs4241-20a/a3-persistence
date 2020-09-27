@@ -4,7 +4,9 @@
 <head>
     <title>CS4241 Assignment 2</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="css/login-style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/bulma.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="favicon.ico"/>
@@ -12,22 +14,22 @@
 </head>
 
 <body>
-    <h1>LOGIN</h1>
+    <h1 class="title is-1" style="color: green;">LOGIN</h1>
 
-    <div class="center">
+    <div class="container">
         <div>
             <form>
-                <div class="horizontal-flex margin-spacer">
+                <div style="margin-bottom: 30px;">
                     <label>Username: </label>
-                    <input type='text' id='username'>
+                    <input type='text' id='username' class="input is-rounded" placeholder="Username">
                 </div>
-                <div class="horizontal-flex margin-spacer">
+                <div>
                     <label>Password: </label>
-                    <input type='text' id='password'>
+                    <input type='password' id='password' placeholder="Password" class="input is-rounded">
                 </div>
-                <div class="buttons-flexContainer" style="margin-top: 100px;">
-                    <button id='login'>Login</button>
-                    <button id='signUp'>Sign Up</button>
+                <div class="container has-text-centered" style="margin-top: 100px;">
+                    <button id='login' class="button is-large is-success">Login</button>
+                    <button id='signUp' class="button is-large is-success">Sign Up</button>
                 </div>
             </form>
         </div>

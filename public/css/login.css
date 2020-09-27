@@ -1,0 +1,22 @@
+body {
+    background-color:white;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    font-family: 'Shrikhand', cursive;
+}
+
+
+img {
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+

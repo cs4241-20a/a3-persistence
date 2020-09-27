@@ -26,14 +26,33 @@ const login = function(e) {
         })
         .then(function(response) {
             if (response.status === 200) {
-                window.location.href="/main.html"
+                if (username.classList.contains("is-danger")) {
+                    username.classList.remove("is-danger");
+                }
+
+                if (password.classList.contains("is-danger")) {
+                    password.classList.remove("is-danger");
+                }
+
+                window.location.href="/reviews.html"
             
             } else {
+                if (!username.classList.contains("is-danger")) {
+                    username.classList.add("is-danger");
+                }
+
+                if (!password.classList.contains("is-danger")) {
+                    password.classList.add("is-danger");
+                }
+
                 window.alert("Incorrect Username or Password!")
             }
+
+            username.value="";
+            password.value="";
         })
     }
-    
+
     return false;
 }
 
@@ -61,11 +80,21 @@ const signUp = function(e) {
         })
         .then(function(response) {
             if (response.status === 200) {
-                window.location.href="/main.html"
+                if (username.classList.contains("is-danger")) {
+                    username.classList.remove("is-danger");
+                }
+                window.location.href="/reviews.html"
             
             } else {
-                window.alert("Username Taken!")
+                if (!username.classList.contains("is-danger")) {
+                    username.classList.add("is-danger");
+                }
+
+                window.alert("Username Taken!");
             }
+
+            username.value="";
+            password.value="";
         })
     }
     

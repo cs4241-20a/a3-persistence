@@ -70,7 +70,7 @@ function performFetch(name, body) {
 const submit = function (e) {
     // prevent default form action from being carried out
     e.preventDefault()
-
+    
     body = generateBody(1, -1)
 
     performFetch('/submit', body)
@@ -84,16 +84,16 @@ const save = function (e) {
     // prevent default form action from being carried out
     e.preventDefault()
 
-    if (!modifyFlag) {
+    if (modifyFlag === false) {
         window.alert("Not Modifying Any Entries Right Now!");
         return false;
     }
 
     body = generateBody(2, saveID)
 
-    performFetch('/save', body)
-
     resetFlags();
+
+    performFetch('/save', body)
 
     return false;
 }
@@ -103,6 +103,8 @@ const signOut = function(e) {
     e.preventDefault()
 
     window.location.href="/";
+
+    resetFlags();
     
     return false;
 }
