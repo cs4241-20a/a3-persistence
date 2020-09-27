@@ -1,0 +1,65 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A cool thing made with Glitch" />
+
+    <title>Login/A3 Yaru Gong(A student list)</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body class="card-panel #eeeeee grey lighten-3">
+    <header>
+      <h1 class="container">Log in</h1>
+      
+    </header>
+
+    <main>
+      
+      <form action="/login" method="POST" class="container">
+        <br>
+        <fieldset class="card-panel hoverable">
+          <label for="stacked-user">User Name</label>
+          <input type="text" id="name" name="name" placeholder="User Name" />
+          <label for="stacked-password" id="password">Password</label>
+          <input
+            type="password"
+            id="stacked-password"
+            name="password"
+            placeholder="Password"
+          />
+          <a href="/register">Do not have account yet? Sign in here.</a>
+          <br>
+          <button id="login" type="submit" class= "btn waves-effect waves-light red" type="submit">
+          Login
+            <i class="material-icons right">arrow_forward</i>
+          </button>
+          
+<!--           <button id="login" type="submit" class="right-align">
+            Log in
+          </button> -->
+        </fieldset>
+      </form>
+      <div class="container">
+        <% if(messages.error){ %> 
+        <%= messages.error %> 
+      <% } %>
+      </div>
+      
+    </main>
+  </body>
+</html>

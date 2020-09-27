@@ -1,0 +1,63 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A cool thing made with Glitch" />
+
+    <title>Register/A3 Yaru Gong(A student list)</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+
+    <!-- import the webpage's client-side javascript file -->
+    <!--     <script src="/script.js" defer></script> -->
+  </head>
+  <body class="card-panel #eeeeee grey lighten-3">
+    <header>
+      <h1 class="container">Register</h1>
+    </header>
+
+    <main>
+      <br>
+      <form action="/register" method="POST" class="container">
+        <fieldset class="card-panel hoverable">
+          <label for="stacked-user">User Name</label>
+          <input type="text" id="name" name="name" placeholder="User Name" required>
+          <label for="stacked-password" id="password">Password</label>
+          <input type="password" id="stacked-password" name="password" placeholder="Password" />
+          <a href="/login" class="pure-form-message">Login</a>
+          <br>
+          <button id="register" type="submit" class= "btn waves-effect waves-light red">
+          Register
+          <i class="material-icons right">arrow_forward</i>
+          </button>
+<!--           <button
+            id="register"
+            type="submit"
+            class="pure-button pure-button-primary"
+          >
+            Register
+          </button> -->
+          
+        </fieldset>
+      </form>
+      
+    </main>
+    
+    
+  </body>
+  
+</html>
