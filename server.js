@@ -120,7 +120,7 @@ app.get('/recipes/my', isAuthenticated, (req, res) => {
 
 // API endpoint to get recipe data
 app.get('/recipes/data', isAuthenticated, (req, res) => {
-  const userID = req.params.userID;
+  const userID = req.query.userID;
   console.log("GOT userid: ",  userID)
   API.getRecipes(userID)
   .then((data) => {
