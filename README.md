@@ -8,7 +8,6 @@ To use this application the user must first click on the 'Login with Github' tex
 
 Right now the user can only add new movies and change if they have seen a movie re-entering the movies and changing if it has been seen.
 
--   The goal of this project was to create an application that would keep track of all the movies a user wants to watch and keep a log of all the movies the user has seen.
 -   The biggest challenge I faced this project was learning how to use React.
     -   I also had some issues trying to connect the React dev server with my node server.
 -   I used the OAuth Github strategy.
