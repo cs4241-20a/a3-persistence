@@ -30,7 +30,7 @@
 
                 },
                 created: function() {
-                    fetch('/recipes/data')
+                    fetch('/recipes/data?userID=')
                     .then( res => res.json())
                     .then( data => {
                         this.recipes = data;

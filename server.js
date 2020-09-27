@@ -10,7 +10,6 @@ const port = 3000;
 const express = require("express");
 
 // Express middleware
-const handlebars = require("express-handlebars");
 const passport = require("passport");
 const expressSession = require("express-session")
 const bodyParser = require("body-parser");
@@ -18,11 +17,7 @@ const bodyParser = require("body-parser");
 const API = require("./API");
 
 const app = express();
-
-app.set("view engine", "handlebars");
-app.engine("handlebars", handlebars({
-    layoutsDir: __dirname + '/views/layouts',
-}));
+app.set('view engine', 'ejs');
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
@@ -116,6 +111,10 @@ app.listen(port, () => {
 // Endpoint to show all recipes in database
 app.get('/recipes/all', (req, res, next) => {
   res.sendFile(path.join(__dirname + '/views/results.html'))
+})
+
+app.get('/recipes/my', isAuthenticated, (req, res) => {
+  res.render('myrecipes', {user: "Jason"}))
 })
 
 // API endpoint to get recipe data
