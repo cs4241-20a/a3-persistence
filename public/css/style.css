@@ -1,0 +1,17 @@
+body {
+    color:red;
+}
+
+.submit {
+    cursor: pointer;
+}
+
+.modify {
+    border:none;
+    /*background-color:#E6009B;*/
+    
+}
+.modify input {
+    visibility:hidden;
+    font-size:10px;
+}
