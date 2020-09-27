@@ -1,4 +1,4 @@
-const highFrequencyThreshold = 1000/58.0; // ~58 FPS
+const highFrequencyThreshold = 1000/60.0; // ~58 FPS
 const lowFrequencyThreshold = 1000/50.0; // ~50 FPS
 
 const minDpr = 0.25;
@@ -40,6 +40,8 @@ function monitor(frameTimestamp, now) {
   const dpr = renderer.getPixelRatio();
   const frequencyMedian = median(frequencyAccumulator);
 
+  fpsText.innerHTML = Math.round(1000.0 / frequencyMedian);
+
   if (frequencyMedian > lowFrequencyThreshold && dpr > minDpr) {
     console.log("Low FPS, setting resolution factor to " + (dpr - deltaDpr));
     updateDpr(dpr, -deltaDpr, now);
@@ -51,7 +53,6 @@ function monitor(frameTimestamp, now) {
 
 function collectFrequency(frequency) {
   if (frequency > 0) {
-    fpsText.innerHTML = Math.round(1 / (frequency / 1000));
     frequencyAccumulator.push(frequency);
   }
 
