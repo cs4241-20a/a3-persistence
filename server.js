@@ -6,9 +6,11 @@ const path = require("path");
 const passportSetup = require("./config/passport-setup");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
+const morgan = require("morgan");
 
 const app = express();
 app.use(express.json());
+app.use(morgan("dev"));
 
 const cookieKey =
     process.env.NODE_ENV === "production"
