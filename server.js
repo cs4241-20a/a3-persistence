@@ -65,6 +65,16 @@ client.connect(err => {
     if(err){
         console.log("error connecting to database: " +err);
     }
+    let totals = client.db("FPS_Stats").collection("totals");
+    totals.find({type: "entries"}).toArray(function(error, result){
+        if(error){
+            console.log("Unable to retrieve number of entries on server startup.");
+        }else if(result.length !== 1){
+            console.log("Found unexpected number of totalEntries on server startup");
+        }else {
+            numEntries = result[0].amount;
+        }
+    });
 });
 
 app.listen(port);
@@ -97,7 +107,6 @@ let avgDeaths = 0;
  * @param next the next middleware function the call
  */
 const convertDataToNum = function(request, response, next){
-    console.log(request);
     if(request.body.hasOwnProperty("id"))
         request.body.id = parseInt(request.body.id, 10);
 

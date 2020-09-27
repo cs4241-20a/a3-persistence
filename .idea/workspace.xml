@@ -46,7 +46,7 @@
       <workItem from="1600649507529" duration="9245000" />
       <workItem from="1600718483001" duration="11841000" />
       <workItem from="1600810112170" duration="15310000" />
-      <workItem from="1601178278423" duration="4807000" />
+      <workItem from="1601178278423" duration="5369000" />
     </task>
     <task id="LOCAL-00001" summary="Made server.improved.js into an Express server">
       <created>1600494176830</created>
@@ -97,7 +97,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601183079656</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Removed unnecessary ID# from written csv files.">
+      <created>1601183226487</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1601183226487</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -111,13 +118,14 @@
     <MESSAGE value="sendCSV() now queries the database for stats" />
     <MESSAGE value="Added serve-favicon and morgan middleware" />
     <MESSAGE value="Updated README.md with most of the required information." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated README.md with most of the required information." />
+    <MESSAGE value="Removed unnecessary ID# from written csv files." />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed unnecessary ID# from written csv files." />
   </component>
   <component name="WindowStateProjectService">
-    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1601183078610">
+    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1601183225417">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1601183078610" />
+    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1601183225417" />
     <state width="1515" height="210" key="GridCell.Tab.0.bottom" timestamp="1601098903247">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -134,10 +142,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1515" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1601098903247" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1601183086427">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1601183232043">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1601183086427" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1601183232043" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1600732640280">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
