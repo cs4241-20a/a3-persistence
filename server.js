@@ -73,9 +73,9 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/index.html'))
 });
 
-app.get('/login/success', isAuthenticated, (req, res => {
+app.get('/login/success', isAuthenticated, (req, res) => {
   res.send("Logged in successfully!");
-}))
+})
 
 app.get('/login', (req, res) => res.redirect('/auth/github'))
 
