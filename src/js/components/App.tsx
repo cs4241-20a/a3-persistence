@@ -110,12 +110,18 @@ const App: FunctionComponent = props => {
             <Slide direction="up" in={currentUser != null} mountOnEnter unmountOnExit>
                 <Box display="flex" className={classes.content}>
                     <Slide direction="right" in={selectedConversation == null || !isThinScreen} mountOnEnter unmountOnExit>
-                        <ReactivePaper style={{flexBasis: `min(240px, calc(100vw - ${theme.spacing(spacingAmount) * 2}px))`, flexGrow: isThinScreen ? 1 : undefined}}>
+                        <ReactivePaper style={{
+                            flexBasis: `min(240px, calc(100vw - ${theme.spacing(spacingAmount) * 2}px))`,
+                            flexGrow: isThinScreen ? 1 : undefined
+                        }}>
                             <UserList userList={userList} onSelectUser={setSelectedConversation}/>
                         </ReactivePaper>
                     </Slide>
                     <Slide direction="left" in={selectedConversation != null} mountOnEnter unmountOnExit>
-                        <ReactivePaper PaperProps={{className: classes.conservationContainer}} padContent style={{flexGrow: 1}}>
+                        <ReactivePaper PaperProps={{className: classes.conservationContainer}} padContent style={{
+                            width: 0,
+                            flexGrow: 1
+                        }}>
                             <Conversation userList={userList} connectedUser={currentUser} otherUser={selectedConversation} isThinScreen={isThinScreen} onClose={() => setSelectedConversation(null)}/>
                         </ReactivePaper>
                     </Slide>

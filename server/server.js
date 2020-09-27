@@ -35,7 +35,9 @@ passport.use(new BasicStrategy(
 ));
 /** @type {Parameters<typeof passport.authenticate>} */ const basicAuthArgs = ['basic', {session: false, failWithError: true}];
 
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false
+}));
 app.use(cors());
 
 app.post('/api/register', jsonBodyParser, async (req, res) => {

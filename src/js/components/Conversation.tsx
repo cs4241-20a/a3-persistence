@@ -25,7 +25,10 @@ const useStyles = makeStyles(theme => ({
         textAlign: "left"
     },
     message: {
-        width: "max(45%, min(100%, 400px))"
+        width: "max(45%, min(100%, 400px))",
+        "& p": {
+            wordBreak: "break-word"
+        }
     },
     messageName: {
         color: theme.palette.text.hint
@@ -136,7 +139,7 @@ export const Conversation: FunctionComponent<ListProps & ConversationProps> = (
         if (pinnedToBottom && conversationScrollbarRef) {
             const instance = conversationScrollbarRef.current!.osInstance()!;
             const target = conversationScrollbarRef.current!.osTarget()!;
-            setTimeout(() => instance.scroll([0, target.scrollHeight]), 0);
+            setTimeout(() => instance.scroll([0, instance.scroll().max.y]), 0);
         }
     }
     useEffect(scrollToBottom, [otherUser, messages]);
