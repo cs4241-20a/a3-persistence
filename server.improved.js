@@ -1,25 +1,37 @@
 const http = require( 'http' ),
       fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library used in the following line of code
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
+      mime          = require( 'mime' ),
+      express       = require('express'),
+      app           = express(),
+      responseTime  = require('response-time'),
+      dir           = 'public/',
+      port          = 3000
 
+// create "middleware"
+var _responseTime = responseTime()
 
+//make express server
+
+//logging requests
+app.use(function(req,res,next){
+  //console.log(req.url);
+  next()
+})
+app.get('/', function(req, res){
+  console.log('recived GET')
+  handleGet( req, res )
+})
+app.post('/', function(req,res){
+  console.log('recived POSt')
+  handlePost( req, res )
+})
+app.use(express.static('public'))
+app.listen(port);
+
+//data base, local.
 const appdata = [
   { task : 'dishes', DueDate :1, Priority: 1 },
 ]
-
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
-  }else if (request.method === 'DELETE'){
-    handleDelete(request, response)
-  }
-})
 
 const handleGet = function( request, response ) {
   const filename = dir + request.url.slice( 1 ) 
@@ -94,4 +106,3 @@ const sendFile = function( response, filename ) {
    })
 }
 
-server.listen( process.env.PORT || port )
