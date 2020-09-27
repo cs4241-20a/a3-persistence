@@ -39,7 +39,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', function (request, response) {
-  response.sendFile(__dirname + '/public/index.html')
+  response.sendFile(__dirname + '/public/login.html')
 })
 
 app.get('/data', function (request, response) {
