@@ -11,8 +11,16 @@ router.get('/home', ensureAuthenticated, (req, res) => {
     })
 })
 
-router.get('/books', ensureAuthenticated, async (req, res) => {
+router.get('/allbooks', ensureAuthenticated, async(req, res) => {
     await Book.find({ })
+    .then(books => {
+        res.json(books)
+    })
+    .catch(e => res.status(500).send(e))
+})
+
+router.get('/books', ensureAuthenticated, async(req, res) => {
+    await Book.find({ owner: req.user._id })
     .then(books => {
         res.json(books)
     })
