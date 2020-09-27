@@ -22,10 +22,7 @@ h1 {
     margin-right: 10%;
     margin-bottom: 5%;
 }
-#delbox {
-    width: 40px;
-    height: 40px;
-}
+
 
 table, th, td {
     border: 1px solid black;
@@ -52,10 +49,30 @@ input {
     background-color: black;
 }
 
+#delbox {
+    width: 40px;
+    height: 40px;
+}
+#delname {
+    width: 20%;
+}
+
 #deling button {
     color:red;
 }
 
 #modifying {
     margin-top: 15px;
+}
+
+#modname {
+    width: 20%;
+}
+
+#modscore {
+    width: 7%;
+}
+
+#modseconds {
+    width: 10%;
 }
