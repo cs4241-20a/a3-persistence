@@ -12,7 +12,7 @@ router.get('/register', forwardAuthenticated, (req, res) => res.render('register
 
 router.post('/register', async(req, res) => {
     const errors = []
-    const { email, username, password, confirmPassword } = req.body
+    const { email, user, password, confirmPassword } = req.body
 
     if(confirmPassword !== password) errors.push({ msg: 'Error, passwords do not match' })
 
@@ -21,38 +21,44 @@ router.post('/register', async(req, res) => {
         res.render(
             'register', {
                 errors,
-                username,
+                user,
                 email,
                 password,
                 confirmPassword
             }
         )
     } else {
-        User.findOne({ email: email }).then(user => {
-            if(user) {
+        User.findOne({ email: email }).then(data => {
+            if(data) {
                 errors.push({ msg: 'Email already exist' })
                 res.render('register', {
                     errors,
-                    username,
+                    user,
                     email,
                     password,
                     confirmPassword
                 })
             } else {
                 const newUser = new User({
-                    username,
+                    user,
                     email,
                     password
                 })
+                console.log(newUser)
                 newUser.save()
                 .then(user => {
                     req.flash(
-                        'success_msg',
+                        'successmsg',
                         'You are now registered'
                     )
                     res.redirect('/users/login')
                 })
-                .catch(error => console.log(err))
+                .catch(error => {
+                    errors.push({ msg: error })
+                    res.render('register', {
+                        errors
+                    })
+                })
             }
         })
     }

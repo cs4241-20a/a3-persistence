@@ -18,13 +18,13 @@ const bookSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    hasCopy: {
+        type: String,
+        required: true
+    },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         res: 'User'
-    },
-    owner_github: {
-        type: mongoose.Schema.Types.ObjectId,
-        res: 'GithubUser'
     },
     reviews: {
         type: String,
