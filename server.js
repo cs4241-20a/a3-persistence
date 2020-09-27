@@ -74,22 +74,15 @@ function isAuthenticated(req, res, next) {
 }
 
 app.get('/', (req, res) => {
-    //Serves the body of the page aka "main.handlebars" to the container //aka "index.handlebars"
-    res.render('home', {layout : 'main'});
+    // Homepage
+    res.sendFile(path.join(__dirname + '/views/index.html'))
 });
 
 app.get('/login', (req, res) => res.redirect('/auth/github'))
 
-app.get('/secure', (req, res) => {
-    // Check logged in
-    if(req.user) {
-        res.sendFile(path.join(__dirname + '/views/secure.html'))
-    }
-    else {
-        res.status(400).send({
-            message: "You're not logged in!"
-        })
-    }
+app.get('/secure', isAuthenticated, (req, res) => {
+    // Check logged in before 
+    res.sendFile(path.join(__dirname + '/views/secure.html'))
 })
 
 app.get('/auth/github', function(req, res, next) {
