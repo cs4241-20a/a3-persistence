@@ -1,0 +1,41 @@
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <script src="/script.js"></script>
+  </head>
+  <body>
+    <link rel="stylesheet" href="/style.css">
+    <div>
+      <h1 class="title">Fishing Log</h1>
+      <topcorner>
+        <h2>
+          Hi <%=name%>, welcome back
+        </h2>
+        <button id ="logOut">log out</button>
+      </topcorner>
+    </div>
+    <form>
+      <center>
+      <input type="text" id="fishtype" placeholder="your capture">
+      <input type="text" id="fishweight" placeholder="weight in pounds">
+      <input type="text" id="line" placeholder="line class">
+      <br>
+      <button type= "submit" id="submitBtn">submit</button>
+      <button id ="deleteButton">clear data</button>
+      <input type="checkbox" id="myCheck" onclick="sort_w()">
+        <label for= "mycheck">Sort by weight</label>     
+      </center>
+    </form>
+    <br>
+    <table id="table1" style="width:100%">
+  <tr>
+    <th>Name</th>
+    <th>Fish Type</th>
+    <th>Line Class</th>
+    <th>Weight</th>
+    <th>Date Captured</th>
+  </tr>
+  </table>
+  </body>
+</html>
