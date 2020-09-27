@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6d51bfc6-7107-4f11-ab1e-03eb79ea192b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +45,7 @@
       <workItem from="1600649507529" duration="9245000" />
       <workItem from="1600718483001" duration="11841000" />
       <workItem from="1600810112170" duration="15310000" />
-      <workItem from="1601178278423" duration="5799000" />
+      <workItem from="1601178278423" duration="6124000" />
     </task>
     <task id="LOCAL-00001" summary="Made server.improved.js into an Express server">
       <created>1600494176830</created>
@@ -111,7 +110,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601183808748</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Totals and averages are also now retrieved on server startup.">
+      <created>1601184288037</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1601184288037</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -127,13 +133,14 @@
     <MESSAGE value="Updated README.md with most of the required information." />
     <MESSAGE value="Removed unnecessary ID# from written csv files." />
     <MESSAGE value="numEntries is now retrieved from database on server start-up, meaning sendCSV now works if it's the first request made on server start-up." />
-    <option name="LAST_COMMIT_MESSAGE" value="numEntries is now retrieved from database on server start-up, meaning sendCSV now works if it's the first request made on server start-up." />
+    <MESSAGE value="Totals and averages are also now retrieved on server startup." />
+    <option name="LAST_COMMIT_MESSAGE" value="Totals and averages are also now retrieved on server startup." />
   </component>
   <component name="WindowStateProjectService">
-    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1601183807696">
+    <state x="55" y="0" key="CommitChangelistDialog2" timestamp="1601184286709">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1601183807696" />
+    <state x="55" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1601184286709" />
     <state width="1515" height="210" key="GridCell.Tab.0.bottom" timestamp="1601098903247">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -150,10 +157,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1515" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1601098903247" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1601183829560">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1601184293795">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1601183829560" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1601184293795" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1600732640280">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
