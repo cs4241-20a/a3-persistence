@@ -31,7 +31,19 @@ const getRecipes = function(userID) {
   })
 }
 
-const getRecipesNoID = function
+// Get recipes from database and resolve
+const getRecipesNoID = function(userID) {
+  var queryDoc = {};
+  if(userID) {
+    queryDoc = {"userID": userID};
+  }
+  return new Promise((resolve, reject) => {
+    return client.db("a3-webware").collection("recipes").find(queryDoc, {"_id": 0}).toArray((err, result) => {
+      if(err) reject(err);
+      resolve(result);
+    })
+  })
+}
 
 const tryDelete = function(userID, recipeID) {
   return client.db("a3-webware").collection("recipes").deleteOne({_id: recipeID, userID: userID}, (err, obj) => {
@@ -43,3 +55,4 @@ const tryDelete = function(userID, recipeID) {
 
 exports.insert = insert;
 exports.getRecipes = getRecipes;
+exports.getRecipesNoID = getRecipesNoID;

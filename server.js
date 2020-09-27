@@ -132,7 +132,7 @@ app.get('/recipes/my', isAuthenticated, (req, res) => {
 app.get('/recipes/data', isAuthenticated, (req, res) => {
   const userID = req.query.userID;
   console.log("GOT userid: ",  userID)
-  API.getRecipes(userID)
+  API.getRecipesNoID(userID)
   .then((data) => {
     console.log("RESULT: ", data)
     res.send(JSON.stringify(data))
