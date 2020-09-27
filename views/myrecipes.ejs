@@ -29,7 +29,7 @@
                   <button class="btn btn-info" onclick="console.log('{{ r._id }}')" style="padding: 1rem 3rem; margin: 2rem; min-width: 10rem">
                     EDIT
                   </button>
-                  <button class="btn btn-danger" onclick='console.log(\{\{r._id\}\})'  style="padding: 1rem 3rem; margin: 2rem; ">
+                  <button class="btn btn-danger" v-bind:onclick='console.log(r._id)'  style="padding: 1rem 3rem; margin: 2rem; ">
                     DELETE
                   </button>
                 </div>
