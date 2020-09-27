@@ -50,7 +50,7 @@ const signUp = function(e) {
         password: password.value,
     }, body = JSON.stringify(jsonObject)
 
-    if (username.value === '1' || password.value == '1') {
+    if (username.value === '' || password.value == '') {
         window.alert("ERROR: Must Enter Username and Password!")
     
     } else {

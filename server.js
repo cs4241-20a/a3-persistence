@@ -171,7 +171,7 @@ app.post("/signUp", bodyParser.json(), (request, response) => {
 
 app.get("/getData", bodyParser.json(), (request, response) => {
     let currentUser = request.session['User'];
-    response.sendFile(__dirname + "/public/main.html")
+    response.redirect("/main.html")
 })
 
 app.get("/getUser", (request, response) => {

@@ -8,14 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="favicon.ico"/>
-    <script src="js/login-script.js"></script>
+    <script src="js/login.js"></script>
 </head>
 
 <body>
     <h1>LOGIN</h1>
 
-    <div class="container center" style="background-color: aqua;">
-        <div class="flex-container">
+    <div class="center">
+        <div>
             <form>
                 <div class="horizontal-flex margin-spacer">
                     <label>Username: </label>
@@ -25,15 +25,15 @@
                     <label>Password: </label>
                     <input type='text' id='password'>
                 </div>
-                <div class="buttons-flexContainer" style="margin-top: 200px;">
+                <div class="buttons-flexContainer" style="margin-top: 100px;">
                     <button id='login'>Login</button>
                     <button id='signUp'>Sign Up</button>
                 </div>
-                <a href="/auth/github" target="_blank" rel="nonopener nonreferrer">
-                    <p>Click Here for Github</p>
-                </a>
             </form>
         </div>
+        <a href="/auth/github">
+            <img src="images/github-icon.png">
+        </a>
     </div>
 </body>
 

@@ -1,5 +1,5 @@
 body {
-    background-color: #F0D0B7;
+    background-color:white;
 }
 
 h1, h2 {
@@ -11,14 +11,14 @@ h1 {
     justify-content: center;
     font-family: 'Shrikhand', cursive;
     font-size: 4vw;
-    color:white;
+    color:green;
 }
 
 
 label {
     display: flex;
     justify-content: flex-start;
-    font-size: 40px;
+    font-size: 2vw;
 
 }
 
@@ -26,14 +26,20 @@ label {
 button {
     width: 30%;
     justify-content: center;
-    font-size: 50px;
+    font-size: 2vw;
 }
 
 input {
     height: auto;
-    font-size: 40px;
+    font-size: 1.8vw;
 }
 
+img {
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px;
+}
 
 h1.welcome-header {
     margin-top: -5px;

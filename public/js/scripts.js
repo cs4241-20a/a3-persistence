@@ -98,19 +98,14 @@ const save = function (e) {
     return false;
 }
 
+const signOut = function(e) {
 
-
-const deletion = function (e) {
-    // prevent default form action from being carried out
     e.preventDefault()
 
-    body = generateBody(3);
-
-    performFetch('/deletion', body)
-
+    window.location.href="/";
+    
     return false;
 }
-
 
 function updateTable() {
     fetch('/reviews') // using fetch to GET the reviews array in server
@@ -266,7 +261,10 @@ window.onload = function () {
 
     const saveButton = document.getElementById('save')
     saveButton.onclick = save;
-    
+
+    const signOutButton = document.getElementById('signOut');
+    signOutButton.onclick = signOut;
+
     const usernameInput = document.getElementById('username');
 
     fetch('/getUser') 

@@ -1,5 +1,5 @@
 body {
-    background-color: #F0D0B7;
+    background-color: white;
 }
 
 h1, h2 {
@@ -36,7 +36,7 @@ label {
 }
 
 select {
-    font-size: 18px;
+    font-size: 15px;
 }
 
 button {
@@ -76,7 +76,7 @@ div.horizontal-flex {
 div.buttons-flexContainer {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
 
 table.table-center {
@@ -98,12 +98,11 @@ table.table-center {
 
 #top-container {
     width: 100%;
-    background-color: #DBA4C9;
+    background-color: green;
 }
 
 #content-container {
     width: 95%;
-    background-color: red;
 }
 
 
@@ -120,12 +119,13 @@ table.table-center {
     width: 70%;
 }
 
-#submit {
+
+button.horizontalLayout {
     display: block;
     margin: auto;
-    margin-top: 60px;
-    margin-bottom: 40px;
+    width: auto;
 }
+
 
 
 
