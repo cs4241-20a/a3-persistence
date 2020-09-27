@@ -53,9 +53,9 @@ const listener = app.listen(process.env.PORT, () => {
 });
 
 
-/*
 
-const MongoClient = require('mongodb').MongoClient;
+const mongodb = require('mongodb')
+const MongoClient = mongodb.MongoClient;
 const uri = "mongodb+srv://Jordan:lol@cluster0.i1bsg.mongodb.net/<dbname>?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 client.connect(err => {
@@ -63,5 +63,3 @@ client.connect(err => {
   // perform actions on the collection object
   client.close();
 });
-
-*/
