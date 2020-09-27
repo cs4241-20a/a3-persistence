@@ -8,7 +8,7 @@ const express = require("express"),
   MongoClient = require("mongodb").MongoClient,
   mongodb = require("mongodb"),
   app = express(),
-  port = 80;
+  port = process.env.PORT || 3000;
 
 const MONGO_URI = process.env.MONGO_URI;
 
