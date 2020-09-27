@@ -23,10 +23,11 @@ app.get("/data", (request, response) => {
   response.json(scoreboard);
 });
 
-// adds a new user to the scoreboard array from post method
+// submits a new user to the scoreboard array from post method
 app.post("/submit", bodyParser.json(), (request,response) => {
+  console.log("The person is: " + request.body.name);
   scoreboard.push(request.body);
-  console.log("New user recoded!");
+  console.log("New user recorded!");
   response.json(scoreboard);
 })
 

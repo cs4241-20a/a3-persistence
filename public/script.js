@@ -1,6 +1,7 @@
 let clickcount = 0;
 let seconds = 0;
 let cps = 0;
+let time = 0;
 
 //when start button is clicked swap visibilities and start 30 second timer.
 function startClicked() {
@@ -39,9 +40,8 @@ function end() {
   } else {
     document.getElementById('currentclicks').innerHTML = "You scored: " + clickcount + " Points!";
     cps = Math.round((clickcount / seconds) * 10) / 10;
-    console.log(clickcount);
-    console.log(seconds);
-    console.log(cps);
+    time = Date.now();
+    console.log("Click count"+ clickcount + "seconds:" + seconds + "cps:" + cps);
 
     //make game recording buttons appear
     let classes = document.getElementsByClassName('postgame'); 
@@ -60,17 +60,22 @@ const submit = function (e) {
     return false;
   }
 
+  //construct a new user's score to be submitted for storage
   const userScore = {
     name: document.getElementById('yourname').value,
+    cps: cps,
     clicks: clickcount,
-    seconds: seconds
+    seconds: seconds,
+    time: time
   }
 
-  const body = JSON.stringify(userScore);
-
+  //send the userScore after json conversion and receive the new scoreboard 
   fetch('/submit', {
     method: 'POST',
-    body
+    body: JSON.stringify(userScore),
+    headers:{
+      "Content-Type": "application/json"
+    }
   })
     .then(function (response) {
       //response
