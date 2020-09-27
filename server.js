@@ -5,6 +5,7 @@
 // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
 
 const path = require('path');
+
 const port = 3000;
 
 const express = require("express");
@@ -59,7 +60,6 @@ passport.deserializeUser(function(obj, cb) {
 
 // Check if user is authenticated. If so, send them thru, if not make them login
 function isAuthenticated(req, res, next) {
-  console.log("IN ISAUTHENTICATED!", req.user)
   if(req.user) {
     return next();
   }
@@ -101,7 +101,8 @@ app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect to secure site
-    res.redirect('/recipes/add?id=' + req.user.id);
+    //res.redirect('/recipes/add?id=' + req.user.id);
+    res.redirect('/');
   });
 
 app.listen(port, () => {
@@ -114,12 +115,13 @@ app.get('/recipes/all', (req, res, next) => {
 })
 
 app.get('/recipes/my', isAuthenticated, (req, res) => {
-  res.render('myrecipes', {user: "Jason"}))
+  res.render('myrecipes', {userID: req.user.id})
 })
 
 // API endpoint to get recipe data
 app.get('/recipes/data', isAuthenticated, (req, res) => {
   const userID = req.params.userID;
+  console.log("GOT userid: ",  userID)
   API.getRecipes(userID)
   .then((data) => {
     console.log("RESULT: ", data)
