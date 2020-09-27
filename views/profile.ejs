@@ -1,9 +1,39 @@
-<% if (!user) { %>
-<script>window.location.href = "https://a3-margaretearnest.glitch.me/";</script>
-<% } else { %>
-<p>
-ID: <%= user.id %><br/>
-Username: <%= user.username %><br/>
-Profile: <%= user.profileUrl %><br/>  
-</p>
-<% } %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch">
+
+    <title>Welcome to Glitch!</title>
+
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+  <% if (!user) { %>
+  <script>window.location.href = "https://a3-margaretearnest.glitch.me/";</script>
+  <% } else { %>
+  <body onload="populateMazes(<%=user.id%>)">
+    <p>
+    <h1><%= user.username %>'s Mazes</h1>
+    Profile: <%= user.profileUrl %><br/><br/>  
+    <form action="/">
+        <input type="submit" value="Make a New Maze" />
+    </form>
+    </p>
+  <p id="editInfo">Select a maze to annotate it with a path, update it, or delete it. You can edit a maze's name and its recorded path by entering a new name and tracing a new path then pressing the "Update Maze" button. You can also use the "Delete Maze" button to delete a maze.</p>
+  <div id="mazeButtons"></div>
+  <h2 id="mazeName"></h2>
+  <input id="newName" placeholder="New name" value="" type="text"></input><br />
+  <em id="mazeId"></em>
+  <button onclick="update(<%=user.id%>)" id="update">Update Maze</button>
+  <button onclick="deleteMaze(<%=user.id%>)" id="delete">Delete Maze</button><br/><br/>
+  <div id="maze"></div>
+  </body>
+  <% } %>
+</html>

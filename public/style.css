@@ -25,19 +25,10 @@ form {
   max-width: 40ch;
 }
 
-input {
-  border: 1px solid silver;
-  display: block;
-  font-size: 16px;
-  margin-bottom: 10px;
-  padding: 5px;
-  width: 100%;
-}
-
 form button {
   background-color: #bbbbf2;
   border: 2px solid currentColor;
-  border-radius: .25em;
+  border-radius: 0.25em;
   cursor: pointer;
   font-size: inherit;
   line-height: 1.4em;
