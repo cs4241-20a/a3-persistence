@@ -55,12 +55,10 @@ app.post("/submit", bodyParser.json(), (request, response) => {
 
 // deletes a user from the scoreboard array and returns new scoreboard
 app.post("/delete", bodyParser.json(), (request, response) => {
-  console.log("Deleting...");
 
   collection
-    .deleteOne({ id: mongodb.ObjectID(request.body.id) })
+    .deleteMany({"name": request.body.name})
     .then(result => response.json(result))
-
 })
 
 // modifies a given user's score and generates a new CPS, returns new scoreboard.

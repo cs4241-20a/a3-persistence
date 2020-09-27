@@ -41,10 +41,10 @@ function end() {
     document.getElementById('currentclicks').innerHTML = "You scored: " + clickcount + " Points!";
     cps = Math.round((clickcount / seconds) * 10) / 10;
     time = Date.now();
-    console.log("Click count"+ clickcount + "seconds:" + seconds + "cps:" + cps);
+    console.log("Click count: " + clickcount + " seconds: " + seconds + " cps: " + cps);
 
     //make game recording buttons appear
-    let classes = document.getElementsByClassName('postgame'); 
+    let classes = document.getElementsByClassName('postgame');
     for (var i = 0; i < classes.length; i++) {
       classes[i].style.display = "block";
     }
@@ -73,18 +73,16 @@ const submit = function (e) {
   fetch('/submit', {
     method: 'POST',
     body: JSON.stringify(userScore),
-    headers:{
+    headers: {
       "Content-Type": "application/json"
     }
   })
     .then(function (response) {
       //response
-      response.json().then(function (data) {
+      response.json().then(data => {
         //data
-        console.log("Submit Response:", response);
-        console.log("Returned data: ", data);
         restartGame();
-        initializeTable();        
+        initializeTable();
       })
     })
 
@@ -96,27 +94,30 @@ const deleteName = function (e) {
   //prevent default form action from being carried out
   e.preventDefault();
 
-  //construct in JSON format for messaging
-  let delName = {name: document.getElementById('delname').value};
+  //check for if checkbox is checked
+  let checkBox = document.getElementById('delbox');
+  let delName = document.getElementById('delname').value;
+  let body = {
+    name: delName
+  }
 
-  fetch('/delete', {
-    method: 'POST',
-    body: JSON.stringify(delName),
-    headers:{
-      "Content-Type": "application/json"
-    }
-  })
-    .then(function (response) {
-      //response
-      response.json().then(function (data) {
-        //data
-        console.log("Delete Response:", response);
-        console.log("Returned data: ", data);
-
-        document.getElementById('delname').value = "";
-        initializeTable();
-      })
+  //if checkbox is checked, allow deletion
+  if (checkBox.checked == true) {
+    fetch('/delete', {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json"
+      }
     })
+      .then(function (response) {
+        //response
+        response.json().then(data => {
+          //data
+          initializeTable();
+        })
+      })
+  }
 
   return false;
 }
@@ -125,11 +126,11 @@ const deleteName = function (e) {
 const modifyScore = function (e) {
   //prevent default form action from being carried out
   e.preventDefault();
-  
+
   fetch('/modify', {
     method: 'POST',
     // body: JSON.stringify(document.getElementById('delname').value),
-    headers:{
+    headers: {
       "Content-Type": "application/json"
     }
   })
@@ -206,7 +207,7 @@ function buildTable(newScoreboard) {
 }
 
 //get the table data for generating the table on load.
-function initializeTable(){
+function initializeTable() {
   fetch('/data', {
     method: 'GET'
   })
@@ -214,9 +215,8 @@ function initializeTable(){
       //response
       response.json().then(function (data) {
         //data
-        console.log("Data Response:", response);
-        console.log("Returned data: ", data);
-
+        // console.log("Data Response:", response);
+        // console.log("Returned data: ", data);
         buildTable(data);
       })
     })
