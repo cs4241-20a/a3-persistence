@@ -1,7 +1,9 @@
+
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const { response } = require('express');
+require('dotenv').config()
 
 // our default array of dreams
 let scoreboard = [
@@ -56,7 +58,7 @@ const listener = app.listen(process.env.PORT, () => {
 
 const mongodb = require('mongodb')
 const MongoClient = mongodb.MongoClient;
-const uri = "mongodb+srv://Jordan:lol@cluster0.i1bsg.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const uri = 'mongodb+srv://Jordan:lol@cluster0.i1bsg.mongodb.net/<dbname>?retryWrites=true&w=majority';
 const client = new MongoClient(uri, { useNewUrlParser: true });
 client.connect(err => {
   const collection = client.db("test").collection("devices");
