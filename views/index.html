@@ -30,12 +30,6 @@
           <label for="condition">Please Enter Condition as a Percent</label>
         </li>
         <li>
-          <input class="nameEntry" type="text" id="firstname" value="First Name">
-        </li>
-        <li>
-          <input class="nameEntry" type="text" id="lastname" value="Last Name">
-        </li>
-        <li>
           <button id="submitbutton">submit</button>
         </li>
       </ul>
@@ -81,16 +75,11 @@
           <label for="listingnumber">Listing Number</label>
         </li> 
         <li>
-          <input class="nameEntry" type="text" id="updatefirstname" value="First Name">
-        </li>
-        <li>
-          <input class="nameEntry" type="text" id="updatelastname" value="Last Name">
-        </li>    
-        <li>
           <button id="updatebutton">Update</button>
         </li>   
       </ul>
     </form>
+    <button id="logoutbutton">Logout</button>
     </div>
   </div>
   <div class="grid-item">
@@ -112,11 +101,13 @@
     const deleteButton = document.getElementById( 'deletebutton' )
     const listingsButton = document.getElementById( 'listingsbutton' )
     const updateButton = document.getElementById( 'updatebutton' )
+    const logoutButton = document.getElementById( 'logoutbutton' )
     // when this button is clicked, call submit for the button that was found in this document
     submitButton.onclick = submit
     deleteButton.onclick = deleteListing
     listingsButton.onclick = getListings
     updateButton.onclick = updateListing
+    logoutButton.onclick = logout
   }
   </script>
     </body>

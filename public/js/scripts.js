@@ -5,8 +5,66 @@
 // getListings() - load listings from the server to the website
 // updateListing() - update a specific listing by listing ID
 
-console.log("Welcome to assignment 2!")
+console.log("Welcome to assignment 3!")
 
+const login = function( e ) {
+
+  e.preventDefault()
+
+  // document represents current HTML document
+  const username = document.querySelector( '#username' ),
+        password = document.querySelector( '#password' ),
+        json = { username: username.value,
+        password: password.value }
+        body = JSON.stringify( json ) 
+
+    //  window.location = "https://github.com/login/oauth/authorize?client_id=5ee171204184dfc4065d" 
+    console.log( body )
+  fetch( '/login', {
+    method:'POST',
+    body,
+    headers:{
+      "Content-Type":"application/json"
+          }
+  })
+
+  .then( response => response.json() )
+  .then( login => {
+    console.log( login)
+    if( login.login === "good"){
+      window.location = "/index"
+    }else{
+      alert( "You are wrong." )
+      console.log( "No." )
+    }
+
+  })
+
+  // .then( listings => {
+  //   // console.log( listings )
+  //   // console.log( Object.keys(listings).length )
+  //   displayListings( listings )
+
+  // })
+
+  return false
+}
+
+const logout = function( e ) {
+
+  e.preventDefault()
+  fetch( '/logout' )
+  .then( response => window.location = "/")
+
+  // .then( listings => {
+  //   // console.log( listings )
+  //   // console.log( Object.keys(listings).length )
+  //   displayListings( listings )
+
+  // })
+
+  return false
+}
 
 const submit = function( e ) {
     // prevent default form action from being carried out
@@ -18,15 +76,12 @@ const submit = function( e ) {
     e.preventDefault()
 
     // document represents current HTML document
-    const firstName = document.querySelector( '#firstname' ),
-          lastName = document.querySelector( '#lastname' ),
-          cameraMake = document.querySelector( '#cameramake' ),
+    const cameraMake = document.querySelector( '#cameramake' ),
           cameraModel = document.querySelector( '#cameramodel' ),
           cameraFormat = document.querySelector( '#cameraformat' ),
           price = document.querySelector( '#price' ),
           condition = document.querySelector( '#condition' )
-          json = { firstname: firstName.value, 
-            lastname: lastName.value, 
+          json = {
             cameramake: cameraMake.value,
             cameramodel: cameraModel.value, 
             cameraformat: cameraFormat.value,
@@ -53,10 +108,12 @@ const submit = function( e ) {
     //   console.log( response )
     // })
     .then( response => response.json() )
-    .then( json => {
-      console.log( json )
+    .then( listings => {
+      // console.log( listings )
+      // console.log( Object.keys(listings).length )
+      displayListings( listings )
+
     })
-    .then( setTimeout(() => { getListings( e );}, 500 ) )
 
     return false
   }
@@ -64,9 +121,7 @@ const submit = function( e ) {
   const deleteListing = function( e ) {
     e.preventDefault()
 
-    const firstName = document.querySelector( '#deletefirstname' ),
-          lastName = document.querySelector( '#deletelastname' ),
-          id = document.querySelector( '#deletelistingnumber')
+    const id = document.querySelector( '#deletelistingnumber')
 
           json = {
             id: id.value,
@@ -80,10 +135,13 @@ const submit = function( e ) {
         "Content-Type":"application/json"
             } 
     })
-    .then( function( response ) {     
-      console.log( response )
+    .then( response => response.json() )
+    .then( listings => {
+      // console.log( listings )
+      // console.log( Object.keys(listings).length )
+      displayListings( listings )
+
     })
-    .then( setTimeout(() => { getListings( e );}, 500 ) )
 
 
     return false
@@ -100,55 +158,21 @@ const submit = function( e ) {
 
     e.preventDefault()
 
-    fetch( 'appdata', {
+    fetch( 'listings', {
         method:'GET'
     })
     .then( response => response.json() )
-    .then( appdata => {
-      console.log( appdata )
+    .then( listings => {
+      // console.log( listings )
+      // console.log( Object.keys(listings).length )
+      displayListings( listings )
+
     })
 
 
-    // .then( appdata => {
-    //     if( Object.keys( appdata ).length === 0 ){
-    //       return false
-    //     }
-    //     // let's create a dynamic table
-    //     const numlistings = appdata.length + 1;
+    // .then( listings => {
 
-    //         var dataTable = document.createElement( "TABLE" );
-    //         dataTable.border = "10";
-     
-    //         // Calculate number of columns for this table
-    //         var columnCount = Object.keys( appdata[0] ).length;
-     
-    //         // row for header - iterate through first element's keys to pull types
-    //         var row = dataTable.insertRow( -1 );
-    //         for ( var key in appdata[0] ) {
-    //           if( key === "delete" ){
-    //             continue
-    //           }
-    //             var headerCell = document.createElement("TH");
-    //             headerCell.innerHTML = key;
-    //             row.appendChild( headerCell );
-    //         }
-     
-    //         // Iterate through appdata
-    //         for (var i = 0; i < appdata.length; i++) {
-    //             row = dataTable.insertRow( -1 );
-    //             for ( var key in appdata[i] ) {
-    //               if( key === "delete" ){
-    //                 continue
-    //               }
-    //                 var cell = row.insertCell( -1 );
-    //                 cell.innerHTML = appdata[i][key];
-    //             }
-    //         }
-     
-    //         var dvTable = document.getElementById( "dvTable" );
-    //         dvTable.innerHTML = "";
-    //         dvTable.appendChild( dataTable );
-    //         console.log( "updated data displayed")
+
     // } )
 
 
@@ -160,16 +184,13 @@ const submit = function( e ) {
     e.preventDefault()
 
     // document represents current HTML document
-    const firstName = document.querySelector( '#updatefirstname' ),
-          lastName = document.querySelector( '#updatelastname' ),
-          cameraMake = document.querySelector( '#updatecameramake' ),
+    const cameraMake = document.querySelector( '#updatecameramake' ),
           cameraModel = document.querySelector( '#updatecameramodel' ),
           cameraFormat = document.querySelector( '#updatecameraformat' ),
           price = document.querySelector( '#updateprice' ),
           condition = document.querySelector( '#updatecondition' ),
           id = document.querySelector( '#listingnumber')
-          json = { firstname: firstName.value, 
-            lastname: lastName.value, 
+          json = {
             cameramake: cameraMake.value,
             cameramodel: cameraModel.value, 
             cameraformat: cameraFormat.value,
@@ -187,19 +208,67 @@ const submit = function( e ) {
         "Content-Type":"application/json"
             }
     })
-    .then( function( response ) {   
-      console.log( response )
+    .then( response => response.json() )
+    .then( listings => {
+      // console.log( listings )
+      // console.log( Object.keys(listings).length )
+      displayListings( listings )
+
     })
-    .then( setTimeout(() => { getListings( e );}, 500 ) )
+    // .then( setTimeout(() => { getListings( e );}, 500 ) )
 
     return false
   }
 
-  // testing
-  fetch( '/submit', {
-    method:"POST",
-    body:JSON.stringify( { firstname: "No", lastname: "Boggle", cameramake: "Canon", cameramodel: "AE-1P", cameraformat: "35mm", price: 50, condition: 85, bargain: false, delete: false, id:4 }),
-    headers:{
-"Content-Type":"application/json"
+  const displayListings = function( incomingData ) {
+    if( Object.keys( incomingData ).length === 0 ){
+      console.log( "There are no existing listings")
+      return false
     }
-  })
+            // let's create a dynamic table
+    const numlistings = Object.keys( incomingData ).length;
+    console.log( numlistings )
+
+        var dataTable = document.createElement( "TABLE" );
+        dataTable.border = "10";
+ 
+        // Calculate number of columns for this table
+        const columnCount = Object.keys( incomingData[0] ).length;
+        console.log( "Number of headers per entry: " + columnCount )
+        // row for header - iterate through first element's keys to pull types
+        var row = dataTable.insertRow( -1 );
+        for ( var key in incomingData[0] ) {
+          if( key === "delete" || key === "_id" || key === "lister" ){
+            continue
+          }
+            var headerCell = document.createElement("TH");
+            headerCell.innerHTML = key;
+            row.appendChild( headerCell );
+        }
+ 
+        // Iterate through listings
+        for (var i = 0; i < numlistings; i++) {
+            row = dataTable.insertRow( -1 );
+            for ( var key in incomingData[i] ) {
+              if( key === "delete" || key === "_id" || key === "lister" ){
+                continue
+              }
+                var cell = row.insertCell( -1 );
+                cell.innerHTML = incomingData[i][key];
+            }
+        }
+ 
+        var dvTable = document.getElementById( "dvTable" );
+        dvTable.innerHTML = "";
+        dvTable.appendChild( dataTable );
+        console.log( "updated data displayed")
+  }
+
+  // testing
+//   fetch( '/submit', {
+//     method:"POST",
+//     body:JSON.stringify( { firstname: "No", lastname: "Boggle", cameramake: "Canon", cameramodel: "AE-1P", cameraformat: "35mm", price: 50, condition: 85, bargain: false, delete: false, id:4 }),
+//     headers:{
+// "Content-Type":"application/json"
+//     }
+//   })

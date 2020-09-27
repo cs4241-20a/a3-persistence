@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+    <script src="js/scripts.js"></script>
+  </head>
+  <body>
+    <form>
+        <ul>
+          <li>
+            <input type="text" id="username" value="Username">
+          </li>
+          <li>
+            <input type="text" id="password" value="Password">
+          </li>
+          <li>
+            <button id="loginButton">login</button>
+          </li>
+        </ul>
+      </form>
+      <p> Note: If you do not have an account currently entering your information will create an account </p>
+      <script>
+
+
+        // assigns window.onload to a function
+        window.onload = function() {
+          
+          const loginButton = document.getElementById( 'loginButton' )
+          // when this button is clicked, call submit for the button that was found in this document
+          loginButton.onclick = login
+        }
+        </script>
+      </body>
+</html>
