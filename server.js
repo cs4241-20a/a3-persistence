@@ -89,7 +89,43 @@ app.get('/logout', function (request, response){
   github = null
   response.ok = true;
   return response.end()
-})
+});
+
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: process.env.CALLBACK_URL,
+    },
+    async (accessToken, refreshToken, profile, cb) => {
+      const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
+      await client.connect();
+      const collection = client.db("TaskDatabase").collection("Users");
+      const existingUser = await collection.find({username: username, github: true}).toArray()
+
+      const newUser = {
+        username: profile.username,
+        password: null,
+        github: true,
+      };
+
+      if (existingUser.length == 0) {
+        await collection.insertMany([newUser]);
+      };
+
+      const userJSON = await collection.find({ username: profile.username, github: true }).toArray();
+      await client.close();
+      cb(null, userJSON[0]);
+      github = true;
+    }
+));
+
+app.get("/auth/github", passport.authenticate("github"));
+
+app.get("/callback/github", passport.authenticate("github", { failureRedirect: "/" }), function (request, response) {
+    res.redirect("/index.html");
+});
 
 app.post("/submit", async (request, response) => {
     const object = request.body
@@ -129,7 +165,7 @@ app.post("/submit", async (request, response) => {
     await client.close()
     response.json(appdata)
     return response.end()
-})
+});
 
 const listener = app.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);

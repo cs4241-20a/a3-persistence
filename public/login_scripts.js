@@ -35,8 +35,8 @@ const logout = function (e) {
 
 window.onload = function() {
   logout();
-  const button = document.querySelector('button')
-  button.onclick = login;
+  const loginBtn = document.getElementById('loginBtn')
+  loginBtn.onclick = login;
 
   document.getElementById("username").value = "";
   document.getElementById("password").value = "";
