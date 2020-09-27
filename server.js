@@ -351,10 +351,10 @@ const sendCSV = function(response){
     file.write(`Assists,${totalAssists},${avgAssists}\n`);
     file.write(`Deaths,${totalDeaths},${avgDeaths}\n\n`);
 
-    file.write("ID #,Kills,Assists,Deaths,K/D Ratio,A/D Ratio\n");
+    file.write("Kills,Assists,Deaths,K/D Ratio,A/D Ratio\n");
     getAllStats().then(function(result){
         for(let i = 0; i < numEntries; i++){
-            file.write(`${result[i]["id"]}, ${result[i]["kills"]}, ${result[i]["assists"]}, ${result[i]["deaths"]}, ${result[i]["kd_ratio"]}, ${result[i]["ad_ratio"]}\n`);
+            file.write(`${result[i]["kills"]}, ${result[i]["assists"]}, ${result[i]["deaths"]}, ${result[i]["kd_ratio"]}, ${result[i]["ad_ratio"]}\n`);
         }
         file.on("finish", function(){
             //Whole file has now been written, so send.
