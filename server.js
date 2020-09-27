@@ -70,11 +70,11 @@ function isAuthenticated(req, res, next) {
 
 app.get('/', (req, res) => {
     // Homepage
-    res.sendFile(path.join(__dirname + '/views/index.html'))
+    res.render('index');``
 });
 
 app.get('/login/success', isAuthenticated, (req, res) => {
-  res.send("Logged in successfully!");
+  res.render("login-successs");
 })
 
 app.get('/login', (req, res) => res.redirect('/auth/github'))
