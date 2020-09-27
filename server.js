@@ -68,10 +68,6 @@ function isAuthenticated(req, res, next) {
   }
 }
 
-app.get('*', (req, res) => {
-  res.render("404", {title: "404 Error"});
-})
-
 app.get('/', (req, res) => {
     // Homepage
     res.render('index', {title: "Home"});
@@ -165,4 +161,8 @@ app.post('/recipes/delete', isAuthenticated, bodyParser.json(), (req, res) => {
   .then(() => {
     
   })
+})
+
+app.get('/*', (req, res) => {
+  res.render("404", {title: "404 Error"});
 })
