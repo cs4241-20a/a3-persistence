@@ -63,9 +63,8 @@ app.post("/delete", bodyParser.json(), (request, response) => {
 
 // modifies a given user's score and generates a new CPS, returns new scoreboard.
 app.post("/modify", bodyParser.json(), (request, reponse) => {
+  collection
+    .updateMany()
+    .then(result => response.json(result))
 
-  let cps = Math.round(((request.body.clicks) / request.body.seconds) * 10) / 10;
-  // set user's cps to given cps
-
-  response.json(scoreboard);
 })
