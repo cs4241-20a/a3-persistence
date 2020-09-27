@@ -42,9 +42,17 @@ router.patch("/:id", async (req, res) => {
 	try {
 		const user = await User.findById(req.params.id);
 		const {name, email, dob} = req.body;
-		user.name = name ? name : user.name;
-		user.email = email ? email : user.email;
-		user.dob = dob ? dob : user.dob;
+
+		if (name) {
+			user.name = name;
+		}
+		if (email) {
+			user.email = email;
+		}
+		if (dob) {
+			user.dob = dob;
+			user.age = calculateUserAge(dob);
+		}
 
 		res.json(await user.save());
 	} catch {

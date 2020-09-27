@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const compression = require("compression");
+const helmet = require("helmet");
 
 const users = require("./routes/api/users");
 
@@ -25,9 +26,6 @@ try {
 	console.error(err);
 }
 
-app.use(compression());
-app.use(express.json());
-
 if (NODE_ENV === "development") {
 	app.use(morgan("dev"));
 } else if (NODE_ENV === "production") {
@@ -36,6 +34,10 @@ if (NODE_ENV === "development") {
 		stream: fs.createWriteStream(path.join(__dirname, "access.log"), {flags: "a"})
 	}));
 }
+
+app.use(helmet());
+app.use(compression());
+app.use(express.json());
 
 app.use("/api/users", users.router);
 app.use("/", express.static(path.join(__dirname, "public")));
