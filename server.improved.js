@@ -8,13 +8,20 @@ const express = require('express'),
   passport = require('passport'),
   port = 3000
 
+let currUserId = null
+
 const MongoClient = mongodb.MongoClient;
 const uri = "mongodb+srv://testuser:abcd1234@cluster0.6usct.gcp.mongodb.net/testdatabase?retryWrites=true&w=majority";
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 let collection = null
+let loginCollection = null
 
 client.connect(err => {
   collection = client.db("testdatabase").collection("cars");
+});
+
+client.connect(err => {
+  loginCollection = client.db("testdatabase").collection("users");
 });
 
 // defined middleware functions
@@ -33,20 +40,25 @@ var submitFunc = function (request, response, next) {
 // middleware functions to always use
 app.use(serveStatic('public'))
 app.use(bodyparser.json())
-app.use(morgan('combined'))
+// app.use(morgan('combined'))
 app.use(responseTime())
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', function (request, response) {
-  response.sendFile(__dirname + '/public/login.html')
+  response.sendFile(__dirname + '/public/views/login.html')
 })
 
 app.get('/data', function (request, response) {
   console.log("Trying to get data from DB")
+
+  console.log(currUserId)
+
   if (collection !== null) {
     // get array and pass to res.json
-    collection.find({}).toArray()
+    collection.find(
+      { userID: mongodb.ObjectID(currUserId) }
+    ).toArray()
       .then(result => response.json(result))
       .then(json => function (req, res) {
         response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
@@ -54,6 +66,42 @@ app.get('/data', function (request, response) {
         response.end()
       })
   }
+})
+
+app.post('/login', async function (request, response) {
+  console.log("Logging in.")
+  // currUserId = null
+  let dbresponse = await loginCollection.findOne(
+    {
+      $and: [
+        { username: request.body.username },
+        { password: request.body.password }
+      ]
+    }
+  )
+
+  console.log(dbresponse)
+
+  if (dbresponse != null)
+    currUserId = dbresponse._id
+
+  response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
+  response.write(JSON.stringify(dbresponse))
+  response.end()
+})
+
+app.post('/create', async function (request, response) {
+  console.log("Create.")
+  let dbresponse = await loginCollection.insertOne(request.body)
+
+  let json = dbresponse.ops[0]
+  
+  if (json != null)
+    currUserId = json._id
+
+  console.log(currUserId)
+  response.write(JSON.stringify(json))
+  response.end()
 })
 
 app.post('/submit', submitFunc, function (request, response) {
