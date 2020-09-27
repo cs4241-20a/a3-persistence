@@ -14,5 +14,3 @@ Glitch link https://a3-zhechengsong.glitch.me
    - errorhandler: used during development for better error tracing (deleted in final product)
    - cors: used to enable all CORS request for user
    - timeout: add a timeout to all request via 10s
-
-## Technical Achievements
