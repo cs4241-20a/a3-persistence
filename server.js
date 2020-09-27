@@ -110,9 +110,6 @@ const convertDataToNum = function(request, response, next){
             request.body.rows[i].kills = parseInt(request.body.rows[i].kills, 10);
             request.body.rows[i].assists = parseInt(request.body.rows[i].assists, 10);
             request.body.rows[i].deaths = parseInt(request.body.rows[i].deaths, 10);
-            console.log("kills: " +request.body.rows[i].kills);
-            console.log("assists: " +request.body.rows[i].assists);
-            console.log("deaths: " +request.body.rows[i].deaths);
         }
     }
 
@@ -350,18 +347,20 @@ const sendCSV = function(response){
     file.write(`Deaths,${totalDeaths},${avgDeaths}\n\n`);
 
     file.write("ID #,Kills,Assists,Deaths,K/D Ratio,A/D Ratio\n");
-    for(let i = 0; i < numEntries; i++){
-        file.write(`${appdata[i]["id"]}, ${appdata[i]["kills"]}, ${appdata[i]["assists"]}, ${appdata[i]["deaths"]}, ${appdata[i]["kd_ratio"]}, ${appdata[i]["ad_ratio"]}\n`);
-    }
-    file.on("finish", function(){
-        //Whole file has now been written, so send.
-        response.sendFile("./stats.csv", {root: "./" }, function(error){
-            if(error){
-                console.log("Error occurred sending file: " +error);
-            }
+    getAllStats().then(function(result){
+        for(let i = 0; i < numEntries; i++){
+            file.write(`${result[i]["id"]}, ${result[i]["kills"]}, ${result[i]["assists"]}, ${result[i]["deaths"]}, ${result[i]["kd_ratio"]}, ${result[i]["ad_ratio"]}\n`);
+        }
+        file.on("finish", function(){
+            //Whole file has now been written, so send.
+            response.sendFile("./stats.csv", {root: "./" }, function(error){
+                if(error){
+                    console.log("Error occurred sending file: " +error);
+                }
+            });
         });
-    });
-    file.end();
+        file.end();
+    })
 }
 app.get('/csv', function(request, response){
     sendCSV(response);
@@ -439,11 +438,9 @@ const calculateKDandAD = function(kills, assists, deaths){
  * @param deaths number of deaths from the game
  */
 const updateTotals = function(kills, assists, deaths){
-    console.log("before, kda was: " +totalKills +", " +totalAssists +", " +totalDeaths);
     totalKills += kills;
     totalAssists += assists;
     totalDeaths += deaths;
-    console.log("after, kda was: " +totalKills +", " +totalAssists +", " +totalDeaths);
     let totals = client.db("FPS_Stats").collection("totals");
     let promises = [];
     promises.push(totals.updateOne({type: "kills"}, {$inc: {amount: kills}}, {}));
