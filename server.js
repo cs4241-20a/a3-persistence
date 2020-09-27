@@ -3,91 +3,129 @@ const http = require( 'http' ),
       moment = require('moment'),
       bodyParser = require('body-parser'),
       express = require('express'),
-      app     = express(),
+      serveStatic = require('serve-static'),
+      morgan = require('morgan'),
+      passport = require("passport"),
+      dotenv   = require('dotenv').config({ path: 'dev.env' }),
+      GitHubStrategy = require("passport-github").Strategy,
       mongodb = require('mongodb'),
-      dir  = 'public/'
+      app     = express(),
+      dir     = 'public/';
 
-app.use(express.static('public'))
+app.use(serveStatic('public'))
+app.use(morgan('combined'))
+app.use(bodyParser.json())
+app.use(passport.initialize())
+app.use(passport.session());
+
 app.listen(3000)
 
 const MongoClient = mongodb.MongoClient;
+const uri = process.env.DB_URI;
+let github = null;
+let account = "";
 
-
-const calculateDeadline = function(prio){
-  var deadlineVal = 0;
-  if(prio === "low"){
-      deadlineVal+=4;
+app.get("/index.html", (request, response) => {
+  if(account.length == 0){
+    response.sendFile(__dirname + "/views/login.html")
+  } else {
+    response.sendFile(__dirname + "/views/index.html")
   }
-
-  if(prio === "medium"){
-    deadlineVal+=2;
-  }
-
-  if(prio === "high"){
-      deadlineVal++;
-  }
-  var finalDeadline = moment().add(deadlineVal, "days").format("MM/DD/YYYY")
-  return finalDeadline;
-}
-
-var taskID = 1;
+});
 
 app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/views/index.html")
-})
+  if(account.length == 0){
+    response.sendFile(__dirname + "/views/login.html")
+  } else {
+    response.sendFile(__dirname + "/views/index.html")
+  }
+});
 
 app.get("/api/getData", async (request, response) => {
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
   await client.connect()
   const collection = client.db("TaskDatabase").collection("Tasks");
-  const tasks = await collection.find().toArray();
+  const tasks = await collection.find({username: account}).toArray();
   await client.close()
   return response.json(tasks)
 })
 
-//Returns true a task contains the same ID as the object being deleted
-const compareIDs = function (task, object){
-  if(task.id.toString() === object.val.toString()){
-    return true;
+app.post("/login", async (request, response) => {
+  github = false
+  var userInfo = request.body
+  console.log(userInfo)
+  var username = userInfo.username
+  var password = userInfo.password
+
+  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  await client.connect()
+  const collection = client.db("TaskDatabase").collection("Users");
+  const user = await collection.find({username: username}).toArray()
+  if(user.length === 0){
+    await collection.insertOne(userInfo)
+    await client.close()
+    account = username
+    response.ok = true;
   }
   else {
-    return false;
+    await client.close()
+    if(user[0].password == password){
+      account = username
+      response.ok = false;
+    }
+    else {
+      account = ""
+      response.ok = false;
+    }
   }
-}
+  return response.end()
+});
 
-app.post("/submit", bodyParser.json(), async (request, response) => {
+app.get('/logout', function (request, response){
+  if(github == true){
+    request.logout()
+  }
+  account = ""
+  github = null
+  response.ok = true;
+  return response.end()
+})
+
+app.post("/submit", async (request, response) => {
     const object = request.body
 
     if(object.hasOwnProperty('delete')){
       const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
       await client.connect()
       const collection = client.db("TaskDatabase").collection("Tasks");
-      await collection.deleteOne({_id: new mongodb.ObjectID(object.id)});
-      console.log(taskID)
-      taskID--;
-      const appdata = await collection.find({}).toArray()
+      console.log(object)
+      await collection.deleteOne({_id: new mongodb.ObjectID(object.val)});
+      const appdata = await collection.find({username: account}).toArray()
       await client.close()
       response.json(appdata)
       return response.end()
     }
 
-    //updating object
-    // if(object.hasOwnProperty('id')){
-    //   await client.connect()
-    //   const collection = client.db("TaskDatabase").collection("Tasks");
-    //
-    // }
+    if(object.hasOwnProperty('tempID')){
+      const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      await client.connect()
+      const collection = client.db("TaskDatabase").collection("Tasks");
+      console.log(object)
+      await collection.updateOne({ _id: new mongodb.ObjectID(object.tempID) }, {$set: { ...object, _id: new mongodb.ObjectID(object.tempID)}})
+      const appdata = await collection.find({username: account}).toArray()
+      await client.close()
+      response.json(appdata)
+      return response.end()
+    }
 
-    object.deadline = calculateDeadline(object.priority);
-    taskID++;
-    object.id = taskID;
     console.log(object)
-
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
     await client.connect()
     const collection = client.db("TaskDatabase").collection("Tasks");
+    object.username = account;
+    console.log(object.username)
     await collection.insertOne(object)
-    const appdata = await collection.find().toArray()
+    const appdata = await collection.find({username: account}).toArray()
     await client.close()
     response.json(appdata)
     return response.end()
