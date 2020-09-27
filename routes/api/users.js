@@ -20,7 +20,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
 	let {name, email, dob} = req.body;
-	// Consider moving to frontend
+	//? Consider moving to frontend
 	dob = moment(new Date(dob)).add(1, "days").format("MM/DD/YYYY");
 	const age = calculateUserAge(dob);
 	const newUser = new User({name, email, dob, age});
@@ -61,8 +61,6 @@ router.patch("/:id", async (req, res) => {
 	}
 })
 
-const calculateUserAge = dob => {
-	return moment().diff(moment(dob, "MM/DD/YYYY"), "years");
-}
+const calculateUserAge = dob => moment().diff(moment(dob, "MM/DD/YYYY"), "years");
 
 module.exports = {router, calculateUserAge};

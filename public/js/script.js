@@ -142,10 +142,10 @@ const addUser = async () => {
 		alert("Please fill out the required fields!");
 	} else {
 		const body = JSON.stringify({name: `${fName.value} ${lName.value}`, email: email.value, dob: dob.value});
+		console.log(body);
 		const res = await fetch("/api/users", {method: "POST", body, headers:{"Content-Type": "application/json"}});
 		if (res) {
 			const data = await res.json();
-			console.log(data);
 			updateData();
 			fName.value = "";
 			lName.value = "";

@@ -3,37 +3,45 @@
 	<head>
 		<title>CS4241 Assignment 2</title>
 		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap">
 		<link rel="stylesheet" type="text/css" href="./css/style.css">
 		<script src="./js/script.js" defer></script>
 	</head>
 	<body>
 		<h1 class="title">User Manager</h1>
-		<div class="grid">
-			<column class="left-col">
-				<h3 class="header">New user</h3>
-				<form action="">
-					<form-group class="form-group">
-						<label for="f-name">First name</label>
-						<input type="text" class="form-control" id="f-name" placeholder="Your first name" required>
-						<label for="l-name">Last name</label>
-						<input type="text" class="form-control" id="l-name" placeholder="Your last name" required>
-						<label for="email">Email</label>
-						<input type="email" class="form-control" id="email" placeholder="someone@example.com" required>
-						<label for="dob">Date of birth</label>
-						<input type="date" class="form-control" id="dob" required>
-					</form-group>
-					<!-- For some reason this button won't stay centered unless it's wrapped in a div. -->
-					<div class="btn-wrapper">
-						<button type="button" class="btn btn-primary" id="submit-button">Submit</button>
-					</div>
-				</form>
-			</column>
-			<column class="right-col">
-				<h3 class="header">User data</h3>
-				<data-table id="data-container"></data-table>
-			</column>
+		<!-- TODO: fix button positioning -->
+		<div class="row justify-content-center">
+			<div class="col-2" id="login">
+				<a class="btn btn-block btn-social btn-github" href="/auth/github">
+					<span class="fa fa-github"></span> Sign in with GitHub
+				</a>
+			</div>
+		</div>
+		<!-- TODO: test responsiveness of grid on different displays -->
+		<div class="container-xs">
+			<div class="row justify-content-center">
+				<div class="col-xs-3" id="test1">
+					<h3 class="header">New user</h3>
+					<form action="">
+						<form-group class="form-group">
+							<label for="f-name">First name</label>
+							<input type="text" class="form-control" id="f-name" placeholder="Your first name" required>
+							<label for="l-name">Last name</label>
+							<input type="text" class="form-control" id="l-name" placeholder="Your last name" required>
+							<label for="email">Email</label>
+							<input type="email" class="form-control" id="email" placeholder="someone@example.com" required>
+							<label for="dob">Date of birth</label>
+							<input type="date" class="form-control" id="dob" required>
+						</form-group>
+						<div class="btn-wrapper">
+							<button type="button" class="btn btn-primary" id="submit-button">Submit</button>
+						</div>
+					</form>
+				</div>
+				<div class="col-md-auto" id="test2">
+					<h3 class="header">User data</h3>
+					<data-table id="data-container"></data-table>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>

@@ -1,3 +1,7 @@
+@import "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css";
+@import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+@import "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css";
+
 body {
 	padding: 32px;
 	margin: auto;
@@ -6,7 +10,12 @@ body {
 
 .title {
 	text-align: center;
-	margin-bottom: 64px;
+	margin-bottom: 32px;
+}
+
+/* TODO: give better id */
+#test1 {
+	padding-right: 96px;
 }
 
 .header {
@@ -14,22 +23,8 @@ body {
 	margin-bottom: 12px;
 }
 
-.grid {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	justify-content: center;
-	justify-items: center;
-	align-items: start;
-}
-
-.left-col {
-	justify-self: end;
-	margin-right: 128px;
-}
-
-.right-col {
-	justify-self: start;
-	margin-left: 128px;
+.container-xs {
+	padding-top: 32px;
 }
 
 .btn-wrapper {
@@ -47,6 +42,16 @@ table {
 	border: solid 2px #d6dbe0;
 	border-radius: 6px;
 	-moz-border-radius: 6px;
+	overflow-x: visible; 
+	overflow-y: hidden;
+}
+
+table tbody {
+	display: block;
+	/*TODO: tune numbers */
+	max-height: 512px;
+	max-width: 1920px;
+	overflow-y: scroll;
 }
 
 td, th {
