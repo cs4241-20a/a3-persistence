@@ -17,17 +17,19 @@ const insert = async function(document) {
     .then((res) => {console.log(res)});
 }
 
-// Get all recipes from database and resolve
-const getAllRecipes = function() {
-    return new Promise((resolve, reject) => {
-            return client.db("a3-webware").collection("recipes").find({}).toArray((err, result) => {
-                if(err) reject(err);
-                resolve(result);
-            }
-            )
-        }
-    ) 
+// Get recipes from database and resolve
+const getRecipes = function(userID) {
+  var queryDoc = {};
+  if(userID) {
+    queryDoc = {"userID": userID};
+  }
+  return new Promise((resolve, reject) => {
+    return client.db("a3-webware").collection("recipes").find(queryDoc).toArray((err, result) => {
+      if(err) reject(err);
+      resolve(result);
+    })
+  })
 }
 
 exports.insert = insert;
-exports.getAllRecipes = getAllRecipes;
+exports.getRecipes = getRecipes;

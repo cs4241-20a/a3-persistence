@@ -113,30 +113,31 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
 
-// Endpoint to show results
-app.get('/results', (req, res, next) => {
+// Endpoint to show all recipes in database
+app.get('/recipes/all', (req, res, next) => {
   res.sendFile(path.join(__dirname + '/views/results.html'))
 })
 
-// Endpoint for all recipes
-app.get('/recipes/results', isAuthenticated, (req, res) => {
-  API.getAllRecipes()
+// API endpoint to get recipe data
+app.get('/recipes/data', isAuthenticated, (req, res) => {
+  const userID = req.params.userID;
+  API.getRecipes(userID)
   .then((data) => {
     console.log("RESULT: ", data)
     res.send(JSON.stringify(data))
   })
 })
 
-// Endpoint for submitting recipe
-app.post('/recipes/add', isAuthenticated, bodyParser.json(), (req, res) => {
-  // Set user ID so we know whose recipe it is
-  req.body.user = req.user.id;
-  console.log(req.body);
-  API.insert(req.body, req.user);
-  res.send("Recipe submitted");
-})
-
 // Endpoint for view with form to add recipes
 app.get('/recipes/add', isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname + '/views/addrecipe.html'))
+})
+
+// Endpoint for submitting recipe
+app.post('/recipes/add', isAuthenticated, bodyParser.json(), (req, res) => {
+  // Set user ID so we know whose recipe it is
+  req.body.userID = req.user.id;
+  console.log(req.body);
+  API.insert(req.body);
+  res.send("Recipe submitted");
 })
