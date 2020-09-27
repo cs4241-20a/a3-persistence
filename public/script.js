@@ -130,17 +130,21 @@ const modifyScore = function (e) {
   //prevent default form action from being carried out
   e.preventDefault();
 
-  //check for if checkbox is checked
-  let modScore = document.getElementById('modscore');
+  let modScore = document.getElementById('modscore').value;
   let modName = document.getElementById('modname').value;
-  let body = {
-    name: modName,
-    clickcount: modScore
-  }
+  let modSeconds = document.getElementById('modseconds').value;
 
   //if checkbox is checked, allow deletion
-  if (modName && modScore !== "") {
+  if (modName && modScore && modSeconds !== "") {
+    let cps = Math.round((modScore / modSeconds) * 10) / 10
     console.log("Valid user & score!");
+    let body = {
+      name: modName,
+      cps: cps,
+      clickcount: modScore,
+      seconds: modSeconds
+    }
+
     fetch('/modify', {
       method: 'POST',
       body: JSON.stringify(body),
@@ -156,10 +160,10 @@ const modifyScore = function (e) {
           alert('Users modified!');
           document.getElementById('modname').value = "";
           document.getElementById('modscore').value = "";
-
+          document.getElementById('modseconds').value = "";
         })
       })
-  } else{
+  } else {
     alert("Please input a user and score before trying to modify")
   }
 
@@ -246,6 +250,8 @@ window.onload = function () {
   button.onclick = submit;
   const delbutton = document.getElementById('delbtn');
   delbutton.onclick = deleteName;
+  const modbutton = document.getElementById('modbtn');
+  modbutton.onclick = modifyScore;
   document.getElementById('clickbtn').style.display = "none";
   document.getElementById('currentclicks').style.display = "none";
   document.getElementById('inputname').style.display = "none";
