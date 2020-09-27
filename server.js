@@ -131,6 +131,35 @@ app.post("/add", bodyParser.json(), async (req, res) => {
   return res.json(todos);
 });
 
+app.post("/update", bodyParser.json(), async (req,res) => {
+  if (!req.user) {
+    return res.json({ error: "Needs Login" });
+  }
+  const newItem = req.body;
+
+  const client = new MongoClient(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
+  await client.connect();
+  const collection = client.db("A3_Data").collection("todo");
+
+  let _id = new mongodb.ObjectID(newItem._id);
+
+  let result = await collection.updateOne({user: req.user._id, _id}, {$set:{
+    title: newItem.title,
+    description: newItem.description
+  }})
+
+  console.log(result.modifiedCount)
+
+  const todos = await collection.find({ user: req.user._id }).toArray();
+  await client.close();
+
+  return res.json(todos);
+})
+
 app.delete("/remove", bodyParser.json(), async (req, res) => {
   if (!req.user) {
     return res.json({ error: "Needs Login" });

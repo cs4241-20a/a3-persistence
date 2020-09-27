@@ -25,21 +25,30 @@ function loadItems(items) {
 
   items.map((i) => {
     let block = document.createElement('blockquote')
-    let strong = document.createElement('strong')
+    let strong = document.createElement('input')
+    let desc = document.createElement('textarea')
     let br1 = document.createElement('br')
     let br2 = document.createElement('br')
     let del = document.createElement('button')
+    let save = document.createElement('button')
 
-    del.innerText = 'X'
+    desc.value = i.description
+    del.innerText = 'Delete'
+    save.innerText = 'Save'
     del.classList.add('red')
     del.addEventListener('click',() => {
       console.log(`Deleting ${i._id}`)
       deleteItem(i._id)
     })
 
+    save.addEventListener('click', () => {
+      updateItem(i._id, strong.value, desc.value)
+    })
 
-    strong.append(`${i.title}  `,del)
-    block.append(strong,br1,br2,i.description)
+
+    strong.value = i.title
+    
+    block.append(strong,br1,br2,desc,save,del)
     
     cards.appendChild(block)
     
@@ -84,6 +93,18 @@ function deleteItem(_id) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ _id }),
+  })
+    .then((res) => res.json())
+    .then((json) => loadItems(json));
+}
+
+function updateItem(_id,title, description) {
+  fetch("/update", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({_id,title,description}),
   })
     .then((res) => res.json())
     .then((json) => loadItems(json));
