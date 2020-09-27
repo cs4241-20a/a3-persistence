@@ -9,7 +9,6 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const app = express();
 const GitHubStrategy = require("passport-github").Strategy;
-var currentUser = null;
 const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient;
 const uri = `mongodb+srv://mazeGeneratorPage:${process.env.DATABASEPASSWORD}@mazes.5kglj.mongodb.net/${process.env.DATABASEID}?retryWrites=true&w=majority`;
@@ -18,8 +17,11 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true
 });
 
-app.use(bodyParser.json({ limit: "10mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
+app.use(bodyParser.json({ limit: "20mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
+app.use(require('morgan')('combined'));
+app.use(require('cookie-parser')());
+app.use(require('express-session')({ secret: process.env.SESSIONSECRET, resave: true, saveUninitialized: true }));
 
 passport.use(
   new GitHubStrategy(
@@ -48,7 +50,7 @@ app.use(passport.session());
 app.set("view engine", "ejs");
 
 app.get("/", function(req, res) {
-  res.render("index", { user: currentUser != null ? currentUser : req.user });
+  res.render("index", { user: req.user });
 });
 
 app.get("/login", function(req, res) {
@@ -61,20 +63,19 @@ app.get(
   "/return",
   passport.authenticate("github", { failureRedirect: "/login" }),
   function(req, res) {
-    currentUser = req.user;
     res.render("index", { user: req.user });
   }
 );
 
 app.get("/profile", function(req, res) {
-  res.render("profile", { user: currentUser });
+  // require('connect-ensure-login').ensureLoggedIn(),
+  res.render("profile", { user: req.user });
 });
 
 app.get("/logout", function(req, res) {
   req.logout();
   delete req.session;
-  currentUser = null;
-  res.redirect("/");
+  res.redirect("/login");
 });
 
 // // make all the files in 'public' available

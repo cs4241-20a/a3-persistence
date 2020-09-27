@@ -209,7 +209,7 @@ function populateMazes(userId) {
         console.log(mazes[i]);
         let mazeButton = document.createElement("button");
         mazeButton.textContent = mazes[i].mazeName;
-        mazeButton.style.cssText = "margin: 5px";
+        mazeButton.style.cssText = "margin-right: 10px";
         mazeButton.onclick = function mazeClick() {
           showMenu(true);
           document.getElementById("mazeName").innerText = mazes[i].mazeName;
