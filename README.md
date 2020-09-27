@@ -1,16 +1,30 @@
-Readme
----
+# hello-express
 
-## Your Web Application Title
+A server that serves a webpage, its resources, and some data
 
-Glitch link https://a3-zhechengsong.glitch.me
 
-1. This application is a modified version of a TODO List which I did in last assignment, with mewly implementedf express server and mongodb database. The basic feature stays almost the same. You can add new task via entering task detail, priority, start time, the system would calculate the due time for you based on priority and show the task in the task list. You can delete the task by clicking the 'x' button, or edit it by clicking 'edit' at the right-end of the task.
-2. I had some trouble figuring out how to use mongodb with adding, getting, and updating data. But I figured it out after watch the video and doing some research online.
-3. I wanted to use username and password login which is simple and easy to manage but I really couldn't figure out how to add passport to express...
-4. I used sanitize.css because it's said to be a css format which would stay the same among different broswers. I still added a google font, and made some changes like make the form stays in middle, and customized the list item within task list.
-5. - body-parser: used to deal with data and turn them into json
-   - morgan: used to put useful log like user request, useful on debugging
-   - errorhandler: used during development for better error tracing (deleted in final product)
-   - cors: used to enable all CORS request for user
-   - timeout: add a timeout to all request via 10s
+## Your Project
+
+On the front-end,
+
+- Edit `views/index.html` to change the content of the webpage
+- `public/client.js` is the javacript that runs when you load the webpage
+- `public/style.css` is the styles for `views/index.html`
+- Drag in `assets`, like images or music, to add them to your project
+
+On the back-end,
+
+- your app starts at `server.js`
+- add frameworks and packages in `package.json`
+- safely store app secrets in `.env` (nobody can see this but you and people you invite)
+
+Click `Show` in the header to see your app live. Updates to your code will instantly deploy.
+
+
+## Made by [Glitch](https://glitch.com/)
+
+**Glitch** is the friendly community where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
+
+Find out more [about Glitch](https://glitch.com/about).
+
+( ᵔ ᴥ ᵔ )
