@@ -115,6 +115,9 @@ const deleteName = function (e) {
         response.json().then(data => {
           //data
           initializeTable();
+          alert('All users of that name have been deleted!');
+          checkBox.checked = false
+          document.getElementById('delname').value = "";
         })
       })
   }
