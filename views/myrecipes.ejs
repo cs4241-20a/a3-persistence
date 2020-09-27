@@ -26,10 +26,10 @@
                   {{ r.directions }}
                 </p>
                 <div class="col text-center">
-                  <button class="btn btn-info" onclick="console.log('{{ r._id }}')" style="padding: 1rem 3rem; margin: 2rem; min-width: 10rem">
+                  <button class="btn btn-info" @click='editRecipe(r._id)' style="padding: 1rem 3rem; margin: 2rem; min-width: 10rem">
                     EDIT
                   </button>
-                  <button class="btn btn-danger" v-bind:onclick='console.log(r._id)'  style="padding: 1rem 3rem; margin: 2rem; ">
+                  <button class="btn btn-danger" @click='deleteRecipe(r._id)'  style="padding: 1rem 3rem; margin: 2rem; ">
                     DELETE
                   </button>
                 </div>
@@ -46,7 +46,9 @@
                     recipes: []
                 },
                 methods: {
-
+                  deleteRecipe: function(id) {
+                    console.log("Deleting", id)
+                  }
                 },
                 created: function() {
                     fetch('/recipes/data?userID=<%= userID %>')
