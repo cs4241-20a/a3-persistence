@@ -75,7 +75,7 @@ passport.use(new GitHubStrategy({
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: "http://127.0.0.1:3000/auth/github/callback"
   },
-  function(accessToken, refreshToken, profile, cb) {
+  function(accessToken, refreshToken, profile, done) {
     process.nextTick(function() {
         return done(null, profile);
     })
@@ -110,6 +110,7 @@ function setUserSession(request, username) {
 app.get("/", (request, response) => {
     console.log("Got request for webpage");
     response.sendFile(__dirname + "/public/login.html")
+    //response.redirect(`https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}`);
 });
 
 app.get('/auth/github',
@@ -118,7 +119,14 @@ app.get('/auth/github',
 app.get('/auth/github/callback', 
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
-    // Successful authentication, redirect home.
+    const userDB = client.db('Webware').collection('users');
+    console.log(req.user.username);
+    console.log(req.user.id);
+    userDB.insertOne({
+        username: req.user.username,
+        password: req.user.id
+    })
+    .then(setUserSession(req, req.user.username))
     res.redirect('/getData');
   });
 
@@ -135,16 +143,16 @@ app.post("/login", bodyParser.json(),
 app.post("/signUp", bodyParser.json(), (request, response) => {
     console.log("Got request for main webpage");
 
-    const checkUserName = client.db('Webware').collection('users');
-    checkUserName.find({
+    const userDB = client.db('Webware').collection('users');
+    userDB.find({
         username: request.body.username
     }).toArray()
         .then(function (result) {
             if (result.length < 1) {
                 console.log("New User!");
 
-                const user = client.db('Webware').collection('users');
-                user.insertOne(request.body)
+                //const user = client.db('Webware').collection('users');
+                userDB.insertOne(request.body)
                     .then(() => {
                         let userName = request.body.username;
                         setUserSession(request, userName);
