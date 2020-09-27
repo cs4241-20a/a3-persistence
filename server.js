@@ -4,11 +4,16 @@ const fs   = require("fs"),
       mongo = require("mongodb"),
       passport = require("passport"),
       bodyParser = require("body-parser"),
+      serveFavicon = require("serve-favicon"),
+      morganLogger = require("morgan"),
       port = process.env.PORT || 3000;
 
 //Allow for use of .env file
 require("dotenv").config();
 
+app.use(serveFavicon("./public/favicon.ico"));
+let logfile = fs.createWriteStream("serverRequests.log");
+app.use(morganLogger('common', {stream: logfile}));
 app.use(passport.initialize());
 app.use(passport.session());
 

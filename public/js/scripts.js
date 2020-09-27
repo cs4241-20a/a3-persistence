@@ -221,7 +221,6 @@ function updateResults(response){
             let newRow = newBody.insertRow(i);
             let checkbox = document.createElement("input");
             checkbox.type = "checkbox";
-            console.log("For i: " +i +", id is: " +rows[i]._id);
             checkbox.id = rows[i]._id;
             newRow.insertCell(0).appendChild(checkbox);
             newRow.insertCell(1).innerHTML = `${rows[i].kills}`;
