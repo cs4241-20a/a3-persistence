@@ -161,7 +161,8 @@ function restartGame() {
   document.getElementById('submitbtn').style.display = "none";
   document.getElementById('startbtn').style.display = "block";
   document.getElementById('customseconds').style.display = "block";
-  document.getElementById('customseconds').value = "Please input seconds here";
+  document.getElementById('customseconds').value = "";
+  document.getElementById('delname').value = "";
 }
 
 //generate a table for displaying under score
@@ -229,7 +230,6 @@ window.onload = function () {
   button.onclick = submit;
   const delbutton = document.getElementById('delbtn');
   delbutton.onclick = deleteName;
-  document.getElementById('customseconds').value = "Please input seconds here";
   document.getElementById('clickbtn').style.display = "none";
   document.getElementById('currentclicks').style.display = "none";
   document.getElementById('inputname').style.display = "none";

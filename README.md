@@ -1,21 +1,20 @@
 Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 ===
 
-Due: September 28th, by 11:59 PM.
+Jordan Stoessel
 
 This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
 
-Baseline Requirements
 ---
 
 Your application is required to implement the following functionalities:
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
+
 - a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
 - Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
+bodyParser, 
+
 - Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
 
 Your application is required to demonstrate the use of the following concepts:
 
@@ -25,14 +24,12 @@ HTML:
 
 Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
 
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
 
 JavaScript:
 - At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
 
 Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
+- At least five pieces of Express middleware, and a persistent database (mongodb).
 
 Deliverables
 ---
@@ -62,7 +59,8 @@ Below are suggested technical and design achievements. You can use these to help
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
-## Your Web Application Title
+## Speed Clicker 2.0
+
 
 your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
 

@@ -14,14 +14,12 @@ h1 {
     border: red;
     border-radius: 10px;
     border: double;
-    padding-bottom: 5px;
 }
 
 table, th, td {
     border: 1px solid black;
-    border-collapse: collapse;
     margin-top: 20px;
-    padding: 5px;
+    padding: 2px;
     align-items: center;
 }
 
@@ -43,9 +41,6 @@ input {
     background-color: black;
 }
 
-#deling {
-    margin-top: 5px;
-}
 #deling button {
     color:red;
 }
