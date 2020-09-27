@@ -69,7 +69,7 @@ function isAuthenticated(req, res, next) {
 }
 
 app.get('*', (req, res) => {
-  res.status(400).send("404 error!!!");
+  res.render("404", {title: "404 Error"});
 })
 
 app.get('/', (req, res) => {
