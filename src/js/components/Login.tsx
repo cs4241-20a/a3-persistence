@@ -112,14 +112,6 @@ export const Login: FunctionComponent<{loginAsCallback: (user: AuthenticatedUser
         <Box className={classes.absoluteCenter}>
             <form onSubmit={e => e.preventDefault()} noValidate>
                 <Box display="flex" flexDirection="column" textAlign="center" className={classes.spaced}>
-                    <TextField
-                        label="Username"
-                        variant="filled"
-                        required={registering}
-                        value={username}
-                        onChange={e => setUsername(e.target.value)}
-                        error={registering && !validateUsername(username)}/>
-                    
                     <Collapse in={registering}>
                         <Grow in={registering}>
                             <TextField
@@ -131,6 +123,15 @@ export const Login: FunctionComponent<{loginAsCallback: (user: AuthenticatedUser
                                 error={registering && !validateDisplayName(displayName)}/>
                         </Grow>
                     </Collapse>
+                    
+                    <TextField
+                        label="Username"
+                        variant="filled"
+                        required={registering}
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        error={registering && !validateUsername(username)}/>
+                        
                     <FormControl variant="filled" required={registering} error={registering && !validatePassword(password)}>
                         <InputLabel htmlFor="login-password">Password</InputLabel>
                         <FilledInput
