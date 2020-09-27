@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="loginScript.js"></script>
+    <title>To Do List</title>
+    <meta name="description" content="To Do List" />
+    <meta name="Mario" content="SitePoint" />
+  </head>
+
+  <body id="listEditor">
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand order-0" href="/index.html">
+        <img
+          src="https://cdn.glitch.com/aee5db39-84c5-480a-8f4a-12d8cb3976ea%2Fcard-checklist.svg?v=1600893665069"
+          width="30"
+          height="30"
+          class="d-inline-block align-top"
+          alt=""
+          loading="lazy"
+        />
+        To Do App
+      </a>
+      <div class="ml-auto">
+        <div id="welcomeText" class="navbar-text align-self-end">
+          Welcome, $namehere
+        </div>
+        <button id="logoutButton" type="button" class="btn btn-secondary">
+          Logout
+        </button>
+      </div>
+    </nav>
+
+    <div id="listGroup">
+      <h3>
+        Your list
+      </h3>
+      <ul id="userList" class="list-group">
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between">
+            <div class="align-self-center">
+              Task Item 1
+            </div>
+            <div>
+              <button class="btn btn-outline-primary btn-sm">
+                Edit
+              </button>
+
+              <button class="btn btn-outline-danger btn-sm">
+                Delete
+              </button>
+            </div>
+          </div>
+        </li>
+
+        <li class="list-group-item">
+          <div class="d-flex justify-content-between">
+            <div class="align-self-center">
+              Task Item 2
+            </div>
+            <div>
+              <button class="btn btn-outline-primary btn-sm">
+                Edit
+              </button>
+
+              <button class="btn btn-outline-danger btn-sm">
+                Delete
+              </button>
+            </div>
+          </div>
+        </li>
+
+        <li class="list-group-item">Morbi leo risus</li>
+        <li class="list-group-item">Porta ac consectetur ac</li>
+        <li class="list-group-item">Vestibulum at eros</li>
+      </ul>
+      <form>
+        <div class="form-group">
+          <div id="addBar" class="d-flex justify-content-between">
+            <div id="addatask" class="align-self-center">Add a task</div>
+            <button id="submitNewTask" type="submit" class="btn btn-success">Submit</button>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="Enter your new task here"
+                 
+          />
+          
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
