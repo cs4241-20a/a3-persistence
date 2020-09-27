@@ -1,11 +1,20 @@
 const bodyParser = require( 'body-parser' );    // 1. middleware for JSON parsing
 // const cookieSession = require( 'cookie-session' )
-const timeout = require( 'connect-timeout') // 2. middleware for checking for timeouts
+const timeout = require( 'connect-timeout') 
+const responseTime = require( 'response-time' )
+const StatsD = require( 'node-statsd' )
 const { request } = require('express');
 const express = require( 'express' )
 const passport = require('passport');
 const ObjectID = require('mongodb').ObjectID
+
+
 const app = express()
+const stats = new StatsD()
+
+stats.socket.on( 'error', function( error ) {
+    console.error( error.stack )
+})
 
 app.set('trust proxy', 1 )
 
@@ -13,7 +22,7 @@ app.set('trust proxy', 1 )
 
 
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://project4:B58Hustler@cluster0.gmbny.mongodb.net/datatest?retryWrites=true&w=majority";
+const uri = "mongodb+srv://project4:<pass>@cluster0.gmbny.mongodb.net/<dbname>?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
 let collection = null;
@@ -22,7 +31,14 @@ client.connect(err => {
 //   console.log( collection )
 });
 
-app.use( ( req, res, next ) => {    // 2. middleware for checking network connection
+app.use( responseTime( function ( req, res, time ) {
+    var stat = (req.method + req.url).toLowerCase()
+    .replace(/[:.]/g, '')
+    .replace(/\//g, '_')
+    stats.timing(stat, time)
+}))
+
+app.use( ( req, res, next ) => {    // 2. middleware for checking connection to the server
     if( collection !== null ) {
         next()
     } else {
@@ -66,7 +82,7 @@ app.use( function( req, res, next ) {
 } )
 app.use( express.static( "public" ) );          // 3. more middleware 
 
-app.use( timeout( '7s' ) )
+app.use( timeout( '7s' ) )                      // middleware: setting timeouts for requests
 // app.use(cookieSession({
 //     name: 'session',
 //     keys: ['key1', 'key2']
@@ -96,16 +112,11 @@ app.post( "/logout", (request, response) => response)
 
 app.post( "/login", bodyParser.json(),( request, response ) => {
     collection
-    // .insertOne( request.body )
-    // .then( dbresponse => {
-    //     response.json( dbresponse ) 
-    // })
+
     .find( {id:1}).toArray()
-    // .then( dbresponse => {
-    //     console.log( dbresponse )
-    // } )
+
     incomingLogin = request.body
-    // console.log( incomingLogin )
+
 
     var loginAttempt = { login: "bad" }
     collection
@@ -179,7 +190,7 @@ app.post( "/submit", bodyParser.json(), ( request, response ) => {
 })
 
 app.post( "/update", bodyParser.json(), ( request, response ) => {
-    // console.log(request.body )
+
     updatedListing = request.body
     updatedListing.lister = currentUser
     collection
@@ -188,13 +199,11 @@ app.post( "/update", bodyParser.json(), ( request, response ) => {
         dbID = dbresponse._id
         collection
         .deleteOne({_id:ObjectID( dbID )})
-        // .then( dbresponse => {
-        //     console.log( dbresponse )
-        // })
+
      } )
     collection  
         .insertOne( updatedListing )
-        // .then( dbresponse => console.log( dbresponse ) )
+
     collection
         .find( {lister: currentUser} ).toArray()
         .then( dbresponse => {
@@ -209,8 +218,6 @@ app.post( "/update", bodyParser.json(), ( request, response ) => {
 app.post( "/delete", bodyParser.json(), (request, response ) => {
     
     let dbID = null
-    // console.log( request.body )
-    // console.log( "request ID: " + request.body.id + ", lister: " + currentUser )
     collection
     .findOne( {id:parseInt(request.body.id), lister:currentUser})
     .then( dbresponse => {
@@ -218,9 +225,7 @@ app.post( "/delete", bodyParser.json(), (request, response ) => {
 
         collection
         .deleteOne({_id:ObjectID( dbID )})
-        // .then( dbresponse => {
-        //     console.log( dbresponse )
-        // })
+
      } )
      collection
      .find( {lister: currentUser} ).toArray()
@@ -229,60 +234,13 @@ app.post( "/delete", bodyParser.json(), (request, response ) => {
 
      listings[currentUser] = dbresponse
  })
-    // .deleteOne( {lister:"tom", id:parseInt(request.id)})
 
-    // .deleteOne({ _id:mongodb.ObjectID( dbID )})
-    // .then( result => response.json( result ))
 
     response.json( listings[currentUser] )
     
 })
 
-// const dataIterator = function( incomingData, user, isUpdate, isDelete ) {
-//     let dbID = null
-//     for( var i = 0; i < listings[user].length; i++ ){
-//         // console.log( "Listing ID: " + listings[i].id + " Delete ID: " + request.body.id )
-
-//         if( listings[user][i].id === parseInt( incomingData.body.id ) ){
-//             if( isDelete === true ){
-//                dbID = listings[user][i].dbid
-//                listings[user].splice( i, 1 )
-//                console.log( "Removed Listing with ID: " + incomingData.body.id )
-//                break
-//             }
-//             else
-//             {
-//                 listings[user][i] = incomingData.body
-//                 console.log( "Updated Listing with ID: " + incomingData.body.id )
-//                 dbID = listings[user][i].dbid
-//                 break
-//             }
-//         }
-//     }
-//     // console.log( listings[user] )
-//     return dbID
-// }
-
-
-// default data
 const listings = {}
-    //  "jobo": [
-    // { cameramake: "Canon", cameramodel: "A-1", cameraformat: "35mm", price: 150, condition: 76, bargain: false, delete: false, id: 1 },
-    // { cameramake: "Nikon", cameramodel: "FTn", cameraformat: "35mm", price: 95, condition: 90, bargain: true, delete: false, id: 2 },
-    // { cameramake: "Yashica", cameramodel: "Mat124G", cameraformat: "6x6", price: 50, condition: 100, bargain: true, delete: false, id: 3 } ],
-    // "zingo": [
-    //     { cameramake: "Mamiya", cameramodel: "7", cameraformat: "6x7", price: 500, condition: 90, bargain: false, delete: false, id: 1 },
-    //     { cameramake: "Nikon", cameramodel: "FT2", cameraformat: "35mm", price: 95, condition: 95, bargain: true, delete: false, id: 2 } ],
-    //     "tom": [
-    //         { cameramake: "Lomo", cameramodel: "Diana", cameraformat: "6x6", price: 10, condition: 25, bargain: false, delete: false, id: 1 } ]
-
-
-//   const users = {}
-    //   admin: "admin",
-    //   jobo: "1234",
-    //   zingo: "5555",
-    //   tom: "tom"
-
 
 
 

@@ -8,8 +8,11 @@
         "cookie-session": "^1.4.0",
         "express": "^4.17.1",
         "mongodb": "^3.6.2",
+        "node-statsd": "^0.1.1",
         "passport": "^0.4.1",
         "passport-github": "^1.1.0",
+        "response-time": "^2.3.2",
+        "statsd": "^0.9.0",
         "timeout": "^0.2.1"
     },
     "engines": {
