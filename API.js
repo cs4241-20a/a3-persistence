@@ -31,5 +31,15 @@ const getRecipes = function(userID) {
   })
 }
 
+const getRecipesNoID = function
+
+const tryDelete = function(userID, recipeID) {
+  return client.db("a3-webware").collection("recipes").deleteOne({_id: recipeID, userID: userID}, (err, obj) => {
+    if(err) throw err;
+    console.log("Deleted record with id ", recipeID)
+  })
+  
+}
+
 exports.insert = insert;
 exports.getRecipes = getRecipes;

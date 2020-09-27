@@ -149,6 +149,16 @@ app.post('/recipes/add', isAuthenticated, bodyParser.json(), (req, res) => {
   // Set user ID so we know whose recipe it is
   req.body.userID = req.user.id;
   console.log(req.body);
-  API.insert(req.body);
-  res.send("Recipe submitted");
+  API.insert(req.body)
+  .then(
+    res.send("Recipe submitted!")
+  )
+})
+
+app.post('/recipes/delete', isAuthenticated, bodyParser.json(), (req, res) => {
+  req.body.userID = req.user.id;
+  API.tryDelete(req.body)
+  .then(() => {
+    
+  })
 })
