@@ -1,0 +1,107 @@
+/* this file is loaded by index.html and styles the page */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #525961;
+  font-family: 'Pacifico', serif;
+}
+
+h1 {
+  text-align: center;
+  font-style: italic;
+  color: #E3D9D3;
+}
+
+h2{
+  text-align: center;
+  color: #E3D9D3;
+  padding: 10px;
+  border-bottom: 3px solid white;
+}
+
+.input{
+  font-size: 20px;
+  text-align: center;
+  padding: 5px;
+}
+
+form {
+  display: grid;
+  padding: 1em;
+  border: 1px solid;
+  background-color: #f6f6f6;
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+form button {
+  background-color: #bbbbf2;
+  border: 2px solid currentColor;
+  border-radius: .25em;
+  cursor: pointer;
+  font-size: inherit;
+  line-height: 1.4em;
+  padding: 0.4em 1em;
+}
+
+form button:hover {
+  background-color: lavender;
+}
+
+footer {
+  margin-top: 3em;
+  padding-top: 1.5em;
+  border-top: 1px solid lightgrey;
+}
+
+.close {
+  cursor: pointer;
+  position: absolute;
+  top: 45%;
+  right: 2%;
+  padding: 6px 8px;
+  transform: translate(0%, -50%);
+}
+.close:hover {background: #bbb;}
+
+.edit {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  padding: 8px 8px;
+  transform: translate(0%, -50%);
+}
+.edit:hover {background: #bbb;}
+
+.time{
+  position: absolute;
+  top: 0%;
+  right: 10%;
+  padding: 10px 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0px 40px;
+  margin: 0;
+}
+
+ul li {
+  border: 1px solid #ddd;
+  margin: -1px;
+  background-color: #f6f6f6;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  color: black;
+  display: block;
+  position: relative;
+}
+
+ul li:hover {
+  background-color: #eee;
+}
