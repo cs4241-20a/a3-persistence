@@ -13,7 +13,14 @@ h1 {
     color: red;
     border: red;
     border-radius: 10px;
+    margin-left: 20%;
+    margin-right: 20%;
     border: double;
+}
+#WelcomeText {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 5%;
 }
 
 table, th, td {

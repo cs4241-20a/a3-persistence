@@ -84,8 +84,7 @@ const submit = function (e) {
         console.log("Submit Response:", response);
         console.log("Returned data: ", data);
         restartGame();
-
-        buildTable(data);
+        initializeTable();        
       })
     })
 

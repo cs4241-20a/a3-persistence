@@ -3,12 +3,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const { response } = require('express');
+const mongodb = require('mongodb')
 
-// // our default array of scoreboards
-// let scoreboard = [
-//   { name: "Mr. Insano", cps: 105.1, clicks: 1051, seconds: 10, time: 7987989869 },
-//   { name: "Matthew", cps: 5.4, clicks: 54, seconds: 10, time: 7987097986986 }
-// ];
 
 // checks for objects in the public folder
 app.use(express.static('public'));
@@ -21,9 +17,11 @@ app.get("/", (request, response) => {
 // get data for building initial table
 app.get("/data", (request, response) => {
   // express helps us take JS objects and send them as JSON
-  response.json(scoreboard);
+  if (collection !== null) {
+    collection.find({}).toArray().then(result => response.json(result));
+  }
+  //response.json(dbresponse.ops);
 });
-
 
 
 // listen for requests :)
@@ -32,41 +30,37 @@ const listener = app.listen(process.env.PORT, () => {
 });
 
 
-
-const mongodb = require('mongodb')
 const MongoClient = mongodb.MongoClient;
-const uri = 'mongodb+srv://Jordan:${process.env.DB_PASS}@cluster0.i1bsg.mongodb.net/<dbname>?retryWrites=true&w=majority';
-const client = new MongoClient(uri, { useNewUrlParser: true });
+const uri = `mongodb+srv://Jordan:${process.env.DB_PASS}@cluster0.i1bsg.mongodb.net/<dbname>?retryWrites=true&w=majority`;
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 let collection = null;
 client.connect(err => {
-  collection = client.db("test").collection("devices");
+  collection = client.db("scoreboard_db").collection("user_scoreboards");
   // perform actions on the collection object
 
-  // client.close();
 });
 
 
-
 // submits a new user to the scoreboard array from post method
-app.post("/submit", bodyParser.json(), (request,response) => {
+app.post("/submit", bodyParser.json(), (request, response) => {
   console.log("The person is: " + request.body.name);
-  collection.insertOne(request.body)
-    .then( debresponse => {
-      console.log( dbresponse);
+  collection
+    .insertOne(request.body)
+    .then(dbresponse => {
+      response.json(dbresponse.ops[0]);
     })
-  // scoreboard.push(request.body);
   console.log("New user recorded!");
-
-  response.json(dbresponse.ops[0]);
-  // response.json(scoreboard);
 })
 
 // deletes a user from the scoreboard array and returns new scoreboard
 app.post("/delete", bodyParser.json(), (request, response) => {
   console.log("Deleting...");
-  scoreboard = scoreboard.filter(data => data.name !==  request.body.name);
-  response.json(scoreboard);
+
+  collection
+    .deleteOne({ id: mongodb.ObjectID(request.body.id) })
+    .then(result => response.json(result))
+
 })
 
 // modifies a given user's score and generates a new CPS, returns new scoreboard.
