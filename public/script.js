@@ -3,7 +3,7 @@ window.onload = function () {
   let error = document.getElementById('error')
   submit.addEventListener("click", addItem);
 
-  fetch("/api/getData")
+  fetch("/data")
     .then((res) => {
       return res.json()
     })

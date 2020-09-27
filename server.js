@@ -8,7 +8,7 @@ const express = require("express"),
   MongoClient = require("mongodb").MongoClient,
   mongodb = require("mongodb"),
   app = express(),
-  port = 3000;
+  port = 80;
 
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -87,7 +87,7 @@ app.get(
   }
 );
 
-app.get("/api/getData", async (req, res) => {
+app.get("/data", async (req, res) => {
   if (!req.user) {
     return res.json({ error: "Needs Login" });
   }
@@ -162,5 +162,5 @@ app.delete("/remove", bodyParser.json(), async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Example app listening at port: ${port}`);
 });
