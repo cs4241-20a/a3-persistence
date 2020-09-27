@@ -1,3 +1,4 @@
+  
 // client-side js, loaded by index.html
 // run by the browser each time the page is loaded
 
@@ -8,9 +9,9 @@ const dreamsList = document.getElementById("dreams");
 const dreamsForm = document.querySelector("form");
 
 // a helper function that creates a list item for a given dream
-function appendNewDream(dream, id) {
+function appendNewDream(dream, price, department, id) {
   const newListItem = document.createElement("li");
-  newListItem.innerText = dream;
+  newListItem.innerText = department + ": " + dream + " $" + price;
 
   
   newListItem.onclick = function() {
@@ -50,17 +51,19 @@ fetch("/dreams")
 
       // get dream value and add it to the list
       let newDream = dreamsForm.elements.dream.value;
+      let newPrice = dreamsForm.elements.price.value;
+      let newDept = dreamsForm.elements.department.value;
 
       fetch('/add',{
         method: 'POST',
-        body: JSON.stringify({dream: newDream}),
+        body: JSON.stringify({dream: newDream, price: newPrice, department: newDept}),
         headers: {
           'Content-Type': 'application/json'
         }
       })
       .then(response => response.json())
       .then(json => {
-         appendNewDream(json.dream, json._id);
+         appendNewDream(json.dream, json.price, json.department, json._id);
       })
       // reset form
       dreamsForm.reset();

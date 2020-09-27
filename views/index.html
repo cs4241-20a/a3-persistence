@@ -47,3 +47,89 @@
 
   </body>
 </html>
+
+
+
+
+
+<!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+
+      <head>
+    <link rel="stylesheet" href="css\style.css">
+    <script type="text/javascript" src="js\scripts.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Grandstander&family=Lato&display=swap" rel="stylesheet">
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+  </head>
+
+  <div class = "title">
+    <div class = "title_text">
+      <h1>Grocery Manager</h1>
+    </div>
+  </div>
+
+
+  <body>
+    <div class = container>
+    <h2>
+    <form action="/groceries/groceries" method="POST">
+        <div>
+          <label for="item">Item</label>
+          <input
+            type="item"
+            id="item"
+            name="item"
+            class="form-control"
+            placeholder="Bananas"
+          />
+        </div>
+        <div>
+          <label for="price">Price</label>
+          <input
+            type="price"
+            id="price"
+            name="price"
+            class="form-control"
+            placeholder="3.49"
+          />
+        </div>
+       <div>
+          <label for="dept">Department</label>
+          <input
+            type="dept"
+            id="dept"
+            name="dept"
+            class="form-control"
+            placeholder="Produce"
+          />
+        </div>
+        <button type="submit" id = "submit-item">Add</button>
+    </form>
+
+  </h2>
+  <h3>
+    Your List:
+    <br>
+    <ul id = "groceryList"><li>
+  </h3>
+  </div>
+  </body>
+
+<a href='/users/logout'>Logout</a>
+    
+    
+    
+    <block class = "box">
+  <div class = "columns">
+    <div class= "column">
+      
+    </div>
+    <div class = "column is-centered">
+      
+    </div>
+    <div class = "column">
+      
+    </div>
+  </div>
+</block>
