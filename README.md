@@ -10,18 +10,23 @@ Baseline Requirements
 
 Your application is required to implement the following functionalities:
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
+DONE - a `Server`, created using Express (no alternatives will be accepted for this assignment)    
+DONE - a `Results` functionality which shows the entire dataset residing in the server's memory
+DONE - a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
 - Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
+  JSON Parser
+  Timeout
+  public static
+  server connection check
+
+DONE - Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
 - Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
 
 Your application is required to demonstrate the use of the following concepts:
 
 HTML:
 - HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
+DONE - HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
 
 Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
 
@@ -29,10 +34,10 @@ CSS:
 - CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
 
 JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
+DONE - At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
 
 Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
+DONE - A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
 
 Deliverables
 ---
@@ -75,6 +80,9 @@ Include a very brief summary of your project here. Images are encouraged, along 
   - include any modifications to the CSS framework you made via custom CSS you authored
 - the five Express middleware packages you used and a short (one sentence) summary of what each one does
 
+This webpage is a continuation of the previous webpage I made where individuals can post listings of cameras to a website - this time using their own accounts. On arrival to the website, the user is presented with a login screen - here they can either enter their existing credentials or create a new account. Once past the login, the user can either list, update, or delete an existing listing as well as view the listings they currently have posted. 
+
+This assignment had numerous challenges. One major challenge was debugging issues due 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
 

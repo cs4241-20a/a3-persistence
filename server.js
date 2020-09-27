@@ -1,5 +1,6 @@
 const bodyParser = require( 'body-parser' );    // 1. middleware for JSON parsing
-const cookieSession = require( 'cookie-session' )
+// const cookieSession = require( 'cookie-session' )
+const timeout = require( 'connect-timeout') // 2. middleware for checking for timeouts
 const { request } = require('express');
 const express = require( 'express' )
 const passport = require('passport');
@@ -12,16 +13,13 @@ app.set('trust proxy', 1 )
 
 
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://project4:${process.env.DB_PASSWORD}@cluster0.gmbny.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const uri = "mongodb+srv://project4:B58Hustler@cluster0.gmbny.mongodb.net/datatest?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
-
-let collection = null
+let collection = null;
 client.connect(err => {
   collection = client.db("datatest").collection("test");
-  // perform actions on the collection object
 //   console.log( collection )
-//   client.close();
 });
 
 app.use( ( req, res, next ) => {    // 2. middleware for checking network connection
@@ -61,16 +59,18 @@ app.get('/auth/github/callback',
 
 let currentUser = null
 
+
 app.use( function( req, res, next ) {
     console.log( "Incoming request for " + req.url )
     next()
 } )
 app.use( express.static( "public" ) );          // 3. more middleware 
 
-app.use(cookieSession({
-    name: 'session',
-    keys: ['key1', 'key2']
-}))
+app.use( timeout( '7s' ) )
+// app.use(cookieSession({
+//     name: 'session',
+//     keys: ['key1', 'key2']
+// }))
 
 // app.use( bodyParser.json() )
 
@@ -83,7 +83,8 @@ app.get( "/index", ( request, response ) => {
 });
 
 app.get( "/listings", ( request, response ) => {
-    collection.find( {lister: currentUser} ).toArray()
+    collection
+    .find( {lister: currentUser} ).toArray()
     .then( dbresponse => {
         console.log( "Loading user listings..." )
         listings[currentUser] = dbresponse
@@ -94,14 +95,23 @@ app.get( "/listings", ( request, response ) => {
 app.post( "/logout", (request, response) => response)
 
 app.post( "/login", bodyParser.json(),( request, response ) => {
+    collection
+    // .insertOne( request.body )
+    // .then( dbresponse => {
+    //     response.json( dbresponse ) 
+    // })
+    .find( {id:1}).toArray()
+    // .then( dbresponse => {
+    //     console.log( dbresponse )
+    // } )
     incomingLogin = request.body
-    console.log( incomingLogin )
+    // console.log( incomingLogin )
 
     var loginAttempt = { login: "bad" }
-    collection.findOne( { username: incomingLogin.username }, {"_id" : 1} )
-    // collection.find( { "username": incomingLogin.username } ).toArray()
-
-        .then( dbresponse => {
+    collection
+    .findOne( { username: incomingLogin.username }, {"_id" : 1} )
+    .then( dbresponse => {
+            // console.log( dbresponse )
             if( dbresponse === null ){
                 collection.insertOne( incomingLogin )
                 console.log( "adding user with username: " + incomingLogin.username )
@@ -120,9 +130,9 @@ app.post( "/login", bodyParser.json(),( request, response ) => {
                     .then( dbresponse => {
                         console.log( "Loading user listings..." )
                         listings[currentUser] = dbresponse
+                        response.json( loginAttempt )
                     })
 
-                    response.json( loginAttempt )
                 }else{
                     console.log( "no")
                     loginAttempt.login = "bad"
@@ -154,19 +164,44 @@ app.post( "/submit", bodyParser.json(), ( request, response ) => {
           }
         }
       }
-      collection.insertOne( incomingData )
+      collection
+      .insertOne( incomingData )
       .then( dbresponse => {
         listings[currentUser].push( incomingData )
       })
-
-    response.json( listings[currentUser] )
+      collection
+      .find( {lister: currentUser} ).toArray()
+      .then( dbresponse => {
+          console.log( "Loading user listings..." )
+          listings[currentUser] = dbresponse
+      })
+      response.json( listings[currentUser] )
 })
 
 app.post( "/update", bodyParser.json(), ( request, response ) => {
     // console.log(request.body )
-    dbID = dataIterator( request, currentUser, true, false )
+    updatedListing = request.body
+    updatedListing.lister = currentUser
     collection
-    .deleteOne( {_id:dbID } )
+    .findOne( {id:parseInt(request.body.id), lister:currentUser})
+    .then( dbresponse => {
+        dbID = dbresponse._id
+        collection
+        .deleteOne({_id:ObjectID( dbID )})
+        // .then( dbresponse => {
+        //     console.log( dbresponse )
+        // })
+     } )
+    collection  
+        .insertOne( updatedListing )
+        // .then( dbresponse => console.log( dbresponse ) )
+    collection
+        .find( {lister: currentUser} ).toArray()
+        .then( dbresponse => {
+        console.log( "Loading user listings..." )
+
+        listings[currentUser] = dbresponse
+    })
     response.json( listings[currentUser] )
 
 })
@@ -183,9 +218,17 @@ app.post( "/delete", bodyParser.json(), (request, response ) => {
 
         collection
         .deleteOne({_id:ObjectID( dbID )})
-        .then( dbresponse => {
-            console.log( dbresponse )
-        }) } )
+        // .then( dbresponse => {
+        //     console.log( dbresponse )
+        // })
+     } )
+     collection
+     .find( {lister: currentUser} ).toArray()
+     .then( dbresponse => {
+     console.log( "Loading user listings..." )
+
+     listings[currentUser] = dbresponse
+ })
     // .deleteOne( {lister:"tom", id:parseInt(request.id)})
 
     // .deleteOne({ _id:mongodb.ObjectID( dbID )})
@@ -195,30 +238,30 @@ app.post( "/delete", bodyParser.json(), (request, response ) => {
     
 })
 
-const dataIterator = function( incomingData, user, isUpdate, isDelete ) {
-    let dbID = null
-    for( var i = 0; i < listings[user].length; i++ ){
-        // console.log( "Listing ID: " + listings[i].id + " Delete ID: " + request.body.id )
+// const dataIterator = function( incomingData, user, isUpdate, isDelete ) {
+//     let dbID = null
+//     for( var i = 0; i < listings[user].length; i++ ){
+//         // console.log( "Listing ID: " + listings[i].id + " Delete ID: " + request.body.id )
 
-        if( listings[user][i].id === parseInt( incomingData.body.id ) ){
-            if( isDelete === true ){
-               dbID = listings[user][i].dbid
-               listings[user].splice( i, 1 )
-               console.log( "Removed Listing with ID: " + incomingData.body.id )
-               break
-            }
-            else
-            {
-                listings[user][i] = incomingData.body
-                console.log( "Updated Listing with ID: " + incomingData.body.id )
-                dbID = listings[user][i].dbid
-                break
-            }
-        }
-    }
-    // console.log( listings[user] )
-    return dbID
-}
+//         if( listings[user][i].id === parseInt( incomingData.body.id ) ){
+//             if( isDelete === true ){
+//                dbID = listings[user][i].dbid
+//                listings[user].splice( i, 1 )
+//                console.log( "Removed Listing with ID: " + incomingData.body.id )
+//                break
+//             }
+//             else
+//             {
+//                 listings[user][i] = incomingData.body
+//                 console.log( "Updated Listing with ID: " + incomingData.body.id )
+//                 dbID = listings[user][i].dbid
+//                 break
+//             }
+//         }
+//     }
+//     // console.log( listings[user] )
+//     return dbID
+// }
 
 
 // default data
