@@ -70,14 +70,26 @@ function isAuthenticated(req, res, next) {
 
 app.get('/', (req, res) => {
     // Homepage
-    res.render('index');``
+    res.render('index', {title: "Home"});
 });
 
 app.get('/login/success', isAuthenticated, (req, res) => {
-  res.render("login-successs");
+  res.render("login-success", {title: "Logged In!", message: "Successfully logged in!"});
 })
 
-app.get('/login', (req, res) => res.redirect('/auth/github'))
+app.get('login/already', isAuthenticated, (req, res) => {
+  res.render("login-success", {title:"Logged In!", message: "You're already logged in!"});
+})
+
+app.get('/login', function(req, res, next) {
+    if(req.user) {
+      res.redirect('login/done');
+    }
+    else {
+      next();
+    }
+  },
+  (req, res) => res.redirect('/auth/github'))
 
 app.get('/secure', isAuthenticated, (req, res) => {
     // Check logged in before 
@@ -97,16 +109,15 @@ app.get('/auth/github', function(req, res, next) {
 
 });
 
-app.get('*/style.css', (req, res) =>  {
-  res.sendFile(path.join(__dirname + "/views/style.css"))
-})
+// app.get('*/style.css', (req, res) =>  {
+//   res.sendFile(path.join(__dirname + "/views/style.css"))
+// })
 
 app.get('/auth/github/callback', 
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
-    // Successful authentication, redirect to secure site
-    //res.redirect('/recipes/add?id=' + req.user.id);
-    res.redirect('/');
+    // Successful authentication, redirect to confirmation page
+    res.redirect('/login/success');
   });
 
 app.listen(port, () => {
