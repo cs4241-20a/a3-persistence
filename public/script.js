@@ -125,29 +125,43 @@ const deleteName = function (e) {
   return false;
 }
 
-//modify selected scores to have inputted clicks
+//modifies scores for player that match input
 const modifyScore = function (e) {
   //prevent default form action from being carried out
   e.preventDefault();
 
-  fetch('/modify', {
-    method: 'POST',
-    // body: JSON.stringify(document.getElementById('delname').value),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-    .then(function (response) {
-      //response
-      response.json().then(function (data) {
-        //data
-        console.log("Delete Response:", response);
-        console.log("Returned data: ", data);
+  //check for if checkbox is checked
+  let modScore = document.getElementById('modscore');
+  let modName = document.getElementById('modname').value;
+  let body = {
+    name: modName,
+    clickcount: modScore
+  }
 
-        buildTable(data);
-        document.getElementById('delname').value = "";
-      })
+  //if checkbox is checked, allow deletion
+  if (modName && modScore !== "") {
+    console.log("Valid user & score!");
+    fetch('/modify', {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json"
+      }
     })
+      .then(function (response) {
+        //response
+        response.json().then(data => {
+          //data
+          initializeTable();
+          alert('Users modified!');
+          document.getElementById('modname').value = "";
+          document.getElementById('modscore').value = "";
+
+        })
+      })
+  } else{
+    alert("Please input a user and score before trying to modify")
+  }
 
   return false;
 }
