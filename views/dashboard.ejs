@@ -11,7 +11,7 @@
     
     <meta name="description" content="A cool thing made with Glitch">
 
-    <title>Grocery Manager</title>
+    <title class = "title is-2">Grocery Manager</title>
 
     <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
     <!-- import the webpage's stylesheet -->
@@ -20,7 +20,15 @@
     <!-- import the webpage's client-side javascript file -->
     <script src="/script.js" defer></script>
   </head>
-  <body>
+
+
+  <block class = "box has-text-centered">
+  <div class = "columns">
+    <div class= "column">
+      
+    </div>
+    <div class = "column is-centered">
+        <body>
     <header>
       <h1 class = "title is-3">Grocery Manager</h1>
     </header>
@@ -33,16 +41,37 @@
         <label>
           New Item
           <input name="dream" type="text" maxlength="100" required placeholder="Apples">
+          <input name = "price" type = "text" maxlength = "100" required placeholder = "1.99">
+          <select id = 'department' name = 'department'>
+            <option value = "produce">produce</option>
+            <option value = "meat">meat</option>
+            <option value = "dairy">dairy</option>
+            <option value = "pantry">pantry</option>
+            <option value = "bakery">bakery</option>
+            <option value = "frozen">frozen</option>
+            <option value = "seafood">seafood</option>
+            <option value = "deli">deli</option>
+            <option value = "prepared">prepared</option>
+            <option value = "other">other</option>
+        </select>
         </label>
+        <br>
         <button type="submit" id="submit-dream" class = "button is-primary">Add Item</button>
       </form>
 
       <section class="dreams">
         <ul id="dreams">
-          <em>loading items&hellip;</em>
+          <em>Your list&hellip;</em>
         </ul>
       </section>
     </main>
-
-  </body>
+      </body>
+    </div>
+    <div class = "column">
+      
+    </div>
+  </div>
+</block>
 </html>
+
+

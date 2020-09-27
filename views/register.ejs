@@ -1,5 +1,15 @@
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+  <link rel = 'stylesheet' href = "../public/style.css">
+</head>
 
-      <h1>
+<div class = "columns">
+  <div class = "column">
+    
+  </div>
+  <div class = "column is-centered">
+    <block class = 'box has-text-centered'>
+      <h1 class = "title is-2">
         <i></i> Register
       </h1>
       <%- include ('./partials/messages'); %>
@@ -47,9 +57,15 @@
             placeholder="Confirm Password"
             value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
           />
-        </div>
-        <button type="submit">
+        </div><br>
+        <button type="submit" class = "button is-primary">
           Register
         </button>
       </form>
       <p>Have An Account? <a href="/users/login">Login</a></p>
+</block>
+  </div>
+  <div class = "column">
+    
+  </div>
+</div>

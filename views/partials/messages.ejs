@@ -5,14 +5,20 @@
 <% } %>
 
 
-<% if(success_msg != ' '){ %>
+<div class = "message is-success">
+  <% if(success_msg != ' '){ %>
   <%=  success_msg  %>
 <% } %>
+</div>
 
-<% if(error_msg != ' '){ %>
+<div class 'message is-warning'>
+  <% if(error_msg != ' '){ %>
   <%=  error_msg  %>
 <% } %>
+</div>
 
-<% if(error != ' '){ %>
+<div class 'message is-warning'>
+  <% if(error != ' '){ %>
   <%=  error  %>
 <% } %>
+</div>
