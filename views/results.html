@@ -16,21 +16,23 @@
           
           
         <div class="card" v-for="r in recipes">
-                <h2>{{ r.title }}</h2>
-                <h3 v-if="r.userID">By user #{{ r.userID }}</h3>                  
-                <h4>Ingredients</h4>
-                <ul>
-                  <li v-for="i in r.ingredients"> {{ i }}</li> 
-                </ul>
-                <h4>Directions</h4>
-                <p>
-                  {{ r.directions }}  
-                </p>
-            </div>
-        </div>
+          <div class="card-body">
+                  <h2>{{ r.title }}</h2>
+                  <h3 v-if="r.userID">By user #{{ r.userID }}</h3>                  
+                  <h4>Ingredients</h4>
+                  <ul>
+                    <li v-for="i in r.ingredients"> {{ i }}</li> 
+                  </ul>
+                  <h4>Directions</h4>
+                  <p>
+                    {{ r.directions }}  
+                  </p>
+              </div>
+          </div>
+          </div>
     </div>
 
-    <script>w  a
+    <script>
         var app = new Vue({
                 el: "#app",
                 data: {

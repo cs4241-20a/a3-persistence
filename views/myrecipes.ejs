@@ -14,6 +14,7 @@
         <h1>Your Recipes</h1>
         <div id="app">
             <div class="card" v-for="r in recipes">
+              <div class="card-body">
                 <h2>{{ r.title }}</h2>
                 <h4>Ingredients</h4>
                 <ul>
@@ -23,7 +24,14 @@
                 <p>
                   {{ r.directions }}  
                 </p>
+                <div class="col">
+                  
+                  <button class="btn btn-danger">
+                    EDIT
+                  </button>
+                </div>
             </div>
+          </div>
         </div>
     </div>
 
