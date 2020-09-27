@@ -65,14 +65,30 @@ client.connect(err => {
     if(err){
         console.log("error connecting to database: " +err);
     }
+    //Retrieve the running totals and averages
     let totals = client.db("FPS_Stats").collection("totals");
-    totals.find({type: "entries"}).toArray(function(error, result){
+    totals.find({}).toArray(function(error, result){
         if(error){
             console.log("Unable to retrieve number of entries on server startup.");
-        }else if(result.length !== 1){
-            console.log("Found unexpected number of totalEntries on server startup");
+        }else if(result.length !== 4){
+            console.log("Found unexpected number of totals on server startup");
         }else {
-            numEntries = result[0].amount;
+            totalKills = result[0].amount;
+            totalAssists = result[1].amount;
+            totalDeaths = result[2].amount;
+            numEntries = result[3].amount;
+        }
+    });
+    let avgs = client.db("FPS_Stats").collection("averages");
+    avgs.find({}).toArray(function(error, result){
+        if(error){
+            console.log("Unable to retrieve averages on server startup.");
+        }else if(result.length !== 3){
+            console.log("Found unexpected number of averages on server startup");
+        }else {
+            avgKills = result[0].amount;
+            avgAssists = result[1].amount;
+            avgDeaths = result[2].amount;
         }
     });
 });
