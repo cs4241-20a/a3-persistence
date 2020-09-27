@@ -1,14 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>Example App</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <!-- VueJS -->
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-</head>
+  <!--  Include head with EJS template  -->
+  <%- include("./partials/head"); %>
 <body>
   <header>
   <!--   Include header with EJS template   -->
@@ -21,7 +14,6 @@
             <div class="card" v-for="r in recipes">
               <div class="card-body">
                 <h2>{{ r.title }}</h2>
-                <h3>{{r._id}}</h3>
                 <h4>Ingredients</h4>
                 <ul>
                   <li v-for="i in r.ingredients"> {{ i }}</li> 

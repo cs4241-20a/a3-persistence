@@ -77,7 +77,7 @@ app.get('/login/success', isAuthenticated, (req, res) => {
   res.render("login-success", {title: "Logged In!", message: "Successfully logged in!"});
 })
 
-app.get('login/already', isAuthenticated, (req, res) => {
+app.get('/login/already', isAuthenticated, (req, res) => {
   res.render("login-success", {title:"Logged In!", message: "You're already logged in!"});
 })
 
@@ -90,11 +90,6 @@ app.get('/login', function(req, res, next) {
     }
   },
   (req, res) => res.redirect('/auth/github'))
-
-app.get('/secure', isAuthenticated, (req, res) => {
-    // Check logged in before 
-    res.sendFile(path.join(__dirname + '/views/secure.html'))
-})
 
 app.get('/auth/github', function(req, res, next) {
 
@@ -126,11 +121,11 @@ app.listen(port, () => {
 
 // Endpoint to show all recipes in database
 app.get('/recipes/all', (req, res, next) => {
-  res.sendFile(path.join(__dirname + '/views/results.html'))
+  res.render('results', {title: "All Recipes"})
 })
 
 app.get('/recipes/my', isAuthenticated, (req, res) => {
-  res.render('myrecipes', {userID: req.user.id})
+  res.render('myrecipes', {title: "My Recipes", userID: req.user.id})
 })
 
 // API endpoint to get recipe data
