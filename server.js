@@ -68,6 +68,10 @@ function isAuthenticated(req, res, next) {
   }
 }
 
+app.get('*', (req, res) => {
+  res.status(400).send("404 error!!!");
+})
+
 app.get('/', (req, res) => {
     // Homepage
     res.render('index', {title: "Home"});
@@ -83,7 +87,7 @@ app.get('/login/already', isAuthenticated, (req, res) => {
 
 app.get('/login', function(req, res, next) {
     if(req.user) {
-      res.redirect('login/done');
+      res.redirect('login/already');
     }
     else {
       next();
