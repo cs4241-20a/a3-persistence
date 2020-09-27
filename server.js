@@ -1,6 +1,5 @@
-const { response, request } = require('express');
-
 require('dotenv').config();
+
 const express = require('express'),
     bodyParser = require('body-parser'),
     mongodb = require('mongodb'),
@@ -73,11 +72,11 @@ passport.use(new LocalStrategy( //middleware
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+    callbackURL: process.env.GITHUB_CALLBACK_URL
   },
-  function(accessToken, refreshToken, profile, done) {
+  function(accessToken, refreshToken, profile, cb) {
     process.nextTick(function() {
-        return done(null, profile);
+        return cb(null, profile);
     })
   }
 ));
@@ -93,7 +92,7 @@ passport.deserializeUser(function (user, done) {
 
 app.use(passport.initialize());
 
-app.use((request, response, next) => { //middleware
+app.use((request, response, next) => { 
     if (collection !== null) {
         next();
 

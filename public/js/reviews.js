@@ -172,9 +172,6 @@ function modifyEntry(id, index) {
     let performanceRating = document.getElementById('performance');
     let feelRating = document.getElementById('device-feel');
 
-    let modifyID = "modify_" + index;
-
-
     const jsonObject = {
         entryID: id
     }, body = JSON.stringify(jsonObject)
@@ -246,7 +243,13 @@ function deleteEntry(id) {
 function resetForm() {
     const usernameInput = document.getElementById('username');
     let userName = usernameInput.value;
-    document.getElementById("formID").reset();
+    //document.getElementById("formID").reset();
+    document.getElementById("name").value = "";
+    document.getElementById("device").value = "Apple iPhone 11 Pro Max";
+    document.getElementById("price").value = "1 Star";
+    document.getElementById("battery").value = "1 Star";
+    document.getElementById("performance").value = "1 Star";
+    document.getElementById("device-feel").value = "1 Star";
     usernameInput.value = userName;
 
 }
@@ -276,19 +279,20 @@ window.onload = function () {
     });
 
     fetch('/reviews')
-        .then(response => response.json())
-        .then(data => {
-            if (data.length != 0) {
-                //window.alert(data[0]._id)
-                let table = document.getElementById('table');
-                table.style.visibility = "visible";
+    .then(response => response.json())
+    .then(data => {
+        if (data.length != 0) {
+            //window.alert(data[0]._id)
+            let table = document.getElementById('table');
+            table.style.visibility = "visible";
                 
-            }
+        }
 
-            createTable(data)
+        createTable(data)
 
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
+    }).catch((error) => {
+        console.error('Error:', error);
+    });
 
+    resetForm();
 }
