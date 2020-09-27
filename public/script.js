@@ -92,22 +92,47 @@ const submit = function (e) {
   return false;
 }
 
+//delete names that match input
 const deleteName = function (e) {
   //prevent default form action from being carried out
   e.preventDefault();
 
-  const delName = {
-    name: document.getElementById('delname').value
-  }
-  // if (delName.name == "Mr. Insano") {
-  //   alert("Well well well, looks like someone couldn't beat Mr. Insano like a true pro... tsk tsk");
-  // }
-
-  const body = JSON.stringify(delName);
+  //construct in JSON format for messaging
+  let delName = {name: document.getElementById('delname').value};
 
   fetch('/delete', {
     method: 'POST',
-    body
+    body: JSON.stringify(delName),
+    headers:{
+      "Content-Type": "application/json"
+    }
+  })
+    .then(function (response) {
+      //response
+      response.json().then(function (data) {
+        //data
+        console.log("Delete Response:", response);
+        console.log("Returned data: ", data);
+
+        buildTable(data);
+        document.getElementById('delname').value = "";
+      })
+    })
+
+  return false;
+}
+
+//modify selected scores to have inputted clicks
+const modifyScore = function (e) {
+  //prevent default form action from being carried out
+  e.preventDefault();
+  
+  fetch('/modify', {
+    method: 'POST',
+    // body: JSON.stringify(document.getElementById('delname').value),
+    headers:{
+      "Content-Type": "application/json"
+    }
   })
     .then(function (response) {
       //response
@@ -128,7 +153,6 @@ const deleteName = function (e) {
 function restartGame() {
   console.log("Restarting game...");
   clickcount = 0;
-
 
   document.getElementById('yourname').value = "";
   document.getElementById('currentclicks').style.display = "none";

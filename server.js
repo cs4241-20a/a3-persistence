@@ -33,8 +33,8 @@ app.post("/submit", bodyParser.json(), (request,response) => {
 
 // deletes a user from the scoreboard array and returns new scoreboard
 app.post("/delete", bodyParser.json(), (request, response) => {
-  let delName = request.body.name;
-  scoreboard = scoreboard.filter(data => data.name !== delName);
+  console.log("Deleting...");
+  scoreboard = scoreboard.filter(data => data.name !==  request.body.name);
   response.json(scoreboard);
 })
 
