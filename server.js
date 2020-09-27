@@ -1,5 +1,6 @@
 const { response, request } = require('express');
 
+require('dotenv').config();
 const express = require('express'),
     bodyParser = require('body-parser'),
     mongodb = require('mongodb'),
@@ -9,7 +10,8 @@ const express = require('express'),
     cookieSession = require('cookie-session'),
     helmet = require('helmet'),
     favicon = require('serve-favicon'),
-    path = require('path')
+    path = require('path'),
+    GitHubStrategy = require('passport-github2').Strategy,
     app = express();
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico'))) // middleware
@@ -22,7 +24,10 @@ app.use(cookieSession({ // middleware
     keys: ['key1']
 }));
 
-const uri = "mongodb+srv://first_test:Hudson1234@cluster0.iqi3u.mongodb.net/Webware?retryWrites=true&w=majority"
+let user = process.env.DBUSER;
+let password = process.env.DBPASSWORD;
+
+const uri = "mongodb+srv://" + user + ":" + password + "@cluster0.iqi3u.mongodb.net/Webware?retryWrites=true&w=majority"
 
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -65,6 +70,18 @@ passport.use(new LocalStrategy( //middleware
     }
 ));
 
+passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    process.nextTick(function() {
+        return done(null, profile);
+    })
+  }
+));
+
 // referenced: https://stackoverflow.com/questions/19948816/passport-js-error-failed-to-serialize-user-into-session
 passport.serializeUser(function (user, done) {
     done(null, user);
@@ -94,6 +111,16 @@ app.get("/", (request, response) => {
     console.log("Got request for webpage");
     response.sendFile(__dirname + "/public/login.html")
 });
+
+app.get('/auth/github',
+  passport.authenticate('github'));
+
+app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/getData');
+  });
 
 app.post("/login", bodyParser.json(),
     passport.authenticate('local', { failureFlash: false }),

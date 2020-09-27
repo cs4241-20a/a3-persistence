@@ -18,18 +18,21 @@ const login = function(e) {
         window.alert("ERROR: Must Enter Username and Password!")
     
     } else {
-        fetch('/login', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body 
-        })
+        fetch('/auth/github')
         .then(function(response) {
-            if (response.status === 200) {
-                window.location.href="/main.html"
+            if (response.redirected == true) {
+                window.alert("here")
+                window.open(response.url, "_self")
             
             } else {
-                window.alert("Incorrect Username or Password!")
+                if (response.status === 200) {
+                    window.location.href="/main.html"
+                
+                } else {
+                    window.alert("Incorrect Username or Password!")
+                }
             }
+            
         })
     }
     
