@@ -56,9 +56,11 @@ passport.use(new GitHubStrategy({
     clientSecret: client_secret,
     callbackURL: "https://a3-danya-baron.glitch.me/auth/github/callback"
   },
+                                
+                                
   function(accessToken, refreshToken, profile, done) {
     
-      done(null, profile);
+    done(null, profile);
     
     console.log("got token");
   }
