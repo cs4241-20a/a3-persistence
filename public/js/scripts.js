@@ -144,7 +144,7 @@ function handle_login(){
         headers: {"Content-Type": "application/json"},
         body
     }).then(function(response){
-        if(response.status === 201){
+        if(response.headers.get("new") === "true"){
             alert("User did not exist, so a new account was created with given username and password");
         }
         window.location = response.url;

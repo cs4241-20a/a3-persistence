@@ -53,19 +53,19 @@ app.get('/auth/github/callback', passport.authenticate('github'),
     }
 );
 
+let newUser = false;
 app.get("/app", function(request, response){
-    response.sendFile("./public/app.html", {root: "./"}, function(error){
+    //The "new" header will tell the client whether or not they need to
+    //display a new message to the user that a new account was created.
+    response.sendFile("./public/app.html", {root: "./", headers:{"new": newUser}}, function(error){
         if(error){
             console.log("Error occurred sending app.html: " +error);
         }
+        newUser = false;
     });
-})
+});
 
 app.post("/signin", bodyParser.json(), function(request, response){
-    //console.log(JSON.stringify(request));
-    console.log(request.body);
-    console.log("username: " +request.username);
-    console.log("password: " +request.password);
     if(request.body.username && request.body.password){
         username = request.body.username;
         handleUser(request.body.username, false, request.body.password, response);
@@ -83,7 +83,7 @@ const handleUser = function(username, isGithub, password, response){
         isGithub: isGithub,
         password: password
     };
-    users.find(user, {},).toArray(function(error, result){
+    users.find(user, {}).toArray(function(error, result){
         if(error){
             console.log("Error looking up user in database: " +error);
         }else if(result.length < 0 || result.length > 1){
@@ -97,6 +97,7 @@ const handleUser = function(username, isGithub, password, response){
             }else{
                 console.log("new user: " +username +" signing in.");
                 addNewDbUser(user).then(function(results){
+                    newUser = true;
                     response.redirect("/app");
                     response.statusCode = 201;
                 });
