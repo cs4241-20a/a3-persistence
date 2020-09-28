@@ -77,6 +77,33 @@ const deleteRun = function (id, deleteIndex) {
     })
 }
 
+const editRun = function (id, index) {
+    const table = document.querySelector('#runs-table');
+
+    let runToSend = {};
+    runToSend.name = document.querySelector('#input-name-edit').value;
+    runToSend.location = document.querySelector('#input-location-edit').value;
+    runToSend.distance = document.querySelector('#input-distance-edit').value;
+    runToSend.time = document.querySelector('#input-time-edit').value;
+
+    fetch('/editRun', {
+        method: 'POST',
+        body: JSON.stringify({run: runToSend, id: id}),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function handleEditRunResponse(response) {
+        if (response.status === 200) {  // OK
+            console.log(`Successfully edited run ${index} to ${JSON.stringify(runToSend)}`);
+            revertEdit();
+            loadData();  // Refresh the tables
+        } else {
+            console.error(`Failed to edit run ${index} to ${JSON.stringify(runToSend)}
+            Error: ${response.message}`);
+        }
+    });
+}
+
 const editRuns = function () {
     runsToSend = retrieveRuns();
 
@@ -125,39 +152,6 @@ const clearTable = function (table) {
     }
 }
 
-const fillTable = function (table, data) {
-    clearTable(table);
-    let totalDistance = 0;
-    for(let i = 0; i < data.length; i++) {
-        let row = table.insertRow();
-        row.insertCell().innerHTML = data[i].name;
-        row.insertCell().innerHTML = data[i].location;
-        row.insertCell().innerHTML = data[i].distance;
-        row.insertCell().innerHTML = data[i].time;
-        row.insertCell().innerHTML = data[i].distance * 60 / data[i].time;
-        row.insertCell().innerHTML = `<button
-        class="delete-button" 
-        type="button" 
-        onclick="deleteRun('${data[i]._id}', ${i})">
-            X
-        </button>`
-        row.insertCell().innerHTML = `<button
-        class="delete-button"
-        type="button"
-        onclick="prepareEdit(${i + 1}, '${data[i]._id}')">
-            Edit
-        </button>`;
-
-        // Check for valid data before adding
-        if (data[i].distance && parseInt(data[i].distance)){
-            // Not sure why it's a string sometimes
-            totalDistance += parseInt(data[i].distance);
-        }
-    }
-    document.querySelector('#total-distance').innerHTML = totalDistance;
-    document.querySelector('#num-marathons').innerHTML = totalDistance / 26.2;
-}
-
 const loadData = function () {
     fetch('/getRuns', {
         method: 'GET',
@@ -167,10 +161,38 @@ const loadData = function () {
         appData = parsedData;  // Is this necessary?
         const table = document.querySelector('#runs-table');
         fillTable(table, parsedData);
-    
-        const edit_table = document.querySelector('#edit-runs-table');
-        fillEditTable(edit_table, parsedData);
     });
+}
+
+const fillTable = function (table, data) {
+    clearTable(table);
+    let totalDistance = 0;
+    for(let i = 0; i < data.length; i++) {
+        let row = table.insertRow();
+        row.insertCell().innerHTML = `
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu-${i}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Actions
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <button class="dropdown-item" type="button" onclick="deleteRun('${data[i]._id}', ${i})">Delete</button>
+                <button class="dropdown-item" type="button" onclick="prepareEdit(${i + 1}, '${data[i]._id}')">Edit</button>
+            </div>
+        </div>`;
+        row.insertCell().innerHTML = data[i].name;
+        row.insertCell().innerHTML = data[i].location;
+        row.insertCell().innerHTML = data[i].distance;
+        row.insertCell().innerHTML = data[i].time;
+        row.insertCell().innerHTML = (data[i].distance * 60 / data[i].time).toFixed(2);
+
+        // Check for valid data before adding
+        if (data[i].distance && parseInt(data[i].distance)){
+            // Not sure why it's a string sometimes
+            totalDistance += parseInt(data[i].distance);
+        }
+    }
+    document.querySelector('#total-distance').innerHTML = totalDistance;
+    document.querySelector('#num-marathons').innerHTML = (totalDistance / 26.2).toFixed(2);
 }
 
 const prepareEdit = function(index, id) {
@@ -180,24 +202,26 @@ const prepareEdit = function(index, id) {
     let tempData = {};
     tempData.index = index;
     tempData.id = id;
-    tempData.name = table.rows[index].cells[0].innerText;
-    tempData.location = table.rows[index].cells[1].innerText;
-    tempData.distance = table.rows[index].cells[2].innerText;
-    tempData.time = table.rows[index].cells[3].innerText;
+    tempData.name = table.rows[index].cells[1].innerText;
+    tempData.location = table.rows[index].cells[2].innerText;
+    tempData.distance = table.rows[index].cells[3].innerText;
+    tempData.time = table.rows[index].cells[4].innerText;
     editData = tempData;
 
-    table.rows[index].cells[0].innerHTML = `<input type="text" id="input-name-edit-${index}" value="${tempData.name}"/>`;
-    table.rows[index].cells[1].innerHTML = `<input type="text" id="input-location-edit-${index}" value="${tempData.location}"/>`;
-    table.rows[index].cells[2].innerHTML = `<input type="number" id="input-distance-edit-${index}" value="${tempData.distance}"/>`;
-    table.rows[index].cells[3].innerHTML = `<input type="number" id="input-time-edit-${index}" value="${tempData.time}"/>`;
-    table.rows[index].cells[5].innerHTML = `
-    <button class="delete-button" type="button">
-        Submit
-    </button>`
-    table.rows[index].cells[6].innerHTML = `
-    <button class="delete-button" type="button" onclick="revertEdit()">
-        Cancel
-    </button>`;
+    table.rows[index].cells[0].innerHTML = `
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu-${index}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Actions
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <button class="dropdown-item" type="button" onclick="editRun('${id}', ${index})">Submit</button>
+            <button class="dropdown-item" type="button" onclick="revertEdit()">Cancel</button>
+        </div>
+    </div>`;
+    table.rows[index].cells[1].innerHTML = `<input class="form-control" type="text" id="input-name-edit" value="${tempData.name}" placeholder="${tempData.name}"/>`;
+    table.rows[index].cells[2].innerHTML = `<input class="form-control" type="text" id="input-location-edit" value="${tempData.location}" placeholder="${tempData.location}"/>`;
+    table.rows[index].cells[3].innerHTML = `<input class="form-control" type="number" id="input-distance-edit" value="${tempData.distance}" placeholder="${tempData.distance}"/>`;
+    table.rows[index].cells[4].innerHTML = `<input class="form-control" type="number" id="input-time-edit" value="${tempData.time}" placeholder="${tempData.time}"/>`;
 }
 
 const revertEdit = function() {
@@ -207,47 +231,24 @@ const revertEdit = function() {
     const table = document.querySelector('#runs-table');
     let index = editData.index;
     let id = editData.id;
-    table.rows[index].cells[0].innerHTML = editData.name;
-    table.rows[index].cells[1].innerHTML = editData.location;
-    table.rows[index].cells[2].innerHTML = editData.distance;
-    table.rows[index].cells[3].innerHTML = editData.time;
-    table.rows[index].cells[5].innerHTML = `
-    <button class="delete-button" type="button" onclick="deleteRun('${id}', ${index - 1})">
-        X
-    </button>`;
-    table.rows[index].cells[6].innerHTML = `
-    <button class="delete-button" type="button" onclick="prepareEdit(${index}, '${id}')">
-        Edit
-    </button>`;
+    table.rows[index].cells[0].innerHTML = `
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu-${index}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Actions
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <button class="dropdown-item" type="button" onclick="deleteRun('${id}', ${index})">Delete</button>
+            <button class="dropdown-item" type="button" onclick="prepareEdit(${index}, '${id}')">Edit</button>
+        </div>
+    </div>`;
+    table.rows[index].cells[1].innerHTML = editData.name;
+    table.rows[index].cells[2].innerHTML = editData.location;
+    table.rows[index].cells[3].innerHTML = editData.distance;
+    table.rows[index].cells[4].innerHTML = editData.time;
     editData = null;
-}
-
-const getInputString = function(field, index, value) {
-    return `
-    <input 
-        type="text" 
-        id="input-${field}-${index}" 
-        value="${value}"
-    />`;
 }
 
 window.onload = function () {
     document.querySelector('#form-submit').onclick = addRun;
-    document.querySelector('#submit-edits').onclick = editRuns;
     loadData();
-}
-
-
-// ===========
-const fillEditTable = function (table, data) {
-    clearTable(table);
-    for(let i = 0; i < data.length; i++) {
-        let row = table.insertRow();
-        row.insertCell().innerHTML = `<input type="text" id="input-name-edit-${i}" value="${data[i].name}"/>`;
-        row.insertCell().innerHTML = `<input type="text" id="input-location-edit-${i}" value="${data[i].location}"/>`;
-        row.insertCell().innerHTML = `<input type="number" id="input-distance-edit-${i}" value="${data[i].distance}"/>`;
-        row.insertCell().innerHTML = `<input type="number" id="input-time-edit-${i}" value="${data[i].time}"/>`;
-        row.insertCell().innerHTML = data[i].distance * 60 / data[i].time;
-        row.insertCell().innerHTML = `<button class="delete-button" type="button" onclick="deleteRun('${data[i]._id}', ${i})">X</button>`;
-    }
 }

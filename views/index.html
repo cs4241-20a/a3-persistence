@@ -6,70 +6,128 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A cool thing made with Glitch">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>CS4241 Assignment 3</title>
 
     <link id="favicon" rel="icon" href="https://www.watsoninc.ca/wp-content/uploads/2018/08/Running_shoe_icon.png" type="image/png">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="/boot.css">
     <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca&family=Raleway&display=swap" rel="stylesheet">
 
     <script src="/script.js" defer></script>
   </head>
   <body>
-    <div id="wrapper">
-      <h1>Tagteam Marathon</h1>
-      <h2>About</h2>
-      <p>Welcome to Tagteam Marathon! </p>
-      <p>Tagteam Marathon is an app that helps you track how far your team has run. No matter where you are or how fast you're going, you can help your team run a collective marathon.</p>
-      <h2>Completed Runs</h2>
-      <table id="runs-table">
-        <tr>
-          <th>Runner</th>
-          <th>Location</th>
-          <th>Distance (miles)</th>
-          <th>Time (minutes)</th>
-          <th>Speed (miles/hour)</th>
-          <th>Delete</th>
-          <th>Edit</th>
-        </tr>
-      </table>
-      <div id="stats">
-        <p>Total Distance (miles):</p> <p id="total-distance"></p>
-        <p>Marathons Run:</p> <p id="num-marathons"></p>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="#">Tagteam Marathon</a>
+    </nav>
+
+    <!-- Main -->
+    <main role="main">
+
+      <div class="jumbotron">
+        <div class="container">
+          <h1 class="display-3">Tagteam Marathon</h1>
+          <p>Welcome to Tagteam Marathon!</p>
+          <p>Tagteam Marathon is an app that helps you track how far your team has run. No matter where you are or how fast you're going, you can help your team run a collective marathon.</p>
+        </div>
       </div>
 
-      <h2>New Run</h2>
-      <form id="new-run-form">
+      <div class="container">
+        <h2>Login</h2>
 
-        <label>Your Name</label>
-        <input type="text" id="input-name" placeholder="ex. Jane Doe">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="input-username">Username</label>
+          </div>
+          <input class="form-control" type="text" id="input-username" placeholder="ex. Jane Doe">
+        </div>
 
-        <label>Location</label>
-        <input type="text" id="input-location" placeholder="ex. Bancroft Tower">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="input-password">Password</label>
+          </div>
+          <input class="form-control" type="password" id="input-password" placeholder="ex. Jane Doe">
+        </div>
 
-        <label>Distance (miles)</label>
-        <input type="number" id="input-distance" placeholder="ex. 2.75" min="0">
-
-        <label>Time (minutes)</label>
-        <input type="number" id="input-time" placeholder="ex. 30" min="0">
-
-        <button id="form-submit" type="submit">Submit Run</button>
-      </form>
-      <h2>Edit Runs</h2>
-      <table id="edit-runs-table">
-        <tr>
-          <th>Runner</th>
-          <th>Location</th>
-          <th>Distance (miles)</th>
-          <th>Time (minutes)</th>
-          <th>Speed (miles/hour)</th>
-          <th>Delete Run</th>
-        </tr>
-      </table>
-      <div class="full-width">
-        <button id="submit-edits" type="button">Submit Edits</button>
+        <a class="btn btn-primary" href="/auth/github">Login with GitHub</a>
       </div>
-    </div>
+
+  
+      <div class="container">
+        <h2>Completed Runs</h2>
+        <div class="table-responsive">
+          <table class="table" id="runs-table">
+            <tr>
+              <th>Actions</th>
+              <th>Runner</th>
+              <th>Location</th>
+              <th>Distance (miles)</th>
+              <th>Time (minutes)</th>
+              <th>Speed (miles/hour)</th>
+            </tr>
+          </table>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-dark">
+            <tr>
+              <th>Total Distance (miles)</th>
+              <th>Marathons Run</th> 
+            </tr>
+            <tr>
+              <td id="total-distance"></td>
+              <td id="num-marathons"></td>
+            </tr>
+          </table>
+        </div>
+          
+        <div class="container">
+          <h2>New Run</h2>
+          <form id="new-run-form">
+            
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="input-name">Your Name</label>
+              </div>
+              <input class="form-control" type="text" id="input-name" placeholder="ex. Jane Doe">
+            </div>
+            
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="input-location">Location</label>
+              </div>
+              <input class="form-control" type="text" id="input-location" placeholder="ex. Bancroft Tower">
+            </div>
+            
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="input-distance"> Distance </label>
+              </div>
+              <input class="form-control" type="number" id="input-distance" placeholder="ex. 2.75" min="0" step="0.25">
+              <div class="input-group-append">
+                <span class="input-group-text">miles</span>
+              </div>
+            </div>
+            
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="input-time"> Time </label>
+              </div>
+              <input class="form-control" type="number" id="input-time" placeholder="ex. 30" min="0">
+              <div class="input-group-append">
+                <span class="input-group-text">minutes</span>
+              </div>
+            </div>
+            
+            <button class="btn btn-primary" id="form-submit" type="submit">Submit Run</button>
+          </form>
+        </div>
+      </div> <!-- /container -->
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
   </body>
 </html>
