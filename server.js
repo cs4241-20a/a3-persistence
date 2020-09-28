@@ -157,7 +157,7 @@ app.post('/recipes/add', isAuthenticated, bodyParser.json(), (req, res) => {
 
 app.post('/recipes/delete', isAuthenticated, bodyParser.json(), (req, res) => {
   API.tryDelete(req.body.userID, req.body.recipeID)
-  .then(res.send("Deleted recipe!"))
+  .then((res) => console.log(res))
 })
 
 app.get('*', (req, res) => {
