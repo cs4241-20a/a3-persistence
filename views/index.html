@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch">
+
+    <title>Milktea Order and Pickup</title>
+
+    <link href="//cdn.muicss.com/mui-0.10.3/css/mui.min.css" rel="stylesheet" type="text/css" />
+    <script src="//cdn.muicss.com/mui-0.10.3/js/mui.min.js"></script>
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+</head>
+<body style="background-color: #ddd8d9">
+<div class="mui-container">
+    <h1 class="mui--text-center mui--text-dark-secondary mui--text-display3">Milktea Order & Pickup</h1>
+    <h2 class="mui--text-center mui--text-dark-secondary mui--text-display1">Log in</h2>
+    <div id="login_div" class="mui-panel mui--text-dark-secondary mui--text-subhead mui--z3" style="background-color: #ffffff">
+        <form class="mui-form">
+            <label for="name">
+                <span>Username: </span>
+            </label>
+            <p class="mui-textfield">
+                <input type="text" id="name" placeholder="username">
+            </p>
+
+            <label for="password">
+                <span>Password: </span>
+            </label>
+            <p class="mui-textfield">
+                <input type="password" id="password" placeholder="password">
+            </p>
+            <p>
+                <button class="mui-btn mui-btn--primary" type="submit" id="login">Log in</button>
+            </p>
+            <label for="oauth">
+                <span>Don't want to register? </span>
+            </label>
+            <p>
+                <button class="mui-btn mui-btn--accent" type="submit" id="oauth">Use your GitHub account</button>
+            </p>
+        </form>
+    </div>
+
+    <h2 class="mui--text-center mui--text-dark-secondary mui--text-display1">Register</h2>
+    <div id="signup_div" class="mui-panel mui--text-dark-secondary mui--text-subhead mui--z3" style="background-color: #ffffff">
+        <form class="mui-form">
+            <label for="newName">
+                <span>Username For Register: </span>
+            </label>
+            <p class="mui-textfield">
+                <input type="text" id="newName" placeholder="username">
+            </p>
+
+            <label for="newPswd">
+                <span>Password For Register: </span>
+            </label>
+            <p class="mui-textfield">
+                <input type="password" id="newPswd" placeholder="password">
+            </p>
+            <p>
+                <button class="mui-btn mui-btn--primary" type="submit" id="signup">Sign up</button>
+            </p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

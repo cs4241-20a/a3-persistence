@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch">
+
+    <title>Shopping Cart : Milktea Order and Pickup</title>
+
+    <link href="//cdn.muicss.com/mui-0.10.3/css/mui.min.css" rel="stylesheet" type="text/css" />
+    <script src="//cdn.muicss.com/mui-0.10.3/js/mui.min.js"></script>
+
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+</head>
+<body style="background-color: #ddd8d9">
+<h1 id="nameOfUser" class="mui--text-center mui--text-dark-secondary mui--text-display2"></h1>
+<h2 class="mui--text-center mui--text-dark-secondary mui--text-headline">Milktea Shopping Cart</h2>
+<div class="mui-container">
+    <div class="mui-panel mui--text-dark-secondary mui--text-subhead mui--z3">
+        <form class="mui-form mui--text-dark-secondary mui--text-subhead" >
+            <fieldset style="background-color: #ffd0d7">
+                <h2>Tea Base</h2>
+                <ul class="mui-radio mui-list--unstyled">
+                    <li>
+                        <label for="gt">
+                            <input type="radio" id="gt" name="radiot" value="gt">
+                            Green Tea
+                        </label>
+                    </li>
+                    <li>
+                        <label for="eg">
+                            <input type="radio" id="eg" name="radiot" value="eg">
+                            Earl Gray
+                        </label>
+                    </li>
+                    <li>
+                        <label for="bt">
+                            <input type="radio" id="bt" name="radiot" value="bt">
+                            Black Tea
+                        </label>
+                    </li>
+                    <li>
+                        <label for="oo">
+                            <input type="radio" id="oo" name="radiot" value="oo">
+                            Oolong
+                        </label>
+                    </li>
+                </ul>
+            </fieldset>
+            <fieldset style="background-color: #ffb6c1">
+                <h2>Milk Selection</h2>
+                <ul class="mui-radio mui-list--unstyled">
+                    <li>
+                        <label for="tf">
+                            <input type="radio" id="tf" name="radiom" value="tf">
+                            2% Fat Milk
+                        </label>
+                    </li>
+                    <li>
+                        <label for="nf">
+                            <input type="radio" id="nf" name="radiom" value="nf">
+                            Non-fat Milk
+                        </label>
+                    </li>
+                    <li>
+                        <label for="om">
+                            <input type="radio" id="om" name="radiom" value="om">
+                            Oat Milk (Vegan)
+                        </label>
+                    </li>
+                    <li>
+                        <label for="am">
+                            <input type="radio" id="am" name="radiom" value="am">
+                            Almond Milk (Vegan)
+                        </label>
+                    </li>
+                </ul>
+            </fieldset>
+            <fieldset style="background-color: #ffd0d7">
+                <h2>Topping / Add-in</h2>
+                <ul class="mui-checkbox mui-list--unstyled">
+                    <li>
+                        <label for="smf">
+                            <input type="checkbox" id="smf" name="checkbox" value="smf">
+                            Seasalt Milk Foam
+                        </label>
+                    </li>
+                    <li>
+                        <label for="cmf">
+                            <input type="checkbox" id="cmf" name="checkbox" value="cmf">
+                            Cheesecake-Flavor Milk Foam
+                        </label>
+                    </li>
+                    <li>
+                        <label for="bb">
+                            <input type="checkbox" id="bb" name="checkbox" value="bb">
+                            Boba Pearl
+                        </label>
+                    </li>
+                    <li>
+                        <label for="ft">
+                            <input type="checkbox" id="ft" name="checkbox" value="ft">
+                            Fresh Taro
+                        </label>
+                    </li>
+                    <li>
+                        <label for="bs">
+                            <input type="checkbox" id="bs" name="checkbox" value="bs">
+                            Brown Sugar
+                        </label>
+                    </li>
+                </ul>
+            </fieldset>
+            <fieldset style="background-color: #ffb6c1">
+                <h2>Time for Pick Up</h2>
+                <p>
+                    <label for="time">
+                        <span>Time: </span>
+                    </label>
+                    <input type="time" id="time">
+                </p>
+            </fieldset>
+            <p>
+                <button class="mui-btn mui-btn--accent" type="submit" id="add">Add to Shopping Cart</button>
+            </p>
+        </form>
+    </div>
+    <h2 class="mui--text-center mui--text-dark-secondary mui--text-headline">View Your Cart</h2>
+    <div class="mui-panel mui--divider-right mui--text-dark-secondary mui--text-subhead mui--z3">
+        <table class="mui-table mui-table--bordered" style="background-color: #ffe9ec">
+            <thead>
+            <tr>
+                <th>Tea Base</th>
+                <th>Milk</th>
+                <th>Topping / Add-in</th>
+                <th>Pickup Time</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <button class="mui-btn mui-btn--primary mui--align-right" type="submit" id="logout">Logout</button>
+</div>
+</body>
+</html>
