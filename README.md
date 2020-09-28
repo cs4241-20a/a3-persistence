@@ -30,16 +30,16 @@ better option in the long run. The project is deployed to glitch too just in cas
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: (10 Points) Make your site accessible using the resources from WC3. 
-    --Provide an informative unique page titles. My TODO List App, and My TODO List Login Page
-    --Use headings to convey meaning and structure. Used h1,h2,h3s throughout to convey meaning.
-    --Make link text meaningful, Submit is properly labeled add task as that is what it does.
-    --Write meaningful text alts for images, properly labeled the image on the front page as what it is
-    --Provide clear instructions, this is done on the main page after login
-    --Keep content clear and concise, this is followed throughout the website as its just minimal instructions
-    --Provide sufficient contrast between forground and background, this is done on the main page wit the blue and orange and the white and blue 
+    - Provide an informative unique page titles. My TODO List App, and My TODO List Login Page
+    - Use headings to convey meaning and structure. Used h1,h2,h3s throughout to convey meaning.
+    - Make link text meaningful, Submit is properly labeled add task as that is what it does.
+    - Write meaningful text alts for images, properly labeled the image on the front page as what it is
+    - Provide clear instructions, this is done on the main page after login
+    - Keep content clear and concise, this is followed throughout the website as its just minimal instructions
+    - Provide sufficient contrast between forground and background, this is done on the main page wit the blue and orange and the white and blue 
     the white makes the text easier to read and the orange background is a complementary color of blue.
-    --Don't use color alone to convey information, this is not done as the colored parts are also larger and a google font
-    --Ensure that interative elements are easy to identify, this is done with the button on the bottom clearly sticking out and it has instructions
-    --Ensure that form elements contain clearly associated lablels, this is done with the form on the main page using labels for password and username fields
-    --Create designs for different viewport sizes, this is done because I'm using bootstrap and it resizes for mobile devices.
-    --Identify page langague and language changes, this is done in the head using the meta tag to state it is in english.
+    - Don't use color alone to convey information, this is not done as the colored parts are also larger and a google font
+    - Ensure that interative elements are easy to identify, this is done with the button on the bottom clearly sticking out and it has instructions
+    - Ensure that form elements contain clearly associated lablels, this is done with the form on the main page using labels for password and username fields
+    - Create designs for different viewport sizes, this is done because I'm using bootstrap and it resizes for mobile devices.
+    - Identify page langague and language changes, this is done in the head using the meta tag to state it is in english.

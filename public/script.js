@@ -48,6 +48,8 @@ tasksForm.addEventListener("submit", event => {
     appendNewTask( json.tasks, json._id  );
    })
 
+  location.reload()
+
   tasksForm.reset();
   tasksForm.elements.tasks.focus();
 })
