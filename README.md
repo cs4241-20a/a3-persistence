@@ -2,11 +2,11 @@
 
  http://a3-chaarke.glitch.me
 
--**The Goal:** a place for users to record movies they want to see. 
--**The Challenges:** fiddling with passport.js. I spent close to 4 hours on a stack overflow rabbit hole. 
--**The Authentication:** Passport.js for Github OAuth! I used it for the bonus points.
--**The Framework:** Bootstrap. It's a classic, I've worked with it before and enjoy using their layout grid more than the diy approach with css grid.
--**The Middleware:** Passport. Bodyparser. Express Session. Favicon. Response Time.
+- **The Goal:** a place for users to record movies they want to see. 
+- **The Challenges:** fiddling with passport.js. I spent close to 4 hours on a stack overflow rabbit hole. 
+- **The Authentication:** Passport.js for Github OAuth! I used it for the bonus points.
+- **The Framework:** Bootstrap. It's a classic, I've worked with it before and enjoy using their layout grid more than the diy approach with css grid.
+- **The Middleware:** Passport. Bodyparser. Express Session. Favicon. Response Time.
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
