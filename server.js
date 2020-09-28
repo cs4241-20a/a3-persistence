@@ -48,7 +48,6 @@ app.use(compression());
 app.use(express.json());
 app.use(methodOverride());
 app.use(session({
-	//! change secret and move to env
 	secret: "keyboard cat",
 	resave: false,
 	saveUninitialized: false
