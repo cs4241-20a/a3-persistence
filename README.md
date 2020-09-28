@@ -75,18 +75,23 @@ Include a very brief summary of your project here. Images are encouraged, along 
   - include any modifications to the CSS framework you made via custom CSS you authored
 - the five Express middleware packages you used and a short (one sentence) summary of what each one does
 Express Middleware:
-- csurf
+- compression: Compresses HTTP responses.
 - body-parser: Middleware for easily parsing the bodies of HTTP requests.
 - ejs: Templating library that allows for reuse of components and composition of HTML pages from components with variables.
 - passport: Authentication library, using the GitHub strategy.
 - express session: Handles browser sessions for users. Works with passport to keep track of users' login state as they browse the site.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
-
-
+- **Design Achievement 1**: I followed the CRAP principles from the Non-Designer's Design Book.
+  * Contrast: 
+  * Repetition: I re-used as many similar elements as possible in designing my frontend. I used Bootstrap CSS as my CSS framework, which comes with components that already have a fairly unified design -
+  smooth, clean-feeling font and rounded 
+  I made use of Card elements in almost every page - each recipe in the "My Recipes" and "All Recipes" page is its own card, as well as the forms for adding a new recipe. I also reused the same layout for
+  adding and editing a recipe, with minor functional changes via ejs templating, to keep them consistent. Finally, the "action" buttons (for adding, editing, or deleting a recipe) are all the same size
+  and brightly colored to remain consistent.
+  * Repetition
 
 

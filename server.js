@@ -33,7 +33,7 @@ app.use(expressSession({
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(compression);
+app.use(compression());
 
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
