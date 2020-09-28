@@ -6,8 +6,8 @@ This project is Assignment 3 - Persistence: Two-tier Web Application with Databa
 
 I created a flower shop webpage that woud allow a user to shop for single flowers or a dozen. The webpage also allows the user to see their order history and also edit or delete their order.
 The CSS positionng techniques that I used were using element selectors, ID selectors, and class selectors.
-The goal is for users to place orders for flowers by a single flower or by the dozen. The challenges I faced were implementing the Express server since I have not worked with it before.
-The authentication strategy I used was through passport.jas. For the database I used a lowdb. I used this because the database would be stroing a large amount of information, also because it was intuitive to implement, also that there is persistent data storage.
+The goal is for users to place orders for flowers by a single flower or by the dozen. The challenges I faced were implementing the Express server, since I have not worked with it before.
+The authentication strategy I used was through passport.js. For the database I used a lowdb. I used this because the database would be stroing a large amount of information, also because it was intuitive to implement, also that there is persistent data storage.
 For the CSS framework I chose to use Bootstrap in combination with elements I previously used on the last project.
 The five Express middleware packages I used are the following:
 
