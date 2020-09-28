@@ -1,11 +1,5 @@
 console.log("Welcome to assignment 3!")
 
-/**
- * 1. When inserting car into db check to see that a user's id is added with the car
- * 2. Need to clear the userID when they log out, or back button is pressed
- */
-
-
 const login = function (e) {
   // prevent default form action from being carried out
   e.preventDefault()
@@ -85,6 +79,7 @@ const create = function (e) {
 
   return false
 }
+
 
 window.onload = function () {
   const loginBtn = document.querySelector('#login-btn')

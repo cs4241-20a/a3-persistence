@@ -30,12 +30,36 @@ var submitFunc = function (request, response, next) {
 
   let priority = getPriority(json.year, json.price)
   json.priority = priority
+  json.userID = currUserId
 
   let tempdata = []
   tempdata.push(json)
   request.json = tempdata
   next()
 }
+
+var GitHubStrategy = require('passport-github').Strategy;
+
+passport.use(new GitHubStrategy({
+  clientID: "1f05e056a1c1042f08e9",
+  clientSecret: "2534ac2dada36fecea2bd4a2e233241f8877237a",
+  callbackURL: "http://localhost:3000/auth/github/callback"
+},
+  async function (accessToken, refreshToken, profile, cb) {
+    let dbresponse = await loginCollection.findOne({ username: profile.id })
+
+    if (dbresponse != null)
+      currUserId = dbresponse._id
+
+    else {
+      let dbInsertResponse = await loginCollection.insertOne({ username: profile.id })
+      let json = dbInsertResponse.ops[0]
+      if (json != null)
+        currUserId = json._id
+    }
+    return cb(null, profile);
+  }
+));
 
 // middleware functions to always use
 app.use(serveStatic('public'))
@@ -44,6 +68,24 @@ app.use(bodyparser.json())
 app.use(responseTime())
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.get('/auth/github',
+  passport.authenticate('github'));
+
+app.get('/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/views/index.html');
+  });
+
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
 
 app.get('/', function (request, response) {
   response.sendFile(__dirname + '/public/views/login.html')
@@ -101,7 +143,7 @@ app.post('/create', async function (request, response) {
   let dbresponse = await loginCollection.insertOne(request.body)
 
   let json = dbresponse.ops[0]
-  
+
   if (json != null)
     currUserId = json._id
 
