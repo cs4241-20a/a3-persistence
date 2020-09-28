@@ -28,7 +28,7 @@ Express Middleware Packages:
 - morgan: Used to log server traffic to the console and information about the client's machine
 - body-parser: Used so that I would not have to manually parse each JSON object provided in network requests
 - passport: Used for GitHub OAUTH login
-- connect-timeout: Used to automatically times out express http requests lasting more than 5s  
+- connect-timeout: Used to automatically time out express http requests lasting more than 5s  
 
 
 HTML:
