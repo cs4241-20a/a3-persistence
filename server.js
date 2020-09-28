@@ -9,6 +9,16 @@ const session = require('express-session')
 // const cookieSession = require("cookie-session")
 const passport = require('passport')
 const bodyparser = require("body-parser")
+const timeout = require("connect-timeout")
+
+
+app.use(function (req, res, next) {
+    res.setTimeout(120*1000, function () {
+        console.log("Request has timed out.");
+        return res.status(408).send("time out!")
+    });
+    next();
+});
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
@@ -70,6 +80,10 @@ app.post('/add', bodyparser.json(), function( req, res ){
   })
 })
 
+app.get('/getId', bodyparser.json(), function( req, res ){
+  res.json(userId)
+})
+
 app.post('/delete', bodyparser.json(), function( req, res ){
   console.log('delete body:',req.body)
   collection.deleteOne({_id:mongodb.ObjectID(req.body.id)})
@@ -78,15 +92,17 @@ app.post('/delete', bodyparser.json(), function( req, res ){
 app.post('/modify', bodyparser.json(), function( req, res ){
   console.log('modify body:',req.body)
   collection.replaceOne({_id:mongodb.ObjectId(req.body.id)},{yourname:req.body.yourname,gender:req.body.gender,
-                                                            currentYear:req.body.currentYear, expectedYear:req.body.expectedYear})
+                                                            currentYear:req.body.currentYear, expectedYear:req.body.expectedYear
+                                                            ,userId:req.body.userId})
      .then(result=>{
     res.json(result)
   })
+  console.log("got it")
 })
-app.get('/populate', bodyparser.json(), function( req, res ){
+app.post('/populate', bodyparser.json(), function( req, res ){
   res.setHeader("Content-Type", "application/json")
-  const json = {data:"data"}
-  collection.find({}).toArray()
+  
+  collection.find({userId:userId}).toArray()
   .then(items=>{
     res.end(JSON.stringify(items))
   })
@@ -108,7 +124,7 @@ app.get('/loginto', function( req, res ){
 
 //for oauth
 var GitHubStrategy = require('passport-github').Strategy;
-
+var userId = ""
 passport.use(new GitHubStrategy({
     clientID: "d70e4e4826279be1640f",
     clientSecret: "d6de1c8caa0c9f0cd0e20af4ff7c5b9ed9bc33e0",
@@ -120,6 +136,8 @@ passport.use(new GitHubStrategy({
     // To keep the example simple, the user's GitHub profile is returned to
     // represent the logged-in user.  In a typical application, you would want
     // to associate the GitHub account with a user record in your database,
+     console.log('profile',profile.id)
+     userId = profile.id
     // and return that user instead.
     return done(null, profile);
   });
@@ -134,6 +152,7 @@ app.get('/user/callback',
   passport.authenticate('github', { failureRedirect: '/' }),
   function(req, res) {
     // Successful authentication, redirect home.
+  console.log('user id',userId)
     res.redirect('/main');
   });
 app.get('/logout', function (req, res){

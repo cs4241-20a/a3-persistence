@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A cool thing made with Glitch">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A cool thing made with Glitch" />
 
-    <link rel="stylesheet" href="/style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
     <script src="/script.js" defer></script>
   </head>
   <body style="background:black">
@@ -18,155 +27,305 @@
     <button type="button" id="goLogout">
       Log out
     </button>
-   <form action="">
-     <div id = "d">
-       
-      <div class="row">
-        <div class="col-md-4">
-          <label style="font-size:24px">Your Name:</label><br />
+    <button type="button" id="kk">
+      Stating to delete or modify
+    </button>
+    <form action="">
+      <div id="d">
+        <div class="row">
+          <div class="col-md-4">
+            <label style="font-size:24px">Your Name:</label><br />
             <input
               type="text"
               id="yourname"
               placeholder="your name here"
               style="font-size:24px"
             />
-        </div>
-        <div class="col-md-4">
-          <label style="font-size:24px">Your Gender</label><br />
+          </div>
+          <div class="col-md-4">
+            <label style="font-size:24px">Your Gender</label><br />
             <select id="select" style="font-size:24px">
               <option value="female">Female</option>
               <option value="male">Male</option>
             </select>
-        </div>
-        <div class="col-md-4">
-          <label style="font-size:24px">Your Current Year:</label><br />
+          </div>
+          <div class="col-md-4">
+            <label style="font-size:24px">Your Current Year:</label><br />
             <select id="currentYear" style="font-size:24px">
               <option value="Freshman">Freshman</option>
               <option value="Sophomore">Sophomore</option>
               <option value="Junior">Junior</option>
               <option value="Senior">Senior</option>
             </select>
+          </div>
         </div>
       </div>
-       
-     </div>
       <div class="btn_f" style="backgroud:lightyellow">
-        <div class="btn_s" style="width:50px">
-          <button id="submitBtn" type="button">submit</button>
+        <div class="btn_s" style="width:50px" >
+          <button id="submitBtn" type="button" style="font-size:20px">submit</button>
         </div>
       </div>
     </form>
     <div class="row">
-      <div class="col-md-2" style="font-size:24px; color:lightyellow">Student Name:</div>
-      <div class="col-md-2" style="font-size:24px; color:lightyellow">Student Gender:</div>
-      <div class="col-md-2" style="font-size:24px; color:lightyellow">Current Year:</div>
-      <div class="col-md-2" style="font-size:24px; color:lightyellow">Expected Grad. Year:</div>
-      <div class="col-md-2" style="font-size:24px; color:lightyellow">Actions:</div>
+      <div class="col-md-2" style="font-size:24px; color:lightyellow">
+        Student Name:
+      </div>
+      <div class="col-md-2" style="font-size:24px; color:lightyellow">
+        Student Gender:
+      </div>
+      <div class="col-md-2" style="font-size:24px; color:lightyellow">
+        Current Year:
+      </div>
+      <div class="col-md-2" style="font-size:24px; color:lightyellow">
+        Expected Grad. Year:
+      </div>
+      <div class="col-md-2" style="font-size:24px; color:lightyellow">
+        Actions:
+      </div>
     </div>
 
     <div id="container">
       <!--       <input type="text" id="output" style="width:200px"> -->
     </div>
-    
-  </body> 
+  </body>
   <script>
-  window.onload = function(){
-  console.log("hhh")
-    container.innerHTML = "";
-    container.appendChild(document.createElement("br"));
-    
-    fetch('/populate',{
-      method:"GET"
-    })
-    .then(response=>response.json())
-    .then(response=>{
-      for(obj in response){
-      console.log(response[obj]._id)
-    var gdiv = document.createElement("div");
-    // gdiv.setAttribute("style", "display:flex; flex-direction:row");
-      gdiv.setAttribute("id",response[obj]._id)
-        gdiv.setAttribute("class","row")
-        gdiv.classList = "row"
-        
-      var deleteBtn = document.createElement("button");
-        deleteBtn.classList = "col-md-2"
-      var modifyBtn = document.createElement("button");
-        modifyBtn.classList = "col-md-2"
-      deleteBtn.setAttribute("id", response[obj]._id);
-      deleteBtn.setAttribute("type", "button");
-      deleteBtn.setAttribute(
-        "style",
-        "width:100px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin-top:auto"
-      );
-      deleteBtn.textContent = "delete";
-      deleteBtn.onclick = function() {
-        fetch("/delete", {
-          method: "POST",
-          body: JSON.stringify({ id: deleteBtn.id }),
-          headers: {
-            "Content-Type": "application/json"
+    window.onload = function() {
+      var userid = "";
+      fetch("/getId")
+        .then(response => response.json())
+        .then(response => {
+          userid = response;
+          console.log(userid);
+        });
+
+      // console.log(userid)
+      console.log("hhh");
+      container.innerHTML = "";
+      container.appendChild(document.createElement("br"));
+
+      fetch("/populate", {
+        method: "POST",
+        body: JSON.stringify({ userId: userid })
+      })
+        .then(response => response.json())
+        .then(response => {
+          for (obj in response) {
+            console.log(response[obj]._id);
+            var gdiv = document.createElement("div");
+            // gdiv.setAttribute("style", "display:flex; flex-direction:row");
+            gdiv.setAttribute("id", response[obj]._id);
+            gdiv.setAttribute("class", "row");
+            gdiv.classList = "row";
+
+            var deleteBtn = document.createElement("button");
+            deleteBtn.classList = "deletion";
+            var modifyBtn = document.createElement("button");
+            modifyBtn.classList = "modification";
+            deleteBtn.setAttribute("id", response[obj]._id);
+            deleteBtn.setAttribute("type", "button");
+            deleteBtn.setAttribute(
+              "style",
+              "width:100px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin-top:auto"
+            );
+            deleteBtn.textContent = "delete";
+            // deleteBtn.onclick = function() {
+            //   fetch("/delete", {
+            //     method: "POST",
+            //     body: JSON.stringify({ id: deleteBtn.id }),
+            //     headers: {
+            //       "Content-Type": "application/json"
+            //     }
+            //   });
+            //   console.log("deleted");
+            // };
+            modifyBtn.textContent = "modify";
+            modifyBtn.setAttribute("id", response[obj]._id);
+            // modifyBtn.setAttribute("class", "mclass");
+            modifyBtn.setAttribute("type", "button");
+            modifyBtn.setAttribute(
+              "style",
+              "width:100px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin-top:auto"
+            );
+            var g = response[obj].gender;
+            var n = response[obj].yourname;
+            var c = response[obj].currentYear;
+            var e = response[obj].expectedYear;
+            var gbox = document.createElement("input");
+            gbox.classList = "col-md-2";
+            gbox.setAttribute(
+              "style",
+              "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
+            );
+            var nbox = document.createElement("input");
+            nbox.classList = "col-md-2";
+            nbox.setAttribute(
+              "style",
+              "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
+            );
+            var cbox = document.createElement("input");
+            cbox.classList = "col-md-2";
+            cbox.setAttribute(
+              "style",
+              "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
+            );
+            var ebox = document.createElement("input");
+            ebox.classList = "col-md-2";
+            ebox.setAttribute(
+              "style",
+              "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
+            );
+            gbox.value = g;
+            nbox.value = n;
+            cbox.value = c;
+            ebox.value = e;
+
+            gdiv.appendChild(nbox);
+            gdiv.appendChild(gbox);
+            gdiv.appendChild(cbox);
+            gdiv.appendChild(ebox);
+            gdiv.appendChild(deleteBtn);
+            gdiv.appendChild(modifyBtn);
+            // modifyBtn.onclick = function() {
+            //   console.log("modify clicked");
+            //   var thisdiv = document.getElementById(modifyBtn.id);
+            //   var inputs = thisdiv.getElementsByTagName("input");
+            //     console.log("original name:",inputs[0].value)
+            //   console.log("original id:",modifyBtn.id)
+            //   fetch("/modify", {
+            //     method: "POST",
+            //     body: JSON.stringify({
+            //       id: modifyBtn.id,
+            //       yourname: inputs[0].value,
+            //       gender: inputs[1].value,
+            //       currentYear: inputs[2].value,
+            //       expectedYear: inputs[3].value,
+            //       userId: userid
+            //     }),
+            //     headers: {
+            //       "Content-Type": "application/json"
+            //     }
+            //   })
+            //     .then(response => response.json())
+            //     .then(response => {
+            //       console.log(response.matchedCount);
+            //     });
+            //   console.log(inputs[0].value);
+            // };
+            var container = document.getElementById("container");
+            container.appendChild(gdiv);
+            container.appendChild(document.createElement("br"));
           }
         });
-        console.log("deleted");
-      };
-      modifyBtn.textContent = "modify";
-      modifyBtn.setAttribute("id", response[obj]._id);
-      modifyBtn.setAttribute("type", "button");
-      modifyBtn.setAttribute(
-        "style",
-        "width:100px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin-top:auto"
-      );
-      var g = response[obj].gender;
-      var n = response[obj].yourname;
-      var c = response[obj].currentYear;
-      var e = response[obj].expectedYear
-      var gbox = document.createElement("input");
-        gbox.classList = "col-md-2"
-      gbox.setAttribute(
-        "style",
-        "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
-      );
-      var nbox = document.createElement("input");
-        nbox.classList = "col-md-2"
-      nbox.setAttribute(
-        "style",
-        "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
-      );
-      var cbox = document.createElement("input");
-        cbox.classList = "col-md-2"
-      cbox.setAttribute(
-        "style",
-        "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
-      );
-      var ebox = document.createElement("input");
-        ebox.classList = "col-md-2"
-      ebox.setAttribute(
-        "style",
-        "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
-      );
-      gbox.value = g;
-      nbox.value = n;
-      cbox.value = c;
-      ebox.value = e;
 
-      gdiv.appendChild(nbox);
-      gdiv.appendChild(gbox);
-      gdiv.appendChild(cbox);
-      gdiv.appendChild(ebox);
-      gdiv.appendChild(deleteBtn);
-      gdiv.appendChild(modifyBtn);
-      modifyBtn.onclick = function() {
-        console.log("modify clicked");
-        var thisdiv = document.getElementById(modifyBtn.id);
-        var inputs = thisdiv.getElementsByTagName("input");
-        fetch("/modify", {
+      var bt = document.getElementById("kk");
+      kk.onclick = function() {
+        var rows = document.getElementsByClassName("modification");
+        var deletes = document.getElementsByClassName("deletion");
+        // console.log(rows.length)
+        for (var i = 0; i < rows.length; i++) {
+          // var thisid = rows[i].id
+          rows[i].onclick = function() {
+            console.log(this.id);
+            // console.log(inputs)
+            var thisdiv = document.getElementById(this.id);
+            var inputs = thisdiv.getElementsByTagName("input");
+            console.log(inputs[0].value);
+            fetch("/modify", {
+              method: "POST",
+              body: JSON.stringify({
+                id: this.id,
+                yourname: inputs[0].value,
+                gender: inputs[1].value,
+                currentYear: inputs[2].value,
+                expectedYear: inputs[3].value,
+                userId: userid
+              }),
+              headers: {
+                "Content-Type": "application/json"
+              }
+            })
+              .then(response => response.json())
+              .then(response => {
+                console.log(response.matchedCount);
+              });
+          };
+        }
+        for (var i = 0; i < deletes.length; i++) {
+          // var thisid = rows[i].id
+          deletes[i].onclick = function() {
+            console.log(this.id);
+            // console.log(inputs)
+            
+            fetch("/delete", {
+              method: "POST",
+              body: JSON.stringify({
+                id: this.id,
+                
+              }),
+              headers: {
+                "Content-Type": "application/json"
+              }
+            })
+              .then(response => response.json())
+              .then(response => {
+                console.log("deleted");
+              });
+          };
+        }
+      };
+
+      // modifyBtn.onclick = function() {
+      //         console.log("modify clicked");
+      //         var thisdiv = document.getElementById(modifyBtn.id);
+      //         var inputs = thisdiv.getElementsByTagName("input");
+      //           console.log("original name:",inputs[0].value)
+      //         console.log("original id:",modifyBtn.id)
+      //         fetch("/modify", {
+      //           method: "POST",
+      //           body: JSON.stringify({
+      //             id: modifyBtn.id,
+      //             yourname: inputs[0].value,
+      //             gender: inputs[1].value,
+      //             currentYear: inputs[2].value,
+      //             expectedYear: inputs[3].value,
+      //             userId: userid
+      //           }),
+      //           headers: {
+      //             "Content-Type": "application/json"
+      //           }
+      //         })
+      //           .then(response => response.json())
+      //           .then(response => {
+      //             console.log(response.matchedCount);
+      //           });
+      //         console.log(inputs[0].value);
+      //       };
+
+      var submitBtn = document.getElementById("submitBtn");
+      var index = 0;
+      submitBtn.onclick = function() {
+        var name = document.querySelector("#yourname");
+        var gender = document.querySelector("#select");
+        var currentYear = document.querySelector("#currentYear");
+        var e = "";
+        if (currentYear.value === "Freshman") {
+          e = "2024";
+        } else if (currentYear.value === "Sophomore") {
+          e = "2023";
+        } else if (currentYear.value === "Junior") {
+          e = "2022";
+        } else if (currentYear.value === "Senior") {
+          e = "2021";
+        }
+        console.log("btn clicked");
+        fetch("/add", {
           method: "POST",
           body: JSON.stringify({
-            id: modifyBtn.id,
-            yourname: inputs[0].value,
-            gender: inputs[1].value,
-            currentYear: inputs[2].value,
-            expectedYear: inputs[3].value
+            yourname: name.value,
+            gender: gender.value,
+            currentYear: currentYear.value,
+            expectedYear: e,
+            userId: userid
           }),
           headers: {
             "Content-Type": "application/json"
@@ -174,188 +333,149 @@
         })
           .then(response => response.json())
           .then(response => {
-            console.log(response.matchedCount);
+            console.log(response);
+            var i = response;
+            var div = document.createElement("div");
+            div.setAttribute("id", i);
+            // div.setAttribute("style","display:flex; flex-direction:row")
+
+            var gdiv = document.createElement("div");
+            // gdiv.setAttribute("style", "display:flex; flex-direction:row");
+            gdiv.setAttribute("id", i);
+            gdiv.classList = "row";
+
+            var deleteBtn = document.createElement("button");
+            deleteBtn.setAttribute("id", i);
+            deleteBtn.setAttribute("type", "button");
+            deleteBtn.setAttribute(
+              "style",
+              "width:100px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin-top:auto"
+            );
+            // deleteBtn.classList = "col-md-2";
+            deleteBtn.textContent = "delete";
+            deleteBtn.onclick = function() {
+              fetch("/delete", {
+                method: "POST",
+                body: JSON.stringify({ id: deleteBtn.id }),
+                headers: {
+                  "Content-Type": "application/json"
+                }
+              });
+              console.log("deleted");
+            };
+
+            var modifyBtn = document.createElement("button");
+            // modifyBtn.classList = "col-md-2";
+            modifyBtn.textContent = "modify";
+            modifyBtn.setAttribute("id", i);
+            modifyBtn.setAttribute("type", "button");
+            modifyBtn.setAttribute(
+              "style",
+              "width:100px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin-top:auto"
+            );
+
+            // var ndiv = document.createElement("div");
+            // ndiv.setAttribute("style", "margin:auto");
+            // var cdiv = document.createElement("div");
+            // cdiv.setAttribute("style", "margin:auto");
+            // var ediv = document.createElement("div");
+            // ediv.setAttribute("style", "margin:auto");
+            var g = gender.value;
+            var n = name.value;
+            var c = currentYear.value;
+            var e = "";
+            if (c === "Freshman") {
+              e = "2024";
+            } else if (c === "Sophomore") {
+              e = "2023";
+            } else if (c === "Junior") {
+              e = "2022";
+            } else if (c === "Senior") {
+              e = "2021";
+            }
+            var gbox = document.createElement("input");
+            gbox.setAttribute(
+              "style",
+              "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
+            );
+            gbox.classList = "col-md-2";
+            var nbox = document.createElement("input");
+            nbox.setAttribute(
+              "style",
+              "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
+            );
+            nbox.classList = "col-md-2";
+            var cbox = document.createElement("input");
+            cbox.setAttribute(
+              "style",
+              "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
+            );
+            cbox.classList = "col-md-2";
+            var ebox = document.createElement("input");
+            ebox.setAttribute(
+              "style",
+              "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
+            );
+            ebox.classList = "col-md-2";
+            gbox.value = g;
+            nbox.value = n;
+            cbox.value = c;
+            ebox.value = e;
+
+            gdiv.appendChild(nbox);
+            gdiv.appendChild(gbox);
+            gdiv.appendChild(cbox);
+            gdiv.appendChild(ebox);
+            gdiv.appendChild(deleteBtn);
+            gdiv.appendChild(modifyBtn);
+            // div.appendChild(gdiv);
+
+            // div.appendChild(gdiv);
+            // div.appendChild(cdiv);
+            // div.appendChild(ediv);
+
+            div.setAttribute("style", "display:flex; flex-direction:row");
+
+            modifyBtn.onclick = function() {
+              console.log("modify clicked");
+              var thisdiv = document.getElementById(modifyBtn.id);
+              var inputs = thisdiv.getElementsByTagName("input");
+              // console.log("yourname: ",inputs[0].value)
+
+              fetch("/modify", {
+                method: "POST",
+                body: JSON.stringify({
+                  id: modifyBtn.id,
+                  yourname: inputs[0].value,
+                  gender: inputs[1].value,
+                  currentYear: inputs[2].value,
+                  expectedYear: inputs[3].value,
+                  userId: userid
+                }),
+                headers: {
+                  "Content-Type": "application/json"
+                }
+              })
+                .then(response => response.json())
+                .then(response => {
+                  console.log(response.matchedCount);
+                });
+              // console.log(inputs[0].value);
+            };
+            var container = document.getElementById("container");
+            container.appendChild(gdiv);
+            container.appendChild(document.createElement("br"));
+
+            index += 1;
           });
-        console.log(inputs[0].value);
+        // console.log(currentYear.value)
       };
-      var container = document.getElementById("container");
-      container.appendChild(gdiv);
-      container.appendChild(document.createElement("br"));
-      }
-    })
-    
-    
-    
-    var submitBtn = document.getElementById("submitBtn");
-var index = 0;
-submitBtn.onclick = function() {
-  var name = document.querySelector("#yourname");
-  var gender = document.querySelector("#select");
-  var currentYear = document.querySelector("#currentYear");
-  var e = "";
-  if (currentYear.value === "Freshman") {
-    e = "2024";
-  } else if (currentYear.value === "Sophomore") {
-    e = "2023";
-  } else if (currentYear.value === "Junior") {
-    e = "2022";
-  } else if (currentYear.value === "Senior") {
-    e = "2021";
-  }
-  console.log("btn clicked");
-  fetch("/add", {
-    method: "POST",
-    body: JSON.stringify({
-      yourname: name.value,
-      gender: gender.value,
-      currentYear: currentYear.value,
-      expectedYear: e
-    }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-    .then(response => response.json())
-    .then(response => {
-      console.log(response);
-      var i = response;
-      var div = document.createElement("div");
-      div.setAttribute("id", i);
-      // div.setAttribute("style","display:flex; flex-direction:row")
 
-      var gdiv = document.createElement("div");
-      // gdiv.setAttribute("style", "display:flex; flex-direction:row");
-      gdiv.setAttribute("id", i);
-    gdiv.classList="row"
-
-      var deleteBtn = document.createElement("button");
-      deleteBtn.setAttribute("id", i);
-      deleteBtn.setAttribute("type", "button");
-      deleteBtn.setAttribute(
-        "style",
-        "width:100px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin-top:auto"
-      );
-    deleteBtn.classList="col-md-2"
-      deleteBtn.textContent = "delete";
-      deleteBtn.onclick = function() {
-        fetch("/delete", {
-          method: "POST",
-          body: JSON.stringify({ id: deleteBtn.id }),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-        console.log("deleted");
+      var gologout = document.getElementById("goLogout");
+      gologout.onclick = function() {
+        console.log("logged out");
+        window.location.href = "/logout";
       };
-      var modifyBtn = document.createElement("button");
-    modifyBtn.classList="col-md-2"
-      modifyBtn.textContent = "modify";
-      modifyBtn.setAttribute("id", i);
-      modifyBtn.setAttribute("type", "button");
-      modifyBtn.setAttribute(
-        "style",
-        "width:100px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin-top:auto"
-      );
-
-      // var ndiv = document.createElement("div");
-      // ndiv.setAttribute("style", "margin:auto");
-      // var cdiv = document.createElement("div");
-      // cdiv.setAttribute("style", "margin:auto");
-      // var ediv = document.createElement("div");
-      // ediv.setAttribute("style", "margin:auto");
-      var g = gender.value;
-      var n = name.value;
-      var c = currentYear.value;
-      var e = "";
-      if (c === "Freshman") {
-        e = "2024";
-      } else if (c === "Sophomore") {
-        e = "2023";
-      } else if (c === "Junior") {
-        e = "2022";
-      } else if (c === "Senior") {
-        e = "2021";
-      }
-      var gbox = document.createElement("input");
-      gbox.setAttribute(
-        "style",
-        "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
-      );
-    gbox.classList="col-md-2"
-      var nbox = document.createElement("input");
-      nbox.setAttribute(
-        "style",
-        "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
-      );
-    nbox.classList="col-md-2"
-      var cbox = document.createElement("input");
-      cbox.setAttribute(
-        "style",
-        "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
-      );
-    cbox.classList="col-md-2"
-      var ebox = document.createElement("input");
-      ebox.setAttribute(
-        "style",
-        "width:150px; height:50px; font-size:24px; border-radius:6px; display:inline-block;margin:auto"
-      );
-    ebox.classList="col-md-2"
-      gbox.value = g;
-      nbox.value = n;
-      cbox.value = c;
-      ebox.value = e;
-
-      gdiv.appendChild(nbox);
-      gdiv.appendChild(gbox);
-      gdiv.appendChild(cbox);
-      gdiv.appendChild(ebox);
-      gdiv.appendChild(deleteBtn);
-      gdiv.appendChild(modifyBtn);
-      // div.appendChild(gdiv);
-
-      // div.appendChild(gdiv);
-      // div.appendChild(cdiv);
-      // div.appendChild(ediv);
-
-      div.setAttribute("style", "display:flex; flex-direction:row");
-
-      modifyBtn.onclick = function() {
-        console.log("modify clicked");
-        var thisdiv = document.getElementById(modifyBtn.id);
-        var inputs = thisdiv.getElementsByTagName("input");
-        fetch("/modify", {
-          method: "POST",
-          body: JSON.stringify({
-            id: modifyBtn.id,
-            yourname: inputs[0].value,
-            gender: inputs[1].value,
-            currentYear: inputs[2].value,
-            expectedYear: inputs[3].value
-          }),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
-          .then(response => response.json())
-          .then(response => {
-            console.log(response.matchedCount);
-          });
-        console.log(inputs[0].value);
-      };
-      var container = document.getElementById("container");
-      container.appendChild(gdiv);
-      container.appendChild(document.createElement("br"));
-
-      index += 1;
-    });
-  // console.log(currentYear.value)
-};
-
-    var gologout = document.getElementById("goLogout")
-gologout.onclick = function(){
-  console.log("logged out")
-  window.location.href="/logout"
-}
-  }
+    };
   </script>
 </html>
