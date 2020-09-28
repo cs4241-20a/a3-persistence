@@ -72,7 +72,7 @@ passport.use(new GitHubStrategy({
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
   callbackURL: `${
     process.env.DOMAIN === "localhost" ? "http" : "https"
-  }://${process.env.DOMAIN}:${process.env.PORT}/auth/github/callback`
+  }://${process.env.DOMAIN}/auth/github/callback`
 },
 function(accessToken, refreshToken, profile, cb) {
   // User.findOrCreate({ githubId: profile.id }, function (err, user) {
