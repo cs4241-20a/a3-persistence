@@ -86,12 +86,16 @@ Express Middleware:
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the CRAP principles from the Non-Designer's Design Book.
-  * Contrast: 
+  * Contrast: My website overall is fairly plain. I stuck to mostly black, white, and grey because I feel that it contributes to a clean and uncluttered feel. I chose to emphasize only the "action" buttons
+  (for adding, deleting, and editing a recipe) because these actions are what the site is all about. Not only are these buttons notably larger than other buttons and components and separated vertically somewhat
+  from other components, they are also the only brightly-colored elements on the site. My goal was to make it very clear to the user what the purpose of each form was immediately upon loading the page.
   * Repetition: I re-used as many similar elements as possible in designing my frontend. I used Bootstrap CSS as my CSS framework, which comes with components that already have a fairly unified design -
-  smooth, clean-feeling font and rounded 
+  smooth, clean-feeling font and rounded borders for most components.
   I made use of Card elements in almost every page - each recipe in the "My Recipes" and "All Recipes" page is its own card, as well as the forms for adding a new recipe. I also reused the same layout for
-  adding and editing a recipe, with minor functional changes via ejs templating, to keep them consistent. Finally, the "action" buttons (for adding, editing, or deleting a recipe) are all the same size
-  and brightly colored to remain consistent.
-  * Repetition
+  adding and editing a recipe, with minor functional changes via ejs templating, to keep them consistent. Finally, the "action" buttons are all the same size
+  and brightly colored.
+  * Alignment
+  I used Bootstrap's container, column and row system to align my UI elements. By default, elements within a container will be centered horizontally on the page
+  * Proximity
 
 
