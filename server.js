@@ -22,16 +22,22 @@ app.use(cors());
 let logfile = fs.createWriteStream("serverRequests.log");
 app.use(morganLogger('common', {stream: logfile}));
 
-//Set up Passport for Github authentication
+//Set up Passport for Github authentication based on Passport documentation:
+//http://www.passportjs.org/docs/configure/
 app.use(passport.initialize());
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+});
 
-passport.serializeUser(function(user, cb) {
+passport.deserializeUser(function(id, done) {
+    done(null, id);
+});
+/*passport.serializeUser(function(user, cb) {
     cb(null, user);
 });
-
 passport.deserializeUser(function(obj, cb) {
     cb(null, obj);
-});
+});*/
 
 let GitHubStrategy = require('passport-github').Strategy;
 passport.use("github", new GitHubStrategy({
@@ -53,13 +59,22 @@ app.get('/auth/github/callback', passport.authenticate('github'),
     }
 );
 
+/*
 app.get('/login', passport.authenticate('github', { failureRedirect: '/login' }, function(request, response){
     response.sendFile("./public/login.html", {root: "./" }, function(error){
         if(error){
-            console.log("Error occurred sending file: " +error);
+            console.log("Error occurred sending login.html: " +error);
         }
     });
 }));
+*/
+app.get("/app", function(request, response){
+    response.sendFile("./public/app.html", {root: "./"}, function(error){
+        if(error){
+            console.log("Error occurred sending app.html: " +error);
+        }
+    });
+})
 
 app.post("/signin", bodyParser.json(), function(request, response){
     //console.log(JSON.stringify(request));
@@ -93,12 +108,12 @@ const handleUser = function(username, isGithub, password, response){
             if(result.length === 1) {
                 getUserDbInfo(user.username).then(function(result){
                     console.log("User: " + username + " has signed in.");
-                    response.redirect("/");
+                    response.redirect("/app");
                 });
             }else{
                 console.log("new user: " +username +" signing in.");
                 addNewDbUser(user).then(function(results){
-                    response.redirect("/");
+                    response.redirect("/app");
                     response.statusCode = 201;
                 });
             }
@@ -155,32 +170,6 @@ const getUserDbInfo = function(username){
             }
         });
     });
-    /*
-    totals.find({username: username}).toArray(function(error, result){
-        if(error){
-            console.log("Unable to retrieve number of entries on server startup.");
-        }else if(result.length !== 4){
-            console.log("Found unexpected number of totals on server startup: " +result.length);
-        }else {
-            totalKills = result[0].amount;
-            totalAssists = result[1].amount;
-            totalDeaths = result[2].amount;
-            numEntries = result[3].amount;
-        }
-    });
-    let avgs = client.db("FPS_Stats").collection("averages");
-    avgs.find({username: username}).toArray(function(error, result){
-        if(error){
-            console.log("Unable to retrieve averages on server startup.");
-        }else if(result.length !== 3){
-            console.log("Found unexpected number of averages on server startup: " +result.length);
-        }else {
-            avgKills = result[0].amount;
-            avgAssists = result[1].amount;
-            avgDeaths = result[2].amount;
-        }
-    });
-    */
 }
 
 const addNewDbUser = function(user){

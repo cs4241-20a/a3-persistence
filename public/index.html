@@ -1,147 +1,23 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>CS4241 Assignment 2</title>
+        <title>FPS Stat Calculator - Login</title>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link type="text/css" rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
         <script src="js/scripts.js"></script>
     </head>
-    <body onload="getLatestResults()">
-        <h1 class="title has-text-centered">FPS Stat Calculator</h1>
-        <div class="columns is-centered">
-
-            <!-- First Column -->
-            <div class="column is-one-fifth">
-                <!-- Form for adding an item -->
-                <form class="app-item, container is-bordered" id="add">
-                    <h3 class="heading">Add new stats</h3>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label class="label" for="kills">Kills</label>
-                        </div>
-                        <div class="field-body">
-                            <input class="field-body input is-inline" type="text" id="kills">
-                        </div>
-                    </div>
-
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label class="label" for="assists">Assists</label>
-                        </div>
-                        <div class="field-body">
-                            <input class="field-body input is-inline" type="text" id="assists">
-                        </div>
-                    </div>
-
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label class="label" for="deaths">Deaths</label>
-                        </div>
-                        <div class="field-body">
-                            <input class="field-body input is-inline" type="text" id="deaths">
-                        </div>
-                    </div>
-                    <button class="button is-success is-block" type="button" onclick="handle_add()">Add</button>
-                </form>
-                <br>
-                <!-- Form for modify a row in the table -->
-                <form class="app-item" id="modify">
-                    <h3 class="heading">Modify selected row of stats</h3>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label class="label" for="modify_kills">Kills</label>
-                        </div>
-                        <div class="field-body">
-                            <input class="field-body input is-inline" type="text" id="modify_kills">
-                        </div>
-                    </div>
-
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label class="label" for="modify_assists">Assists</label>
-                        </div>
-                        <div class="field-body">
-                            <input class="field-body input is-inline" type="text" id="modify_assists">
-                        </div>
-                    </div>
-
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label class="label" for="modify_deaths">Deaths</label>
-                        </div>
-                        <div class="field-body">
-                            <input class="field-body input is-inline" type="text" id="modify_deaths">
-                        </div>
-                    </div>
-                    <button class="button is-info is-block" type="button" onclick="handle_modify()">Modify</button>
-                </form>
-                <br>
-                <!-- Form for deleting a row in the table -->
-                <form class="app-item" id="delete">
-                    <h3 class="heading">Delete selected row of stats</h3>
-                    <button class="button is-danger" type="button" onclick="handle_delete()">Delete</button>
-                </form>
-            </div>
-
-            <!-- Second Column -->
-            <div class="column is-one-third">
-                <!-- Table for displaying all stats from each game -->
-                <table class="table is-bordered" id="results_list">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <!--<th>ID #</th>-->
-                            <th>Kills</th>
-                            <th>Assists</th>
-                            <th>Deaths</th>
-                            <th>K/D Ratio</th>
-                            <th>A/D Ratio</th>
-                        </tr>
-                    </thead>
-                    <!-- This body will be replaced with a new one whenever
-                    the content of the table is updated -->
-                    <tbody></tbody>
-                </table>
-            </div>
-
-            <div class="column is-one-fifth">
-                <!-- Table that displays total and average of each stat -->
-                <table class="table is-bordered" id="total_avg_results">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Total</th>
-                        <th>Average</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Kills</td>
-                        <td id="total_kills">0</td>
-                        <td id="avg_kills">0</td>
-                    </tr>
-                    <tr>
-                        <td>Assists</td>
-                        <td id="total_assists">0</td>
-                        <td id="avg_assists">0</td>
-                    </tr>
-                    <tr>
-                        <td>Deaths</td>
-                        <td id="total_deaths">0</td>
-                        <td id="avg_deaths">0</td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <div class="button_container">
-                    <!-- Lets user download all table data as a .csv file -->
-                    <button class="button is-link" id="download_button" type="button" onclick="handle_csv()">Download as CSV</button>
-                    <button class="button is-primary" id="clear_button" type="button" onclick="handle_clear()">Clear Stats</button>
-                </div>
-            </div>
-
-        </div><!--End of columns-->
+    <body>
+        <h1>Login with Github</h1>
+        <a href="/auth/github/callback">Login</a>
+        <br><br><strong>OR</strong><br><br>
+        <h1>Sign in with FPS Stat Calculator account:</h1>
+        <form id="login_form">
+            <label for="username_input">Username: </label>
+            <input type="text" id="username_input">
+            <label for="password_input">Password: </label>
+            <input type="text" id="password_input">
+        </form>
+        <button id="login_button" onclick="handle_login()">Log In</button>
     </body>
 </html>
