@@ -31,8 +31,8 @@ client.connect(err => {
 passport.use(new GitHubStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/index.html"
-    // callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+    // callbackURL: "https://cs4518-assignment3.herokuapp.com"
+    callbackURL: "http://127.0.0.1:3000/auth/github/callback"
 },
     function (accessToken, refreshToken, profile, cb) {
         User.findOrCreate({ githubId: profile.id }, function (err, user) {
