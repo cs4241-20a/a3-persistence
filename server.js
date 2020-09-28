@@ -149,10 +149,10 @@ app.get('/recipes/edit', isAuthenticated, (req, res) => {
 })
 
 app.post('/recipes/edit', isAuthenticated, bodyParser.json(), (req, res) => {
-  console.log(req.body);
+  req.body.userID = req.user.id;
   API.updateRecipe(req.user.id, req.body)
-  .then((err, doc) => {
-    console.log(doc)
+  .then((doc) => {
+    console.log("UPDATE DOC: ", doc)
     res.send("Recipe updated!")
   })
 })
