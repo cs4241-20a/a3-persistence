@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <a href="" class="logo">Simple Habit Tracker</a>  <a href ="/auth" > <button  class="primary" id="githubLoginBtn">Login with Github</button></a>
+    </header>
+    <div class="container">
+      <div class="row">
+        
+        <div class="col-lg-4 col-md-6 col-sm-12" id="createHabitForm">
+          <h3 id="helloMsg">
+          
+        </h3><br>
+          <form action="">
+            <h3>
+              I will
+              <input type="text" id="task" value="your new habit" /> every day
+              for next <input type="text" id="weeks" value="4" />
+              weeks.
+            </h3>
+            <br />
+            <button class="primary" id="submitBtn">
+              Start a new habit today!
+            </button>
+          </form>
+        </div>
+        <div class="col-sm-8 col-md-6 col-sm-12" id="habitView"></div>
+      </div>
+    </div>
+  </body>
+  <script src="/script.js"></script>
+</html>
