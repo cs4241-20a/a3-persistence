@@ -118,7 +118,11 @@ let pickems = {
 
 let leftPick;
 let rightPick;
+let modifyB;
+let deleteB;
+let altFuncsContainer;
 let username = "";
+let userHasPickems = false;
 
 function getTeamBySeed(seed){
     return teams[seed-1]
@@ -139,11 +143,12 @@ function makePick(team, matchNum){
         leftPick.innerHTML = "Team 1";
         rightPick.innerHTML = "Team 2";
         document.getElementById("pickem").style.display = "none";
+        document.getElementById("altFuncs").style.display = "flex";
     }
 }
 
 function initPicks(matchNum){
-    
+    document.getElementById("pickem").style.display = "flex";
     let teamL = getTeamByPlace(matches[matchNum].player1);
     let teamR = getTeamByPlace(matches[matchNum].player2);
 
@@ -160,8 +165,19 @@ function initPicks(matchNum){
 }
 
 function updatePickems(){
+    let cell = null;
+    for (let i = 1; i < 5; i++){
+        if (i<3){
+            cell = document.getElementById("final"+i);
+            cell.innerHTML = "Final";
+        }
+        cell = document.getElementById("semi"+i);
+        cell.innerHTML = "Semis";
+    }
+    cell = document.getElementById("winner");
+    cell.innerHTML = "Winner"
     Object.keys(pickems).forEach(function(key) {
-        let cell = document.getElementById(key);
+        cell = document.getElementById(key);
         cell.innerHTML = pickems[key].shortName;
     })
 }
@@ -182,8 +198,8 @@ function sendPickems(){
         })
 }
 
-function fetchAndUpdatePickems(){
-    fetch('/db', {
+async function fetchAndUpdatePickems(){
+    return fetch('/db', {
         method:'POST',
         body:JSON.stringify({
             username: username
@@ -193,22 +209,101 @@ function fetchAndUpdatePickems(){
         }
     }).then( response => response.json())
         .then( json => {
+            // if the pickems in the server is empty then we want to have 
+            // an empty default pickems displayed
             if (json.pickem) {
+                console.log("here")
+                userHasPickems = true;
                 pickems = json.pickem
                 updatePickems()
             }   
         })
+    
+}
+
+
+function modifyPicks(){
+    pickems = {
+        "seed1": getTeamBySeed(1),
+        "seed2": getTeamBySeed(2),
+        "seed3": getTeamBySeed(3),
+        "seed4": getTeamBySeed(4),
+        "seed5": getTeamBySeed(5),
+        "seed6": getTeamBySeed(6),
+        "seed7": getTeamBySeed(7),
+        "seed8": getTeamBySeed(8),
+    }
+
+    userHasPickems = false;
+    updatePickems()
+    init();
+}
+
+async function deletePicks(){
+    pickems = {
+        "seed1": getTeamBySeed(1),
+        "seed2": getTeamBySeed(2),
+        "seed3": getTeamBySeed(3),
+        "seed4": getTeamBySeed(4),
+        "seed5": getTeamBySeed(5),
+        "seed6": getTeamBySeed(6),
+        "seed7": getTeamBySeed(7),
+        "seed8": getTeamBySeed(8),
+    }
+    return fetch('/delete', {
+        method:'POST',
+        body:JSON.stringify({
+            username: username,
+            pickdata: pickems
+        }),
+        headers : {
+            "Content-Type":"application/json"
+        }
+    }).then( response => response.json())
+        .then( json => {
+
+            userHasPickems = false;
+            init();
+        })
+}
+
+
+function hidePickemUI(){
+    leftPick.onclick = function(){}
+    rightPick.onclick = function(){}
+    leftPick.innerHTML = "Team 1";
+    rightPick.innerHTML = "Team 2";
+    document.getElementById("pickem").style.display = "none";
 }
 
 
 function init(){
     leftPick  = document.getElementById("team1");
     rightPick = document.getElementById("team2");
+    modifyB   = document.getElementById("modify");
+    deleteB   = document.getElementById("delete");
+    altFuncsContainer = document.getElementById("altFuncs");
+
+    modifyB.onclick = function(){
+        modifyPicks();
+    }
+    deleteB.onclick = async function(){
+        await deletePicks();
+    }
+
+    if (!userHasPickems) {
+        altFuncsContainer.style.display = "none";
+        initPicks(0)
+    }
+    else {
+        hidePickemUI();
+    }
+
     updatePickems();
-    initPicks(0)
+    
 }
 
-window.onload = function(){
+window.onload = async function(){
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     username = urlParams.get('username');
@@ -217,8 +312,8 @@ window.onload = function(){
         alert("An account with that username was not found so one was created")
     }
     else {
-        fetchAndUpdatePickems();
+        await fetchAndUpdatePickems();
     }
-
+    console.log(userHasPickems)
     init()
 };

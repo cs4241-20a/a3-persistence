@@ -1,8 +1,13 @@
 
 
 const express = require( 'express' )
+const fs = require( 'fs' )
+const path = require( 'path' )
 const bodyParser = require( 'body-parser' )
 const mongodb = require('mongodb')
+const compression = require('compression')
+const helmet = require('helmet')
+const morgan = require('morgan')
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
@@ -10,11 +15,14 @@ if (process.env.NODE_ENV !== 'production') {
 const MongoClient = mongodb.MongoClient;
 app     = express()
 
-const tempData = [
-    "test"
-]
 
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
 
+// setup the logger
+app.use(morgan('tiny', { stream: accessLogStream }))
+
+app.use(compression())
+app.use(helmet())
 
 const uri = `mongodb+srv://tlarson:${process.env.MONGOPASS}@cluster0.wh7oc.mongodb.net/a3db?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true });
@@ -30,7 +38,7 @@ client.connect(err => {
 app.use( express.static('./'))
 
 app.get( "/", (request, response) => {
-    response.sendFile(__dirname + "/views/index.html")
+    response.sendFile(__dirname + "/views/login.html")
 })
 
 app.post( "/db", bodyParser.json(), (request, response) => {
@@ -58,14 +66,19 @@ app.post( "/verify", bodyParser.json(), (request, response) => {
 })
 
 app.post( "/add", bodyParser.json(), (request, response) => {
-    //console.log(request.body)
     collection.findOneAndUpdate({username:request.body.username}, 
                                 {$set: {pickem:request.body.pickdata}})
         .then(dbresponse => {
-            //console.log(dbresponse)
             response.json(dbresponse)
     }).catch(err=>console.error(err))
-    //response.json(tempData)
+})
+
+app.post( "/delete", bodyParser.json(), (request, response)=>{
+    collection.findOneAndUpdate({username:request.body.username}, 
+                                 {$unset: {pickem:1}})
+        .then(dbresponse => {
+        response.json(dbresponse)
+    }).catch(err=>console.error(err))
 })
 
 const listener = app.listen(process.env.PORT, () => {

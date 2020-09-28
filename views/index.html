@@ -5,87 +5,91 @@
     <meta charset="utf-8">
     
     <link rel="stylesheet" href="../public/style/style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <link rel="stylesheet" href="https://unpkg.com/marx-css/css/marx.min.css">
     <script  src="../public/scripts/script.js"></script>
     
   </head>
   
   <body>
-    <table>
+    <table class = "container">
         <tr>
-          <td id = "seed1">team 1</td>
+          <td id = "seed1" class = "team">team 1</td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
-          <td id = "seed5">team 5</td>
+          <td id = "seed5" class = "team">team 5</td>
         </tr>
    
         <tr>
           <td></td>
-          <td id = "semi1">team 1</td>
+          <td id = "semi1" class = "team">team 1</td>
           <td></td>
           <td></td>
           <td></td>
-          <td id = "semi3">team 5</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td id = "seed2">team 2</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td id = "seed6">team6</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td id = "final1">team 1</td>
-          <td></td>
-          <td id = "final2">team 5</td>
-          <td></td>
+          <td id = "semi3" class = "team">team 5</td>
           <td></td>
         </tr>
         <tr>
-          <td id = "seed3">team 3</td>
+          <td id = "seed2" class = "team">team 2</td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
-          <td id = "seed7">team 7</td>
+          <td id = "seed6" class = "team">team6</td>
         </tr>
         <tr>
           <td></td>
-          <td id = "semi2">team 3</td>
           <td></td>
-          <td id = "winner">team 1</td>
+          <td id = "final1" class = "team">team 1</td>
           <td></td>
-          <td id = "semi4">team 7</td>
+          <td id = "final2" class = "team">team 5</td>
+          <td></td>
           <td></td>
         </tr>
         <tr>
-          <td id = "seed4">team 4</td>
+          <td id = "seed3" class = "team">team 3</td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
-          <td id = "seed8">team 8</td>
+          <td id = "seed7" class = "team">team 7</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td id = "semi2" class = "team">team 3</td>
+          <td></td>
+          <td id = "winner" class = "team">team 1</td>
+          <td></td>
+          <td id = "semi4" class = "team">team 7</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td id = "seed4" class = "team">team 4</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td id = "seed8" class = "team">team 8</td>
         </tr>
       </table>
 
-    <div id = "pickem">
+    <div id = "pickem" class = "container">
       <p>Who will win?</p>
       <button id = "team1">Test1</button>
       <span>vs.</span>
       <button id = "team2">Test2</button>
     </div>
 
+    <div id = "altFuncs" class = "container">
+        <button id = "modify">Update My Pickems</button>
+        &nbsp;
+        <button id = "delete">Delete My Pickems</button>
+    </div>
 
     <!--<table  id = "leaderboard">
       <thead>
