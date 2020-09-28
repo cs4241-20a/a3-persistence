@@ -50,10 +50,18 @@ app.get('/auth/github/callback',
     console.log(req.user.profile.username)
     collection.findOne({username: req.user.profile.username}).then(result =>{
         let newUser = "false"
-        if (result != null) newUser = "true"
+        if (result != null){
+            newUser = "true"
+            res.redirect(
+                `/views/index.html?username=${req.user.profile.username}&newUser=${newUser}`)
+        } 
+        else {
 
-        res.redirect(
-            `/views/index.html?username=${req.user.profile.username}&newUser=${newUser}`)
+            collection.insertOne({username:req.user.profile.username}).then(() => {
+                res.redirect(
+                    `/views/index.html?username=${req.user.profile.username}&newUser=${newUser}`)
+            })
+        }
     })
   });
 
