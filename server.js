@@ -81,7 +81,7 @@ passport.use(new GitHubStrategy({
   }
 ));
 
-// referenced: https://stackoverflow.com/questions/19948816/passport-js-error-failed-to-serialize-user-into-session
+
 passport.serializeUser(function (user, done) {
     done(null, user);
 });
@@ -109,7 +109,6 @@ function setUserSession(request, username) {
 app.get("/", (request, response) => {
     console.log("Got request for webpage");
     response.sendFile(__dirname + "/public/login.html")
-    //response.redirect(`https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}`);
 });
 
 app.get('/auth/github',
@@ -129,15 +128,16 @@ app.get('/auth/github/callback',
     res.redirect('/getData');
   });
 
+
 app.post("/login", bodyParser.json(),
     passport.authenticate('local', { failureFlash: false }),
     function (request, response) {
-        //response.json({ username: request.username });
         let userName = request.body.username;
         setUserSession(request, userName);
         response.redirect("/getData");
     }
 );
+
 
 app.post("/signUp", bodyParser.json(), (request, response) => {
     console.log("Got request for main webpage");
