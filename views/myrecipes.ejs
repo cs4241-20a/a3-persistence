@@ -43,14 +43,11 @@
                     recipes: []
                 },
                 methods: {
-                  deleteRecipe: function(id) {
-                    console.log("Deleting ", id)
-                  },
-                  editRecipe: function(id) {
-                    console.log("Editing ", id)
+                  deleteRecipe: function(recipeID) {
+                    console.log("Deleting ", recipeID)
                   }
                 },
-                created: function() {
+              created: function() {
                     fetch('/recipes/data?userID=<%= userID %>')
                     .then( res => res.json())
                     .then( data => {
@@ -58,6 +55,7 @@
                         console.log(data)
                     })
                 }
+            }
             })
 
     </script>

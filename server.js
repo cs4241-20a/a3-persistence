@@ -156,8 +156,7 @@ app.post('/recipes/add', isAuthenticated, bodyParser.json(), (req, res) => {
 })
 
 app.post('/recipes/delete', isAuthenticated, bodyParser.json(), (req, res) => {
-  req.body.userID = req.user.id;
-  API.tryDelete(req.body.)
+  API.tryDelete(req.body.userID, req.body.recipeID)
   .then(res.send("Deleted recipe!"))
 })
 
