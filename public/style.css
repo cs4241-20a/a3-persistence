@@ -1,0 +1,79 @@
+/*Style your own assignment! This is fun! */
+
+@import url('https://fonts.googleapis.com/css?family=Lato');
+body {
+    font-family: "Lato";
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.8);
+    padding: 1px;
+}
+p {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+h1 {
+    text-align: center;
+    color: red;
+    border: red;
+    border-radius: 10px;
+    margin-left: 20%;
+    margin-right: 20%;
+    border: double;
+}
+#WelcomeText {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 5%;
+}
+
+
+table, th, td {
+    border: 1px solid black;
+    margin-top: 20px;
+    padding: 2px;
+    align-items: center;
+}
+
+
+.center {
+    justify-content: center;
+    display:flex;
+}
+
+.poststart {
+    justify-content: center;
+}
+
+#submitbtn {
+    color: red;
+    background-color: black;
+}
+
+#delbox {
+    width: 40px;
+    height: 40px;
+}
+#delname {
+    width: 20%;
+}
+
+#deling button {
+    color:red;
+}
+
+#modifying {
+    margin-top: 15px;
+}
+
+#modname {
+    width: 20%;
+}
+
+#modscore {
+    width: 7%;
+}
+
+#modseconds {
+    width: 10%;
+}
