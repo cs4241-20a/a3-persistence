@@ -8,45 +8,79 @@ const app = express();
 const bodyparser = require("body-parser");
 
 /* PASSPORT ADDITIONS */
-app.get('/', (req, res) => res.sendFile('/views/auth.html', { root : __dirname}));
-
 const passport = require('passport');
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-app.get('/error', (req, res) => res.send("error logging in"));
-
-passport.serializeUser(function(user, cb) {
-  cb(null, user);
-});
-
-passport.deserializeUser(function(obj, cb) {
-  cb(null, obj);
-});
 
 const GitHubStrategy = require('passport-github').Strategy;
 
 passport.use(new GitHubStrategy({
     clientID: "688884ca4b9f79df989c",
     clientSecret: "99992c13b5dc0c95d2d30aff167d632066c4b28f",
-    callbackURL: "/auth/github/callback"
+    callbackURL: "/return"
   },
   function(accessToken, refreshToken, profile, cb) {
+      console.log(profile)
       return cb(null, profile);
   }
 ));
 
+passport.serializeUser(function(user, cb) {
+    cb(null, user);
+  });
+  
+passport.deserializeUser(function(obj, cb) {
+    cb(null, obj);
+});
+
+
+app.use(require('morgan')('combined'));
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 app.get('/auth/github',
+passport.authenticate('github'));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/', 
+(req, res) => res.sendFile('/views/auth.html', { root : __dirname, user: req.user}),
+require('connect-ensure-login').ensureLoggedIn(),
+);
+
+app.get('/home', 
+(req, res) => res.sendFile('/views/index.html', { root : __dirname, user: req.user}),
+require('connect-ensure-login').ensureLoggedIn(),
+);
+
+// app.get('/',
+//   function(req, res) {
+//     res.render('/views/index', { root : __dirname, user: req.user});
+//   });
+
+// app.get('/login',
+//   function(req, res){
+//     res.render('login');
+//   });
+
+  app.get('/auth/github',
   passport.authenticate('github'));
 
-app.get('/success', (req, res) => res.sendFile('/views/index.html', { root : __dirname}));
+let userID;
 
-app.get('/auth/github/callback',
+app.get('/return',
   passport.authenticate('github', { failureRedirect: '/error' }),
+  require('connect-ensure-login').ensureLoggedIn(),
   function(req, res) {
-    res.redirect('/success');
+    userID = req.user.id
+    // console.log("user ID:", userID);
+    res.redirect('/home');
   });
+
+//   app.get('/profile',
+//   require('connect-ensure-login').ensureLoggedIn(),
+//   function(req, res){
+//     res.render('profile', { user: req.user });
+//   });
 
 /* END OF PASSPORT ADDITIONS */
 
@@ -69,7 +103,7 @@ const MongoClient = mongodb.MongoClient;
 
 DBPASSWORD = "9PYnye8sGzxBISC4"
 // const uri = `mongodb+srv://test-user:${process.env.DBPASSWORD}@cluster0.ys3tz.mongodb.net/<dbname>?retryWrites=true&w=majority`;
-const uri = `mongodb+srv://test-user:9PYnye8sGzxBISC4@cluster0.ys3tz.mongodb.net/<dbname>?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://test-user:9PYnye8sGzxBISC4@cluster0.ys3tz.mongodb.net/datatest?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -81,7 +115,7 @@ client.connect(err => {
 
 /* get all dreams on initial load */
 app.get("/dreams", (request, response) => {
-  collection.find({ user: request.params.user }).toArray((err, docs) => {
+  collection.find({ user: userID }).toArray((err, docs) => {
     if (err) {
       // if an error happens
       response.send("Error in GET req.");
@@ -95,6 +129,9 @@ app.get("/dreams", (request, response) => {
 
 app.post("/add", bodyparser.json(), function(req, res) {
   console.log("body: ", req.body);
+  req.body.user = userID;
+  console.log("body: ", req.body);
+
   collection.insertOne(req.body).then(dbresponse => {
     res.json(dbresponse.ops[0]);
     console.log(dbresponse.ops[0]);

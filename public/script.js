@@ -8,28 +8,6 @@ const dreamsList = document.getElementById("dreams");
 const dreamsTable = document.getElementById("dreams2");
 const dreamsForm = document.querySelector("form");
 
-// a helper function that creates a list item for a given dream
-// function appendNewDream(dreamItem, id) {
-//   const newListItem = document.createElement("li");
-//   newListItem.innerText = dreamItem.dream;
-
-//   /* when a list item is clicked, delete that item from the db */
-//   newListItem.onclick = function() {
-//     fetch("/delete", {
-//       method: "POST",
-//       body: JSON.stringify({ id }),
-//       headers: {
-//         "Content-Type": "application/json"
-//       }
-//     })
-//       .then(response => response.json())
-//       .then(json => {
-//         newListItem.remove()
-//       });
-//   };
-//   dreamsList.appendChild(newListItem);
-// }
-
 //helper fucntion that creates a table row for a given dream
 function appendNewDreamRow(dreamItem, id) {
   const newTableItem = document.createElement("tr");
@@ -76,7 +54,6 @@ function appendNewDreamRow(dreamItem, id) {
       });
   };
   
-  
   dreamsTable.appendChild(newTableItem);
 }
 
@@ -86,13 +63,11 @@ fetch("/dreams", {
 })
   .then(response => response.json()) // parse the JSON from the server
   .then(dreams => {
-    // remove the loading text
-    // dreamsList.firstElementChild.remove();
-
+ 
     // iterate through every dream and add it to our page
     dreams.forEach(appendNewDreamRow);
-  })
-  .catch(error => alert(error.message));
+  });
+//   .catch(error => alert(error.message));
 
 // listen for the form to be submitted and add a new dream when it is
 dreamsForm.addEventListener("submit", event => {
@@ -102,7 +77,8 @@ dreamsForm.addEventListener("submit", event => {
   // get dream value and add it to the list
   let newDream = dreamsForm.elements.dream.value;
   let numScoops = dreamsForm.elements.numScoops.value;
-  console.log( dreamsForm.elements.sprinkles.isChecked)
+ 
+//   console.log( dreamsForm.elements.sprinkles.isChecked)
   // let sprinklesChoice = dreamsForm.elements.sprinkles.value;
   let sprinklesChoice
   if(dreamsForm.elements.sprinkles.checked){
@@ -120,7 +96,6 @@ dreamsForm.addEventListener("submit", event => {
   })
     .then(response => response.json())
     .then(json => {
-      // appendNewDream(json.dream, json._id);
       appendNewDreamRow(json, json._id);
     });
   // reset form
