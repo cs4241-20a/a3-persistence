@@ -2,15 +2,21 @@
 <!--Main login page-->
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>a3-persistence</title>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
-    <script href="../public/scripts.js"></script>
+    <link rel="stylesheet" type="text/css" href="public/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+      integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ"
+      crossorigin="anonymous"
+    />
+    <script href="public/scripts.js"></script>
   </head>
   <body>
     <h1>Training Log</h1>
     <hr />
-    <form id="input" action="submit">
+    <form id="input">
       <label for="inputRoute">Route Name</label>
       <input type="text" id="inputRoute" value="" /><br />
       <label for="inputTime">Time (only in whole minutes)</label>
@@ -18,7 +24,9 @@
       <label for="inputDistance">Distance (in miles)</label>
       <input type="text" id="inputDistance" value="" /><br />
       <p></p>
-      <button>Submit</button>
+      <button class="pure-button button-add">Add</button>
+      <button class="pure-button button-update">Update</button>
+      <button class="pure-button button-delete">Delete</button>
     </form>
     <hr />
     <table>
