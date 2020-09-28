@@ -1,82 +1,81 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
+# Gabe's Persistent Coursework TODO List
+- https://a3-gabriel-aponte.herokuapp.com/
+- This website is a nice and simple way for us to keep track of class assignments and project deadlines!
+- The goal of this version of the website was to allow users to login to their own account and access their own personal TODO lists. Another goal that has been met is to make the data persistent, which it now does via MongoDB.
+- The users can login with their own creative user name and password or via GitHub with OAuth. I choose to use passports GitHub strategy as it was recommended by the assignment and very easy to implement based off the documentation.
+- To Use this app: first login. Logging in for the first time creates a new account, then you will need the same password to login to that username again.  
+- To Add tasks: Simply input the Course Name, the Assignment/Task, its Due Date, and the Effort to complete it (1=least - 5=most).
+- To Update or Delete tasks: use the correlating buttons in each row of the tasks table.
+- The priority field will be automatically assigned based on the Due Date and the Effort of the assignment.
 
-Due: September 28th, by 11:59 PM.
+## Baseline Requirements
+**Node.js Server**:
+- Converted the server.js file to use Express only to send and receive files / data as needed.
+- This server connects to MongoDB to read and write TODO list data and User data.  
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
+**Results**:
+- All of the data stored in MongoDB is accessed by the server and displayed based on which user is logged in.
 
-Baseline Requirements
----
+**Form/Entry**:
+- The UI utilizes a form that allows users to add, update and delete TODO items.
 
-Your application is required to implement the following functionalities:
+**Middleware Packages**:
+- BodyParser: I use body parser to parse all the bodies in my post request. This helps reduce lines of code and create less clutter by removing the need for json parsing and string-a-fying  
+- Morgan: Logs HTTP request to the terminal to help debug and see where requests are failing and succeeding
+- Serve Static: Used to replace connect.serve. Serve static allows me to make the public folder and its html contents be static.
+- Response Time: Used to track the response time for every http request. This was helpful when debugging!
+- Helmet: Adds HTTP headers to improve security. The only modification I did was turning off contentSecurityPolicy as it was causing issues with google fonts and CSS frameworks
+- Passport: Used for secure authentication. I used it for adding the GitHub OAuth Strategy
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
+**Persistent Data Storage**:
+- Utilized MongoDB to store all TODO list data and user data in the cloud so that all data is persistent, even when the server is reset.
+- Created three collections in MongoDB to store task data, user data and GitHub user data
 
-Your application is required to demonstrate the use of the following concepts:
+**Use of a CSS Framework**:
+- Took inspiration from Minimalist and Material design framework to create the CSS of my website
+  - [Sakura](https://oxal.org/projects/sakura/) and [Materialize](https://materializecss.com/)
+  - I used these CSS frameworks to modify my CSS as I like the color palettes for Material Design and the simple and sleek look of minimalist designs
 
-HTML:
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
+**HTML**:
+- Utilized various input tags and form fields for data input
+  - textarea: for Course Name and Task inside each row of the table
+  - select: to choose the effort from 1-5
+  - input type text: for Course Name, Task and Username
+  - input type password: for Password
+  - input type date: for Due Date
+- HTML table only displays data for the User that is logged in rather than everything stored in the database
+- Two html pages: One for login and one for the TODO list
 
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
-
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
-
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
-
-Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+**JavaScript**:
+- JS code separated from the html files and  stored in the scripts.js and loginscripts.js files.
+- JS used to control sending and receiving data to and from the server. Also used to populate the TODO list table with new data added by a specific user.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+**GitHub OAuth**: I used the GitHub strategy from the passport middleware to add GitHub authentication as a secondary login option.
 
-### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+**Heroku Hosting**: Instead of Glitch, I am hosting my site on Heroku.
+- I did not find anything worse on Heroku compared to Glitch. On the other hand, I found Heroku much easier to use especially on initial creation of the project. Their UI is very simple and quick and easy to setup a new app. Also, they allow automatic builds based off new pushes to the connected GitHub branch which meant that I didn't need to manually reimport every time I made a change like I did on Glitch.  
+
+**Ensure Users Cannot Bypass Login**: I utilized HTTP status codes to control access to the TODO List page as it needs a user to be signed in in order to access it.
+- If a user attempts to navigate to index.html without logging in, the server sends a 403 code and forbids them from entering the page.
+- I also ensured that Users cannot sign into multiple accounts at once by always sending a user to the current logged in account's TODO list.
+- I also added in a listener that refers a page when accessed by the browser back button so that the both pages always reload and check if the user is actually logged in.
+- I separated the login scripts and html from the rest of the website as well and handled page accessibility in the server.
+
+## Design/Evaluation Achievements
+**WC3 Accessibility**: I followed these 12 tips from the W3C Web Accessibility Initiative
+- Writing Tips
+  - 1. Provide informative, unique page titles: I followed the tips and added a unique title followed by an overarching title to each of my pages. (Ex. Login • Coursework TODO List)
+  - 2. Use headings to convey meaning and structure: I use Headers to specify the page title such as Login and Coursework TODO List. I also use headers in my table to clearly show what information is in each column
+  - 3. Make link text meaningful: My link tag for GitHub clearly and concisely shows the use it will Log them into GitHub. I also styled the link like a button so that they know to click it.
+  - 4. Provide clear instructions: On the Coursework TODO List page, I have a short description on how to input data into the list of tasks.
+  - 5. Keep content clear and concise: My descriptions about what the site is and the instructions for logging in and using the TODO list are short and simple.
+- Designing Tips
+  - 6. Provide sufficient contrast between foreground and background: The contrast ratio between the text colors and element colors are easily readable on the background color I chose
+  - 7. Ensure that interactive elements are easy to identify: All of my interactable elements have either hover affects or mouse curser changes to show they are clickable or editable.
+  - 8. Provide clear and consistent navigation options: Users can use the login and logout buttons to navigate between the two pages. Also, the back button will work as long as the User is still logged in.
+  - 9. Ensure that form elements include clearly associated labels: My input fields for Course Name, Task, Due Date and Effort have text below them to indicate what the input field is for.
+  - 10. Provide easily identifiable feedback: Users are alerted when their password is incorrect and if they are missing any entries in the input fields
+- Developing Tips
+  - 11. Associate a label with every form control: I changed by text indicators under the form inputs to use the <label> tag rather than <textarea>. Labels are better as you can link them to their input field so that clicking the label triggers an interaction with the input form field.
+  - 12. Ensure that all interactive elements are keyboard accessible: All input elements are accessible via the tab button and enter buttons

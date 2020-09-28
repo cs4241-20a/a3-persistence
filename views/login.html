@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Login • Coursework TODO List</title>
+    <meta charset="utf-8">
+    <!-- <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura-earthly.css" type="text/css"> -->
+    <link rel="stylesheet" href="style.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="loginScripts.js"></script>
+  </head>
+  <body>
+    <h1>Login</h1>
+    <p>
+      If you do not have an account, one will be created for you on initial login.
+    </p>
+    <p>
+      (*Passwords are stored as plain text, avoid personal passwords*)
+    </p>
+    <form class="loginElements">
+      <input type='text' id='userName' placeholder="Username">
+      <input type='password' id='password' placeholder="Password">
+      <button id="loginBtn">Login</button>
+    </form>
+    <div class="githubElements">
+    <img id="githubPic" src="github.png">
+    <a id="githubLink" href="/auth/github">Github Login</a>
+  </div>
+  </body>
+</html>
