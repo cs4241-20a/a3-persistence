@@ -33,7 +33,7 @@ morgan((tokens, req, res) => {
   ].join(" ");
 });
 
-app.get("/", (request, response) => {
+app.get("/home", (request, response) => {
   response.sendFile(__dirname + "/public/index.html");
 });
 

@@ -1,7 +1,7 @@
 ## Your Web Application Title
 
 Heroku: https://a3-nlingram.herokuapp.com/
-(DISCLAIMER: For some reason I was unable to figure out, GitHub Oauth2.0 was not working when I deployed my project to Heroku, It does work on my )
+(DISCLAIMER: The login/home pages URL's are hard coded, so those will only work on either the localhost or Heroku, one at a time. For submission I made them work for Heroku)
 
 The application that I made is a continuation of my a2 project, a simple todo-list. This project has far improved and now offers OAuth2.0 with GitHub and better styling with Boostrap4.
 Implementing Oauth 2.0 with GitHub proved to be challenging but after watching some tutorials online I was able to figure it out.
@@ -17,7 +17,4 @@ The five express middlewars that I used are :
 ## Technical Achievements
 
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
-
-### Design/Evaluation Achievements
-
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Tech Achievement 2**: I uploaded my project to Heroku instead of Gltich
