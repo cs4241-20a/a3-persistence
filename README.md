@@ -1,12 +1,10 @@
-# Assignment2  Short Stack: Basic Two-tier Web Application using HTML/CSS/JS and Node.js 
+# Assignment3  Short Stack: Basic Two-tier Web Application using HTML/CSS/JS and Node.js 
 
 Author: Mingxi Liu
-Glitchme Link: https://a2-liumxiris.glitch.me/
+Glitchme Link: https://a3-liumxiris.glitch.me/
+Heroku Link: https://a3-liumxiris.herokuapp.com/
 
-```
-$npm install mime
-```
-## How to serve:
+## How to serve on local device:
 ```
 $npm install
 $npm start
@@ -14,7 +12,9 @@ $npm start
 and go to <http://localhost:3000/>
 
 ## Not-To-Use Password Generator
-The project is inspired by some password don'ts. Many people would like to include their personal information known by everyone else in their passwords. So I create the project that allows users to enter their personal information and generates the password that they'd better not to use in the future : )
+The project is inspired by some password don'ts. Many people would like to include their personal information known by everyone else in their passwords. So I create the project that allows users to enter their personal information and generates the password. All the data is linked to users' github account and is permanently stored in the Mongodb. Users should be able to add, edit or delete the data. 
+
+**CSS framework used: Bootstrap**
 
 **Middleware packages used in this project:**
 - Body-parser: allows express to read the body and then parse that into a Json object that we can understand
@@ -26,9 +26,10 @@ The project is inspired by some password don'ts. Many people would like to inclu
 ## Technical Achievements
 **Implement OAuth**
 - Users are able to login with their github accounts.
-*Note: Sometimes logout button does not really log out the user, it might because the cookie session is not completely destroied. Plez open a new icognito tab and it should ask you to log again. 
+*Note: Sometimes even if users have logged out, they can still log in without login prompt because the token has not yet expired. If the project needs to be tested with a different account, opening a new icognito window can solve the problem !
 
 **Deploy on Heroku**
+The reason why I chose Heroku is because I have experience deploying my other projects on it. Comparing to Glitch, Heroku is obviously more easy to use since every push to master will automatically deploy a new version of this app.
 
 
 ## Design/Evaluation Achievements
