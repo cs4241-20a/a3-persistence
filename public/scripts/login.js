@@ -20,7 +20,8 @@ function verifyUser(username, password){
             }
             else if (json.responseCode == -1){
                 // incorrect username or password
-                
+                document.getElementById("fail").innerHTML
+                     = "Incorrect Username and Password combo";
             }
             else if (json.responseCode == 1){
                 // correct user name and password
@@ -37,5 +38,9 @@ window.onload = function(){
     let button = document.getElementById("submit");
     button.onclick = function(){
         verifyUser(userForm.value, passForm.value);
+    }
+    let gitButton = document.getElementById("gitButton");
+    gitButton.onclick = function(){
+        window.location.replace("/auth/github");
     }
 }
