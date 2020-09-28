@@ -170,7 +170,15 @@ app.post('/recipes/add', isAuthenticated, bodyParser.json(), (req, res) => {
 
 app.post('/recipes/delete', isAuthenticated, bodyParser.json(), (req, res) => {
   API.tryDelete(req.user.id, req.body.recipeID)
-  .then((res) => console.log(res))
+  .then((apiResult) => {
+    // If we successfully deleted
+    if(apiResult.deletedCount != 0) {
+      res.status(200).send("Successfully deleted!")
+    }
+    else {
+      res.status(401).send("Something went wrong!")
+    }
+  })
 })
 
 app.get('*', (req, res) => {
@@ -178,5 +186,5 @@ app.get('*', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Example app listening at ${process.env.URL}:${port}`)
 })

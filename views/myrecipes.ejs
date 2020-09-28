@@ -52,6 +52,14 @@
                           "Content-Type": "application/json"
                       }
                     })
+                    .then(res => {
+                      if(res.status == 200) {
+                        // Remove item from recipes
+                        this.recipes = this.recipes.filter( function(elt) {
+                          return elt._id != recipeID
+                        })
+                      }
+                    })
                     
                   },
                   editRecipe: function(recipeID) {
