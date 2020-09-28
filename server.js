@@ -140,7 +140,7 @@ app.post('/recipes/add', isAuthenticated, bodyParser.json(), (req, res) => {
   console.log(req.body);
   API.insert(req.body)
   .then(
-    res.render("Recipe submitted!")
+    res.send("Recipe submitted!")
   )
 })
 

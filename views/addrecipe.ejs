@@ -87,17 +87,10 @@
                     return recipe;
                 },
                 showStatus: function(success) {
-                  if(success) {
-                    // Show success banner & redirect
-                    addSuccess = true
-                  }
-                  else {
-                    // Show fail banner and redirect
-                  }
-                },
-                showBanner: function(color, message) {
-                  
+                  this.addSuccess = success
+                  this.showBanner = true
                 }
+
             }
         })
 
@@ -109,8 +102,15 @@
                     "Content-Type": "application/json"
                 }
             })
-            .then( (res) => console.log(res)
-            )
+            .then( (res) => {
+              if(res.status == 200) {
+                app.showStatus(true)
+              }
+              else {
+                app.showStatus(false)
+              }
+              console.log(res.status)
+            })
         }
     </script>
 </body>
