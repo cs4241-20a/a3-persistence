@@ -3,22 +3,48 @@
     <head>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="/css/lib/materialize.min.css" rel="stylesheet" type="text/css">
+        <script src="/js/lib/materialize.min.js"></script>
+        <link href="/css/base.css" rel="stylesheet" type="text/css">
+        <link href="/css/register.css" rel="stylesheet" type="text/css">
+        <title>Note | Register</title>
     </head>
-    <body class="container">
-        <h1 class="header">Register</h1>
-        <form class="container" onsubmit="register(e)">
-            <label for="email">Email</label>
-            <input id="email" type="text"/>
-            <label for="username">Username</label>
-            <input id="username" type="text"/>
-            <label for="password">Password</label>
-            <input id="password" type="password"/>
-            <button class="btn waves-effect waves-light" type="submit" name="submit" id="submit">Submit
-                <i class="material-icons right">send</i>
-            </button>
-        </form>
-
-        
+    <body class="bodyFooterSticky">
+        <header>
+            <nav>
+              <header class="nav-wrapper">
+                <a href="/" class="brand-logo center"><i class="material-icons left">music_note</i>Note<i class="material-icons right">music_note</i></a>
+              </header>
+            </nav>
+          </header>
+          <main class="container mainFooterSticky">
+              <header>
+                <h2 class="pageHeader">Register</h2>
+              </header>
+              <form onsubmit="register(e)">
+                  <p>Please fill out the form below to create an account.</p>
+                  <label for="email">Email</label>
+                  <input id="email" type="text"/>
+                  <label for="username">Username</label>
+                  <input id="username" type="text"/>
+                  <label for="password">Password</label>
+                  <input id="password" type="password"/>
+                  <div class="right-align">
+                      <button class="btn waves-effect waves-light teal accent-3 black-text formButton" type="submit" name="submit" id="submit">Submit
+                          <i class="material-icons right">send</i>
+                      </button>
+                  </div>
+              </form>
+                <p>Already Have An Account? Login <a href="/login">Here</a></p>
+          </main>
+          <footer class="page-footer">
+            <article class="container">
+              <header>
+                  <h5>Written for CS4241 2020</h5>
+              </header>
+                <p class="footerAuthorInfo"><strong>Author:</strong> Christian Tweed</p>
+                <a href="https://github.com/TweedChristian" class="white-text footerGithubInfo"><strong>Github:</strong> <i class="material-icons medium">folder_shared</i></a>
+            </article>
+        </footer>
         <script src="/js/register.js" type="module"></script>
     </body>
 </html>

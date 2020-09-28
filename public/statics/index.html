@@ -1,4 +1,143 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <h1>Index</h1>
+  <head>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="/css/lib/materialize.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="/js/lib/materialize.min.js"></script>
+    <script src="/js/lib/abcjs.min.js"></script>
+    <script src="/js/lib/tone.min.js"></script>
+    <link href="/css/index.css" rel="stylesheet" type="text/css" />
+    <link href="/css/base.css" rel="stylesheet" type="text/css" />
+    <title>Note | Home</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <header class="nav-wrapper">
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a id="logoutButton" class="postLogin">Logout</a>
+                </li>
+                <li>
+                    <li><a href="/login" class="preLogin">Login</a></li>
+                    <li><a href="/register" class="preLogin">Register</a></li>
+                    <li><a href="/" class="postLogin">My Songs</a></li>
+                </li>
+            </ul>
+        
+          <a href="/" class="brand-logo center"
+            ><i class="material-icons left">music_note</i>Note<i
+              class="material-icons right"
+              >music_note</i
+            ></a
+          >
+        </header>
+      </nav>
+    </header>
+    <main class="container" id="main">
+        <header>
+            <h2 class="pageHeader"></h2>
+        </header>
+      <p class="flow-text blocktext">
+        Note is a practice tool designed for you to keep track of what songs you
+        are learning, and what tempo you are at. It also has a built in music
+        player, and stores the songs themselves. This allows us as musicians to
+        keep track of how well we are doing with learning our songs. 
+      </p>
+      <article class="card blue-grey darken-2 preLogin" id="newUserInfo">
+        <div class="card-content">
+          <header>
+            <h2 class="card-title white-text header">Getting Started</h2>
+          </header>
+          <section class="card-content">
+            <p class="flow-text white-text blocktext">
+              Before you can start using the music feature, you will need an
+              account. Once you have made an account, you can start uploading
+              songs to work with. Note will store the songs for you so you don't
+              have to constantly reload the songs. 
+            </p>
+            <aside class="card-action">
+              <a href="/register">Register</a>
+              <a href="/login">Login</a>
+            </aside>
+          </section>
+        </div>
+      </article>
+
+      <article class="card blue-grey darken-2 postLogin" id="newUserInfo">
+        <div class="card-content">
+          <header>
+            <h2 class="card-title white-text header">Getting Started</h2>
+          </header>
+          <section class="card-content">
+            <p class="flow-text white-text">
+              Welcome back! The last song you were working on was ???. You had the song up to ??? tempo, at % of its original. Daily practice is the key to success.
+            </p>
+            <aside class="card-action">
+            <a href="/songs/id">Latest Song</a>
+              <a href="/songs">My Songs</a>
+            </aside>
+          </section>
+        </div>
+      </article>
+
+      <article class="card blue-grey darken-2" id="musicDemo">
+          <div class="card-content">
+              <header>
+                <h2 class="card-title white-text header">
+                    Demo
+                </h2>
+                <p class="flow-text white-text">
+                    This is an example music player. 
+                </p>
+                <form class="container form">
+                    <label for="songName" class="songName white-text">
+                        Song name
+                    </label>
+                    <input 
+                        type="text"
+                        id="songName"
+                        class="text-input white-text"
+                    />
+                    <div class="formButtons">
+                        <label for="fileUpload" class="uploadButton">
+                            <a  class="waves-effect waves-light btn-large orange darken-4 white-text">
+                                MusicXML File <i class="material-icons right">arrow_upward</i>
+                            </a><br>
+                        </label>
+                        <input 
+                            class="fileUpload"
+                            id="fileUpload"
+                            name="fileUpload"
+                            type="file"
+                        />
+                        <button class="btn waves-effect waves-light teal accent-3 black-text" type="submit" name="action" id="login">
+                            Submit
+                                <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </form>
+              </header>
+          </div>
+      </article>
+      <section></section>
+    </main>
+    <footer class="page-footer">
+        <article class="container">
+          <header>
+              <h5>Written for CS4241 2020</h5>
+          </header>
+            <p class="footerAuthorInfo"><strong>Author:</strong> Christian Tweed</p>
+            <a href="https://github.com/TweedChristian" class="white-text footerGithubInfo"><strong>Github:</strong> <i class="material-icons medium">folder_shared</i></a>
+        </article>
+    </footer>
+    <script src="/js/index.js" type="module"></script>
+  </body>
 </html>
