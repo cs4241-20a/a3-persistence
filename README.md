@@ -14,7 +14,6 @@ The goal of this application is to provide a simple, intuitive interface to mana
 ## Technical Achievements
 - **Tech Achievement 1**: Used OAuth authentication via the GitHub strategy
 - **Tech Achievement 2**: Created a separate signup functionality and page, validating the form and potential new users against existing users in the database
-- **Tech Achievement 2**: Hosted site on Heroku
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I used the CRAP principles from the Non-Designer's Design Book readings. 
