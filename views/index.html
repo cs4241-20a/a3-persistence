@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <link href="css/style.css" rel="stylesheet" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;" />
+        
+            <link href="https://unpkg.com/cirrus-ui" type="text/css" rel="stylesheet" />
+        
+            <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+            <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src = "/script.js" defer></script>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif&display=swap" rel="stylesheet">
+    <div>
+
+    <img src = "https://cdn.glitch.com/cf8354a1-9e9c-4a1f-9b28-8c059d9167bf%2F27a5a3e32e32369486b5daf17687bd3a.jpg?v=1600239938292" alt="clouds" width = "200" height = "200">
+    <img src = "https://cdn.glitch.com/cf8354a1-9e9c-4a1f-9b28-8c059d9167bf%2FScreen%20Shot%202020-09-16%20at%203.10.03%20AM.png?v=1600240225896" alt="Pencil" width = "200" height = "200">
+      
+      </div>
+</head>
+  
+<body>
+    <div id = "page-wrap">
+    <h1>
+      iPrioritize
+    </h1>
+      <p>
+        Need to know when you should get started on that homework assignment? Look no further than iPrioritize!
+        Enter a task, a priority, and the date your task was created or assigned and get advice!
+      </p>
+    <div class = "flex-container">
+    <form>
+      <div>
+      <label><h2>
+        Task:</h2></label><br />
+        <p id = "task-instruction">
+          Enter your task in the input field below
+        </p>
+      <input
+        style="margin-bottom: 40px;"
+        type="text"
+        id="yourtask"
+        value="your task here"
+      /><br />
+        </div>
+      <div>
+        
+   
+      <label><h2>
+        
+        Priority:</h2></label><br />
+        <p>
+          Choose one priority level to represent your task in the option list below
+        </p>
+      <input
+        type="radio"
+        id="highpriority"
+        name="priority"
+        value="High Priority"
+      />
+      <label>High Priority</label><br />
+      <input
+        type="radio"
+        id="mediumpriority"
+        name="priority"
+        value="Medium Priority"
+      />
+      <label>Medium Priority</label><br />
+      <input
+        style="margin-bottom: 40px;"
+        type="radio"
+        id="lowpriority"
+        name="priority"
+        value="Low Priority"
+      />
+      <label for="lowpriority">Low Priority</label><br />
+        
+           </div>
+      <div>
+      <label><h2>
+        Creation Date: </h2></label><br />
+        <p>
+          Click on the calendar icon in the far right on the text box to select the date this task has been created.
+        </p>
+      <input
+        style="margin-bottom: 40px;"
+        type="date"
+        id="yourcreationdate"
+        name="yourcreationdate"
+      /><br />
+        </div>
+      <button class="button">submit</button>
+      <h3>
+        Your Generated To-Do List
+      </h3>
+      <p>
+        Look at the list of tasks below to keep track of your to-do list. Modifying your task list: <ul>
+      <li> <b>Add </b> a new task through the submission form at the top.</li>
+      <li><b>Delete</b> a task by clicking on it in the list below.</li>
+      <li><b>Modify</b> a task by clicking on the pencil icon on the desired list item.</li>
+      </ul>
+      </p>
+    </form>
+      <div>
+      <img id = "edit" src = "https://cdn.glitch.com/3806485b-89bc-4da2-b9f9-3d7912791a91%2Fedit%2Bpen%2Bpencil%2Bicon-1320183237584811650.png?v=1601297770237" width = "50">
+       <img id = "save" src = "https://cdn.glitch.com/3806485b-89bc-4da2-b9f9-3d7912791a91%2FSave-512.png?v=1601297878497" width = "50">
+        
+      </div>
+      <section class = "tasks">
+      <ul id = "tasks">
+                  <em>loading tasks&hellip;</em>
+        </ul>
+      </section>
+      </div>
+    <table id="data">
+      <thead>
+      <tr id = "myRow">
+        <th>Task</th>
+        <th>Priority</th>
+        <th>Creation Date</th>
+        <th>Due Date</th>
+      </tr>
+        </thead>
+      <tbody id = "tableBody">
+      </tbody>
+    </table>
+       </div>
+  
+  <p>
+    Read more about <a href="https://toggl.com/track/time-management-tips/">tips on time management!</a>
+  </p>
+  
+  <button onclick = "window.location.href='https://a3-carley-gilmore.glitch.me/login.html';">
+    Sign In
+  </button>
+  
+  
+
+  
+  <script>
+    
+//   document.getElementById("edit").addEventListener("click", function(){
+//    console.log("button clicked")
+//    document.getElementsByTag("p").innerHTML = "Hello World";
+// });
+    
+    var pencil = document.getElementById("edit");
+pencil.addEventListener("click", function(){
+  console.log("edit button clicked")
+});
+    
+     var save = document.getElementById("save");
+save.addEventListener("click", function(){
+  console.log("save button clicked")
+});
+  
+  </script>
+  
+  
+<!--<script>
+
+    
+function generateRows(jsonobj) {
+    
+    const tableBody = document.getElementById("tableBody");
+   
+    let row = tableBody.insertRow(-1);
+    let cell1 = row.insertCell(0);
+    let cell2 = row.insertCell(1);
+    let cell3 = row.insertCell(2);
+    let cell4 = row.insertCell(3);
+
+    cell1.innerHTML = jsonobj.yourtask;
+    cell2.innerHTML = jsonobj.priority;
+    cell3.innerHTML = jsonobj.creationdate;
+    cell4.innerHTML = jsonobj.message;
+}
+  
+//   //do this in the server
+//   if(cell2.getElementById === "highpriority"){
+//     // cell4.innerHTML =
+//     var today = new Date(jsonobj.creationdate); // Or Date.today()
+//     var tomorrow = today.add(1).day();
+//     jsonobj["duedate"] = tomorrow
+//     cell4.innerHTML = jsonobj.duedate;
+//   }
+// }
+    
+    function displayChoiceVal() {
+      var ele = document.getElementsByName("priority");
+      for (i = 0; i < ele.length; i++) {
+        if (ele[i].checked) return ele[i].value;
+      }
+    }
+
+    const submit = function(e) {
+      // prevent default form action from being carried out
+      e.preventDefault();
+
+      const input1 = document.querySelector("#yourtask"),
+        input2 = displayChoiceVal(),
+        input3 = document.querySelector("#yourcreationdate"),
+        json = {
+          yourtask: input1.value,
+          priority: input2,
+          creationdate: input3.value
+        },
+        body = JSON.stringify(json);
+
+      //     const input2 = displayChoiceVal(), //set all priority values to unselected at default and if high priority value input.value is selected then use that input for server calculation
+      //           json2 = { highpriority: input.value },
+      //           body2 = JSON.stringify( json1 )
+
+      //     const input1 = document.querySelector( '#yourcreationdate' ),
+      //           json1 = { yourtask: input.value },
+      //           body1 = JSON.stringify( json1 )
+
+      fetch("/submit", {
+        method: "POST",
+        body
+      }).then(response => response.json())
+      
+      .then(function(response) {
+        // do something with the reponse
+        generateRows(response);
+        console.log(response);
+      });
+
+      return false;
+    };
+
+    window.onload = function() {
+      const button = document.querySelector("button");
+      button.onclick = submit;
+    };
+  </script> -->
+  <script src="https://button.glitch.me/button.js" defer></script>
+    </body>
+</html>
