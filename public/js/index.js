@@ -1,23 +1,23 @@
 "use strict";
 
-let isUserBeingEdited = false;
+let isItemBeingEdited = false;
 
 const updateData = async () => {
-	const res = await fetch("/api/users", {method: "GET"});
+	const res = await fetch("/api/items", {method: "GET"});
 	const data = await res.json();
 	formatDataAsTable(data);
 }
 
 window.addEventListener("load", updateData);
 window.setInterval(() => {
-	if (!isUserBeingEdited) {
+	if (!isItemBeingEdited) {
 		updateData();
 	}
 }, 10000);
 
 document.getElementById("submit-button").addEventListener("click", async evt => {
 	evt.preventDefault();
-	addUser();
+	addItem();
 });
 
 document.getElementById("logout-button").addEventListener("click", evt => {
@@ -31,7 +31,7 @@ const formatDataAsTable = data => {
 	data.forEach(row => {
 		for (let key in row) {
 			if (!keys.includes(key)) {
-				if (key === "__v") {
+				if (key === "_id" || key === "date" || key === "__v") {
 					continue;
 				}
 				keys.push(key);
@@ -45,11 +45,7 @@ const formatDataAsTable = data => {
 
 	keys.forEach(key => {
 		const tableHeader = document.createElement("th");
-		if (key === "_id") {
-			tableHeader.innerHTML = "Id";
-		} else {
-			tableHeader.innerHTML = key.slice(0, 1).toUpperCase() + key.slice(1);
-		}
+		tableHeader.innerHTML = key.slice(0, 1).toUpperCase() + key.slice(1);
 		tableRow.appendChild(tableHeader);
 	});
 
@@ -67,11 +63,14 @@ const formatDataAsTable = data => {
 		tableRow = table.insertRow(-1);
 		keys.forEach(key => {
 			const cell = tableRow.insertCell(-1);
-			if (cell.cellIndex !== 0 && cell.cellIndex !== 4) {
+			if (cell.cellIndex >= 0 && cell.cellIndex <= 2) {
 				cell.className = "editable-cell";
 			}
-			const value = row[key];
-			cell.innerHTML = value != null ? value : "null";
+			let value = row[key];
+			if (key === "price" || key === "total") {
+				value = `$${parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}`;
+			}
+			cell.innerHTML = value;
 		});
 		
 		if (keys.length > 0) {
@@ -83,7 +82,7 @@ const formatDataAsTable = data => {
 			editButton.value = "Edit";
 			editButton.style="border-radius: 8px";
 			editCell.appendChild(editButton);
-			editButton.onclick = () => handleUserEditing(data, editButton, editCell.parentNode);
+			editButton.onclick = () => handleItemEditing(data, editButton, editCell.parentNode);
 			
 			const deleteCell = tableRow.insertCell(-1);
 			deleteCell.style="text-align: center"
@@ -93,7 +92,7 @@ const formatDataAsTable = data => {
 			deleteButton.value = "X";
 			deleteButton.style="border-radius: 8px";
 			deleteCell.appendChild(deleteButton);
-			deleteButton.onclick = () => deleteUser(data[deleteCell.parentNode.rowIndex - 1]._id);
+			deleteButton.onclick = () => deleteItem(data[deleteCell.parentNode.rowIndex - 1]._id);
 		}
 	});
 
@@ -102,67 +101,63 @@ const formatDataAsTable = data => {
 		dataContainer.innerHTML = "";
 		dataContainer.appendChild(table);
 	} else {
-		dataContainer.innerHTML = "No users";
+		dataContainer.innerHTML = "Shopping list empty";
 	}
 }
 
-const handleUserEditing = (data, editButton, row) => {
-	isUserBeingEdited = !isUserBeingEdited;
+const handleItemEditing = (data, editButton, row) => {
+	isItemBeingEdited = !isItemBeingEdited;
 	row.childNodes.forEach(childNode => {
 		if (childNode.className === "editable-cell") {
-			childNode.contentEditable = isUserBeingEdited;
+			childNode.contentEditable = isItemBeingEdited;
 		}
 	});
-	if (isUserBeingEdited) {
+	if (isItemBeingEdited) {
 		editButton.value = "Submit";
 	} else {
 		editButton.value = "Edit";
-		const currentUser = {...data[row.rowIndex - 1]};
+		const currentItem = {...data[row.rowIndex - 1]};
 		let editedFields = {};
-		const newName = row.cells[1].innerHTML;
-		const newEmail = row.cells[2].innerHTML;
-		const newDob = row.cells[3].innerHTML;
+		const newName = row.cells[0].innerHTML;
+		const newPrice = row.cells[1].innerHTML;
+		const newQty = row.cells[2].innerHTML;
 
-		if (newName !== currentUser.name) {
+		if (newName !== currentItem.name) {
 			editedFields.name = newName
 		}
-		if (newEmail !== currentUser.email) {
-			editedFields.email = newEmail;
+		if (newPrice !== currentItem.price) {
+			editedFields.price = newPrice;
 		}
-		if (newDob !== currentUser.dob) {
-			editedFields.dob = newDob;
+		if (newQty !== currentItem.dob) {
+			editedFields.quantity = newQty;
 		}
 
-		editUser(currentUser._id, editedFields);
+		editItem(currentItem._id, editedFields);
 	}
 }
 
-const addUser = async () => {
-	const fName = document.getElementById("f-name");
-	const lName = document.getElementById("l-name");
-	const email = document.getElementById("email");
-	const dob = document.getElementById("dob");
+const addItem = async () => {
+	const nameField = document.getElementById("name");
+	const priceField = document.getElementById("price");
+	const qtyField = document.getElementById("qty");
 
-	if (fName.value == "" || lName.value == "" || email.value == "" || dob.value == "") {
+	if (nameField.value == "" || priceField.value == "" || qtyField.value == "") {
 		alert("Please fill out the required fields!");
 	} else {
-		const body = JSON.stringify({name: `${fName.value} ${lName.value}`, email: email.value, dob: dob.value});
-		console.log(body);
-		const res = await fetch("/api/users", {method: "POST", body, headers:{"Content-Type": "application/json"}});
+		const body = JSON.stringify({name: nameField.value, price: priceField.value, quantity: qtyField.value});
+		const res = await fetch("/api/items", {method: "POST", body, headers:{"Content-Type": "application/json"}});
 		if (res) {
-			const data = await res.json();
 			updateData();
-			fName.value = "";
-			lName.value = "";
-			email.value = "";
-			dob.value = "";
+			nameField.value = "";
+			priceField.value = "";
+			qtyField.value = "";
 		}
 	}
 }
 
-const editUser = async (userId, editedFields) => {
+const editItem = async (itemId, editedFields) => {
 	const body = JSON.stringify(editedFields);
-	const res = await fetch(`/api/users/${userId}`, {
+	const res = await fetch(`/api/items/${itemId}`, {
 		method: "PATCH", body, headers: {"Content-Type": "application/json"}
 	});
 	if (res) {
@@ -170,8 +165,8 @@ const editUser = async (userId, editedFields) => {
 	}
 }
 
-const deleteUser = async userId => {
-	const res = await fetch(`/api/users/${userId}`, {method: "DELETE"});
+const deleteItem = async itemId => {
+	const res = await fetch(`/api/items/${itemId}`, {method: "DELETE"});
 	if (res) {
 		updateData();
 	}

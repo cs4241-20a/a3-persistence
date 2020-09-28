@@ -10,7 +10,7 @@ const methodOverride = require("method-override");
 const helmet = require("helmet");
 const session = require("express-session");
 
-const users = require("./routes/api/users");
+const items = require("./routes/api/items");
 const githubAuth = require("./routes/auth/github");
 
 const app = express();
@@ -55,7 +55,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/api/users", users.router);
+app.use("/api/items", items.router);
 app.use("/auth/github", githubAuth.router);
 
 //? Why does this need to be here?
