@@ -12,18 +12,23 @@ const http = require( 'http' ),
       app     = express(),
       dir     = 'public/';
 
-app.use(serveStatic('public'))
-app.use(morgan('combined'))
-app.use(bodyParser.json())
-app.use(passport.initialize())
-app.use(passport.session());
-
-app.listen(3000)
-
 const MongoClient = mongodb.MongoClient;
 const uri = process.env.DB_URI;
 let github = null;
 let account = "";
+
+var timeout = require('connect-timeout');
+
+app.use(timeout('5s'))
+app.use(serveStatic('public'))
+app.use(haltOnTimedout)
+app.use(morgan('combined'))
+app.use(haltOnTimedout)
+app.use(bodyParser.json())
+app.use(haltOnTimedout)
+app.use(passport.initialize())
+app.use(haltOnTimedout)
+app.use(passport.session());
 
 app.get("/index.html", (request, response) => {
   if(account.length == 0){
@@ -175,6 +180,12 @@ app.post("/submit", async (request, response) => {
     response.json(appdata)
     return response.end()
 });
+
+function haltOnTimedout (req, res, next) {
+  if (!req.timedout) next()
+}
+
+app.listen(3000)
 
 const listener = app.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);
