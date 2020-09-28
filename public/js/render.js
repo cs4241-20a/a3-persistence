@@ -416,7 +416,7 @@ function initThree() {
     clearcoat: 0.8,
   });
 
-  gltfLoaderCar.load("car_simple.gltf", function (gltf) {
+  gltfLoaderCar.load("car.glb", function (gltf) {
     carGroup = new THREE.Group();
 
     cameraRig = new THREE.Object3D();
@@ -443,7 +443,7 @@ function initThree() {
 
   let gltfLoaderTrack = new GLTFLoader().setPath("assets/");
 
-  gltfLoaderTrack.load("track.gltf", function (gltf) {
+  gltfLoaderTrack.load("track.glb", function (gltf) {
     gltf.scene.position.set(0, 2, 0);
 
     gltf.scene.traverse((o) => {
@@ -484,7 +484,7 @@ function initThree() {
 
   let gltfTire = new GLTFLoader().setPath("assets/");
 
-  gltfTire.load("tire.gltf", function (gltf) {
+  gltfTire.load("tire.glb", function (gltf) {
     vehicle.wheelInfos.forEach((_, i) => {
       console.log(gltf.scene);
       let group = new THREE.Group();
