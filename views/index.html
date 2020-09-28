@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CS4241 Assignment 3: My TODO List App</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1 class="center w-50 p-3 bg-primary text-light">A TODO List</h1>
+    </header>
+    <div class="jumbotron w-50 p-3 center bg-primary text-light text-center">
+      <img src="../tasklist.jpg" alt="A man writes out a task list" width="650px" height="300px">
+    </div>
+
+    <div class="jumbotron w-50 p-3 center bg-primary text-light text-center">
+      <h2 class="text-center">Task List:</h2>
+      <hr class="bg-white">
+      <section class="tasks">
+        <ul id="tasks">
+          <em>loading tasks</em>
+        </ul>
+       </section>
+      </div>
+
+      <div class="jumbotron w-50 p-3 center bg-primary text-light text-center">
+        <h2>Instructions:</h2>
+        <hr class="bg-white">
+        <p>Simply type in the new task to add it to the list!<br>
+        <br>Clicking on any tasks will remove it from the list and the database.
+        </p>
+      </div>
+      
+      <div class="jumbotron w-50 p-3 center bg-primary text-light text-center">
+        <form>
+          <label>
+            <h3>Enter a new task here:</h3>
+            <hr class="bg-white">
+            <input name="tasks" type="text" maxlength="100" required placeholder="Enter new task here!"></label></br>
+          <button type="submit" class="btn btn-light" id="submit-tasks">Add tasks</button></br>
+        </form>
+      </div>
+    
+  </body>
+</html>

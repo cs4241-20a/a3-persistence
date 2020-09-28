@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My TODO List Login Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  </head>
+  <body>
+    <form class="col-lg-2 offset-lg-5 bg-primary text-white mt-4">
+      <h2>Welcome to my TODO list</h2>
+      <div class="form-group bg-primary text-white">
+          <hr class="bg-white">
+          <label for="emailLbl">Email address</label>
+          <input type="username" class="form-control" id="username" placeholder="Enter username">
+          <label for="passwordLbl">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Password">
+          <hr class="bg-white">
+          <button type="submit" id="submit-button" onclick="createUser()" class="btn bg-white btn-outline-primary">Submit</button><br>
+          <br>
+        </div>
+    </form>
+    <script src="/login.js"></script>
+  </body>
+</html>
