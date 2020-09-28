@@ -1,0 +1,275 @@
+<%- include('./partials/messages.ejs'); %>
+<div class="row my-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <form action="/add" method="POST">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input
+            type="name"
+            id="title"
+            name="title"
+            class="form-control"
+            placeholder="Enter Book Title"
+            value=""
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="author">Author</label>
+          <input
+            type="name"
+            id="author"
+            name="author"
+            class="form-control"
+            placeholder="Enter Author"
+            value=""
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="isbn">ISBN#</label>
+          <input
+            type="text"
+            id="isbn"
+            name="isbn"
+            class="form-control"
+            placeholder="Enter ISBN#"
+            value=""
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="reviews">Brief Reviews</label>
+          <textarea 
+          rows="3"
+          id="reviews"
+          name="reviews"
+          class="form-control"
+          placeholder="How do you feel about this book?"
+          value=""
+          ></textarea>
+        </div>
+        <div class="form-group">
+            <label>I have a copy of this book.</label>
+          <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="hasCopy" value="Yes">
+              <label class="form-check-label" for="inlineRadio1">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="hasCopy" value="No">
+              <label class="form-check-label" for="inlineRadio2">No</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-dark btn-block">
+          Register
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<span id="shelf-note"><h1 class="d-inline" id="book-shelf">Book Shelf</h1> <small class="d-inline mx-3">Click rows to see book reviews</small></span>
+<div class="modal" id="myModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"></div>
+    </div>
+  </div>
+</div>
+<table class="table table-hover table-dark">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Book Title</th>
+      <th scope="col">Author</th>
+      <th scope="col">ISBN#</th>
+      <th scope="col">Have a copy?</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody id="list"></tbody>
+</table>
+<script>
+  const books = []
+
+  window.onload = function() {
+      getBooks()
+  }
+
+  async function getBooks() {
+      var fromServer = await fetch('/books', { method: 'GET' })
+      .then(res => {
+          return res.json()
+      })
+      .then(data => data.forEach(book => books.push(book)))
+      console.log(books)
+      const list = document.querySelector('#book-list')
+      display(books)
+  }
+
+  function display(books) {
+    console.log('begin display')
+      const list = document.querySelector('#list')
+      books.forEach((book, index) => {
+          const ISBN = book.isbn
+          const row = document.createElement('tr')
+          row.setAttribute('id',ISBN)
+          const collapse = document.createElement('tr')
+          row.innerHTML = `
+          <th scope="row" >${index}</th>
+          <td 
+          data-toggle="collapse" 
+          data-target=#review-${ISBN} 
+          class="accordion-toggle" 
+          name="title"id=title-${ISBN} 
+          >
+            ${book.title}
+          </td>
+          <td 
+          data-toggle="collapse" 
+          data-target=#review-${ISBN} 
+          class="accordion-toggle"
+          name="author" 
+          id=author-${ISBN}
+          value="<%= typeof author != 'undefined' ? author : '' %>"
+          >
+          ${book.author}
+          </td>
+          <td 
+          data-toggle="collapse" 
+          data-target=#review-${ISBN} 
+          class="accordion-toggle" 
+          name="isbn"
+          value=<%= typeof isbn != 'undefined' ? isbn : '' %>
+          id=isbn-${ISBN}
+          >
+          ${book.isbn}
+          </td>
+          <td 
+          data-toggle="collapse" 
+          data-target=#review-${ISBN} 
+          class="accordion-toggle"
+          name="reviews"
+          value="<%= typeof reviews != 'undefined' ? reviews : '' %>" 
+          id=haveCopy-${ISBN}
+          >
+          ${book.hasCopy}
+          </td>
+          <td class="icons" id=${ISBN}><button class="edit" data-toggle="modal" data-target="#myModal" name=""><i class="far fa-edit"></i></button> <button class="delete" name=""><i class="fas fa-trash-alt"></i></button></td>
+        `
+        collapse.innerHTML = `
+          <td colspan="6" class="hiddenRow py-0">
+            <div class="accordion-body collapse" id=review-${ISBN}>
+              <p class="p-3">${book.reviews}</p>
+            </div>
+          </td>
+        `
+        list.appendChild(row)
+        list.appendChild(collapse)
+      })
+  }
+
+document.body.addEventListener('click', async function(event){
+  if(event.path[1].className === 'delete') {
+    const targetISBN = event.path[2].id
+    const body = JSON.stringify({ isbn: targetISBN })
+    console.log(body)
+    fetch('/delete', {
+      method:'POST',
+      headers: {
+        "Content-Type": "application/json"
+            },
+      body
+    })
+    .then(location.reload())
+    .catch(e => console.log(e))
+  }
+  else if(event.path[1].className === 'edit') {
+    const targetRow = event.path[3]
+    const title = targetRow.children[1].innerHTML.trim()
+    const author = targetRow.children[2].innerHTML.trim()
+    const isbn = targetRow.children[3].innerHTML.trim()
+    const book = {
+      title,
+      author,
+      isbn
+    }
+    createModal(book)
+  }
+})
+
+function createModal(book) {
+  console.log(book)
+  const modal = document.querySelector('.modal-body')
+  modal.innerHTML = `
+    <form action="/modify" method="POST">
+      <div class="form-group">
+          <label for="title-modal">Title</label>
+          <input
+            type="name"
+            id="title-modal"
+            name="title"
+            class="form-control"
+            placeholder="Enter Book Title"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="author-modal">Author</label>
+          <input
+            type="name"
+            id="author-modal"
+            name="author"
+            class="form-control"
+            placeholder="Enter Author"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="isbn-modal">ISBN#</label>
+          <input
+            type="text"
+            id="isbn-modal"
+            name="isbn"
+            class="form-control"
+            placeholder="Enter ISBN#"
+            value=${book.isbn}
+            readonly
+          />
+        </div>
+        <div class="form-group">
+          <label for="reviews-modal">Brief Reviews</label>
+          <textarea 
+          rows="3"
+          id="reviews-modal"
+          name="reviews"
+          class="form-control"
+          placeholder="How do you feel about this book?"
+          ></textarea>
+        </div>
+        <div class="form-group">
+            <label>I have a copy of this book.</label>
+          <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="hasCopy" value="Yes">
+              <label class="form-check-label" for="inlineRadio1">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="hasCopy" value="No">
+              <label class="form-check-label" for="inlineRadio2">No</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-dark btn-block">
+          Update
+        </button>
+    </form>
+  `
+  document.querySelector('#title-modal').setAttribute('value', book.title)
+  document.querySelector('#author-modal').setAttribute('value', book.author)
+}
+</script>

@@ -1,0 +1,8 @@
+* {
+    font-family: 'Courier Prime', monospace;
+}
+
+#shelf-note {
+    display: flex;
+    align-items: center;
+}
