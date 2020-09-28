@@ -1,8 +1,10 @@
 <!doctype html>
 <html lang="en">
 
+{{#if user}}
+
 <head>
-  <title>CS4241 Assignment 2</title>
+  <title>CS4241 Assignment 3</title>
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://unpkg.com/wingcss" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
@@ -11,7 +13,19 @@
 </head>
 
 <body>
-  <section id="posts">
+  <section>
+    <h1>the forum</h1>
+    <button id="logout">Log out</button>
+  </section>
+  <section>
+    <b>All posts</b><br><br>
+    <div id="posts">
+    </div>
+  </section>
+  <section>
+    <b>Your posts</b><br><br>
+    <div id="userposts">
+    </div>
   </section>
   <section>
     <b>Leave comment</b>
@@ -19,7 +33,7 @@
       <ul class="flex-outer">
         <li>
           <label for="username">Username</label>
-          <input type="text" id="username" placeholder="Username">
+          <input type="text" id="username" value="{{user.username}}" readonly>
         </li>
         <li>
           <label for="title">Title</label>
@@ -95,7 +109,6 @@
       </ul>
 
     </form>
-
   </section>
   <section>
     <b>Delete Comment</b>
@@ -117,5 +130,50 @@
     </form>
   </section>
 </body>
+{{else}}
+
+<head>
+  <title>CS4241 Assignment 3</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://unpkg.com/wingcss" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script type="text/javascript" src="js/login.js"></script>
+</head>
+
+<body>
+  <section>
+    <h1>the forum</h1>
+    <p>Please sign in or register to view the forum.</p>
+    <h5>Sign in </h5>
+    <form id="local-sign-in" class="collapse" action="/login" method="post" enctype="multipart/form-data">
+
+      <p></p>
+      <label>Username:</label>
+      <input type="text" name="username" />
+
+      <label>Password:</label>
+      <input type="password" name="password" />
+
+      <input type="submit" class="btn btn-primary btn-sm" value="Log In" />
+      </div>
+    </form>
+
+    <h5>Register</h5>
+    <form id="local-reg" class="collapse" action="/local-reg" method="post" enctype="multipart/form-data">
+
+      <p></p>
+      <label>New Username:</label>
+      <input type="text" name="username" />
+
+      <label>New Password:</label>
+      <input type="password" name="password" />
+
+      <input type="submit" class="btn btn-primary btn-sm" value="Register" />
+
+    </form>
+  </section>
+</body>
+{{/if}}
 
 </html>

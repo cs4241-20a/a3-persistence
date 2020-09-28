@@ -1,144 +1,120 @@
-const { resolve } = require("path");
-
-const http = require("http"),
-  fs = require("fs"),
-  mime = require("mime"),
-  dir = "public/",
+// ---------------------------------------------------------------------
+// External modules and config variables
+// ---------------------------------------------------------------------
+const express = require("express"),
+  app = express(),
   port = 3000,
   // db related
-  db_dir = "db/",
-  Db = require("tingodb")().Db,
-  assert = require("assert"),
-  sass = require("node-sass"),
+  MongoClient = require("mongodb").MongoClient,
   Cache = require("persistent-cache"),
-  { hashElement } = require("folder-hash"),
+  cache = Cache({ base: "cache" }),
   chokidar = require("chokidar"),
-  mkdirp = require("mkdirp"),
-  yup = require("yup"),
   sanitizer = require("sanitizer"),
-  tableify = require("tableify");
+  tableify = require("tableify"),
+  // login related
+  LocalStrategy = require("passport-local"),
+  bcrypt = require("bcryptjs"),
+  Q = require("q");
 
-const cache = Cache({ base: "cache", duration: 1000 * 3600 + 24 });
+// express modules
+const morgan = require("morgan"),
+  compression = require("compression"),
+  helmet = require("helmet"),
+  bodyParser = require("body-parser"),
+  { expressYupMiddleware } = require("express-yup-middleware"),
+  // login related
+  cookieParser = require("cookie-parser"),
+  session = require("express-session"),
+  methodOverride = require("method-override"),
+  exphbs = require("express-handlebars"),
+  passport = require("passport");
 
-function checkSass() {
-  function compileSass(files) {
-    return new Promise((resolve, reject) => {
-      hashElement("./sass").then((hash) => {
-        cache.put("sass", hash.hash, (err) => {
-          if (err) {
-            console.log(err);
-          }
-          const cssPath = "public/css";
-          fs.rmdir(cssPath, { recursive: true }, (err) => {
-            if (err) {
-              console.log(err);
-            }
-            mkdirp(cssPath, (err) => {
-              if (err) {
-                console.log(err);
-              }
-              files.every((f) => {
-                sass.render({ file: "sass/" + f }, (err, result) => {
-                  if (err) {
-                    return reject(err);
-                  }
-                  fs.writeFile(
-                    "public/css/" + f.replace(".scss", ".css"),
-                    result.css,
-                    (err) => {
-                      if (err) {
-                        return reject(err);
-                      }
-                      resolve();
-                    }
-                  );
-                });
-              });
-            });
-          });
-        });
-      });
-    }).catch(console.error);
-  }
+// ---------------------------------------------------------------------
+// My modules
+// ---------------------------------------------------------------------
+// module to automatically compile Sass on file changes
+require("./compileSass.js")(cache);
+chokidar.watch("./sass").on("all", (event, path) => {
+  compileSass();
+});
+// import all schemas
+require("./schemas.js")();
 
-  cache.keys(function (err, keys) {
-    if (err) {
-      console.log(err);
-    }
-    if (!keys.includes("sass")) {
-      compileSass(["main.scss"]).then(() => {
-        console.log("Generated css!");
-      });
-    } else {
-      cache.get("sass", function (err, sassHash) {
-        hashElement("./sass").then((hash) => {
-          if (hash.hash != sassHash) {
-            compileSass(["main.scss"]).then(() => {
-              console.log("Generated css!");
-            });
-          }
-        });
-      });
-    }
+// ---------------------------------------------------------------------
+// Connect to MongoDb database
+// ---------------------------------------------------------------------
+const uri =
+  "mongodb+srv://dbUser:RSTJeQutld5mJWrd@cluster0.vqf7c.mongodb.net/test?retryWrites=true&w=majority";
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+const clientConn = client.connect().catch((err) => {});
+// remember to call client.close
+function getCollection() {
+  return new Promise((resolve, reject) => {
+    const collection = client.db("test").collection("posts");
+    resolve(collection);
+  });
+}
+// remember to call client.close
+function getCollectionUsers() {
+  return new Promise((resolve, reject) => {
+    const collection = client.db("test").collection("users");
+    resolve(collection);
   });
 }
 
-chokidar.watch("./sass").on("all", (event, path) => {
-  checkSass();
-});
+// ---------------------------------------------------------------------
+// Post setup / helper functions
+// ---------------------------------------------------------------------
 
-const db = new Db(db_dir, {});
-// fetch a collection
-const collection = db.collection("Posts");
-
-const columns = ["Author", "Title", "Content", "Date", "Parent"];
-
-// recopile sass
-
-// collection.insert(
-//   [{ hello: "world_1" }, { hello: "world_2" }],
-//   { w: 1 },
-//   function (err, result) {
-//     assert.equal(null, err);
-//     // fetch the document
-//     collection.findOne({ hello: "world_1" }, function (err, item) {
-//       assert.equal(null, err);
-//       assert.equal("world_1", item.hello);
-//     });
-//   }
-// );
-
-const server = http.createServer(function (request, response) {
-  if (request.method === "GET") {
-    handleGet(request, response);
-  } else if (request.method === "POST") {
-    handlePost(request, response);
+// persistent ID counter for post IDs
+// if running multiple servers, rewrite this to use redis / mongodb
+cache.get("idCounter", (err, val) => {
+  if (err) {
+    console.log(err);
+  }
+  if (!val) {
+    cache.put("idCounter", 1, (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
   }
 });
 
-function getTable() {
+function getTable(req, filter) {
   return new Promise(function (resolve, reject) {
-    collection.find().toArray(function (err, posts) {
-      if (err) {
-        return reject(err);
-      }
-      // transform _id.id to _id
-      posts = posts.map((x) => {
-        x._id = x._id.id;
-        return x;
+    getCollection().then((collection) => {
+      collection.find().toArray(function (err, posts) {
+        if (err) {
+          return reject(err);
+        }
+        // transform _id.id to _id
+        posts = posts.map((x) => {
+          x._id = x.id;
+          delete x.id;
+          return x;
+        });
+        if (filter) {
+          posts = posts.filter((x) => {
+            return x.username === req.user.username;
+          });
+        }
+        return resolve(posts);
       });
-
-      return resolve(posts);
     });
   });
 }
 
-function getPostsRequestResponse() {
+function getPostsRequestResponse(req, filter) {
   return new Promise((resolve, reject) => {
-    getTable().then(
+    getTable(req, filter).then(
       function (posts) {
         posts_html = tableify(posts);
         msg = JSON.stringify({ posts: { html: posts_html, json: posts } });
+        // console.log(msg);
         resolve(msg);
       },
       function (err) {
@@ -148,234 +124,414 @@ function getPostsRequestResponse() {
   });
 }
 
-const handleGet = function (request, response) {
-  const filename = dir + request.url.slice(1);
+// ---------------------------------------------------------------------
+// Login stuff
+// ---------------------------------------------------------------------
 
-  if (request.url === "/") {
-    sendFile(response, "public/index.html");
-  } else if (request.url === "/posts") {
-    getPostsRequestResponse()
-      .then((msg) => {
-        response.end(msg);
+localReg = function (username, password) {
+  var deferred = Q.defer();
+  console.log("Creating user!!!");
+  getCollectionUsers().then((collection) => {
+    collection.findOne({ username: username }).then(function (result) {
+      if (null != result) {
+        console.log("USERNAME ALREADY EXISTS:", result.username);
+        deferred.resolve(false); // username exists
+      } else {
+        var hash = bcrypt.hashSync(password, 8);
+        var user = {
+          username: username,
+          password: hash,
+          avatar:
+            "http://placepuppy.it/images/homepage/Beagle_puppy_6_weeks.JPG",
+        };
+
+        console.log("CREATING USER:", username);
+
+        collection.insertOne(user).then(function () {
+          deferred.resolve(user);
+        });
+      }
+    });
+  });
+
+  return deferred.promise;
+};
+
+localAuth = function (username, password) {
+  var deferred = Q.defer();
+  getCollectionUsers().then((collection) => {
+    collection.findOne({ username: username }).then(function (result) {
+      if (null == result) {
+        console.log("USERNAME NOT FOUND:", username);
+        deferred.resolve(false);
+      } else {
+        var hash = result.password;
+        console.log("FOUND USER: " + result.username);
+        if (bcrypt.compareSync(password, hash)) {
+          deferred.resolve(result);
+        } else {
+          console.log("AUTHENTICATION FAILED");
+          deferred.resolve(false);
+        }
+      }
+    });
+  });
+  return deferred.promise;
+};
+
+passport.use(
+  "local-signin",
+  new LocalStrategy(
+    { passReqToCallback: true }, //allows us to pass back the request to the callback
+    function (req, username, password, done) {
+      localAuth(username, password)
+        .then(function (user) {
+          if (user) {
+            console.log("LOGGED IN AS: " + user.username);
+            req.session.success =
+              "You are successfully logged in " + user.username + "!";
+            done(null, user);
+          }
+          if (!user) {
+            console.log("COULD NOT LOG IN");
+            req.session.error = "Could not log user in. Please try again."; //inform user could not log them in
+            done(null, user);
+          }
+        })
+        .fail(function (err) {
+          console.log(err.body);
+        });
+    }
+  )
+);
+passport.use(
+  "local-signup",
+  new LocalStrategy(
+    { passReqToCallback: true }, //allows us to pass back the request to the callback
+    function (req, username, password, done) {
+      localReg(username, password)
+        .then(function (user) {
+          if (user) {
+            console.log("REGISTERED: " + user.username);
+            req.session.success =
+              "You are successfully registered and logged in " +
+              user.username +
+              "!";
+            done(null, user);
+          }
+          if (!user) {
+            console.log("COULD NOT REGISTER");
+            req.session.error =
+              "That username is already in use, please try a different one."; //inform user could not log them in
+            done(null, user);
+          }
+        })
+        .fail(function (err) {
+          console.log(err.body);
+        });
+    }
+  )
+);
+passport.serializeUser(function (user, done) {
+  console.log("serializing " + user.username);
+  done(null, user);
+});
+
+passport.deserializeUser(function (obj, done) {
+  console.log("deserializing " + obj);
+  done(null, obj);
+});
+
+// ---------------------------------------------------------------------
+// Express stuff
+// ---------------------------------------------------------------------
+
+app.use(morgan("combined"));
+
+app.use(helmet());
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(methodOverride("X-HTTP-Method-Override"));
+app.use(
+  session({ secret: "supernova", saveUninitialized: true, resave: true })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(compression());
+
+var hbs = exphbs.create({
+  defaultLayout: "index",
+  layoutsDir: "./public",
+});
+app.engine("handlebars", hbs.engine);
+app.set("view engine", "handlebars");
+app.set("views", "public");
+
+app.post(
+  "/local-reg",
+  expressYupMiddleware({ schemaValidator: registerSchema })
+);
+app.post(
+  "/local-reg",
+  passport.authenticate("local-signup", {
+    successRedirect: "/",
+    failureRedirect: "/",
+  })
+);
+
+app.post(
+  "/login",
+  passport.authenticate("local-signin", {
+    successRedirect: "/",
+    failureRedirect: "/",
+  })
+);
+
+//logs user out of site, deleting them from the session, and returns to homepage
+app.get("/logout", function (req, res) {
+  if (req.user) {
+    var name = req.user.username;
+    console.log("LOGGIN OUT " + req.user.username);
+  }
+  req.logout();
+  res.redirect("/");
+  req.session.notice = "You have successfully been logged out !";
+});
+
+app.get("/", function (req, res) {
+  res.render("index", { user: req.user });
+});
+
+// ---------------------------------------------------------------------
+// Express get and post
+// ---------------------------------------------------------------------
+
+app.use(express.static("public"));
+
+app.get("/posts", (req, res) => {
+  if (!req.isAuthenticated()) {
+    req.session.error = "Please sign in!";
+    res.redirect("/");
+    return;
+  }
+  getPostsRequestResponse(req, false)
+    .then((msg) => {
+      res.end(msg);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
+app.get("/userposts", (req, res) => {
+  if (!req.isAuthenticated()) {
+    req.session.error = "Please sign in!";
+    res.redirect("/");
+    return;
+  }
+  getPostsRequestResponse(req, true)
+    .then((msg) => {
+      res.end(msg);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
+function postByUser(id, user) {
+  return new Promise((resolve, reject) => {
+    let uname = user.username;
+    id = parseInt(id);
+    getCollection().then((collection) => {
+      collection.findOne({ username: uname, id: id }).then(function (result) {
+        if (null == result) {
+          console.log("POST NOT FOUND:", uname);
+          resolve(false);
+        } else {
+          console.log("POST FOUND:", uname);
+          resolve(true);
+        }
+      });
+    });
+  });
+}
+
+app.post("/submit", expressYupMiddleware({ schemaValidator: commentSchema }));
+app.post("/submit", (req, res) => {
+  if (!req.isAuthenticated()) {
+    req.session.error = "Please sign in!";
+    res.redirect("/");
+    console.log("arstarstart");
+    console.log("arstarstart");
+    console.log("arstarstart");
+    return;
+  }
+  return new Promise((resolve, reject) => {
+    let data = req.body;
+
+    // input sanitization
+    Object.keys(data).forEach((key) => {
+      data[key] = sanitizer.sanitize(data[key]);
+    });
+    Date.prototype.yyyymmdd = function () {
+      var mm = this.getMonth() + 1; // getMonth() is zero-based
+      var dd = this.getDate();
+      return [
+        this.getFullYear(),
+        "/",
+        (mm > 9 ? "" : "0") + mm,
+        "/",
+        (dd > 9 ? "" : "0") + dd,
+      ].join("");
+    };
+    data.date = String(new Date().yyyymmdd());
+    data.words = data.message.split(" ").length;
+    cache.get("idCounter", (err, val) => {
+      cache.put("idCounter", val + 1, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+      if (err) {
+        console.log(err);
+      }
+      data.id = val;
+      getCollection().then((collection) => {
+        collection.insertOne(data, { w: 1 }, function (err, result) {
+          if (err) {
+            return reject(err);
+          }
+          getPostsRequestResponse()
+            .then((msg) => {
+              res.writeHead(200, "OK", {
+                "Content-Type": "text/plain",
+              });
+              res.end(msg);
+              resolve();
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+          resolve();
+        });
+      });
+    });
+  }).catch((err) => {
+    console.log(err);
+    reject(err);
+  });
+});
+
+app.post("/delete", expressYupMiddleware({ schemaValidator: deleteSchema }));
+app.post("/delete", (req, res) => {
+  if (!req.isAuthenticated()) {
+    req.session.error = "Please sign in!";
+    res.redirect("/");
+    return;
+  }
+
+  return new Promise((resolve, reject) => {
+    let data = req.body;
+    const myQuery = { id: data.id };
+
+    postByUser(data.id, req.user)
+      .then((postByUser) => {
+        if (!postByUser) {
+          res.end();
+          return resolve();
+        }
+
+        getCollection()
+          .then((collection) => {
+            collection.removeOne(myQuery, { w: 1 }, function (err, result) {
+              if (err) {
+                return reject(err);
+              }
+              getPostsRequestResponse()
+                .then((msg) => {
+                  res.writeHead(200, "OK", {
+                    "Content-Type": "text/plain",
+                  });
+                  res.end(msg);
+                  resolve();
+                })
+                .catch((err) => {
+                  console.error(err);
+                });
+              resolve();
+            });
+          })
+          .catch((err) => {
+            reject(err);
+          });
       })
       .catch((err) => {
-        console.error(err);
+        reject(err);
       });
-  } else {
-    sendFile(response, filename);
-  }
-};
-
-const handlePost = function (request, response) {
-  if (request.url === "/submit") {
-    return new Promise((resolve, reject) => {
-      let dataString = "";
-
-      request.on("data", function (data) {
-        dataString += data;
-      });
-
-      request.on("end", function () {
-        data = JSON.parse(dataString);
-
-        // input validation
-        const schema = yup.object().shape({
-          username: yup
-            .string()
-            .required()
-            .min(1, "Name too short")
-            .max(50, "Name too long"),
-          title: yup
-            .string()
-            .required()
-            .min(1, "Title too short")
-            .max(150, "Title too long"),
-          message: yup
-            .string()
-            .required()
-            .max(1000, "Too many characters in message"),
-          isSpoiler: yup.bool().required(),
-          isBug: yup.bool().required(),
-          isFluff: yup.bool().required(),
-        });
-
-        schema
-          .validate(data)
-          .then((data) => {
-            // input sanitization
-            Object.keys(data).forEach((key) => {
-              data[key] = sanitizer.sanitize(data[key]);
-            });
-            Date.prototype.yyyymmdd = function () {
-              var mm = this.getMonth() + 1; // getMonth() is zero-based
-              var dd = this.getDate();
-
-              return [
-                this.getFullYear(),
-                "/",
-                (mm > 9 ? "" : "0") + mm,
-                "/",
-                (dd > 9 ? "" : "0") + dd,
-              ].join("");
-            };
-            data.date = String(new Date().yyyymmdd());
-            data.words = data.message.split(" ").length;
-
-            collection.insert([data], { w: 1 }, function (err, result) {
-              if (err) {
-                return reject(err);
-              }
-              getPostsRequestResponse()
-                .then((msg) => {
-                  response.writeHead(200, "OK", {
-                    "Content-Type": "text/plain",
-                  });
-                  response.end(msg);
-                  resolve();
-                })
-                .catch((err) => {
-                  console.error(err);
-                });
-              resolve();
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-            reject(err);
-          });
-
-        console.log(data);
-      });
-    });
-  } else if (request.url === "/delete") {
-    return new Promise((resolve, reject) => {
-      let dataString = "";
-      request.on("data", function (data) {
-        dataString += data;
-      });
-      request.on("end", function () {
-        data = JSON.parse(dataString);
-
-        // input validation
-        const schema = yup.object().shape({
-          id: yup.number().required().positive(),
-        });
-
-        schema
-          .validate(data)
-          .then((data) => {
-            const myQuery = { _id: new db.ObjectID(data.id) };
-
-            console.log(myQuery);
-            collection.remove(myQuery, { w: 1 }, function (err, result) {
-              if (err) {
-                return reject(err);
-              }
-              getPostsRequestResponse()
-                .then((msg) => {
-                  response.writeHead(200, "OK", {
-                    "Content-Type": "text/plain",
-                  });
-                  response.end(msg);
-                  resolve();
-                })
-                .catch((err) => {
-                  console.error(err);
-                });
-              resolve();
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-            reject(err);
-          });
-
-        console.log(data);
-      });
-    });
-  } else if (request.url === "/edit") {
-    return new Promise((resolve, reject) => {
-      let dataString = "";
-      request.on("data", function (data) {
-        dataString += data;
-      });
-      request.on("end", function () {
-        data = JSON.parse(dataString);
-
-        // input validation
-        const schema = yup.object().shape({
-          id: yup.number().required().positive(),
-          title: yup
-            .string()
-            .required()
-            .min(1, "Title too short")
-            .max(150, "Title too long"),
-          message: yup
-            .string()
-            .required()
-            .max(1000, "Too many characters in message"),
-          isSpoiler: yup.bool().required(),
-          isBug: yup.bool().required(),
-          isFluff: yup.bool().required(),
-        });
-        schema
-          .validate(data)
-          .then((data) => {
-            const myQuery = { _id: new db.ObjectID(data.id) };
-
-            updated = {
-              $set: {
-                title: data.title,
-                message: data.message,
-                isSpoiler: data.isSpoiler,
-                isBug: data.isBug,
-                isFluff: data.isFluff,
-              },
-            };
-            collection.update(myQuery, updated, function (err, result) {
-              if (err) {
-                return reject(err);
-              }
-              getPostsRequestResponse()
-                .then((msg) => {
-                  response.writeHead(200, "OK", {
-                    "Content-Type": "text/plain",
-                  });
-                  response.end(msg);
-                  resolve();
-                })
-                .catch((err) => {
-                  console.error(err);
-                });
-              resolve();
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-            reject(err);
-          });
-
-        console.log(data);
-      });
-    });
-  } else {
-    console.log("Failed to post", request.url);
-  }
-};
-
-const sendFile = function (response, filename) {
-  const type = mime.getType(filename);
-
-  fs.readFile(filename, function (err, content) {
-    if (err === null) {
-      response.writeHeader(200, { "Content-Type": type });
-      response.end(content);
-    } else {
-      // file not found, error code 404
-      response.writeHeader(404);
-      response.end("404 Error: File Not Found");
-    }
   });
-};
+});
 
-server.listen(process.env.PORT || port);
+app.post("/edit", expressYupMiddleware({ schemaValidator: editSchema }));
+app.post("/edit", (req, res) => {
+  if (!req.isAuthenticated()) {
+    req.session.error = "Please sign in!";
+    res.redirect("/");
+    return;
+  }
+  return new Promise((resolve, reject) => {
+    let data = req.body;
+    // input sanitization
+    Object.keys(data).forEach((key) => {
+      data[key] = sanitizer.sanitize(data[key]);
+    });
+    const myQuery = { id: parseInt(data.id) };
+    updated = {
+      $set: {
+        title: data.title,
+        message: data.message,
+        isSpoiler: data.isSpoiler,
+        isBug: data.isBug,
+        isFluff: data.isFluff,
+      },
+    };
+
+    postByUser(data.id, req.user)
+      .then((postByUser) => {
+        if (!postByUser) {
+          res.end();
+          return resolve();
+        }
+
+        getCollection().then((collection) => {
+          collection.updateOne(myQuery, updated, function (err, result) {
+            if (err) {
+              return reject(err);
+            }
+
+            getPostsRequestResponse()
+              .then((msg) => {
+                res.writeHead(200, "OK", {
+                  "Content-Type": "text/plain",
+                });
+                res.end(msg);
+                resolve();
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+            resolve();
+          });
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        reject(err);
+      });
+  }).catch((err) => {
+    console.log(err);
+    reject(err);
+  });
+});
+
+app.listen(process.env.PORT || port);

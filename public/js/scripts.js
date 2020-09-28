@@ -20,7 +20,6 @@ const submit = function (e) {
     isBug: isBug.checked,
     isFluff: isFluff.checked,
   };
-  username.value = "";
   title.value = "";
   message.value = "";
   isSpoiler.checked = false;
@@ -31,6 +30,7 @@ const submit = function (e) {
 
   fetch("/submit", {
     method: "POST",
+    headers: new Headers({ "Content-Type": "application/json" }),
     body,
   })
     .then(function (response) {
@@ -47,6 +47,7 @@ const submit = function (e) {
       data = JSON.parse(template);
       document.getElementById("posts").innerHTML = data.posts.html;
       postCache = data.posts.json;
+      reloadPosts();
     })
     .catch(function (response) {
       console.log(response.statusText);
@@ -54,6 +55,19 @@ const submit = function (e) {
 
   return false;
 };
+
+function logout() {
+  var url = "/logout";
+  var request = new XMLHttpRequest();
+  request.open("POST", url, true);
+  request.onload = function () {
+    window.location.replace(request.responseURL);
+  };
+  request.onerror = function () {};
+  request.send();
+  event.preventDefault();
+  return false;
+}
 
 window.onload = function () {
   const submitButton = document.getElementById("create-post");
@@ -64,6 +78,8 @@ window.onload = function () {
   deletePost.onclick = del;
   const editPost = document.getElementById("edit-post");
   editPost.onclick = submitEdit;
+  const logoutForum = document.getElementById("logout");
+  logoutForum.onclick = logout;
 };
 
 function reloadPosts() {
@@ -84,11 +100,27 @@ function reloadPosts() {
     .catch(function (response) {
       console.log(response.statusText);
     });
+
+  fetch("/userposts")
+    .then(function (response) {
+      switch (response.status) {
+        case 200:
+          return response.text();
+        case 404:
+          throw response;
+      }
+    })
+    .then(function (template) {
+      data = JSON.parse(template);
+      document.getElementById("userposts").innerHTML = data.posts.html;
+    })
+    .catch(function (response) {
+      console.log(response.statusText);
+    });
 }
 
 function loadEditFields() {
   const id = parseInt(document.getElementById("edit-id").value, 10);
-
   if (
     !postCache
       .map((entry) => {
@@ -151,6 +183,7 @@ function submitEdit() {
 
   fetch("/edit", {
     method: "POST",
+    headers: new Headers({ "Content-Type": "application/json" }),
     body,
   })
     .then(function (response) {
@@ -167,6 +200,7 @@ function submitEdit() {
       data = JSON.parse(template);
       document.getElementById("posts").innerHTML = data.posts.html;
       postCache = data.posts.json;
+      reloadPosts();
     })
     .catch(function (response) {
       console.log(response.statusText);
@@ -186,6 +220,7 @@ function del() {
 
   fetch("/delete", {
     method: "POST",
+    headers: new Headers({ "Content-Type": "application/json" }),
     body,
   })
     .then(function (response) {
@@ -201,6 +236,7 @@ function del() {
       data = JSON.parse(template);
       document.getElementById("posts").innerHTML = data.posts.html;
       postCache = data.posts.json;
+      reloadPosts();
     })
     .catch(function (response) {
       console.log(response.statusText);
