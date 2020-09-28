@@ -1,8 +1,11 @@
 # Assignment3  Short Stack: Basic Two-tier Web Application using HTML/CSS/JS and Node.js 
 
 Author: Mingxi Liu
+
 Glitchme Link: https://a3-liumxiris.glitch.me/
+
 Heroku Link: https://a3-liumxiris.herokuapp.com/
+
 
 ## How to serve on local device:
 ```
