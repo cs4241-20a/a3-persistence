@@ -1,110 +1,185 @@
 <!doctype html>
 <html lang="en">  
   <head>
-    <title>a2-pooja-a-patel</title>
+    <title>a3-pooja-patel</title>
     <meta charset="utf-8">
     <link href="/css/style.css" rel="stylesheet" type="text/css">
-    <script src = "/js/scripts.js"></script>
+   <script src = "/js/scripts.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  
   </head>
   <body>
-    <div>
+  <h1>La Fleur by Pooja Patel</h1>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <div class="container1">
+      <main>
+        <!--Menu Bar-->        
+        
+        <h2> Log In</h2>
+  <div id="letstrytodelete">
+       
+    <form id="loginForm">
+      <input type="text" id="username" class="fadeIn second" name="username" placeholder="username">
+      <input type="text" id="password" class="fadeIn third" name="password" placeholder="password">
+      <div id="bnfdshf">
+              <button id="login-btn">Login</button>
+            </div>
+    </div>
+
+            <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" id="registerButton">Register</button>
+  </form>
+
+  </div>
+</div>
+    
+ <form class="text-center" id="registerForm" style="display: none; color: #757575;">
+      <div class="col-sm-5" style="position:absolute; top:14%; left:30%;">
+        <div class="card">
+
+        <h5 class="card-header info-color white-text text-center py-4">
+
+
+          <strong>Sign up</strong>
+
+        </h5>
+
+        <div class="card-body px-lg-5 pt-0">
+
+                <div class="md-form mt-0">
+                    <label for="regUsername">Username:</label>
+                    <input type="text" id="regUsername" name="user" class="form-control" required>
+                </div>
+
+                <div class="md-form">
+                    <label for="regPassword">Password:</label>
+                    <input type="password" id="regPassword" name="password" class="form-control" required>
+                </div>
+
+                <div class="md-form">
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" name="password" class="form-control" required>
+                </div>
+
+                <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" id="createButton" onclick="createUser(event)">Create Account</button>
+                <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" id="regCancelButton" style="background-color:red;color:black;">Cancel</button>
+                
+                <hr>
+          </div>
+        </div> 
+      </div>
+    </form>
+    
+<div id="maindisplay" class="twocolumn" style="display: none">   
+  <!--Title-->
+    <div class="container">
       <header> 
-        <h1>La Fleur by Pooja Patel</h1>
+      <button id="logoutButton" style="position:absolute; top:2%; right:0%;background-color:black;color: #FFFFFF;">Logout</button>
+
+
+        </div>
       </header> 
       <main>
-     
+        <!--Menu Bar-->        
         <div class="menuBar">
           <nav class="tabsOnTop">                        
             <a id="tab-form" aria-label="">Order Flowers</a>
             <a id="homepage-link" aria-label=""></a>
             <a id="table-link" aria-label="">Previous Orders</a>
           </nav>
-        </div>         
-
-        <div id="left-form">
+        </div> 
+        
+         <div id="left-form">
               <h3>Order Flowers</h3>
         </div>
           <h4>We charge $2 per flower &
           $20 per dozen.
           </h4> 
+       
         <div id="html-booking">
          
-          <form action="a">
+          <form action="">
             <div class="html-form-details">
               <label for="name_id" class="form-label">Name:</label>
               <input type="text" id="name_id" required>
             </div> 
-       
             <div class="html-form-details text-input">
-              <label for="orderDescription" class="form-label">Custom order instructions: List specific flower.</label>
-              <textarea id="orderDescription" required></textarea>
+              <label for="flowertype" class="form-label">Type of flower:</label>
+              <textarea id="flowertype" required></textarea>
+            </div>        
+            <div class="html-form-details text-input">
+              <label for="instructions" class="form-label">Custom order instructions:</label>
+              <textarea id="instructions" required></textarea>
             </div>            
             <div class="html-form-details" role="radiogroup" aria-label="flower-level">
-              <p class="form-label"> Would you like a to purchase a single flower?</p>
-              <input type="radio" id="buyFlower" name="flower" value="0">
-              <label for="notToday">No</label>
+              <p class="form-label">Would you like to purchase a single flower?</p>
+              <input type="radio"  id="noFlower" name="flower" value="0">
+              <label for="not">No</label>
               <input type="radio" checked id="a" name="flower" value="2">
-              <label for="allflower">Yes</label>
+              <label for="flower">Yes</label>
             </div>
- 
             <div class="html-form-details" role="radiogroup" aria-label="bouquet-level">
-              <p class="form-label">Would you like  to purchase 1 dozen flowers?</p>
-              <input type="radio"  id="buyBouquet" name="bouquet" value="0">
-              <label for="nopurchase">No</label>
+              <p class="form-label">Would you like to purchase 1 dozen flowers?</p>
+              <input type="radio" id="noBouquet" name="bouquet" value="0">
+              <label for="notb">No</label>
               <input type="radio" checked id="ab" name="bouquet" value="20">
-              <label for="allbouquet">Yes</label>
+              <label for="bouquet">Yes</label>
             </div>
-
             <div id="submit-btn">
               <button>Submit Order</button>
             </div>
           </form>
         </div>
 
-
         <div id="error">
-        Complete all fields.
+        <h>Please complete al fields.</h>
         </div>
 
         <div id="thankyou">
-
-          <h3>Order was Submitted.</h3>
-          <h4>A beautiful flower for every  occasion!</h4>
+          <h3>Order Submitted.</h3>
         </div>
 
-
         <div id="booking-table">
+          <button id="new-booking-button">Order Flowers</button>
 
-          <h3>Your Orders</h3>
+          <h3>Orders</h3>
           <table id="bookings"></table>
-
         </div>
 
         <div id="update-html-booking">
-          <h3>Edit Your Order</h3>
-          <form action="b">
+          <h3>Edit Your Booking</h3>
+          <form action="">
             <div class="html-form-details">
               <label for="updateNameID" class="form-label">Name:</label>
               <input type="text" id="updateNameID" required>
             </div>
         
             <div class="html-form-details">
-              <label for="updateOrder" class="form-label">Custom Order Instructions: List specific flower.</label>
-              <textarea id="updateOrder" required></textarea>
+              <label for="flowertype" class="form-label">Type of flower:</label>
+              <textarea id="updateflowertype" required></textarea>
+            </div>
+
+            <div class="html-form-details">
+              <label for="updateInstructions" class="form-label">Custom order instructions::</label>
+              <textarea id="updateInstructions" required></textarea>
             </div>
 
             <div class="html-form-details" role="radiogroup" aria-label="flower-level">
-              <p class="form-label">Would you like to purchase a single flower?</p>
-              <input type="radio" checked id="updatebuyFlower" name="updateflower" value="0">
-              <label for="updatebuyFlower">No</label>
+              <p class="form-label">Would you like to purchase a single flower??</p>
+              <input type="radio" checked id="updatenoFlower" name="updateflower" value="0">
+              <label for="updatenoFlower">No</label>
               <input type="radio" id="updateAllflower" name="updateflower" value="2">
               <label for="updateAllflower">Yes</label>
             </div>
             
             <div class="html-form-details" role="radiogroup" aria-label="bouquet-level">
-              <p class="form-label">Would you like to purchase 1 dozen flowers </p>
-              <input type="radio"  checked id="updatebuyBouquet" name="updatebouquet" value="0">
-              <label for="updatebuyBouquet">No</label>
+              <p class="form-label">Would you like to purchase 1 dozen flowers? </p>
+              <input type="radio" checked id="updatenoBouquet" name="updatebouquet" value="0">
+              <label for="updatenoBouquet">No</label>
               <input type="radio" id="updateAllbouquet" name="updatebouquet" value="20">
               <label for="updateAllbouquet">Yes</label>
             </div>
@@ -115,8 +190,10 @@
           </form>
         </div>
       </main>
+    </div>
+
 <footer>
-  <h3>
+   <h3>
             <img
               class="item"
               src="data:image/jpeg;base64,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FSn4XMDWxtkMw084MGeZKnYfHSGk6HQi0HkeRH5KF2eol1PECoCMoA6giTpzFlBwfEGOEzlJjMw203/2vO3SjUn5/hmMfxROrw+NIcGv0OjuvI/mrBVzcIHsBa7wuEw4T9CFNoMcBDnZjziPxXp4XOql+ZRWfalMOEFV78O5tSq4DM1wnL1a0C3nH6vNmi0lBSLxk0YUXhwBCzXxrQNF9VyGEREICIiAIiIAiIgCIiAIiIAiIgIHFqLqgYxo1d4j/CADP4KSzDNAaIkN0m9+fmtyKu1XZNhERWICIiAIiID45oIg3BULhnCqWH7wUm5GvdnyCzQYAMDaYFlORCKCIiEml2GbLjEF4hx5xMfUrkMfw4MfL2CQQYN21BvAI3FukrtVoxOFbUy5vuuzDzHP9bLm1GD1Eq7RDNPC+HMoNc1hdlJzBrjOWdQJuBvEqaiLoSSVIluwiIpAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAf/9k="
@@ -149,44 +226,159 @@
             />
           </h3>
 </footer>
-    </div>
   </body>
+<script>
+  
+   let current_user
+   const login = function(e){
+       e.preventDefault()
+       const username=document.getElementById('username').value,
+           password= document.getElementById('password').value;
+        const user = {
+            'username': username,
+            'password' : password
+        },
+            body = JSON.stringify(user)
 
-  <script>
+  
+  fetch( '/login', {
+      method:'POST',
+      headers: { 'Content-Type': 'application/json' },
+    body
+    })
+    .then(function(response){
+    if (response.status===200){
+      //console.log('success')
+      document.getElementById('formContent').style.display="none"
+      document.getElementById('maindisplay').style.display=""
+      current_user= username
+      return true;
+    }
+    else {
+      console.log('error')
+      window.alert("Username/Password not in system")
+      return true;
+  }
+    fetch('/register', {
+           method: 'GET'
+         }).then(function(response) {
+      
+           return response.json()
+         }).then(function (users) {
+           console.log(users)
+         })
+    
+  })  
+  }
+  const createUser = function(e) {
+     e.preventDefault()
+     const username = document.getElementById('regUsername').value,
+             password = document.getElementById('regPassword').value,
+             confirmPass = document.getElementById('confirmPassword').value
+     
+      fetch('/register', {
+        method: 'GET'
+      }).then(function(response) {
+        return response.json()
+      }).then(function (listOfUsers) {
+         console.log(listOfUsers)
+         checkUserReg(listOfUsers, username, password, confirmPass)
+      })
+   }
+      
+   
+   const checkUserReg = function(listOfUsers, username, password, confirmPass){
+     let existingUser = false
+      for(let i = 0; i < listOfUsers.length; i++) {
+        if(listOfUsers[i].username === username) {
+          existingUser = true
+          i = listOfUsers.length
+          window.alert("Username not available")
+        }
+      }
+      if(existingUser === false) {
+        if(password != confirmPass) {
+          window.alert("Please match passwords.")
+        }
+        else {
+         const user = {
+                   'username': username,
+                   'password': password
+                 },
+                 body = JSON.stringify(user)
+         fetch('/register', {
+           method: 'POST',
+           headers: {'Content-Type': 'application/json'},
+           body
+         }).then(function (response) {
+           if (response.status === 200) {
+             document.getElementById('regUsername').value = ""
+             document.getElementById('regPassword').value = ""
+             document.getElementById('confirmPassword').value = ""
+             document.getElementById('registerForm').style.display = "none"
+             document.getElementById('loginForm').style.display = ""
+           } else {
+             console.log('error')
+           }
+         })
+       }
+      }
+    }
+   
+  const register = function(e){
+     e.preventDefault()
+     document.getElementById('registerForm').style.display = ""
+     document.getElementById('loginForm').style.display = "none"
+   }
+  
+  const regCancel = function(e){
+     e.preventDefault()
+     document.getElementById('regUsername').value = ""
+     document.getElementById('regPassword').value = ""
+     document.getElementById('confirmPassword').value = ""
+     document.getElementById('registerForm').style.display = "none"
+     document.getElementById('loginForm').style.display = ""
+   }
+  
     const addbooking = function( e ) {
       e.preventDefault()
 
       const newbooking = {
         name_id: document.getElementById( 'name_id' ).value,
-        orderDescription: document.getElementById( 'orderDescription' ).value,
+        flowertype: document.getElementById( 'flowertype' ).value,
+        instructions: document.getElementById( 'instructions' ).value,
         flower: document.querySelector('input[name="flower"]:checked').value,
         bouquet: document.querySelector('input[name="bouquet"]:checked').value
       }
 
-      if (bookingValidation(newbooking.name_id, newbooking.orderDescription)) {
+      if (bookingValidation(newbooking.name_id, newbooking.instructions)) {
         const body = JSON.stringify( newbooking )
 
         fetch( '/submit', {
           method:'POST',
-          body
+          body,
+          headers:{'Content-Type':'application/json'}
         }).then( function( response ) {
           document.getElementById('thankyou').style.display = "flex"
           document.getElementById('html-booking').style.display = "none"
           document.getElementById('left-form').style.display = "none"
 
           resetbookingForm()
-        }
-       )
+        })
+
       }
+
       return false
     }
 
     const deletebooking = function (index) {
-      const bookingID = { bookingID: index }
-      const body = JSON.stringify(bookingID)
+      const bookingNumber = { bookingNumber: index }
+      const body = JSON.stringify(bookingNumber)
       fetch('/delete', {
         method: 'POST',
-        body
+        //body
+        body,
+        headers:{'Content-Type':'application/json'}
       })
       fetchBookings()
     }
@@ -195,16 +387,17 @@
       try {
         const resp = await fetch('/bookings', { method: 'GET' })
         const data = await resp.json()
-        const bookings = data.data
+        const bookings = data
 
         let htmlDiv = document.getElementById('bookings')
 
         htmlDiv.innerHTML = '<tr>\n' +
                 '              <th>Name</th>\n' +
-                '              <th>Custom order instructions:</th>\n' +
-                '              <th>Single Flower?</th>\n' +
-                '              <th>A Bouquet?</th>\n' +
-                '              <th>Total Price($)</th>\n' +
+                '              <th>Type of Flower</th>\n' +
+                '              <th>Custom Order Instructions</th>\n' +
+                '              <th id=\allflower\">Single Flower?</th>\n' +
+                '              <th>A Dozen?</th>\n' +
+                '              <th>Total Price ($)</th>\n' +
                 '              <th></th>\n' +
                 '              <th></th>\n' +
                 '            </tr>'
@@ -216,14 +409,15 @@
           const bouquet = (booking.bouquet ? 'Yes' : 'No');
           let createEntry = '<tr>\n';
           createEntry += (`<td> ${booking.name_id} </td>\n`);
-          createEntry += (`<td> ${booking.orderDescription} </td>\n`);
+          createEntry += (`<td> ${booking.flowertype} </td>\n`);
+          createEntry += (`<td> ${booking.instructions} </td>\n`);
           createEntry += (`<td> ${flower} </td>\n`);
           createEntry += (`<td> ${bouquet} </td>\n`);
           createEntry += (`<td> ${booking.price} </td>\n`);
           createEntry += (`<td> <button id="update-button-${x}" class="table-button" style="font-size: 1vw" onclick="presentEditedForm(${x})" data-string=`
                   + encodeURIComponent(stringbooking) +
-                  `>Update Order</button> </td>\n`);
-          createEntry += (`<td> <button id="delete-button-${x}" class="table-button" style="font-size: 1vw" onclick="deletebooking(${x})">Delete Order</button> </td>\n`);
+                  `>Update Booking</button> </td>\n`);
+          createEntry += (`<td> <button id="delete-button-${x}" class="table-button" style="font-size: 1vw" onclick="deletebooking(${x})">Delete Booking</button> </td>\n`);
           createEntry += '</tr>';
           htmlDiv.innerHTML += createEntry;
         }
@@ -233,21 +427,23 @@
 
       return false
     }
-
+//found a snippet on github
     const updatebooking = ( e ) => {
       e.preventDefault()
       const updatedbooking = {
         index: document.getElementById('edit-button').dataset.index,
         name_id: document.getElementById('updateNameID').value,
-        orderDescription: document.getElementById('updateOrder').value,
+        flowertype: document.getElementById('updateflowertype').value,
+        instructions: document.getElementById('updateInstructions').value,
         flower: document.querySelector('input[name="updateflower"]:checked').value,
         bouquet: document.querySelector('input[name="updatebouquet"]:checked').value
       }
-      if (bookingValidation(updatedbooking.name_id, updatedbooking.orderDescription)) {
+      if (bookingValidation(updatedbooking.name_id, updatedbooking.instructions)) {
         const body = JSON.stringify(updatedbooking)
         fetch('/update', {
           method: 'POST',
-          body
+          body,
+          headers:{'Content-Type':'application/json'}
         }).then(function () {
           presentBookingTable()
           viewLeftTable()
@@ -257,20 +453,27 @@
       return false
     }
 
+    const logout = function(e){
+       //e.preventDefault()
+      document.getElementById('formContent').style.display=""
+      document.getElementById('maindisplay').style.display="none"
+       current_user = ""
+   }
+
     const resetbookingForm = () => {
       document.getElementById( 'name_id' ).value = ''
-      document.getElementById( 'orderDescription' ).value = ''
-      document.getElementById('nopurchase').checked = true
-      document.getElementById('allflower').checked = true
-      document.getElementById('allbouquet').checked = true
+      document.getElementById( 'flowertype' ).value = ''
+      document.getElementById( 'instructions' ).value = ''
+      document.getElementById('flower').checked = true
+      document.getElementById('bouquet').checked = true
     }
 
-    const bookingValidation = function (name_id, orderDescription) {
+    const bookingValidation = function (name_id, instructions) {
       if (name_id === '') {
         document.getElementById('error').style.display = "block"
         document.getElementById('error').focus()
         return false
-      } else if (orderDescription === '') {
+      } else if (instructions === '') {
         document.getElementById('error').style.display = "block"
         document.getElementById('error').focus()
         return false
@@ -318,9 +521,10 @@
 
       document.getElementById('edit-button').dataset.index = index
       document.getElementById('updateNameID').value=bookingToUpdate.name_id
-      document.getElementById('updateOrder').value=bookingToUpdate.orderDescription
-      bookingToUpdate.flower ? document.getElementById('updateAllflower').checked = true : document.getElementById('updatebuyFlower').checked = true;
-      bookingToUpdate.flower ? document.getElementById('updateAllbouquet').checked = true : document.getElementById('updatebuyBouquet').checked = true;
+      document.getElementById('updateflowertype').value=bookingToUpdate.flowertype
+      document.getElementById('updateInstructions').value=bookingToUpdate.instructions
+      bookingToUpdate.flower ? document.getElementById('updateAllflower').checked = true : document.getElementById('updatenoFlower').checked = true;
+      bookingToUpdate.flower ? document.getElementById('updateAllbouquet').checked = true : document.getElementById('updatenoBouquet').checked = true;
 
       return false
     }
@@ -329,6 +533,9 @@
 
       const submitButton = document.getElementById( 'submit-btn' )
       submitButton.onclick = addbooking
+      
+      const loginButton = document.getElementById('login-btn')
+      loginButton.onclick= login
 
       const tabletab = document.getElementById( 'table-link' )
       tabletab.onclick = presentBookingTable
@@ -345,7 +552,16 @@
       const newbookingButton = document.getElementById( 'new-booking-button' )
       newbookingButton.onclick = presentBookingForm
       
+      const regBtn = document.querySelector('#registerButton')
+      regBtn.onclick = register
+      
+      const regCancelBtn =document.querySelector('#regCancelButton')
+      regCancelBtn.onclick = regCancel
+      
+      const logoutBtn = document.querySelector('#logoutButton')
+      logoutBtn.onclick = logout
     }
 
   </script>
+</div>
 </html>
