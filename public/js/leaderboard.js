@@ -165,7 +165,7 @@ function removeEntry(removeID) {
 
 function addEntry(entry, value) {
   let new_data = document.createElement("TD");
-  new_data.innerHTML = value;
+  new_data.textContent = value;
 
   entry.appendChild(new_data);
 }

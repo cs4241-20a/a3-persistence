@@ -56,7 +56,7 @@ const handleLogin = (json) => {
   } else {
     logout_button.classList.remove("is-hidden");
     welcome_user.classList.remove("is-hidden");
-    welcome_user_text.innerText = json.username;
+    welcome_user_text.textContent = json.username;
 
     login_button.classList.add("is-hidden");
 

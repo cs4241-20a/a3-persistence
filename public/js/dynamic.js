@@ -40,7 +40,7 @@ function monitor(frameTimestamp, now) {
   const dpr = renderer.getPixelRatio();
   const frequencyMedian = median(frequencyAccumulator);
 
-  fpsText.innerHTML = Math.round(1000.0 / frequencyMedian);
+  fpsText.textContent = Math.round(1000.0 / frequencyMedian);
 
   if (frequencyMedian > lowFrequencyThreshold && dpr > minDpr) {
     console.log("Low FPS, setting resolution factor to " + (dpr - deltaDpr));

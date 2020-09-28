@@ -77,7 +77,7 @@ function restartRace() {
     stopWatch.reset();
     lastSector = 0;
     currentLap = 1;
-    lapText.innerHTML = currentLap + "/2";
+    lapText.textContent = currentLap + "/2";
     lights.forEach((material) => {
       material.emissive.set(0x000000);
     });
@@ -148,9 +148,9 @@ function animate() {
     vehicle.setSteeringValue(turnAxis * maxSteerVal, 0);
     vehicle.setSteeringValue(turnAxis * maxSteerVal, 1);
 
-    stopWatchText.innerHTML = formatTime(stopWatch.time());
-    throttleText.innerHTML = Math.round(engineAxis * 100);
-    steeringText.innerHTML = Math.round(-turnAxis * 45);
+    stopWatchText.textContent = formatTime(stopWatch.time());
+    throttleText.textContent = Math.round(engineAxis * 100);
+    steeringText.textContent = Math.round(-turnAxis * 45);
   } else {
     vehicle.applyEngineForce(0, 2);
     vehicle.applyEngineForce(0, 3);
@@ -158,9 +158,9 @@ function animate() {
     vehicle.setSteeringValue(0, 0);
     vehicle.setSteeringValue(0, 1);
 
-    stopWatchText.innerHTML = "00:00.000";
-    throttleText.innerHTML = "0";
-    steeringText.innerHTML = "0";
+    stopWatchText.textContent = "00:00.000";
+    throttleText.textContent = "0";
+    steeringText.textContent = "0";
   }
 
   if (carGroup) {
@@ -276,13 +276,13 @@ function initCannon() {
           if (lastSector == 1 && i == 0) {
             if (currentLap == 1) {
               currentLap++;
-              lapText.innerHTML = currentLap + "/2";
+              lapText.textContent = currentLap + "/2";
             } else {
               stopWatch.stop();
               raceStarted = false;
               const formattedTime = formatTime(stopWatch.time());
-              stopWatchText.innerHTML = formattedTime;
-              resultTime.innerHTML = formattedTime;
+              stopWatchText.textContent = formattedTime;
+              resultTime.textContent = formattedTime;
               lastLap = formattedTime;
               submitResult.classList.add("is-active");
             }
