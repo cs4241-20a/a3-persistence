@@ -43,13 +43,6 @@ const listener = app.listen(secrets.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
 
-app.get('/login',
-  // function(req, res){
-  // res.render('login');
-  (req, res)=> res.send('logged in')
-  // }
-);
-
 // ----------
 // Middleware
 // ----------
@@ -72,11 +65,6 @@ function(accessToken, refreshToken, profile, cb) {
 app.get('/auth/github',
   passport.authenticate('github', { successReturnToOrRedirect: '/', failureRedirect: '/', failureFlash: 'Authentication Failed'}));
 
-app.post('/auth/github',
-  passport.authenticate('github', { successReturnToOrRedirect: '/', failureRedirect: '/', failureFlash: 'Authentication Failed' }), function login() {
-    res.text("Authenticated");
-  });
-
 app.get('/auth/github/callback', 
   passport.authenticate('github', { failureRedirect: '/' }),
   function(req, res) {
@@ -88,16 +76,18 @@ app.get('/auth/github/callback',
 // Requests and Responses
 // ----------------------
 
-app.get('/getRuns', function getRuns(request, response){
-  const cursor = collection.find({}) // get everything
+app.get('/getRuns', auth.ensureLoggedIn('/auth/github'), function getRuns(request, response){
+  const cursor = collection.find({"user": request.user.username}) // get everything
   cursor.toArray().then(array => {
     console.log(`Array data: ${JSON.stringify(array)}`);
     response.json(array);
-  })
+  });
 });
 
 app.post('/addRun', bodyParser.json(), auth.ensureLoggedIn('/auth/github'), function addRun (request, response) {
-  console.log(`Body of add run request: ${JSON.stringify(request.body)}`);
+  let runToAdd = request.body;
+  runToAdd.user = request.user.username;
+  console.log(`Adding run ${JSON.stringify(runToAdd)}`);
   collection.insertOne(request.body)
   .then(dbresponse => {
     console.log(`dbresponse: ${dbresponse}`);
@@ -111,29 +101,9 @@ app.post('/deleteRun', bodyParser.json(), auth.ensureLoggedIn('/auth/github'), f
     .then( result => response.json(result) );
 });
 
-app.post('/editRun', bodyParser.json(), function editRun (request, response) {
-
-  collection.update({_id:MongoDB.ObjectID(request.body.id)}, request.body.run)
+app.post('/editRun', bodyParser.json(), auth.ensureLoggedIn('/auth/github'), function editRun (request, response) {
+  let runToEdit = request.body.run;
+  runToEdit.user = request.user.username;
+  collection.update({_id:MongoDB.ObjectID(request.body.id)}, runToEdit)
     .then( result => response.json(result));
-});
-
-app.post('/editRuns', bodyParser.json(), function editRuns (request, response) {
-  let dataString = '';
-  request.on('data', function( editedRuns ) {
-    dataString += editedRuns;
-    console.log(`Run received: ${dataString}`);
-  });
-  request.on('end', function() {
-    let editedRuns = JSON.parse(dataString);
-    for(let i = 0; i < editedRuns.length; i++) {
-      editedRuns[i].speed = editedRuns[i].distance * 60 / editedRuns[i].time;
-    }
-    data.splice(0, data.length); // clear data
-    for (let i = 0; i < editedRuns.length; i++) {
-      data.push(editedRuns[i]);
-    }
-    console.log(`New runs: ${JSON.stringify(data)}`);
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain'});
-    response.end();
-  });
 });
