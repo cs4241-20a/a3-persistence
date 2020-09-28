@@ -102,6 +102,10 @@
                   this.showBanner = true
                 }
 
+            },
+            created: function() {
+              // Check if there is a recipe ID in url params
+              console.log(window.location.search)
             }
         })
 

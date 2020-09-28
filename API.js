@@ -32,6 +32,10 @@ const getRecipes = function(userID) {
   })
 }
 
+const getRecipeByID = function(recipeID) {
+  return client.db("a3-webware").collection("recipes").find({_id: new ObjectID(recipeID)}).toArray();
+}
+
 // Get recipes from database and resolve
 const getRecipesNoID = function(userID) {
   var queryDoc = {};
@@ -55,4 +59,5 @@ const tryDelete = function(userID, recipeID) {
 exports.insert = insert;
 exports.getRecipes = getRecipes;
 exports.getRecipesNoID = getRecipesNoID;
+exports.getRecipeByID = getRecipeByID;
 exports.tryDelete = tryDelete;

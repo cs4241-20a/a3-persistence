@@ -128,6 +128,17 @@ app.get('/recipes/data', isAuthenticated, (req, res) => {
   })
 })
 
+// API endpoint for getting single recipe data.
+app.get('/recipes/data/single', isAuthenticated, (req, res) => {
+  const recipeID = req.query.recipeID
+  if(!recipeID) {
+    res.status(400).send("Error: No recipeID provided!")
+  }
+  API.getRecipeByID(recipeID).then((data) => {
+    res.send(JSON.stringify(data));
+  })
+})
+
 // Endpoint for view with form to add recipes
 app.get('/recipes/add', isAuthenticated, (req, res) => {
   res.render("addrecipe", {title: "Add Recipe"});
