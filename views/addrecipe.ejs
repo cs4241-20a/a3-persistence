@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>Example App</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- VueJS -->
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-</head>
+    <!--   Include head with EJS template   -->
+    <%- include("./partials/head"); %>
 <body>
+    <!--   Include head with EJS template   -->
+    <%- include("./partials/header"); %>
     <div class="container">
         <div id="app">
+            <div v-if="addSuccess && showBanner" class="alert alert-success">
+              Succesfully added recipe!  
+            </div>
+            <div v-if="!addSuccess && showBanner" class="alert alert-danger">
+              Something went wrong trying to add your recipe. Please try again!
+            </div>
             <form method="post" onsubmit="submit">
                 <h3>{{ message }}</h3>
                 <p>Fill out the form below to add a new recipe to the recipe database.</p>
 
                 <div class="card card-body">
-
-
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Recipe Title</span>
@@ -59,23 +55,15 @@
         </div>
     </div>
     <script>
-
-        const addIngredient = function(e) {
-            console.log("Adding ingredient!");
-        }
-
-        const submit = function(e) {
-            console.log("Submit called");
-            e.preventDefault()
-        }
-
         var app = new Vue({
             el: "#app",
             data: {
                 message: "New Recipe",
                 recipeTitle: "",
                 ingredients: [],
-                directions: ""
+                directions: "",
+                addSuccess: false,
+                showBanner: false,
             },
             methods: {
                 addIngredient: function() {
@@ -97,6 +85,18 @@
                     }
                     
                     return recipe;
+                },
+                showStatus: function(success) {
+                  if(success) {
+                    // Show success banner & redirect
+                    addSuccess = true
+                  }
+                  else {
+                    // Show fail banner and redirect
+                  }
+                },
+                showBanner: function(color, message) {
+                  
                 }
             }
         })

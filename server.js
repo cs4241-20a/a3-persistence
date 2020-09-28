@@ -1,9 +1,6 @@
 // server.js
 // where your node app starts
 
-// we've started you off with Express (https://expressjs.com/)
-// but feel free to use whatever libraries or frameworks you'd like through `package.json`.
-
 const path = require('path');
 
 const port = 3000;
@@ -104,20 +101,12 @@ app.get('/auth/github', function(req, res, next) {
 
 });
 
-// app.get('*/style.css', (req, res) =>  {
-//   res.sendFile(path.join(__dirname + "/views/style.css"))
-// })
-
 app.get('/auth/github/callback', 
   passport.authenticate('github', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect to confirmation page
     res.redirect('/login/success');
   });
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
 
 // Endpoint to show all recipes in database
 app.get('/recipes/all', (req, res, next) => {
@@ -141,7 +130,7 @@ app.get('/recipes/data', isAuthenticated, (req, res) => {
 
 // Endpoint for view with form to add recipes
 app.get('/recipes/add', isAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname + '/views/addrecipe.html'))
+  res.render("addrecipe", {title: "Add Recipe"})
 })
 
 // Endpoint for submitting recipe
@@ -151,7 +140,7 @@ app.post('/recipes/add', isAuthenticated, bodyParser.json(), (req, res) => {
   console.log(req.body);
   API.insert(req.body)
   .then(
-    res.send("Recipe submitted!")
+    res.render("Recipe submitted!")
   )
 })
 
@@ -162,4 +151,8 @@ app.post('/recipes/delete', isAuthenticated, bodyParser.json(), (req, res) => {
 
 app.get('*', (req, res) => {
   res.render("404", {title: "404 Error"});
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
 })
