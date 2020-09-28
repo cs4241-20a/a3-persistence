@@ -9,7 +9,6 @@ const responseTime = require('response-time');
 const cookieSession = require('cookie-session');
 require('dotenv').config()
 const mongodb = require('mongodb')
-const MongoClient = mongodb.MongoClient;
 
 app.use(cookieSession({
     name: 'cookie lego',
@@ -21,6 +20,16 @@ app.use(express.static('public'))
 app.use(bodyparser.json())
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(responseTime((request, response, Time) => console.log(request.method, request.url, time + 'ms')))
+
+//connectng to mongodb
+const MongoClient = mongodb.MongoClient;
+const uri = "mongodb+srv://dbuser:${process.env.DBPASSWORD}@cluster0.rtnhc.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+    const collection = client.db("test").collection("devices");
+    // perform actions on the collection object
+    client.close();
+});
 
 app.get('/geturl', (request, response) => {
     const path2 = request.protocol + '://' + request.get('host');

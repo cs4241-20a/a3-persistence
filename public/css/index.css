@@ -1,102 +1,70 @@
-﻿#background {
-    /* BOX MODEL */
-    width: 100%;
-    height: 450px;
-    /* ENHANCEMENT */
-    background-image: url('/img/bg.jpg');
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
-    -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
-    opacity: 0.8;
-    z-index: -1;
+﻿/*main page*/
+
+#mainform{
+    display: grid;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    grid-auto-flow: row;
 }
 
-
-#timesheet {
-    width: 400px;
-    height: 50px;
-    background: black;
-    color: white;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 24pt;
-    margin-bottom: 20px;
-}
-
-#handwritten {
-    margin: 0 auto;
-    width: 500px;
-    text-align: center;
-    font-style: bold;
-    font-size: 18pt;
-    font-family: 'Great Vibes', cursive;
-    margin-bottom: 100px;
-}
-
-.avatar {
-    width: 200px;
-    height: 200px;
-    margin: 30px;
-    background-image: url('/img/avatar.png');
-    background-position: center center;
-    background-size: 200px;
-}
-
-    .avatar:hover {
-        background-image: url('/img/avatar-alt.png');
-    }
-
-body {
-    font-family: 'Montserrat', sans-serif;
-}
-
-.content {
-    background: white;
-    margin: -220px 5% 100px;
-}
-
-.to-top {
-    position: fixed;
-    bottom: 90px;
-    right: 20px;
-}
-
-.center-block {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#footer {
-    display: flex;
-    justify-content: space-around;
-    background-color: #3c3d41;
-    color: #fff;
-    padding-top: 20px;
-    padding-bottom: 10px;
-}
-
-
-    #footer a {
-        color: #d2d1d1c0;
-        text-decoration: none;
-    }
-
-        #footer a:hover {
-            color: #fff;
-        }
-
-#modify-group {
-    display: none;
+#mainform > input{
     text-align: center;
 }
 
-#modify-btn-group {
-    display: flex;
+#timesheet{
+    font-size: x-large;
+    width: 90%;
+    border-collapse: collapse;
 }
 
-#people-form td {
-    display: flex;
+.mainpage{
+    display: grid;
+    background-color: #f9f9f9;
+    color: #4a4a4a;
+    margin-bottom: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 10%;
+    border-radius: 25px;
+    grid-template-areas: 
+        'header header header header header'
+        'left content content content content';
 }
+
+.mainpage > div{
+    padding: 12px 0;
+}
+
+.header{
+    grid-area: header;
+    text-align: center;
+}
+
+.left{
+    grid-area: left;
+    text-align: center;
+}
+
+.content{
+    grid-area: content;
+}
+
+html,
+body,
+input,
+textarea,
+button {
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+    font-family:'Times New Roman', Times, serif;
+}
+
+button {
+    font-size: 1em;
+}
+
+input {
+    font-size: 1em;
+}
+
+
