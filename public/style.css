@@ -1,3 +1,7 @@
+html{
+  font-family: 'Courier Prime', monospace;
+}
+
 table, th, td {
   border: 1px solid black;
   border-collapse: separate;

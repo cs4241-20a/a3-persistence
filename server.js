@@ -3,6 +3,7 @@ const express = require('express'),
       mongodb = require('mongodb'),
       MongoClient = mongodb.MongoClient,
       dotenv = require('dotenv').config(),
+      morgan = require('morgan'),
       app = express();
 
 const uri = `mongodb+srv://admin:${process.env.DB_PASSWORD}@cluster0.lkq2d.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
@@ -15,7 +16,13 @@ client.connect(err => {
 
 app.use(express.static("public"));
 
+app.use(morgan('combined'))
+
 app.get("/", (request, response) => {
+  response.sendFile(__dirname + "/views/login.html");
+});
+
+app.get("/index.html", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
 });
 
