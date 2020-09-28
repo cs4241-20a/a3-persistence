@@ -1,6 +1,6 @@
 ## Motocross Results Tracker
 
-http://a3-nconill13.glitch.me
+http://a3-nconill13.glitch.me/login
 
 Please use full screen.
 
