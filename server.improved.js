@@ -11,7 +11,7 @@ const express = require('express'),
 let currUserId = null
 
 const MongoClient = mongodb.MongoClient;
-const uri = 'mongodb+srv://${process.env.DBUSER}:${process.env.DBPW}@cluster0.6usct.gcp.mongodb.net/testdatabase?retryWrites=true&w=majority';
+const uri = process.env.MONGOURI
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 let collection = null
 let loginCollection = null
