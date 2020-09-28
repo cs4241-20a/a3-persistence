@@ -22,10 +22,11 @@
         <h1>Welcome to the Weather Dashbaord, <strong><%= username %></strong></h1>
           <h2><%= noexist %></h2>
             <form action="/">
-              <input type="submit" class="btn btn-danger" value="Logout"></input>
+              <input type="submit" class="btn btn-danger" value="Logout">
             </form>
       </header>
       
+      <h2 class="text-white mt-5"><strong>User Reports</strong></h2>
       <table class="table table-light mt-3" id="reports">
         <thead>
           <tr>
@@ -41,10 +42,10 @@
         </tbody>
       </table>
       
-      <form class="text-white mt-3" id="reportform">
-        <h3>Report a new weather condition</h3>
+      <form class="text-white mt-5" id="reportform">
+        <h2><strong>Report a new weather condition</strong></h2>
         <fieldset disabled>
-        <div class="form-group mt-3">
+        <div class="form-group mt-1">
           <label for="username">Username</label>
           <input type="text" class="form-control" id="username" value="<%= username %>">
           <small id="userinfo" class="form-text text-white">Username was set automatically.</small>
@@ -59,6 +60,7 @@
             <option>Evening</option>
             <option>Night</option>
           </select>
+          <small id="multiinfo" class="form-text text-white">Select multiple by holding down CTRL when selecting.</small>
         </div>
         
         <div class="form-group">
@@ -75,14 +77,6 @@
         <div class="form-group">
           <label for="text-area">Notes</label>
           <textarea class="form-control" id="text-area" rows="3"></textarea>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-          <input type="radio" id="above-freezing" name="above-freezing" class="custom-control-input" checked>
-          <label class="custom-control-label" for="above-freezing">Above Freezing</label>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-          <input type="radio" id="below-freezing" name="below-freezing" class="custom-control-input">
-          <label class="custom-control-label" for="below-freezing">Below Freezing</label>
         </div>
         <div class="form-group">
           <button type="button" class="btn btn-info btn-space btn-md mt-3" id="report">Submit Report</button>
