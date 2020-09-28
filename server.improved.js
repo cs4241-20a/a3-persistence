@@ -43,7 +43,7 @@ var GitHubStrategy = require('passport-github').Strategy;
 passport.use(new GitHubStrategy({
         clientID: process.env.GHCLIENTID,
         clientSecret: process.env.GHCLIENTSECRET,
-        callbackURL: "http://https://a3-maria-medina-martinez.herokuapp.com/auth/github/callback"
+        callbackURL: "https://a3-maria-medina-martinez.herokuapp.com/auth/github/callback"
     },
     async function(accessToken, refreshToken, profile, cb) {
         let dbresponse = await loginCollection.findOne({ username: profile.id })
