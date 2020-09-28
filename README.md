@@ -1,3 +1,4 @@
+Edward Carlson
 ## Sample WebStore
 https://a3-edward-carlson.glitch.me/ 
 
