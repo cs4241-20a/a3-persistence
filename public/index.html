@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="\css\style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap"
       rel="stylesheet"
@@ -12,155 +11,17 @@
       integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
       crossorigin="anonymous"
     />
-
-    <title>CS4241 Assignment</title>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
   </head>
+
   <body>
-    <div class="container">
-      <div class="">
-        <h1>Todo List</h1>
-      </div>
-      <a href="https://a3-nlingram.herokuapp.com/login">Login again here</a>
-      <div>
-        <form class="form" action="">
-          <label
-            ><input type="text" class="" id="task" value="Enter a task"
-          /></label>
-          <label
-            ><input
-              type="text"
-              class=""
-              id="due"
-              value="How many days till due?"
-          /></label>
-          <label
-            ><button id="submit" type="button" class="btn-success">
-              submit
-            </button>
-          </label>
-        </form>
-        <form class="form" action="">
-          <label
-            ><input
-              type="text"
-              class=""
-              id="task-upd"
-              value="Change what task ?"
-          /></label>
-          <label
-            ><input
-              type="text"
-              class=""
-              id="due-upd"
-              value="Enter new days until due"
-          /></label>
-          <label
-            ><button id="update" type="button" class="btn-primary">
-              change
-            </button>
-          </label>
-        </form>
-      </div>
-      <div class="list">
-        <h2>Todo's</h2>
-        <h6>Click to delete</h6>
-        <ul class="list-group" id="todo-list"></ul>
-      </div>
-    </div>
+    <h3 class="text-center text-danger">
+      In order to access the site, you must sign into GitHub
+    </h3>
+    <a
+      style="display: block; text-align: center"
+      class="text-larger"
+      href="https://github.com/login/oauth/authorize?client_id=f7a6d10a6dde613593a4"
+      >Sign into GitHub</a
+    >
   </body>
-  <script>
-    const list = document.getElementById("todo-list");
-
-    const appendTodo = (newTodo) => {
-      let todo = document.createElement("li");
-      todo.innerText =
-        `${newTodo.task}` + " is due in " + `${newTodo.due}` + " days ";
-      todo.className = "list-group-item";
-      list.appendChild(todo);
-      todo.onclick = () => {
-        fetch("/delete", {
-          method: "POST",
-          body: JSON.stringify({ id: newTodo._id }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }).then((response) => {
-          response.json().then((id) => {
-            todo.remove();
-          });
-        });
-      };
-    };
-
-    const updateTodo = (updTodo) => {
-      list.childNodes.forEach((child) => {
-        let afterTask = child.innerText.indexOf("is");
-        let task = child.innerText.substr(0, afterTask - 1);
-        if (task === updTodo.task) {
-          child.innerText =
-            `${updTodo.task}` + " is due in " + `${updTodo.due}` + " days ";
-        }
-      });
-    };
-
-    fetch("/todos", {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((todos) => {
-        JSON.parse(todos).forEach(appendTodo);
-      });
-
-    const submit = function (e) {
-      e.preventDefault();
-
-      const input1 = document.querySelector("#task");
-      const input2 = document.querySelector("#due");
-      const json = { task: input1.value, due: input2.value };
-
-      fetch("/add", {
-        method: "POST",
-        body: JSON.stringify({ todo: json }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((response) => {
-        response.json().then((newTodo) => {
-          appendTodo(newTodo);
-        });
-      });
-      return false;
-    };
-
-    const updater = (e) => {
-      e.preventDefault();
-      const input1 = document.querySelector("#task-upd");
-      const input2 = document.querySelector("#due-upd");
-      const json = { task: input1.value, due: input2.value };
-
-      fetch("/update", {
-        method: "PUT",
-        body: JSON.stringify({ todo: json }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((response) => {
-        response.json().then((updTodo) => {
-          updateTodo(updTodo);
-        });
-      });
-    };
-
-    window.onload = function () {
-      const button = document.getElementById("submit");
-      button.onclick = submit;
-      const update = document.getElementById("update");
-      update.onclick = updater;
-    };
-  </script>
 </html>
