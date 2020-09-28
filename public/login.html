@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
 </head>
 <body>
 <form>
@@ -10,12 +11,14 @@
     <input type="password" id="pass">
     <button id="register">Register</button>
     <button id="login">Login</button>
+    <button id="authenticate">Authenticate</button>
 </form>
 <script>
     const register = document.getElementById("register");
     const login = document.getElementById("login");
     let user = document.getElementById("user");
     const pass = document.getElementById("pass");
+    const authenticate = document.getElementById("authenticate");
     register.addEventListener("click", function () {
         fetch("/register", {
             method: "POST",
@@ -30,6 +33,10 @@
             headers: {'Content-Type': 'application/json'}
         })
     })
+    authenticate.addEventListener("click", function() {
+        fetch("/authenticate", {
+            method:"POST"
+        })});
 </script>
 </body>
 </html>

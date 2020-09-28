@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+<input id="title" type="text">
+<input id="price" type="number">
+<input id="image" type="text">
+<button id="submit">Submit</button>
+<script>
+    const title = document.getElementById("title");
+    const price = document.getElementById("price");
+    const image = document.getElementById("image");
+    const send = document.getElementById("submit");
+    send.addEventListener("click", function () {
+        fetch('/addpost', {
+            method: "POST",
+            body: {title, price, image},
+            headers: {'Content-Type': 'application/json'}
+        })
+    })
+</script>
+</body>
+</html>
