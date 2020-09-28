@@ -150,7 +150,11 @@ app.get('/recipes/edit', isAuthenticated, (req, res) => {
 
 app.post('/recipes/edit', isAuthenticated, bodyParser.json(), (req, res) => {
   console.log(req.body);
-  res.send("Recipe updated!")
+  API.updateRecipe(req.user.id, req.body)
+  .then((data) => {
+    console.log(data)
+    res.send("Recipe updated!")
+  })
 })
 
 // Endpoint for submitting recipe
