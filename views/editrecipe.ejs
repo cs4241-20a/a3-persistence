@@ -22,7 +22,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Recipe Title</span>
                         </div>
-                        <input type="text" class="form-control" id="titleInput" placeholder="Name your recipe!" v-bind:value="recipeTitle">
+                        <input type="text" class="form-control" id="titleInput" placeholder="Name your recipe!">
                     </div>
 
                     <div class="input-group mb-3">
@@ -49,11 +49,11 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Directions</span>
                         </div>
-                        <textarea class="form-control" id="directionsInput" v-bind:value="directions"></textarea>
+                        <textarea class="form-control" id="directionsInput"></textarea>
                     </div>
 
                     <div class="row justify-content-center">
-                        <input id="submitButton" type="button" @click="updateRecipe()" class="btn btn-primary" value="Submit">
+                        <input id="submitButton" type="button" @click="<%= submitFn %>()" class="btn btn-primary" value="Submit">
                     </div>
                 </div>
             </form>
@@ -119,9 +119,9 @@
                 .then( res => res.json())
                 .then( data => {
                   const recipe = data[0]
-                  this.recipeTitle = recipe.title;
+                  document.getElementById("titleInput").value = recipe.title;
                   this.ingredients = recipe.ingredients;
-                  this.directions = recipe.directions;
+                  document.getElementById("directionsInput").value = recipe.directions;
                   this.recipeID = recipe._id;
                   
                   console.log(data[0]);
@@ -130,7 +130,7 @@
             }
         })
 
-        function sendData() {
+        function newRecipe() {
             fetch('/recipes/add', {
                 method: 'POST',
                 body: JSON.stringify(app.getRecipe()),
