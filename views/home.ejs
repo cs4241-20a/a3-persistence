@@ -191,26 +191,21 @@ document.body.addEventListener('click', async function(event){
     .catch(e => console.log(e))
   }
   else if(event.path[1].className === 'edit') {
-    console.log('edit')
-    const targetRow = event.path[4].firstElementChild
+    const targetRow = event.path[3]
     const title = targetRow.children[1].innerHTML.trim()
     const author = targetRow.children[2].innerHTML.trim()
     const isbn = targetRow.children[3].innerHTML.trim()
-    const hasCopy = targetRow.children[4].innerHTML.trim()
-    const reviews = event.path[4].children[1].firstElementChild.firstElementChild.firstElementChild.innerHTML
-
     const book = {
       title,
       author,
-      isbn,
-      hasCopy,
-      reviews
+      isbn
     }
     createModal(book)
   }
 })
 
 function createModal(book) {
+  console.log(book)
   const modal = document.querySelector('.modal-body')
   modal.innerHTML = `
     <form action="/modify" method="POST">
@@ -222,7 +217,6 @@ function createModal(book) {
             name="title"
             class="form-control"
             placeholder="Enter Book Title"
-            value=${book.title}
             required
           />
         </div>
@@ -234,7 +228,6 @@ function createModal(book) {
             name="author"
             class="form-control"
             placeholder="Enter Author"
-            value=${book.author}
             required
           />
         </div>
@@ -258,7 +251,6 @@ function createModal(book) {
           name="reviews"
           class="form-control"
           placeholder="How do you feel about this book?"
-          value=${book.reviews}
           ></textarea>
         </div>
         <div class="form-group">
@@ -277,5 +269,7 @@ function createModal(book) {
         </button>
     </form>
   `
+  document.querySelector('#title-modal').setAttribute('value', book.title)
+  document.querySelector('#author-modal').setAttribute('value', book.author)
 }
 </script>

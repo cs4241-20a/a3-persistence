@@ -81,7 +81,6 @@ router.post('/delete', ensureAuthenticated, (req, res) => {
 router.post('/modify', ensureAuthenticated, async(req, res) => {
     const errors = []
     const updates = Object.keys(req.body)
-    console.log(updates)
     try {
         const book = await Book.findOne({ isbn: req.body.isbn })
 

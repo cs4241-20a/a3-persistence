@@ -14,14 +14,11 @@ your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.m
 - helmet: helps protect the application from external attacks.
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
-- **Tech Achievement 2**: In the project, I uses the following express middleware: Passport.js, body parser, session, flash, and helmet.
-- **Tech Achievement 3**In addition to OAuth strategies, I also use EJS for this project. EJS allows developers to display dynamically-created content on the website directly, in my case, I use it to display success and error messages, which provides users clear feedback on their input. Though EJS has a learning curve, overall it makes writing frontend code easier than merely relying on HTML/JavaScript.
+- **Tech Achievement 2**In addition to OAuth strategies, I also use EJS for this project. EJS allows developers to display dynamically-created content on the website directly, in my case, I use it to display success and error messages, which provides users clear feedback on their input. Though EJS has a learning curve, overall it makes writing frontend code easier than merely relying on HTML/JavaScript.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative
-- Provide informative, unique page titles
+- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative:
 - Use headings to convey meaning and structure
-- Make link text meaningful
 - Provide clear instructions
 - Provide sufficient contrast between foreground and background
 - Ensure that interactive elements are easy to identify
