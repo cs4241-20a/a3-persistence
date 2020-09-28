@@ -1,29 +1,5 @@
-// Add some Javascript code here, to run on the front end.
-
-console.log("Welcome to assignment 2!")
-
 let appData;
 let editData;
-
-const submit = function (e) {
-    // prevent default form action from being carried out
-    e.preventDefault();
-
-    const name = document.querySelector('#input-name');
-    const data = { 
-        yourname: name.value 
-    };
-
-    fetch('/submit', {
-        method: 'POST',
-        body: JSON.stringify(data)
-    }).then(function logResponse (response) {
-        // do something with the reponse 
-        console.log(response);
-    })
-
-    return false;
-}
 
 const addRun = function (e) {
     e.preventDefault();
@@ -42,7 +18,7 @@ const addRun = function (e) {
         notes: notes,
     };
 
-    fetch('/addRun', {
+    fetch('/add-run', {
         method: 'POST',
         body: JSON.stringify(body),
         headers: {
@@ -62,7 +38,7 @@ const addRun = function (e) {
 }
 
 const deleteRun = function (id, deleteIndex) {
-    fetch ('/deleteRun', {
+    fetch ('/delete-run', {
         method: 'POST',
         body: JSON.stringify({id: id}),
         headers: {
@@ -87,9 +63,9 @@ const editRun = function (id, index) {
     runToSend.location = document.querySelector('#input-location-edit').value;
     runToSend.distance = document.querySelector('#input-distance-edit').value;
     runToSend.time = document.querySelector('#input-time-edit').value;
-    runToSend.notes = appData[index].notes;
+    runToSend.notes = appData[index - 1].notes;
 
-    fetch('/editRun', {
+    fetch('/edit-run', {
         method: 'POST',
         body: JSON.stringify({run: runToSend, id: id}),
         headers: {
@@ -124,7 +100,7 @@ const clearTable = function (table) {
 }
 
 const loadData = function () {
-    fetch('/getRuns', {
+    fetch('/get-runs', {
         method: 'GET',
     })
     .then(response => response.json())
@@ -146,8 +122,8 @@ const fillTable = function (table, data) {
                 Actions
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <button class="dropdown-item" type="button" onclick="deleteRun('${data[i]._id}', ${i})">Delete</button>
-                <button class="dropdown-item" type="button" onclick="prepareEdit(${i + 1}, '${data[i]._id}')">Edit</button>
+                <button class="dropdown-item" type="button" onclick="deleteRun('${data[i]._id}', ${i})">Delete Run</button>
+                <button class="dropdown-item" type="button" onclick="prepareEdit(${i + 1}, '${data[i]._id}')">Edit Run</button>
                 <button class="dropdown-item" type="button" onclick="alert(appData[${i}].notes ? appData[${i}].notes : 'No notes exist for this run')">View Notes</button>
                 <button class="dropdown-item" type="button" onclick="editNotes(${i})">Edit Notes</button>
             </div>
@@ -187,8 +163,8 @@ const prepareEdit = function(index, id) {
             Actions
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            <button class="dropdown-item" type="button" onclick="editRun('${id}', ${index})">Submit</button>
-            <button class="dropdown-item" type="button" onclick="revertEdit()">Cancel</button>
+            <button class="dropdown-item" type="button" onclick="editRun('${id}', ${index})">Submit Edits</button>
+            <button class="dropdown-item" type="button" onclick="revertEdit()">Cancel Edits</button>
         </div>
     </div>`;
     table.rows[index].cells[1].innerHTML = `<input class="form-control" type="text" id="input-name-edit" value="${tempData.name}" placeholder="${tempData.name}"/>`;
@@ -231,7 +207,7 @@ const editNotes = function(index) {
         runToSend.time = appData[index].time;
         runToSend.notes = newNotes;
         
-        fetch('/editRun', {
+        fetch('/edit-run', {
             method: 'POST',
             body: JSON.stringify({run: runToSend, id: appData[index]._id}),
             headers: {

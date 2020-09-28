@@ -16,15 +16,16 @@ client.connect(err => {
   console.log(collection);
 });
 
+app.use(express.static("public"));
+
 app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(require('express-session')({ secret: 'hyperbolic paraboloid', resave: true, saveUninitialized: true }));
-
-// make all the files in 'public' available
-// https://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(require("helmet")());
+app.use(require("express-lowercase-paths")());
 
 passport.serializeUser(function(user, cb) {
   cb(null, user);
@@ -62,10 +63,10 @@ function(accessToken, refreshToken, profile, cb) {
 }
 ));
 
-app.get('/auth/github',
+app.get('/auth/github', 
   passport.authenticate('github', { successReturnToOrRedirect: '/', failureRedirect: '/', failureFlash: 'Authentication Failed'}));
 
-app.get('/auth/github/callback', 
+app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/' }),
   function(req, res) {
     // Successful authentication, redirect home.
@@ -76,7 +77,7 @@ app.get('/auth/github/callback',
 // Requests and Responses
 // ----------------------
 
-app.get('/getRuns', auth.ensureLoggedIn('/auth/github'), function getRuns(request, response){
+app.get('/get-runs', auth.ensureLoggedIn('/auth/github'), function getRuns(request, response){
   const cursor = collection.find({"user": request.user.username}) // get everything
   cursor.toArray().then(array => {
     console.log(`Array data: ${JSON.stringify(array)}`);
@@ -84,7 +85,7 @@ app.get('/getRuns', auth.ensureLoggedIn('/auth/github'), function getRuns(reques
   });
 });
 
-app.post('/addRun', bodyParser.json(), auth.ensureLoggedIn('/auth/github'), function addRun (request, response) {
+app.post('/add-run', bodyParser.json(), auth.ensureLoggedIn('/auth/github'), function addRun (request, response) {
   let runToAdd = request.body;
   runToAdd.user = request.user.username;
   console.log(`Adding run ${JSON.stringify(runToAdd)}`);
@@ -95,13 +96,13 @@ app.post('/addRun', bodyParser.json(), auth.ensureLoggedIn('/auth/github'), func
   });
 });
 
-app.post('/deleteRun', bodyParser.json(), auth.ensureLoggedIn('/auth/github'), function deleteRun (request, response) {
+app.post('/delete-run', bodyParser.json(), auth.ensureLoggedIn('/auth/github'), function deleteRun (request, response) {
   console.log(`ID to delete :${JSON.stringify(request.body.id)}`);
   collection.deleteOne({ _id:MongoDB.ObjectID( request.body.id ) })
     .then( result => response.json(result) );
 });
 
-app.post('/editRun', bodyParser.json(), auth.ensureLoggedIn('/auth/github'), function editRun (request, response) {
+app.post('/edit-run', bodyParser.json(), auth.ensureLoggedIn('/auth/github'), function editRun (request, response) {
   let runToEdit = request.body.run;
   runToEdit.user = request.user.username;
   collection.update({_id:MongoDB.ObjectID(request.body.id)}, runToEdit)
