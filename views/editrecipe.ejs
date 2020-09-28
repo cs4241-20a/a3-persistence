@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="row justify-content-center">
-                        <input id="submitButton" type="button" @click='<%= submitFn %>()' class="btn btn-primary" value="Submit" style="padding: 1rem 3rem; margin: 2rem; min-width: 10rem">
+                        <input id="submitButton" type="button" @click='<%= submitFn %>' class="btn btn-primary" value="Submit" style="padding: 1rem 3rem; margin: 2rem; min-width: 10rem">
                     </div>
                 </div>
             </form>
@@ -76,7 +76,6 @@
                     var val = document.getElementById("ingredientInput").value
                     // Make sure this is a valid, unique ingredient
                     if(val.length > 0 && !this.ingredients.includes(val)) {
-                        console.log(val)
                         this.ingredients.push(val)
                     }
                     var val = document.getElementById("ingredientInput").value = "";
@@ -122,7 +121,6 @@
                     else {
                       app.showStatus(false)
                     }
-                    console.log(res.status)
                   })
                 }
             },
@@ -131,7 +129,6 @@
               const queryString = window.location.href
               const url = new URL(queryString)
               const id = url.searchParams.get('recipeID')
-              console.log(id)
               if(id) {
                 fetch(`/recipes/data/single?recipeID=${id}`)
                 .then( res => res.json())
@@ -140,9 +137,7 @@
                   document.getElementById("titleInput").value = recipe.title;
                   this.ingredients = recipe.ingredients;
                   document.getElementById("directionsInput").value = recipe.directions;
-                  this.recipeID = recipe._id;
-                  
-                  console.log(data[0]);
+                  this.recipeID = recipe._id;                  
                 })
               }
             }
