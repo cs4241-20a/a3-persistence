@@ -16,14 +16,14 @@ const tempData = [
 
 
 
-const uri = `mongodb+srv://tlarson:${process.env.MONGOPASS}@cluster0.wh7oc.mongodb.net/<dbname>?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://tlarson:${process.env.MONGOPASS}@cluster0.wh7oc.mongodb.net/a3db?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
 let collection = null;
 client.connect(err => {
-  collection = client.db("test").collection("devices");
+  collection = client.db("a3db").collection("pickems");
   // perform actions on the collection object
-  client.close();
+
 });
 
 
@@ -33,16 +33,38 @@ app.get( "/", (request, response) => {
     response.sendFile(__dirname + "/views/index.html")
 })
 
-app.get( "/db", (request, response) => {
-    response.json(tempData)
+app.post( "/db", bodyParser.json(), (request, response) => {
+    collection.findOne({username:request.body.username}).then(dbresponse=>{
+        response.json(dbresponse)
+    }).catch(err=>console.error(err))
+})
+
+app.post( "/verify", bodyParser.json(), (request, response) => {
+    console.log(request.body)
+    collection.findOne({username: request.body.username}).then(result =>{
+        //console.log(result)
+        // Response Codes: -1:Password incorrect, 0:User not found, 1:Password Correct
+        let responseCode = -1
+        if (result == null){
+            responseCode = 0
+            collection.insertOne(request.body).then(newResult => result = newResult)
+        }
+        else if (result.password == request.body.password){
+            responseCode = 1
+        }
+        response.json({responseCode, result})
+    }).catch(err => console.error(err))
+    
 })
 
 app.post( "/add", bodyParser.json(), (request, response) => {
     //console.log(request.body)
-    collection.insertOne(request.body).then(dbresponse => {
-        console.log(dbresponse)
-        response.json(dbresponse.ops[0])
-    })
+    collection.findOneAndUpdate({username:request.body.username}, 
+                                {$set: {pickem:request.body.pickdata}})
+        .then(dbresponse => {
+            //console.log(dbresponse)
+            response.json(dbresponse)
+    }).catch(err=>console.error(err))
     //response.json(tempData)
 })
 

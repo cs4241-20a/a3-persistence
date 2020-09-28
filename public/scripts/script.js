@@ -118,6 +118,7 @@ let pickems = {
 
 let leftPick;
 let rightPick;
+let username = "";
 
 function getTeamBySeed(seed){
     return teams[seed-1]
@@ -169,7 +170,7 @@ function sendPickems(){
     fetch('/add', {
         method:'POST',
         body:JSON.stringify({
-            username: "TEST",
+            username: username,
             pickdata: pickems
         }),
         headers : {
@@ -177,9 +178,28 @@ function sendPickems(){
         }
     }).then( response => response.json())
         .then( json => {
-            
+
         })
 }
+
+function fetchAndUpdatePickems(){
+    fetch('/db', {
+        method:'POST',
+        body:JSON.stringify({
+            username: username
+        }),
+        headers : {
+            "Content-Type":"application/json"
+        }
+    }).then( response => response.json())
+        .then( json => {
+            if (json.pickem) {
+                pickems = json.pickem
+                updatePickems()
+            }   
+        })
+}
+
 
 function init(){
     leftPick  = document.getElementById("team1");
@@ -189,5 +209,16 @@ function init(){
 }
 
 window.onload = function(){
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    username = urlParams.get('username');
+    let newUser = urlParams.get('newUser');
+    if (newUser == "true"){
+        alert("An account with that username was not found so one was created")
+    }
+    else {
+        fetchAndUpdatePickems();
+    }
+
     init()
 };
