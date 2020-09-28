@@ -1,0 +1,33 @@
+.data-form {
+    text-align: center;
+}
+tr:hover {
+    color: pink;
+}
+tr:first-child:hover {
+    color: inherit;
+}
+input, #submit-btn, .del-btn, .save-btn, #login-btn, #create-btn, #logout-btn, #github-btn{
+    font-family: inherit;
+    font-size: inherit;
+}
+input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+#submit-btn, #login-btn, #create-btn, #github-btn, .button{ 
+    text-align: center;
+    margin: 8px 0;
+    padding: 5px 20px;
+    width: 50%
+}
+#logout-btn{ 
+    text-align: center;
+    margin: 8px 0;
+    padding: 5px 20px;
+}
+.wrapper{
+    text-align: right;
+}

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Car Wishlist</title>
+  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura-vader.css" type="text/css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+  <script src="/js/scripts.js"></script>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <div class="wrapper">
+    <p><button id="logout-btn">Log out</button></p>
+  </div>
+  <h1 class="box header">Classic Cars Wishlist</h1>
+
+    <div class="box sidebar">
+      <h3>Keep track of the cars you'd like to purchase!</h3>
+      <hr>
+      <p>Based on the car year and price, a priority will be calculated. </p>
+      <p> Priority 1 is the highest and means you
+        should get the car right away!</p>
+
+      <div class="data-form">
+        <form id="form">
+          <p><input type='text' id='Make' placeholder="Make"></p>
+          <p><input type='text' id='Model' placeholder="Model"></p>
+          <p><input type='number' id='Year' placeholder="Year"></p>
+          <p><input type='number' id='Price' placeholder="Price"></p>
+          <p><button id="submit-btn">Submit</button></p>
+        </form>
+      </div>
+    </div>
+    <hr>
+    <div class="box content">
+      <table id="data-table">
+        <tr>
+          <th>Make</th>
+          <th>Model</th>
+          <th>Year</th>
+          <th>Price</th>
+          <th>Priority</th>
+        </tr>
+      </table>
+    </div>
+
+</body>
+
+</html>
