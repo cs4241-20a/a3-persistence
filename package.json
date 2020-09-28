@@ -19,8 +19,7 @@
     "array-flatten":"^3.0.0"
   },
   "engines": {
-    "node": "12.x",
-    "npm": "6.9"
+    "node": "12.x"
   },
   "repository": {
     "url": "https://glitch.com/edit/#!/hello-express"
