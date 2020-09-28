@@ -1,0 +1,67 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A cool thing made with Glitch" />
+
+    <title>Welcome to Glitch!</title>
+
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon"/>
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css" />
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"/>
+    <!-- CSS Reset -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"/>
+    <!-- Milligram CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"/>
+    
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Ice Cream Shop</h1>
+    </header>
+
+    <main>
+      <h2>Oh hi,</h2>
+
+      <p>Tell me your ice cream order:</p>
+
+      <form>
+        <label>
+          Your Flavor
+          <input name="dream" type="text" maxlength="100" required placeholder="Flavor!"/>
+        </label>
+        <label>
+          Number of Scoops
+          <input name="numScoops" type="number" maxlength="100" required placeholder="Scoops!"/>
+        </label>
+        <label>
+          Sprinkles?
+          <input name="sprinkles" type="checkbox" />
+        </label>
+        <button type="submit" id="submit-dream">Add Order</button>
+      </form>
+<!-- 
+      <section class="dreams">
+        <ul id="dreams">
+          <em>loading dreams&hellip;</em>
+        </ul> -->
+        
+        <table id="dreams2" >
+          <tr>
+            <td>What did you get?</td>
+            <td>How Many Scoops?</td>
+            <td>Any Sprinkles?</td>
+          </tr>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>
