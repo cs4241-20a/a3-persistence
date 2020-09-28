@@ -6,7 +6,7 @@ let time = 0;
 //when start button is clicked swap visibilities and start 30 second timer.
 function startClicked() {
   seconds = document.getElementById('customseconds').value;
-  if ( seconds.length <= 7) {
+  if (seconds.length >= 6) {
     alert('Input is too long.')
   } else if (seconds > 0) {
     console.log("Game started!");
@@ -137,32 +137,36 @@ const modifyScore = function (e) {
   let modSeconds = document.getElementById('modseconds').value;
 
   //if checkbox is checked, allow deletion
-  if (modName && modScore && modSeconds !== "") {
+  if (modScore.length >= 10 || modSeconds.length >= 6) {
+    alert('Try smaller numbers!');
+  } else if (modName && modScore && modSeconds !== "") {
     let cps = Math.round((modScore / modSeconds) * 10) / 10
-    console.log("Valid user & score!");
-    let body = {
+    let modifiedUser = {
       name: modName,
       cps: cps,
       clickcount: modScore,
-      seconds: modSeconds
+      seconds: modSeconds,
+      time: Date.now()
     }
 
     fetch('/modify', {
       method: 'POST',
-      body: JSON.stringify(body),
+      body: JSON.stringify(modifiedUser),
       headers: {
         "Content-Type": "application/json"
       }
     })
       .then(function (response) {
         //response
+        console.log("Response received!");
         response.json().then(data => {
           //data
-          initializeTable();
           alert('Users modified!');
           document.getElementById('modname').value = "";
           document.getElementById('modscore').value = "";
           document.getElementById('modseconds').value = "";
+          console.log("rebuilding table..");
+          initializeTable();
         })
       })
   } else {

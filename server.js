@@ -62,9 +62,11 @@ app.post("/delete", bodyParser.json(), (request, response) => {
 })
 
 // modifies a given user's score and generates a new CPS, returns new scoreboard.
-app.post("/modify", bodyParser.json(), (request, reponse) => {
-  collection
-    .updateMany()
-    .then(result => response.json(result))
+app.post("/modify", bodyParser.json(), (request, response) => {
+  console.log("Modifying person...");
 
+  collection
+    .findOneAndUpdate({"name": request.body.name}, 
+     {$set: {"name": request.body.name, "cps": request.body.cps, "clickcount": request.body.clickcount, "seconds": request.body.seconds, "time": request.body.time}})
+    .then(result => response.json(result))
 })
