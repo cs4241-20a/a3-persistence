@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--Main login page-->
 <html>
   <head>
     <meta charset="UTF-8">
@@ -7,6 +8,29 @@
     <script href="../public/scripts.js"></script>
   </head>
   <body>
-  
+    <h1>Training Log</h1>
+    <hr />
+    <form id="input" action="submit">
+      <label for="inputRoute">Route Name</label>
+      <input type="text" id="inputRoute" value="" /><br />
+      <label for="inputTime">Time (only in whole minutes)</label>
+      <input type="text" id="inputTime" value="" /><br />
+      <label for="inputDistance">Distance (in miles)</label>
+      <input type="text" id="inputDistance" value="" /><br />
+      <p></p>
+      <button>Submit</button>
+    </form>
+    <hr />
+    <table>
+      <thead>
+        <tr>
+          <th>Route</th>
+          <th>Time</th>
+          <th>Distance</th>
+          <th>Fitness Score</th>
+        </tr>
+      </thead>
+      <tbody id="resultTableBody"></tbody>
+    </table>
   </body>
 </html>
