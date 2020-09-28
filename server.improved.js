@@ -20,7 +20,6 @@ const app = express();
 app.use(express.static("public"));
 app.use(responseTime());
 app.use(timeout("1000s"));
-
 morgan((tokens, req, res) => {
   return [
     tokens.method(req, res),
@@ -33,11 +32,12 @@ morgan((tokens, req, res) => {
   ].join(" ");
 });
 
-app.get("/login", (request, response) => {
-  response.sendFile(__dirname + "/public/login.html");
+// home is home pg, index is login
+app.get("/home", (request, response) => {
+  response.sendFile(__dirname + "/public/home.html");
 });
 
-app.get("/home", (request, response) => {
+app.get("/login", (request, response) => {
   response.sendFile(__dirname + "/public/index.html");
 });
 

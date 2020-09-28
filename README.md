@@ -1,11 +1,16 @@
 ## Your Web Application Title
 
 Heroku: https://a3-nlingram.herokuapp.com/
-(DISCLAIMER: The login/home pages URL's are hard coded, so those will only work on either the localhost or Heroku, one at a time. For submission I made them work for Heroku)
+(DRAWBACK: The login/home pages URL's are hard coded, so those will only work on either the localhost or Heroku, one at a time. For submission I made them work for Heroku, I wasn't able to figure out how to make this modular in time)
 
 The application that I made is a continuation of my a2 project, a simple todo-list. This project has far improved and now offers OAuth2.0 with GitHub and better styling with Boostrap4.
+
 Implementing Oauth 2.0 with GitHub proved to be challenging but after watching some tutorials online I was able to figure it out.
+Using a get request to the site and GitHub's Oauth application page, I setup the callback site to be the home page of this website.
+
 I choose to use Bootstrap for the css framework because I am partially familiar with it and it is easy to use. I used a custom gif in a styles.css file in addition to Boostrap.
+This includes a different font and an ease of styling.
+
 The five express middlewars that I used are :
 
 - static: this allows the server to serve static files
