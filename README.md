@@ -1,82 +1,27 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
+## Weather Reporting by Kyle Mikolajczyk
 
-Due: September 28th, by 11:59 PM.
+https://a3-kyle-mikolajczyk.glitch.me/
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
-
-Baseline Requirements
----
-
-Your application is required to implement the following functionalities:
-
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
-
-Your application is required to demonstrate the use of the following concepts:
-
-HTML:
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
-
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
-
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
-
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
-
-Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+- The goal of this application was to make a simple weather reporting site that allows a user to report their own weather and see all the submissions they have done, at anytime.
+- The biggest challenge was figuring out how to have the site know what user is logged in. In this case I use ejs which allows node to replace keys in the HTML with elements programatically. When the user logs in, I simply use this to set an input to the username. Using this I can pull the value in that input at any time when using a POST and thus I have their username.
+- Simply speaking writing my own collection on the database that contains user and password was simply the easiest. This server does not hash passwords, which I would have done if I had more time.
+- The CSS framework I used was Bootstrap 4 because it is very diverse any used everywhere. It looks modern, clean, and all you have to do is specify which classes to you. I wrote zero CSS
+  - There was no modifications to the Bootstrap 4 CSS
+- The 5 Express Middleware packages I used were the following
+  - bodyparser, this allowed to format the body nicely for getting data
+  - response-time, this allows for us to keep track of server response time
+  - compression, this allows for some basic compression
+  - cfrs-Protection, this allows for some basic security protection
+  - cookieParser, this allows to use cookies (in this case cfrs protection needs it as well)
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+
+- **Another Server Host**: I used my own server rack to host this. I installed node and started listening on the correct port. I spoke to the professor and he said it was okay that I was hosting it myself instead of on AWS or Azure. It was better because I have more processing power and ram and storage and I have control over everything. Down side is that it takes time to set it up and manage, where AWS or Azure I do not have to worry about that.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+
+- **CRAP**: I followed the CRAP principles:
+  - **Contrast**, Contrast was very important on my site. Starting on the main page and is present on both, I have the site a dark theme with bootstrap 4. This allowed me to make text that is white untop of the dark background allowed for easy seeing text. Next, the biggest emphasis is the title of the page, telling the user where they are. This is with a H1 and is bold. Next, the username and password fields are a lot smaller but still bolded so they are then drawn to enter username and password. The login button uses the btn-primary in bootstrap and simply is a large button so that they are drawn to that next. On the dashboard, the title of the dash is also an H1 and the username is bolded, so that they can tell who they are. As you go down the form medium text is shown so that you can see which fields are what and small labels are used as a secondary, help text.
+  - **Repetition**, For the repetition the same theme is used throughout the site. The dark background is the samethroughout, as well as all fonts and Bootstrap 4 styling. The text color is consistant. Input fields follow the same standards throughout such as label in top left, and if help text that is bottom. Buttons are located in similar spots, which are at the bottom of each form such as login and report form, and for logout it is in the same bosition but at the bottom of the header. Buttons are the same style but different colors allowing for repetition but subtle changes that allows the user to tell easially which button they should use for submitting a form versus which buttons they should use to log out or log in.
+  - **Alignment**, for the alignment everythign was based on reading from left to right. The inputs, buttons, and tables all work in this way, where the css allows for the elements to all start on the left most justification. Also, a container was used from bootstrap on larger screens so that the elements are left justified, but is centered nicely when the screen gets bigger. Lastly, small labels and all labels for inputs were aligned exactly the same, either above or below the input, so that you can tell which input the text is for as well as tell the importance based on the sizing.
+  - **Proximity**, proximity on this page was making sure that distances between like and not alike were good. For example, the pages have headers that contain information about the page. These are spaced further appart than forms and tables so that the relatioship is there but allows the user to see the differences . The spacing between each element (margin top and bottom) was used to be similar spacing all around so that there was breating room bewteen similar elements and more space between not-related elements such as the header etc. which helps the user to navigate easially while still have a good look and feel for the design that allows me to use Bootstrap 4 to its full potential.
