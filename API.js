@@ -1,4 +1,5 @@
 const { MongoClient } = require("mongodb");
+const ObjectID = require('mongodb').ObjectID;
 
 const host = process.env.MONGODB_HOST
 const user = process.env.MONGODB_USER
@@ -48,7 +49,7 @@ const getRecipesNoID = function(userID) {
 const tryDelete = function(userID, recipeID) {
   console.log("recipeID: ", recipeID)
   console.log("userID: ", userID)
-  return client.db("a3-webware").collection("recipes").deleteOne({ $and: [{_id: recipeID}, {userID: userID}]})
+  return client.db("a3-webware").collection("recipes").deleteOne({ _id: new ObjectID(recipeID)});//$and: [{_id: recipeID}, {userID: userID}]})
 }
 
 exports.insert = insert;
