@@ -148,6 +148,10 @@ app.get('/recipes/edit', isAuthenticated, (req, res) => {
   res.render("editrecipe", {title: "Edit Recipe"});
 })
 
+app.post('/recipes/edit', isAuthenticated, bodyParser.json(), (req, res) => {
+  console.log(req.body);
+  res.send("Recipe updated!")
+})
 
 // Endpoint for submitting recipe
 app.post('/recipes/add', isAuthenticated, bodyParser.json(), (req, res) => {
