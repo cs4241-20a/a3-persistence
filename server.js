@@ -19,7 +19,7 @@ app.set('trust proxy', 1)
 
 
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://project4:${process.env.DB_PASSWORD}cluster0.gmbny.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority";
+const uri = `mongodb+srv://project4:${process.env.DBPASSWORD}@cluster0.gmbny.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
 let collection = null;
