@@ -1,0 +1,161 @@
+/* this file is loaded by index.html and styles the page */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 2em 1em;
+  line-height: 1.5em;
+}
+
+h1 {
+  font-style: italic;
+  color: indigo;
+  max-width: calc(100% - 5rem);
+  line-height: 1.1;
+}
+
+.flex-span {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 5px;
+  max-width: 75%;
+}
+
+.col1 {
+  color: indigo;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 10px;
+  background-color: lavender;
+  padding: 10px;
+}
+
+#class-info {
+  background-color: #eee;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  padding-left: 1em
+}
+
+#studentForm {
+  background-color: #eee;
+  display: grid;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-gap: 1em;
+  padding: 1em;
+}
+
+#submitstudent {
+  background-color: #bbbbf2;
+  color: black;
+  border: 2px solid currentColor;
+  border-radius: .25em;
+}
+
+#submitstudent:hover {
+  background-color: lavender;
+}
+
+#studentForm input {
+  border: 1px solid silver;
+  display: block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 100%;
+}
+
+#loginPage{
+  width: 40%;
+  margin: auto;
+}
+
+form input {
+  border: 1px solid silver;
+  display: block;
+  font-size: 16px;
+  padding: 5px;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+form button {
+  background-color: #bbbbf2;
+  color: black;
+  border: 2px solid currentColor;
+  border-radius: .25em;
+  cursor: pointer;
+  font-size: inherit;
+  line-height: 1.4em;
+  padding: 0.25em 1em;
+  max-width: 17ch;
+}
+
+form button:hover {
+  background-color: lavender;
+}
+
+#center {
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  border: 1px solid gray;
+}
+
+ul li {
+  padding: 8px 16px;
+  border-bottom: 1px solid black;
+  background: lavender
+}
+
+ul li:last-child {
+  border-bottom: none
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+td {
+  text-align: center;
+  padding: 10px;
+}
+
+tr:nth-child(even){background-color: #eee } 
+tr:nth-child(odd){ background-color: lavender }
+
+th {
+  background-color: indigo;
+  color: white;
+}
+
+.deleteButton {
+  background-color: red;
+  border: 2px solid currentColor;
+  border-radius: .25em;
+  cursor: pointer;
+}
+
+.editButton {
+  background-color: #bbbbf2;
+  border: 2px solid currentColor;
+  border-radius: .25em;
+  cursor: pointer;
+}
+
+#line {
+  margin-bottom: 10px;
+}
