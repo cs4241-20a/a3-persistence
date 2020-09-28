@@ -20,7 +20,7 @@ Speed Clicker is a game where you can input an amount of time to play and see ho
 ## Technical Achievements
 - **Tech Achievement 1**: I made use of passport to handle usernames and passwords as a unique idenifier and user authenticator. Initializing passport became an issue when converting from array to database therefore I was forced to revert some changes before submission.
 
-- **(Actual) Tech Achievement 2**: I uploaded my project to Heroku instead of glitch. 
+- **(Actual) Tech Achievement 2**: I uploaded my project to Heroku instead of glitch. I received a lot of issues originally from accidentally uploading my node_modules folder.
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I made use of bcrypt to securely encrypt passwords before uploading into the mongodb user database. The idea in doing so was for allowing users to create accounts and login to automatically add themselves to the leaderboard. The most confusing part to deal with in bcrypt was making use of the compare function.
