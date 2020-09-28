@@ -130,8 +130,13 @@ app.get('/recipes/data', isAuthenticated, (req, res) => {
 
 // Endpoint for view with form to add recipes
 app.get('/recipes/add', isAuthenticated, (req, res) => {
-  res.render("addrecipe", {title: "Add Recipe"})
+  res.render("addrecipe", {title: "Add Recipe"});
 })
+
+app.get('/recipes/edit', isAuthenticated, (req, res) => {
+  res.render("editrecipe", {title: "Edit Recipe"});
+})
+
 
 // Endpoint for submitting recipe
 app.post('/recipes/add', isAuthenticated, bodyParser.json(), (req, res) => {
