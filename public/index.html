@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  
+
+  <body>
+    <div class="box">
+    <div class="child">
+      <h1>Todo List</h1>
+    </div>
+    <div class="child">
+      <div class="inputSq">
+        <div>
+          <h3>Add an item</h3>
+        </div>
+        <div>
+          <form name="inputForm" method ="post" action="">
+            <input type="text" id="youtask" value="Task">
+            <input type="date" id="duedate" value="Due Date">
+            <button id="myinput">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="child">
+      <table id="taskTable">
+        <thead id="taskItems">
+          <tr>
+            <th colspan="4">Task List</th>
+          </tr>
+          <tr>
+            <th>Task</th>
+            <th>Date</th>
+            <th>Date Made</th>
+          </tr>
+        </thead>
+        <tbody id="TaskBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="js/scripts.js"></script>
+  </body>
+</html>
