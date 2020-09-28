@@ -1,6 +1,20 @@
 let appData;
 let editData;
 
+const checkUser = function () {
+    fetch('/user-existence', {
+        method: 'GET',
+    })
+    .then(response => response.json())
+    .then(function( response ){
+        if(response.userState === 'false') {
+            console.log(`Created new user ${response.username}`);
+            alert(`Creating new user ${response.username}. Welcome to Tagteam Marathon!`);
+        }
+        // If such a user already exists, exit silently
+    });
+}
+
 const addRun = function (e) {
     e.preventDefault();
 
@@ -46,10 +60,10 @@ const deleteRun = function (id, deleteIndex) {
         }
     }).then(function handleDeleteRunResponse(response) {
         if (response.status === 200) {  // OK
-            console.log(`Successfully deleted run ${deleteIndex}.`);
+            console.log(`Successfully deleted run.`);
             loadData();
         } else {
-            console.error(`Failed to delete run ${deleteIndex}.
+            console.error(`Failed to delete run.
             Error: ${response.message}`);
         }
     })
@@ -73,11 +87,11 @@ const editRun = function (id, index) {
         }
     }).then(function handleEditRunResponse(response) {
         if (response.status === 200) {  // OK
-            console.log(`Successfully edited run ${index} to ${JSON.stringify(runToSend)}`);
+            console.log(`Successfully edited run to ${JSON.stringify(runToSend)}`);
             revertEdit();
             loadData();  // Refresh the tables
         } else {
-            console.error(`Failed to edit run ${index} to ${JSON.stringify(runToSend)}
+            console.error(`Failed to edit run to ${JSON.stringify(runToSend)}
             Error: ${response.message}`);
         }
     });
@@ -100,12 +114,15 @@ const clearTable = function (table) {
 }
 
 const loadData = function () {
+    checkUser(); // Alert the user if they are new
     fetch('/get-runs', {
         method: 'GET',
     })
     .then(response => response.json())
     .then(function( parsedData ){
-        appData = parsedData;  // Is this necessary?
+        appData = parsedData;
+        document.querySelector('#guest-content').style.display = "none";
+        document.querySelector('#user-content').style.display = "block";
         const table = document.querySelector('#runs-table');
         fillTable(table, parsedData);
     });
@@ -215,11 +232,11 @@ const editNotes = function(index) {
             }
         }).then(function handleEditRunResponse(response) {
             if (response.status === 200) {  // OK
-                console.log(`Successfully edited run ${index} to ${JSON.stringify(runToSend)}`);
+                console.log(`Successfully edited run to ${JSON.stringify(runToSend)}`);
                 revertEdit();
                 loadData();  // Refresh the tables
             } else {
-                console.error(`Failed to edit run ${index} to ${JSON.stringify(runToSend)}
+                console.error(`Failed to edit run to ${JSON.stringify(runToSend)}
                 Error: ${response.message}`);
             }
         });

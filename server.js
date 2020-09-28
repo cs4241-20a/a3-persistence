@@ -1,10 +1,12 @@
 const express = require("express");
 const secrets = require("./secrets");
+const path = require("path");
 const bodyParser = require("body-parser");
 const passport = require('passport');
 const GitHubStrategy = require('passport-github').Strategy;
 const app = express();
 const auth = require('connect-ensure-login');
+const timeout = require('connect-timeout');
 
 const MongoDB = require('mongodb');
 const MongoClient = MongoDB.MongoClient;
@@ -16,16 +18,33 @@ client.connect(err => {
   console.log(collection);
 });
 
+app.use(timeout('5s'));
+function haltOnTimedout (req, res, next) {
+  if (!req.timedout) next()
+}
+
 app.use(express.static("public"));
+app.use(haltOnTimedout);
 
 app.use(require('morgan')('combined'));
+app.use(haltOnTimedout);
 app.use(require('cookie-parser')());
+app.use(haltOnTimedout);
 app.use(require('express-session')({ secret: 'hyperbolic paraboloid', resave: true, saveUninitialized: true }));
+app.use(haltOnTimedout);
 app.use(passport.initialize());
+app.use(haltOnTimedout);
 app.use(passport.session());
+app.use(haltOnTimedout);
 
-app.use(require("helmet")());
 app.use(require("express-lowercase-paths")());
+app.use(haltOnTimedout);
+app.use(require('serve-favicon')(path.join(__dirname, 'assets', 'favicon.png')));
+app.use(haltOnTimedout);
+app.use(require('helmet')({contentSecurityPolicy: false}));
+app.use(haltOnTimedout);
+app.use(require("connect-rid")({headerName: "x_rid"}));
+app.use(haltOnTimedout);
 
 passport.serializeUser(function(user, cb) {
   cb(null, user);
@@ -62,6 +81,7 @@ function(accessToken, refreshToken, profile, cb) {
   return cb(null, profile);
 }
 ));
+app.use(haltOnTimedout);
 
 app.get('/auth/github', 
   passport.authenticate('github', { successReturnToOrRedirect: '/', failureRedirect: '/', failureFlash: 'Authentication Failed'}));
@@ -107,4 +127,32 @@ app.post('/edit-run', bodyParser.json(), auth.ensureLoggedIn('/auth/github'), fu
   runToEdit.user = request.user.username;
   collection.update({_id:MongoDB.ObjectID(request.body.id)}, runToEdit)
     .then( result => response.json(result));
+});
+
+app.get('/user-existence', auth.ensureLoggedIn('/auth/github'), function userExistence (request, response) {
+  //If there is no user
+  if(!request.user.username) {
+    res.json('none');
+  }
+
+  console.log(`Checking for user :${request.user.username}`);
+  const cursor = collection.find({"username": request.user.username}) // get everything
+  cursor.toArray().then(array => {
+    console.log(`Array data: ${JSON.stringify(array)}`);
+
+    // If no such user exists
+    if(!array.length) {
+      console.log(`Adding user ${request.user.username}`);
+      collection.insertOne({username: request.user.username, new: false})
+      .then(dbresponse => {
+        console.log(`dbresponse: ${dbresponse}`);
+        response.json({userState: 'false', username: request.user.username});
+      });
+    }
+    // If such a user exists
+    else {
+      response.json({userState: 'true', username: request.user.username});
+    }
+
+  });
 });
