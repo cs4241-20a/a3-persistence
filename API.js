@@ -59,8 +59,7 @@ const tryDelete = function(userID, recipeID) {
 const updateRecipe = function(userID, recipe) {
   //return client.db("a3-webware").collection("recipes").update({ $and: [{_id: new ObjectID(recipe.recipeID)}, {recipeID: recipe.recipeID} ]}, recipe);
   console.log("Attempting to update recipeID " + recipe.recipeID)
-  console.log("Updating to " + JSON.stringify(recipe))
-  return client.db("a3-webware").collection("recipes").updateOne({ _id: new ObjectID(recipe.recipeID)}, recipe, {upsert: true});
+  return client.db("a3-webware").collection("recipes").findOneAndUpdate({ id: new ObjectID(recipe.recipeID)}, {$set: recipe}, {upsert: true});
   
 }
 

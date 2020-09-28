@@ -151,8 +151,8 @@ app.get('/recipes/edit', isAuthenticated, (req, res) => {
 app.post('/recipes/edit', isAuthenticated, bodyParser.json(), (req, res) => {
   console.log(req.body);
   API.updateRecipe(req.user.id, req.body)
-  .then((data) => {
-    console.log(data)
+  .then((err, doc) => {
+    console.log(doc)
     res.send("Recipe updated!")
   })
 })
