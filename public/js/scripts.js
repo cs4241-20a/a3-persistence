@@ -25,27 +25,31 @@ const submit = function( e ) {
         middleName: mName,
         lastName: lName,
         gender: gender,
-        birthday: birthday,
-        removeElement: -1,
-        modifyElement: -1
+        birthday: birthday
     };
+
+    console.log(json);
 
     let body = JSON.stringify(json);
 
-    fetch( '/submit', {
+    fetch( '/add', {
         method:'POST',
-        body
-    }).then( function( response ) {
+        body: body,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(( response ) => {
         // do something with the response
         return response.json();
-    }).then( function( json ) {
+    }).then(( json ) => {
+        console.log(json);
         loadTable(json);
     });
 
     return false
 };
 
-const loadTable = function (json){
+const loadTable = function ( json ){
     const table = document.getElementById("table-body");
     table.innerHTML = "";
     for (let i = 0; i < json.length; i++){
@@ -55,23 +59,26 @@ const loadTable = function (json){
             "<td>" + json[i]['gender'] + "</td>" +
             "<td>" + json[i]['birthday'] + "</td>" +
             "<td>" + json[i]['ableToDrink'] + "</td>" +
-            "<td>" + "<button type=\"button\" onclick='deleteElement(this)' class=\"btn btn-danger deleteButton\" value='" + i + "'>Delete</button>" + "</td>"    +
-            "<td>" + "<button type=\"button\" onclick='modifyElement(this)' class=\"btn btn-warning modifyButton\" value='" + i + "'>Override</button>" + "</td>"    +
+            "<td>" + "<button type=\"button\" onclick='deleteElement(this)' class=\"btn btn-danger deleteButton\" value='" + json[i]['fullName'] + "'>Delete</button>" + "</td>"    +
+            "<td>" + "<button type=\"button\" onclick='modifyElement(this)' class=\"btn btn-warning modifyButton\" value='" + json[i]['fullName'] + "'>Override</button>" + "</td>"    +
             "</tr>"
-        )
+        );
     }
 };
 
 const modifyElement = function (e){
     let json = {
-        modifyElement: e.value
+        fullName: e.value
     };
 
     let body = JSON.stringify(json);
 
-    fetch( '/submit', {
+    fetch( '/modify', {
         method:'POST',
-        body
+        body: body,
+        headers: {
+            'Content-Type': 'application/json'
+        }
     }).then( function( response ) {
         return response.json();
     }).then( function( json ) {
@@ -81,14 +88,17 @@ const modifyElement = function (e){
 
 const deleteElement = function (e){
     let json = {
-        removeElement: e.value
+        fullName: e.value
     };
 
     let body = JSON.stringify(json);
 
-    fetch( '/submit', {
+    fetch( '/delete', {
         method:'POST',
-        body
+        body: body,
+        headers: {
+            'Content-Type': 'application/json'
+        }
     }).then( function( response ) {
         return response.json();
     }).then( function( json ) {
@@ -100,11 +110,11 @@ const deleteElement = function (e){
 window.onload = function() {
     const button = document.querySelector( '#addGuestButton' );
     button.onclick = submit;
-    fetch("/submit", {
+    fetch("/load", {
         method:'POST'
     }).then(function (response){
         return response.json();
-    }).then(function (json){
-       loadTable(json);
+    }).then(function (json) {
+        loadTable(json);
     });
 };
