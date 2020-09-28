@@ -33,12 +33,12 @@ morgan((tokens, req, res) => {
   ].join(" ");
 });
 
-app.get("/home", (request, response) => {
-  response.sendFile(__dirname + "/public/index.html");
-});
-
 app.get("/login", (request, response) => {
   response.sendFile(__dirname + "/public/login.html");
+});
+
+app.get("/home", (request, response) => {
+  response.sendFile(__dirname + "/public/index.html");
 });
 
 app.get("/todos", (request, response) => {

@@ -14,6 +14,9 @@ The five express middlewars that I used are :
 - body-parser: this will parse HTTP request body's, in this project to JSON files
 - response-time: this will record the HTTP response time
 
+This project also successfully uses MongoDB to add, update, and delete todo items.
+All of the data is persistant as well and be seen in real time being updated on the client and the database.
+
 ## Technical Achievements
 
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
