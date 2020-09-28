@@ -1,4 +1,3 @@
-  
 // client-side js, loaded by index.html
 // run by the browser each time the page is loaded
 
@@ -68,4 +67,40 @@ fetch("/dreams")
       // reset form
       dreamsForm.reset();
       dreamsForm.elements.dream.focus();
-    });
+    });    
+      
+//This is how I tried to implement updating the database:
+/*//if an item with the same name has already been added to the database, update the item instead.
+      Grocery.findOne({item: newDream}).then(grocery => {
+       if (grocery){
+         //update the item
+           fetch('/update', {
+              method: 'POST',
+              body: JSON.stringify({dream: newDream, price: newPrice, department: newDept}),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          .then(response => response.json())
+          .then(json => {
+             appendNewDream(json.dream, json.price, json.department, json._id);
+          })
+          // reset form
+          dreamsForm.reset();
+          dreamsForm.elements.dream.focus();
+       } else{
+         //add new item
+         fetch('/add',{
+            method: 'POST',
+            body: JSON.stringify({dream: newDream, price: newPrice, department: newDept}),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          .then(response => response.json())
+          .then(json => {
+             appendNewDream(json.dream, json.price, json.department, json._id);
+          })
+          // reset form
+          dreamsForm.reset();
+          dreamsForm.elements.dream.focus();*/
