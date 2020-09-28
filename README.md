@@ -11,6 +11,7 @@ with options for the number of columns and rows, the passge width, whether or no
 This form features text, number, checkbox, and radio inputs.  
 ![Maze creation page](makeMaze.PNG)
 ![Example maze](exampleMaze.PNG)  
+
 Finally, the user may review all mazes created in their profile and edit the name and annotation of any maze. Mazes can also be deleted
 from here. I used Milligram as my CSS framework because it is easy to implement, it requires no configuration, and I like the color purple.
 The only CSS changes I made were to make forms only 30% of the page width since they looked too long and to give the body a 5% margin since
