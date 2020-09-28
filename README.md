@@ -8,7 +8,9 @@ Margaret Earnest
 This website is desgined to let users create, annotate, and save customized mazes. First the site authenticates with GitHub,
 which I chose to use to avoid storing user accounts in my database. Then, the user is taken to a page where new mazes can be created
 with options for the number of columns and rows, the passge width, whether or not the maze can be annotated, and annotation color.
-This form features text, number, checkbox, and radio inputs.
+This form features text, number, checkbox, and radio inputs.  
+![Maze creation page](makeMaze.PNG
+![Example maze](exampleMaze.PNG)
 Finally, the user may review all mazes created in their profile and edit the name and annotation of any maze. Mazes can also be deleted
 from here. I used Milligram as my CSS framework because it is easy to implement, it requires no configuration, and I like the color purple.
 The only CSS changes I made were to make forms only 30% of the page width since they looked too long and to give the body a 5% margin since
