@@ -1,0 +1,75 @@
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inner {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+}
+
+.buttons {
+    margin: 5%;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.img {
+    text-align: center !important;
+}
+
+.book {
+    height: auto;
+    width: auto;
+}
+
+label {
+    text-align: center;
+}
+
+/*h1 {*/
+/*    text-align: center;*/
+/*}*/
+
+.addrecipe {
+    display: flex;
+    position: absolute;
+    top: 10%;
+    left: 18%;
+    height: 80%;
+    flex-direction: column;
+}
+
+#existingrecipes {
+    position: absolute;
+    top: 10%;
+    right: 18%;
+}
+
+#recipeForm {
+    width: 300px;
+}
+
+#recipedisplay {
+    visibility: hidden;
+    padding-top: 20px;
+    width: 300px;
+}
+
+#edit , #delete , #update {
+    visibility: hidden;
+}
+
+ul {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+}
+
+#name {
+    text-decoration: underline;
+}
