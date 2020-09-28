@@ -8,6 +8,7 @@ const mongodb = require('mongodb')
 const compression = require('compression')
 const helmet = require('helmet')
 const morgan = require('morgan')
+const passport = require('passport')
 const GitHubStrategy = require('passport-github').Strategy
 
 if (process.env.NODE_ENV !== 'production') {
@@ -20,12 +21,10 @@ app     = express()
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: `http://127.0.0.1:${process.env.PORT}/auth/github/callback`
+    callbackURL: `https://a3-truman-larson.herokuapp.com/auth/github/callback`
   },
   function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ githubId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
+    cb(null, {profile})
   }
 ));
 
@@ -36,8 +35,8 @@ app.get('/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    console.log(req)
-    res.redirect('/');
+    console.log(res.profile.username)
+    res.redirect(`/views/index.html?username=${res.profile.username}&newUser=false`);
   });
 
 
