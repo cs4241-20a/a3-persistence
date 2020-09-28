@@ -30,8 +30,9 @@ Express Middleware Packages:
 - passport: Used for GitHub OAUTH login
 - connect-timeout: Used to automatically times out express http requests lasting more than 5s  
 
+
 HTML:
-- Used a form with <input> and <select> tags to take in data from each user
+- Used a form with input and select tags to take in data from each user
 - Data that is displayed on the homescreen is specific to that particular authenticated user  
 
 CSS:
