@@ -16,7 +16,7 @@ const teams = [
         seed: "2"
     },
     {
-        shortName: "TL",
+        shortName: "TL", // TL will totally make it out of groups prove me wrong -.-
         longName: "Team Liquid",
         players: [
             "Impact", "Broxah", "Jensen", "Tactical", "CoreJJ"

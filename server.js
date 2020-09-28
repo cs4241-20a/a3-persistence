@@ -48,7 +48,13 @@ app.get('/auth/github/callback',
   function(req, res) {
     // Successful authentication, redirect home.
     console.log(req.user.profile.username)
-    res.redirect(`/views/index.html?username=${req.user.profile.username}&newUser=false`);
+    collection.findOne({username: req.user.profile.username}).then(result =>{
+        let newUser = "false"
+        if (result != null) newUser = "true"
+
+        res.redirect(
+            `/views/index.html?username=${req.user.profile.username}&newUser=${newUser}`)
+    })
   });
 
 
@@ -94,8 +100,7 @@ app.post( "/verify", bodyParser.json(), (request, response) => {
             collection.insertOne(request.body).then(() => 
                 collection.findOne({username: request.body.username})
                 .then( newResult =>
-                    response.json({responseCode, newResult
-            })))
+                    response.json({responseCode, result:newResult})))
         }
         else if (result.password == request.body.password){
             responseCode = 1
