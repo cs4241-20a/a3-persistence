@@ -259,6 +259,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(compression());
 
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+});
+
 var hbs = exphbs.create({
   defaultLayout: "index",
   layoutsDir: "./public",
