@@ -1,5 +1,5 @@
+require("dotenv").config();
 const express = require("express");
-const secrets = require("./secrets");
 const path = require("path");
 const bodyParser = require("body-parser");
 const passport = require('passport');
@@ -10,7 +10,7 @@ const timeout = require('connect-timeout');
 
 const MongoDB = require('mongodb');
 const MongoClient = MongoDB.MongoClient;
-const uri = `mongodb+srv://gratitude-robot:${ secrets.DBPASS }@a3-primary.4sekk.mongodb.net/${ secrets.DBNAME }?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://gratitude-robot:${ process.env.DBPASS }@a3-primary.4sekk.mongodb.net/${ process.env.DBNAME }?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true });
 let collection = null;
 client.connect(err => {
@@ -59,7 +59,7 @@ app.get("/", (request, response) => {
 });
 
 // listen for requests :)
-const listener = app.listen(secrets.PORT, () => {
+const listener = app.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
 
@@ -68,11 +68,11 @@ const listener = app.listen(secrets.PORT, () => {
 // ----------
 
 passport.use(new GitHubStrategy({
-  clientID: secrets.GITHUB_CLIENT_ID,
-  clientSecret: secrets.GITHUB_CLIENT_SECRET,
+  clientID: process.env.GITHUB_CLIENT_ID,
+  clientSecret: process.env.GITHUB_CLIENT_SECRET,
   callbackURL: `${
-    secrets.DOMAIN === "localhost" ? "http" : "https"
-  }://${secrets.DOMAIN}:${secrets.PORT}/auth/github/callback`
+    process.env.DOMAIN === "localhost" ? "http" : "https"
+  }://${process.env.DOMAIN}:${process.env.PORT}/auth/github/callback`
 },
 function(accessToken, refreshToken, profile, cb) {
   // User.findOrCreate({ githubId: profile.id }, function (err, user) {
