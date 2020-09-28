@@ -9,6 +9,8 @@ const morgan = require('morgan')
 const passport = require('passport')
 const mongodb = require('mongodb')
 
+ObjectId = require('mongodb').ObjectID
+
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -19,7 +21,9 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 dotenv.config()
+
 var currentUser = {username: ""}
+var GitHubUser = {username: ""}
   
 
 
@@ -54,8 +58,11 @@ app.get('/auth/github/callback',
     }),
     function (req, res) {
         // Set username
-        currentUser.username = req.user.displayName
-        //res.cookies.user = undefined
+        // github = true
+        GitHubUser.username = req.user.displayName
+        // currentUser.username = ""
+        //res.cookie("user", req.body)
+
         // Successful authentication, redirect home
         res.redirect('../../index.html')
     })
@@ -75,7 +82,8 @@ let billCollection = null
 client.connect(err => {
     userCollection = client.db('billtracker').collection('users')
     billCollection = client.db('billtracker').collection('bills')
-    //billCollection.deleteMany({})     // Wipe DB
+    // billCollection.deleteMany({})     // Wipe DB bills
+    // userCollection.deleteMany({})     // Wipe DB users
 })
 
 
@@ -83,19 +91,38 @@ client.connect(err => {
 /***** Application Routes *****/
 // Serve files 
 app.use(express.static(__dirname + '/public'))
-app.use(express.static(__dirname + '/views'))
 app.use(express.static(__dirname + '/node_modules'))
 
+// Specifically serve views folder to set deafult path as login
 app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/views/login.html')
+})
+app.get('/signup.html', (req, res) => {
+    res.sendFile(__dirname + '/views/signup.html')
+})
+app.get('/login.html', (req, res) => {
+    res.sendFile(__dirname + '/views/login.html')
+})
+app.get('/index.html', (req, res) => {
     res.sendFile(__dirname + '/views/index.html')
 })
 
 // Read cookies from user login 
 app.get('/read', (req, res) => {
-    if (req.cookies.user != undefined){
+    //if (req.cookies.user != undefined){
         currentUser = req.cookies.user
+        //GitHubUser.username = ""
+    //}
+    if (GitHubUser.username == "") {
+        res.json(currentUser)
+    } else {
+        res.json(GitHubUser)
     }
-    res.json(currentUser)
+})
+
+app.get('/logout', (req, res) => {
+    GitHubUser.username = ""
+    return res.redirect('./login')
 })
 
 // Route to insert user into database
@@ -154,17 +181,17 @@ app.post('/login', (req, res) => {
 // Delete bills for a user from database 
 app.post('/delete', (req, res) => {
     for (bill in req.body) {
-        billCollection.deleteOne(req.body[bill])
+       console.log(billCollection.deleteOne(req.body[bill]))
     }
 })
 
-// Psuedo "edit" bills for a user
+// Edit bills for a user
 app.post('/edit', (req, res) => {
-    // Delete and replace all with new versions
-    billCollection.deleteMany({
-        'billUser': currentUser.username          
-    })
-    billCollection.insertMany(req.body)
+    for (doc in req.body) {
+        var query = {_id:  ObjectId(req.body[doc].dataId)}
+        var update = { $set: {'billName': req.body[doc].billName, 'billAmt': req.body[doc].billAmt, 'billDate': req.body[doc].billDate, 'billPay': req.body[doc].billPay, 'priority': req.body[doc].priority, 'billUser': req.body[doc].billUser}}
+        billCollection.updateOne(query, update)
+    }
 })
 
 

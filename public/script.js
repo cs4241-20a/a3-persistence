@@ -11,9 +11,20 @@ window.onload = function () {
             .then(json => {
                 // Set welcome message for user
                 document.getElementById('welcome').innerText = "Welcome " + json.username + "!"
+                console.log(json.username)
                 currentUser = json.username
             })
     }
+}
+
+function logout() {
+    fetch('/logout', {
+        method: 'GET'
+    })
+    .then(function (response) {
+        console.log(response)
+        window.location.href = "login.html"
+    })
 }
 
 // On submit button click
@@ -79,17 +90,21 @@ function submitForm() {
             else if (status == "OK") {
                 document.getElementById("billForm").reset()
             }
+        }).then(test => {
+            getAllBills(false)
         })
 }
 
 // Retrieve all bills from server
-function getAllBills() {
+function getAllBills(changeExpand) {
 
-    // Change button text based on table 
-    if ($(document.getElementById("all_bills")).is('.collapse:not(.show)')) {
-        document.getElementById('allBillBtn').innerText = "Hide all bills"
-    } else {
-        document.getElementById('allBillBtn').innerText = "Show all bills"
+    if (changeExpand) {
+        // Change button text based on table 
+        if ($(document.getElementById("all_bills")).is('.collapse:not(.show)')) {
+            document.getElementById('allBillBtn').innerText = "Hide all bills"
+        } else {
+            document.getElementById('allBillBtn').innerText = "Show all bills"
+        }
     }
 
     // Retrieve all data from database
@@ -121,7 +136,7 @@ function displayBills(jsonArray) {
         var newRow = document.createElement('tr')
         newRow.innerHTML =
             `<td class="checkbox_col"><input onClick="showOptions(${obj})" id=${obj} type="checkbox"></td>
-      <td class="editable" id="${obj}name">${jsonArray[obj].billName}</td>
+      <td dataId="${jsonArray[obj]._id}" class="editable" id="${obj}name">${jsonArray[obj].billName}</td>
       <td class="editable" id="${obj}amt">${jsonArray[obj].billAmt}</td>
       <td class="editable" id="${obj}date">${jsonArray[obj].billDate}</td>
       <td class="editable" id="${obj}pay">${jsonArray[obj].billPay}</td>
@@ -222,7 +237,7 @@ function saveChanges() {
 }
 
 // Overwrite all server data with updated client data
-function editOnServer() {
+async function editOnServer() {
     let jsonObjs = []
     let allElts = []
     let rows = document.getElementById('all_bills').rows.length
@@ -243,11 +258,12 @@ function editOnServer() {
             billAmt: document.getElementById(allElts[obj] + 'amt').innerText,
             billDate: document.getElementById(allElts[obj] + 'date').innerText,
             billPay: payBool,
-            priority: document.getElementById(allElts[obj] + 'priority').innerText
+            priority: document.getElementById(allElts[obj] + 'priority').innerText,
+            billUser: currentUser,
+            dataId: document.getElementById(allElts[obj] + 'name').getAttribute('dataid')
         })
     }
 
-    // POST to server
     fetch('/edit', {
             method: 'POST',
             body: JSON.stringify(jsonObjs),
@@ -255,8 +271,10 @@ function editOnServer() {
                 "Content-Type": "application/json"
             }
         })
-        .then(function (response) {
-            console.log(response)
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+            displayBills(json)
         })
 }
 
@@ -276,7 +294,7 @@ function deleteEntry() {
     deleteFromServer(doDelete)
 
     // Get updated data
-    getAllBills()
+    getAllBills(false)
 
     document.getElementById("editRowBtn").style.visibility = "hidden"
     document.getElementById("deleteRowBtn").style.visibility = "hidden"

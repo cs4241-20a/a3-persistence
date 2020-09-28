@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>CS4241 Assignment 3</title>
-    <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link
@@ -20,7 +19,7 @@
 <body>
 
     <div class="jumbotron text-center" style="background-color: #13a2b8; color: #fff; position: relative;">
-        <a style="position: absolute; top:10px; right: 10px; color: #fff;" href="login.html">Log Out</a>
+        <a style="position: absolute; top:10px; right: 10px; color: #fff;" onClick="logout()">Log Out</a>
         <h1>Bill Tracker</h1>
         <h5>The easiest way to manage your bills</h5>
     </div>
@@ -72,7 +71,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <button data-toggle="collapse" data-target="#all_bills" class="btn-text btn btn-info mb-3 mt-5" id="allBillBtn"
-                    onClick="getAllBills(false)" >Show all bills</button>
+                    onClick="getAllBills(true)" >Show all bills</button>
             </div>
         </div>
 

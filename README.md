@@ -1,93 +1,31 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
+## Bill Tracker
 
-Due: September 28th, by 11:59 PM.
+https://a3-molly-wirtz.glitch.me
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
-
-Baseline Requirements
----
-
-Your application is required to implement the following functionalities:
-
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
-
-Your application is required to demonstrate the use of the following concepts:
-
-HTML:
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
-
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
-
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
-
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
-
-Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+The goal of this application is to provide a simple, intuitive interface to manage a user's bills. In the creation of this application, I faced minor challenges in creating and interacting with my database, using OAuth, and passing cookies around my application. I used a dual authentication method, where users can either sign up or login with a username/password, or use GitHub OAuth. I chose to use OAuth because I wanted the chance to implement a third-party authentication method, which I've never done before. For my CSS framework I chose Bootstrap, a framework I've wanted to get experience in due to its popularity. In addition to leveraging Bootstrap I made various custom CSS tweaks, mostly to background and font color, and simply included them in the HTML tags. I used six middleware packages for this project: 
+-	Express static is a built-in middleware that serves static files, such as all HTML files in a /public folder
+-	Cookie Parser simplifies the creation, passing, and access of browser cookies 
+-	Body parser automatically parses server-side JSON requests
+-	Passport is a middleware that assists in authentication, including OAuth through third-party services
+-	Morgan automatically logs all requests made to server
+-	Favicon sets the website's favicon
+-	Dotenv gives access to .env files from server-side code
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: Used OAuth authentication via the GitHub strategy
+- **Tech Achievement 2**: Created a separate signup functionality and page, validating the form and potential new users against existing users in the database
+- **Tech Achievement 2**: Hosted site on Heroku
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Design Achievement 1**: I used the CRAP principles from the Non-Designer's Design Book readings. 
 
+I implemented three UI pages in this application: the login page, the signup page, and the main page. 
 
+When it came to repetition, I was very consistent in all my pages. Two colors (#13a2b8 as a primary color and #9b8679 as an accent color), two heading sizes (H1 and H5), and two font colors (black and white) were used across my application. For layout, I repeatedly used Bootstrap's container element to provide scalable left and right-hand margins, and set each element's width to span the entirety of the container. In addition, a repeating margin rule for non-grouped elements (mt-5 and mt-5 or mt-3) was applied. Of all the principles, I felt this was the one that came most naturally, but I still made a conscious effort to consistently repeat elements, and was pleased at the unifying effect it had on all my pages. 
 
-middlleware = 
-- express static
-- cookie parser
-- body parser
-- passport / passport.initialize()
-- morgan
-- favicon
-- dotenv (access env file) 
+Alignment was a design principle which made a big difference in the feel of my UI once it was applied. As mentioned in the repetition section, I set all my elements as full width (i.e. aligned to both margins) and set the elements that weren't full width to align on the right margin. My final alignment was a center alignment for my headers as well as alternative login options. While refactoring my UI from assignment two for this submission, I noticed that my default impulse was to align everything to the center, as the book pointed out before. Although I made a conscious effort to stay away from center alignment, I realize that much of my application still reflects that impulse. I believe it will take more practice in design to move out of the center-align comfort zone in the future. 
+
+I used proximity grouping to organize flow and group elements in my application. On my signup page, all elements on the form are grouped tightly together, while the header and the alternative login options are spaced further apart. This shows a distinction not only between the elements, but clarifies the path the user should take when interacting with this application. Similarly, on the login page, the grouped elements (such as the header and sub header, the form elements, and alternative login options respectively) are all grouped closely to each other, while spaced apart from other grouped elements. Immediately after aligning my elements I saw that my page become more organized, easier to understand, and clearer to the user when they are “finished” with the page.
+
+To provide contrast, I attempted to place the most emphasis on the headings and primary action items (i.e. buttons). On the login page, my eye first goes to the large text at top, then to the login button. This follows the path most users will take on this page: read the title, fill out the form, and press the button to log in. In this sense, the signup page is identical. The main page is busier than the other two pages, so I used a contrasting color on the form submit to draw attention to the end of the form submission. Contrast was the design principle I struggled with the most to apply, and I had trouble trying to balance element repetition and cohesiveness with contrasting elements. 
+
