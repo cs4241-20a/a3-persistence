@@ -1,0 +1,129 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A cool thing made with Glitch" />
+
+    <title>CS4241 Assignment 3</title>
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic" />
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+  <body style="margin-left: 15px">
+    <header>
+      <h1>Your profile</h1>
+    </header>
+
+    <main>
+      <div class="flex two">
+        <fieldset class="flex two" id="inputForm">
+          <h3>Enter your classes here. Click on a table entry to delete that class.</h3>
+
+          <label for="name">
+            Name:
+            <input
+              id="name"
+              name="name"
+              type="text"
+              maxlength="100"
+              required
+              placeholder="Class name"
+            />
+          </label>
+
+          <div>
+            <label for="level">Course Level:</label>
+            <select name="level" id="level">
+              <option value="1000">1000</option>
+              <option value="2000">2000</option>
+              <option value="3000">3000</option>
+              <option value="4000">4000</option>
+              <option value="5000">5000</option>
+            </select>
+          </div>
+
+          <span>
+            Meeting Days:
+            <label>
+              <div class="container" style="margin-left: 10px">
+                <input type="checkbox" id="mon" />
+                <span class="checkable">Mon</span>
+              </div>
+            </label>
+
+            <label>
+              <div class="container" style="margin-left: 10px">
+                <input type="checkbox" id="tue" />
+                <span class="checkable">Tue</span>
+              </div>
+            </label>
+
+            <label>
+              <div class="container" style="margin-left: 10px">
+                <input type="checkbox" id="wed" />
+                <span class="checkable">Wed</span>
+              </div>
+              <input type="checkbox" />
+            </label>
+
+            <label>
+              <div class="container" style="margin-left: 10px">
+                <input type="checkbox" id="thu" />
+                <span class="checkable">Thu</span>
+              </div>
+              <input type="checkbox" />
+            </label>
+
+            <label>
+              <div class="container" style="margin-left: 10px">
+                <input type="checkbox" id="fri" />
+                <span class="checkable">Fri</span>
+              </div>
+              <input type="checkbox" />
+            </label>
+          </span>
+
+          <button id="submit" style="margin:5px">
+            Submit
+          </button>
+        </fieldset>
+
+        <div>
+          <h3>
+            Your Classes:
+          </h3>
+
+          <table class="primary">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Class Level</th>
+                <th>Days</th>
+              </tr>
+            </thead>
+            
+<!--             <tbody>
+              <tr>
+                <td>Webware</td>
+                <td>4000</td>
+                <td>M, T</td>
+              </tr>
+              <tr>
+                <td>Operating Systems</td>
+                <td>3000</td>
+                <td>M, T, Tr, F</td>
+              </tr>
+            </tbody> -->
+            
+          </table>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
