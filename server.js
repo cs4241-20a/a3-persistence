@@ -4,18 +4,26 @@ const fs   = require("fs"),
       mongo = require("mongodb"),
       passport = require("passport"),
       bodyParser = require("body-parser"),
-      //serveFavicon = require("serve-favicon"),
+      cors = require("cors"),
       morganLogger = require("morgan"),
       port = process.env.PORT || 3000;
 
 //Allow for use of .env file
 require("dotenv").config();
+app.listen(port);
 
-//app.use(serveFavicon("./public/favicon.ico"));
+/////////////////// Middleware Initialization /////////////////////////
+//Automatically send out contents of public folder
+app.use(express.static("./public"));
+
+app.use(cors());
+
+//Set up logging of incoming requests
 let logfile = fs.createWriteStream("serverRequests.log");
 app.use(morganLogger('common', {stream: logfile}));
+
+//Set up Passport for Github authentication
 app.use(passport.initialize());
-app.use(passport.session());
 
 passport.serializeUser(function(user, cb) {
     cb(null, user);
@@ -26,7 +34,7 @@ passport.deserializeUser(function(obj, cb) {
 });
 
 let GitHubStrategy = require('passport-github').Strategy;
-passport.use(new GitHubStrategy({
+passport.use("github", new GitHubStrategy({
         clientID: process.env.clientID,
         clientSecret: process.env.clientSecret,
         callbackURL: process.env.callbackURL
@@ -40,23 +48,25 @@ passport.use(new GitHubStrategy({
     }
 ));
 
+let username = null;
 app.get('/auth/github', passport.authenticate('github'));
-app.get('/auth/github/callback',
-    passport.authenticate('github', { failureRedirect: '/login' }),
-    function(req, res) {
-        console.log("here");
-        // Successful authentication, redirect home.
-        res.redirect("/");
+app.get('/auth/github/callback', passport.authenticate('github'),
+    function(request, response) {
+        username = request.user.username;
+        response.redirect("/");
     }
 );
-app.get('/login', function(request, response){
+
+app.get('/login', passport.authenticate('github', { failureRedirect: '/login' }, function(request, response){
     response.sendFile("./public/login.html", {root: "./" }, function(error){
         if(error){
             console.log("Error occurred sending file: " +error);
         }
     });
-});
+}));
+///////////////////////////////////////////////////////////////////////
 
+/////////////////// Database Initialization ///////////////////////////
 const MongoClient = mongo.MongoClient;
 const ObjectID = mongo.ObjectID;//Will use to search for documents by their ObjectId strings
 const uri = `mongodb+srv://${process.env.name}:${process.env.password}@cs4241-a3.catjb.gcp.mongodb.net/CS4241?retryWrites=true&w=majority`;
@@ -92,18 +102,14 @@ client.connect(err => {
         }
     });
 });
+///////////////////////////////////////////////////////////////////////
 
-app.listen(port);
-app.use(express.static("./public"));
-app.use(bodyParser.json());
-
-//Format: { "id": 0, "kills": 0, "assists": 0, "deaths": 0, "kd_ratio": 0, "ad_ratio": 0 },
-let appdata = [];
 const DECIMAL_PRECISION = 2;
 
-let numEntries = 0;//Length of appdata
-
-//Track running totals and averages of all three main stats
+//Global variables and constants used to maintain state without
+//constant database queries. Track running totals and averages of
+//all three main stats
+let numEntries = 0;//Number of rows of stats
 let totalKills = 0;
 let totalAssists = 0;
 let totalDeaths = 0;
@@ -144,6 +150,16 @@ const convertDataToNum = function(request, response, next){
     }
 
     next();
+}
+
+const checkForAccount = function(request, response, next){
+    if(!username){
+        console.log("username: " +username);
+        response.statusCode = 400;
+        response.end("Requestor is not signed into a valid account");
+    }else {
+        next();
+    }
 }
 ///////////////////////////////////////////////////////////////////////
 
@@ -186,7 +202,7 @@ const addItem = function(request, response){
         sendTable(response);
     });
 }
-app.post("/add", [bodyParser.json(), convertDataToNum], addItem);
+app.post("/add", [checkForAccount, bodyParser.json(), convertDataToNum], addItem);
 
 /**
  * Modify the row in the appdata table with the given id to instead
@@ -249,7 +265,7 @@ const modifyItem = function(request, response){
         sendTable(response);
     });
 }
-app.post("/modify", [bodyParser.json(), convertDataToNum], modifyItem);
+app.post("/modify", [checkForAccount, bodyParser.json(), convertDataToNum], modifyItem);
 
 const valid = function(value){
     return (!isNaN(value) && value >= 0);
@@ -292,9 +308,8 @@ const deleteItem = function(request, response){
         }
     });
 }
-app.post("/delete", [bodyParser.json(), convertDataToNum], deleteItem);
+app.post("/delete", [checkForAccount, bodyParser.json(), convertDataToNum], deleteItem);
 //////////////////////////////////////////////////////////////////////
-
 
 /////////////////////// GET Request Handlers //////////////////////////
 /**
@@ -348,7 +363,7 @@ const sendTable = function(response){
             response.json(json);
     });
 }
-app.get('/results', function(request, response){
+app.get('/results', checkForAccount, function(request, response){
     sendTable(response);
 });
 
@@ -392,7 +407,7 @@ const sendCSV = function(response){
         file.end();
     })
 }
-app.get('/csv', function(request, response){
+app.get('/csv', checkForAccount, function(request, response){
     sendCSV(response);
 });
 
@@ -427,7 +442,7 @@ const clearStats = function(response){
     game_stats.deleteMany({}, handleClear);
     sendTable(response);
 }
-app.get('/clear', function(request, response){
+app.get('/clear', checkForAccount, function(request, response){
     clearStats(response);
 });
 ///////////////////////////////////////////////////////////////////////

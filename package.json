@@ -9,13 +9,16 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "bulma": "^0.9.0",
+    "compression": "^1.7.4",
     "express": "^4.17.1",
+    "github-oauth-express": "^1.0.4",
     "hiq": "^4.0.2",
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "mongodb": "^3.6.2",
     "passport-github": "^1.1.0"
