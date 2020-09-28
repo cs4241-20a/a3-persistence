@@ -32,12 +32,14 @@ const addRun = function (e) {
     const location = document.querySelector('#input-location').value;
     const distance = document.querySelector('#input-distance').value;
     const time = document.querySelector('#input-time').value;
+    const notes = document.querySelector('#input-notes').value;
 
     const body = {
         name: name,
         location: location,
         distance: distance,
         time: time,
+        notes: notes,
     };
 
     fetch('/addRun', {
@@ -85,6 +87,7 @@ const editRun = function (id, index) {
     runToSend.location = document.querySelector('#input-location-edit').value;
     runToSend.distance = document.querySelector('#input-distance-edit').value;
     runToSend.time = document.querySelector('#input-time-edit').value;
+    runToSend.notes = appData[index].notes;
 
     fetch('/editRun', {
         method: 'POST',
@@ -104,44 +107,12 @@ const editRun = function (id, index) {
     });
 }
 
-const editRuns = function () {
-    runsToSend = retrieveRuns();
-
-    fetch('/editRuns', {
-        method: 'POST',
-        body: JSON.stringify(runsToSend)
-    }).then(function handleEditRunsResponse(response) {
-        if (response.status === 200) {  // OK
-            console.log(`Successfully edited runs to ${JSON.stringify(runsToSend)}`);
-            loadData();  // Refresh the tables
-        } else {
-            console.error(`Failed to edit runs to ${JSON.stringify(runsToSend)}
-            Error: ${response.message}`);
-        }
-    });
-}
-
-const retrieveRuns = function () {
-    const edit_table = document.querySelector('#edit-runs-table');
-    let runsArray = [];
-    // Iterate one fewer times than the number of rows (header)
-    for(let i = 0; i < edit_table.rows.length - 1; i++) {
-        let rowRun = {
-            name: document.querySelector(`#input-name-edit-${i}`).value,
-            location: document.querySelector(`#input-location-edit-${i}`).value,
-            distance: document.querySelector(`#input-distance-edit-${i}`).value,
-            time: document.querySelector(`#input-time-edit-${i}`).value,
-        };
-        runsArray.push(rowRun);
-    }
-    return runsArray;
-}
-
 const clearForm = function () {
     document.querySelector('#input-name').value = '';
     document.querySelector('#input-location').value = '';
     document.querySelector('#input-distance').value = '';
     document.querySelector('#input-time').value = '';
+    document.querySelector('#input-notes').value = '';
 }
 
 const clearTable = function (table) {
@@ -177,6 +148,8 @@ const fillTable = function (table, data) {
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                 <button class="dropdown-item" type="button" onclick="deleteRun('${data[i]._id}', ${i})">Delete</button>
                 <button class="dropdown-item" type="button" onclick="prepareEdit(${i + 1}, '${data[i]._id}')">Edit</button>
+                <button class="dropdown-item" type="button" onclick="alert(appData[${i}].notes ? appData[${i}].notes : 'No notes exist for this run')">View Notes</button>
+                <button class="dropdown-item" type="button" onclick="editNotes(${i})">Edit Notes</button>
             </div>
         </div>`;
         row.insertCell().innerHTML = data[i].name;
@@ -246,6 +219,35 @@ const revertEdit = function() {
     table.rows[index].cells[3].innerHTML = editData.distance;
     table.rows[index].cells[4].innerHTML = editData.time;
     editData = null;
+}
+
+const editNotes = function(index) {
+    let newNotes = prompt("Edit Run Notes", appData[index].notes ? appData[index].notes : "");
+    if(newNotes) {
+        let runToSend = {}
+        runToSend.name = appData[index].name;
+        runToSend.location = appData[index].location;
+        runToSend.distance = appData[index].distance;
+        runToSend.time = appData[index].time;
+        runToSend.notes = newNotes;
+        
+        fetch('/editRun', {
+            method: 'POST',
+            body: JSON.stringify({run: runToSend, id: appData[index]._id}),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function handleEditRunResponse(response) {
+            if (response.status === 200) {  // OK
+                console.log(`Successfully edited run ${index} to ${JSON.stringify(runToSend)}`);
+                revertEdit();
+                loadData();  // Refresh the tables
+            } else {
+                console.error(`Failed to edit run ${index} to ${JSON.stringify(runToSend)}
+                Error: ${response.message}`);
+            }
+        });
+    }
 }
 
 window.onload = function () {
