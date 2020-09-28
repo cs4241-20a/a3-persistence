@@ -8,7 +8,7 @@ Heroku Link: <https://a3-saniya-syeda.herokuapp.com/>
 
 ## Shopping List
 This application is a simple grocery list where users can add, modify, and/or delete items from their shopping list.
-- I used the sakura.css template for styling
+- I used the sakura.css template under the Class-less frameworks category for styling
 - I used 5 Express middleware packages:
   - body-parser, passport, passport-local, static, and session. 
 
