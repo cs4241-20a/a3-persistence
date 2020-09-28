@@ -19,7 +19,6 @@ const MongoClient = mongodb.MongoClient;
 app     = express()
 
 app.use(passport.initialize())
-app.use(passport.session())
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
@@ -29,6 +28,17 @@ passport.use(new GitHubStrategy({
     return cb(null, {profile})
   }
 ));
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+  });
+  
+  passport.deserializeUser(function(user, done) { 
+    done(null, user);
+  });
+
+
+app.use(passport.session())
 
 app.get('/auth/github',
   passport.authenticate('github'));
