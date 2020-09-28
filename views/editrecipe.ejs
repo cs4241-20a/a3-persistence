@@ -105,7 +105,18 @@
             },
             created: function() {
               // Check if there is a recipe ID in url params
-              console.log(window.location.search)
+              const queryString = window.location.href
+              const url = new URL(queryString)
+              const id = url.searchParams.get('recipeID')
+              console.log(id)
+              if(id) {
+                fetch(`/recipes/data/single?recipeID=${id}`)
+                .then( res => res.json())
+                .then( data => {
+                  this.recipe = data;
+                  console.log(res);
+                })
+              }
             }
         })
 
@@ -130,3 +141,9 @@
     </script>
 </body>
 </html>
+
+                  fetch('/recipes/data?userID=<%= userID %>')
+                  .then( res => res.json())
+                  .then( data => {
+                      this.recipes = data;
+                      console.log(data) })
