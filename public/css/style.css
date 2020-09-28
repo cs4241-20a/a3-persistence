@@ -1,245 +1,465 @@
 /*Style your own assignment! This is fun! */
 body {
-	transition: background-color 2s cubic-bezier(1, 1, 1, 1);
-	transition-delay: 0s;
+  transition: background-color 2s cubic-bezier(1, 1, 1, 1);
+  transition-delay: 0s;
 }
 body {
-    margin: 0px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 header {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
 
-    color: #ffffff
+  color: #ffffff;
 }
 
 main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width:100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 h {
-    font-family: 'Crafty Girls', sans-serif;
-    text-align: center;
-    font-size: 1.75vw;
-    color: black;
+  font-family: "Crafty Girls", sans-serif;
+  text-align: center;
+  font-size: 1.75vw;
+  color: black;
 }
 
 h1 {
-    font-family: 'Crafty Girls';
-    font-style: italic;
-    font-size: 74px;
-    font-size: 6vw;
-    margin-top: 20px;
-    margin-bottom: 0px;
-    text-align: center;
+  font-family: "Crafty Girls";
+  font-style: italic;
+  font-size: 74px;
+  font-size: 6vw;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  text-align: center;
 }
 
 h2 {
-    font-family: 'Crafty Girls', sans-serif;
-    text-align: center;
-    font-size: 1.75vw;
+  font-family: "Crafty Girls", sans-serif;
+  text-align: center;
+  font-size: 1.75vw;
 }
 
 h3 {
-    font-family: 'Crafty Girls';
-    font-style: italic;
-    font-size: 5vw;
-    margin-top: 0px;
-    margin-bottom: 10px;
-    text-align: center;
+  font-family: "Crafty Girls";
+  font-style: italic;
+  font-size: 5vw;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  text-align: center;
 }
 h4 {
-    align-items: center;
+  align-items: center;
 }
 h6 {
-    align-items: center;
+  align-items: center;
 }
 nav {
-    width: 100%;
-    font-family: 'Crafty Girls';
-    font-style: italic;
-    font-size: 2vw;
-    color:white
+  width: 100%;
+  font-family: "Crafty Girls";
+  font-style: italic;
+  font-size: 2vw;
+  color: white;
 }
 
 form {
-   float: left;
-    width: 100%;
+  float: left;
+  width: 100%;
 }
-
-
 
 table {
-    display: block;
-    overflow: auto;
-    white-space: nowrap;
-    font-size: 1.25vw;
+  display: block;
+  overflow: auto;
+  white-space: nowrap;
+  font-size: 1.25vw;
 }
 
-label, button, #error{
-    font-family: 
-    font-size: 18px;
-    font-size: 1.75vw;
+label,
+button,
+#error {
+  font-size: 18px;
+  font-size: 1.75vw;
 }
 
 label {
-    margin-right: 30px;
+  margin-right: 30px;
 }
 
 button:hover {
-    border: 5px solid ;
-    background-color: black;
-    color: red;
+  border: 5px solid;
+  background-color: black;
+  color: red;
 }
 
-footer{
+footer {
   font-size: 3vw;
   text-align: center;
 }
 
 #error {
-    display: none;
-    color: black;
-    margin-bottom: 0px;
-    padding: 0px;
-    width: 50%;
-    background: red;
-    text-align: center;
+  display: none;
+  color: black;
+  margin-bottom: 0px;
+  padding: 0px;
+  width: 50%;
+  background: red;
+  text-align: center;
 }
 
 .container {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
 }
 
 .menuBar {
-    display: flex;
-    flex-direction: column;
-    height: 17%;
-    width: 100%;
-    text-align: center;
-    margin-top: 6px;
-    margin-bottom: 12px;
-    justify-content: left;}
+  display: flex;
+  flex-direction: column;
+  height: 17%;
+  width: 100%;
+  text-align: center;
+  margin-top: 6px;
+  margin-bottom: 12px;
+  justify-content: left;
+}
 
 .tabsOnTop a {
-    display: inline;
-    margin-left: 20px;
+  display: inline;
+  margin-left: 20px;
 }
 
 .tabsOnTop a:hover {
-    color: pink;
+  color: pink;
 }
 
 #html-booking {
-    display: block;
-    width: 80%;
+  display: block;
+  width: 80%;
 
-    color: black
+  color: black;
 }
 
-#left-form{
+#left-form {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-
 }
 
 #thankyou {
-    display: none;
-    flex-direction: column;
-    height: 50%;
-    align-items: center;
+  display: none;
+  flex-direction: column;
+  height: 50%;
+  align-items: center;
 }
 
 #booking-table {
-    font-size: 0.5vw;
-    display: none;
-    width: 70%;
-    text-align: center;
-    flex-direction: column;
-    align-items: center;
-
+  font-size: 0.5vw;
+  display: none;
+  width: 70%;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 #update-html-booking {
-    display: none;
-    width: 70%;
+  display: none;
+  width: 70%;
 }
 
 .html-form-details {
-    margin-top: 10px;
-    margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .html-form-details .text-input {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-label {
-    font-size: 25px;
-    font-size: 2vw;
-    margin-top: 18px;
-    margin-bottom: 7px;
+  font-size: 25px;
+  font-size: 2vw;
+  margin-top: 18px;
+  margin-bottom: 7px;
 }
 
-[type="text"], textarea {
-    width: 95%;
-    padding: 12px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    resize: vertical;
-    font-family: 
-    font-size: 18px;
-    font-size: 1.75vw;
+[type="text"],
+textarea {
+  width: 95%;
+  padding: 12px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  resize: vertical;
+  font-size: 18px;
+  font-size: 1.75vw;
 }
 
-#submit-btn, #update-form-btns {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 35px;
+#submit-btn,
+#update-form-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 35px;
 }
-
 
 #new-booking-button {
-    background-color: black;
-    color: white;
-    border: 4px solid white;
-    align-self: center;
+  background-color: black;
+  color: white;
+  border: 4px solid white;
+  align-self: center;
 }
 
 table button {
-    padding: 8px 9px;
-    width: 100%;
+  padding: 8px 9px;
+  width: 100%;
 }
-<head>
-<style>
-table {
+<head > <style > table {
   width: 100%;
 }
 
-th, td {
+th,
+td {
   text-align: left;
   padding: 7px;
 }
 
 th {
-
   color: black;
 }
-</style>
-</head>
+
+<style type="text/css" > .form-style-6 {
+  font: 95% Arial, Helvetica, sans-serif;
+  max-width: 400px;
+  margin: 10px auto;
+  padding: 16px;
+}
+.form-style-6 h1 {
+  padding: 20px 0;
+  font-size: 140%;
+  font-weight: 300;
+  text-align: center;
+  color: white;
+  margin: -16px -16px 16px -16px;
+}
+.form-style-6 input[type="text"],
+.form-style-6 input[type="date"],
+.form-style-6 input[type="datetime"],
+.form-style-6 input[type="email"],
+.form-style-6 input[type="number"],
+.form-style-6 input[type="search"],
+.form-style-6 input[type="time"],
+.form-style-6 input[type="url"],
+.form-style-6 textarea,
+.form-style-6 select {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  outline: none;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  width: 100%;
+
+  margin-bottom: 4%;
+  border: 1px solid #ccc;
+  padding: 3%;
+
+  font: 95% Arial, Helvetica, sans-serif;
+}
+.form-style-6 input[type="text"]:focus,
+.form-style-6 input[type="date"]:focus,
+.form-style-6 input[type="datetime"]:focus,
+.form-style-6 input[type="email"]:focus,
+.form-style-6 input[type="number"]:focus,
+.form-style-6 input[type="search"]:focus,
+.form-style-6 input[type="time"]:focus,
+.form-style-6 input[type="url"]:focus,
+.form-style-6 textarea:focus,
+.form-style-6 select:focus {
+  box-shadow: 0 0 5px #43D1AF;
+  padding: 3%;
+  border: 1px solid #43D1AF;
+}
+
+.form-style-6 input[type="submit"],
+.form-style-6 input[type="button"] {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  width: 100%;
+  padding: 3%;
+  background: #43D1AF;
+  border-bottom: 2px solid #30C29E;
+  border-top-style: none;
+  border-right-style: none;
+  border-left-style: none;
+}
+.form-style-6 input[type="submit"]:hover,
+.form-style-6 input[type="button"]:hover {
+  background: #2EBC99;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-height: 100%;
+  padding: 20px;
+}
+
+#formContent {
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  padding: 0px;
+  text-align: center;
+}
+
+.fadeInDown {
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  opacity: 0;
+  -webkit-animation: fadeIn ease-in 1;
+  -moz-animation: fadeIn ease-in 1;
+  animation: fadeIn ease-in 1;
+
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  animation-duration: 1s;
+}
+
+.fadeIn.first {
+  -webkit-animation-delay: 0.4s;
+  -moz-animation-delay: 0.4s;
+  animation-delay: 0.4s;
+}
+
+.fadeIn.second {
+  -webkit-animation-delay: 0.6s;
+  -moz-animation-delay: 0.6s;
+  animation-delay: 0.6s;
+}
+
+.fadeIn.third {
+  -webkit-animation-delay: 0.8s;
+  -moz-animation-delay: 0.8s;
+  animation-delay: 0.8s;
+}
+
+.fadeIn.fourth {
+  -webkit-animation-delay: 1s;
+  -moz-animation-delay: 1s;
+  animation-delay: 1s;
+}
+
+.underlineHover:after {
+  display: block;
+  left: 0;
+  bottom: -10px;
+  width: 0;
+  height: 2px;
+  background-color: #56baed;
+  content: "";
+  transition: width 0.2s;
+}
+
+.underlineHover:hover {
+  color: #0d0d0d;
+}
+
+.underlineHover:hover:after {
+  width: 100%;
+}
+
+/* OTHERS */
+
+*:focus {
+  outline: none;
+}
+
+#icon {
+  width: 60%;
+}
+
+* {
+  box-sizing: border-box;
+}
