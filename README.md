@@ -17,11 +17,11 @@ Editing entries consists of hitting edit, filling out the appropriate text boxes
 - I chose the do a login page with local OAuth as my authentification method becuase it was what I knew I could accomplish given my schedule throughout the duration of the project. I also thought its a good start to learn about the strategy and its complexities
 - I chose to use the Bootstrap CSS Framework. It is one of the most commonly used Frameworks so I thought it would be fun to get comfortable with it.
 - Middleware Packages
-  -body-parser : This package parses HTTP request bodys in amiddleware before any handlers, it creates a more manageable JSON object
-  -response-time : This package records the HTTP response time of requests
-  -helmet: This package adds more security to a Webapp by adding various headers such as contentSecurityPolicy
-  -morgan: This package is an HTTP request logger.
-  -passaport: This package is used for authenticating requests, this is what I used for my local OAuth authentication for logins.
+  - body-parser : This package parses HTTP request bodys in amiddleware before any handlers, it creates a more manageable JSON object
+  - response-time : This package records the HTTP response time of requests
+  - helmet: This package adds more security to a Webapp by adding various headers such as contentSecurityPolicy
+  - morgan: This package is an HTTP request logger.
+  - passaport: This package is used for authenticating requests, this is what I used for my local OAuth authentication for logins.
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the local strategy
