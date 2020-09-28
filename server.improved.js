@@ -19,7 +19,7 @@ const app = express();
 
 app.use(express.static("public"));
 app.use(responseTime());
-app.use(timeout("100s"));
+app.use(timeout("1000s"));
 
 morgan((tokens, req, res) => {
   return [
@@ -33,7 +33,7 @@ morgan((tokens, req, res) => {
   ].join(" ");
 });
 
-app.get("/home", (request, response) => {
+app.get("/", (request, response) => {
   response.sendFile(__dirname + "/public/index.html");
 });
 
