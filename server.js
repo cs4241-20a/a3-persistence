@@ -18,6 +18,8 @@ if (process.env.NODE_ENV !== 'production') {
 const MongoClient = mongodb.MongoClient;
 app     = express()
 
+app.use(passport.initialize())
+app.use(passport.session())
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
