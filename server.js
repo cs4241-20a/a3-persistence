@@ -70,9 +70,7 @@ const listener = app.listen(process.env.PORT, () => {
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: `${
-    process.env.DOMAIN === "localhost" ? "http" : "https"
-  }://${process.env.DOMAIN}/auth/github/callback`
+  callbackURL: `${process.env.CALLBACK}auth/github/callback`
 },
 function(accessToken, refreshToken, profile, cb) {
   // User.findOrCreate({ githubId: profile.id }, function (err, user) {
