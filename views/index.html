@@ -1,0 +1,76 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A cool thing made with Glitch" />
+
+    <title>CS4241 Assignment 3</title>
+
+    <link
+      id="favicon"
+      rel="icon"
+      href="https://glitch.com/edit/favicon-app.ico"
+      type="image/x-icon"
+    />
+    <!-- import the webpage's stylesheet -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/style.css" />
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Generate Your Rapper Name</h1>
+
+      <form action="">
+        <div class="form-group">
+          <label for="yourname">First Name:</label>
+          <input type="text" class="form-control" id="yourname" />
+        </div>
+        <div class="form-group">
+          <label for="favColor">Favorite Color:</label>
+          <input type="text" class="form-control" id="favColor" />
+        </div>
+
+        <button type="submit" id="submit-info" class="btn btn-default">
+          Generate
+        </button>
+      </form>
+
+      <br />
+      <p>
+        Click on the bottom most entry to delete it from the list.<br />Hover over any entry to
+        update it with a smiley face.
+      </p>
+      <br />
+      <section class="rappernames">
+        <ul id="rappernames">
+          <em>loading rappernames&hellip;</em>
+        </ul>
+      </section>
+
+      <br />
+      <br />
+
+      <div id="writeUsername" style="display:none">
+        <h1 id="showName">Your Rapper Name is</h1>
+      </div>
+
+      <br />
+    </div>
+  </body>
+  <script>
+    window.onbeforeunload = function() { 
+      window.location.href='/loginPage.html';
+    }
+  </script>
+</html>
