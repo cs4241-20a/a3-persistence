@@ -18,7 +18,14 @@
   "homepage": "https://github.com/dev4848/a3-persistence#readme",
   "dependencies": {
     "@popperjs/core": "^2.5.2",
+    "axios": "^0.20.0",
+    "body-parser": "^1.19.0",
     "bootstrap": "^4.5.2",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "jquery": "^3.5.1",
+    "mongodb": "^3.6.2",
+    "node-fetch": "^2.6.1",
+    "passport": "^0.4.1",
+    "passport-github": "^1.1.0"
   }
 }
