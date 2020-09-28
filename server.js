@@ -4,6 +4,9 @@ const express = require('express'),
       MongoClient = mongodb.MongoClient,
       dotenv = require('dotenv').config(),
       morgan = require('morgan'),
+      compression = require('compression'),
+      path = require('path'),
+      favicon = require('serve-favicon'),
       app = express();
 
 const uri = `mongodb+srv://admin:${process.env.DB_PASSWORD}@cluster0.lkq2d.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
@@ -18,12 +21,24 @@ app.use(express.static("public"));
 
 app.use(morgan('combined'))
 
+app.use(compression())
+
+app.use(favicon(path.join(__dirname, 'public', 'favicon.svg')))
+
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/login.html");
 });
 
 app.get("/index.html", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
+});
+
+app.get("/unsplash.jpg", (request, response) => {
+  response.sendFile(__dirname + "/unsplash.jpg");
+});
+
+app.get("/tasklist.jpg", (request, response) => {
+  response.sendFile(__dirname + "/tasklist.jpg");
 });
 
 /* Whenever a client requests the /tasks route we send the 

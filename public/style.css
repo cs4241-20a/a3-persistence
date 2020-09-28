@@ -1,5 +1,6 @@
-html{
+body{
   font-family: 'Courier Prime', monospace;
+  background-image: url("/unsplash.jpg");
 }
 
 table, th, td {
