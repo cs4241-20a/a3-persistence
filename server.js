@@ -7,22 +7,21 @@ const port = 3000;
 
 const express = require("express");
 
+const API = require("./API");
+
 // Express middleware
 const passport = require("passport");
+const compression = require("compression")
+// PassportJS Strategy
+var GitHubStrategy = require('passport-github').Strategy;
 const expressSession = require("express-session")
 const bodyParser = require("body-parser");
 
-const API = require("./API");
 
 const app = express();
 app.set('view engine', 'ejs');
 
-// make all the files in 'public' available
-// https://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
-
-// PassportJS
-var GitHubStrategy = require('passport-github').Strategy;
 
 app.use(expressSession({
    secret: 'cookie_secret',
@@ -34,7 +33,7 @@ app.use(expressSession({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(compression);
 
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,

@@ -62,7 +62,7 @@ Below are suggested technical and design achievements. You can use these to help
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
-## Your Web Application Title
+## Recipe App
 
 your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
 
@@ -74,22 +74,19 @@ Include a very brief summary of your project here. Images are encouraged, along 
 - what CSS framework you used and why
   - include any modifications to the CSS framework you made via custom CSS you authored
 - the five Express middleware packages you used and a short (one sentence) summary of what each one does
+Express Middleware:
+- csurf
+- body-parser: Middleware for easily parsing the bodies of HTTP requests.
+- ejs: Templating library that allows for reuse of components and composition of HTML pages from components with variables.
+- passport: Authentication library, using the GitHub strategy.
+- express session: Handles browser sessions for users. Works with passport to keep track of users' login state as they browse the site.
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
-- **Express Middleware**: csurf, express-handlebars, 
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
 
 
-* Each user can make recipes
-* Each recipe is: 
-* {Name: String,
-  Ingredients: \[String\],
-  Servings: Int,
-  Directions: TextBlob,
-  PrepTime: Time,
-  CookTime: Time,
-  }
+
 
