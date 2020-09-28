@@ -33,7 +33,6 @@ the application will generate their rapper name.
 
 ## Technical Achievements
 - **Oauth Authorization**: I used OAuth authentication via the GitHub strategy.
-- **Heroku deployment**: 
 
 ### Design/Evaluation Achievements
 - **None**: I did not attempt these achievements. 
