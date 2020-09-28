@@ -1,0 +1,9 @@
+npm install mongodb
+npm install express
+npm i body-parser
+npm i response-time
+npm -i node-statsd
+npm -i statsd
+npm i node-statsd
+npm i connect-timeout
+npm i errorhandler
