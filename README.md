@@ -1,8 +1,10 @@
-Assignment 3 - Milktea Order and Pickup Project: Jialin Song
+Assignment 3 - Milktea Order and Pickup Project
 ===
-Glitch link: https://a3-jialin-song.glitch.me/
 Baseline Requirements
 ---
+- Author: Jialin Song
+- Glitch link: https://a3-jialin-song.glitch.me/
+
 This project includes a two login functions, first is to user OAuth github authorization, second is to register for an account and login from that. There will be a username restriction for register account, no repetitive username can be registered. After login, user is able to add, modify or delete any of his/her own data. User will not be able to see other people's orders. For milktea selection, user can choose not to have topping/add-in, but other fields (tea base, milk and pickup time) are all required. If you would like to check the `Results` functionality for viewing (cannot edit) all data from all users, you can use the below account:
 - Username: admin
 - Password: cs4342
