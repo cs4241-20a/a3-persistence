@@ -41,7 +41,7 @@ passport.deserializeUser(function (user, done) {
 passport.use(new GitHubStrategy({
         clientID: process.env.GITHUB_ID,
         clientSecret: process.env.GITHUB_SECRET,
-        callbackURL: "http://127.0.0.1:3000/auth/github/callback"   // CHANGE TO GLITCH
+        callbackURL: "https://a3-molly-wirtz.glitch.me/auth/github/callback" 
     },
     function (accessToken, refreshToken, profile, cb) {
         cb(null, profile);
