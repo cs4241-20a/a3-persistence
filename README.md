@@ -1,82 +1,48 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
+Pooja Patel https://a3-pooja-patel.glitch.me/
 
-Due: September 28th, by 11:59 PM.
+This project is Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
+## La Fleur by Pooja Patel
 
-Baseline Requirements
----
+I created a flower shop webpage that woud allow a user to shop for single flowers or a dozen. The webpage also allows the user to see their order history and also edit or delete their order.
+The CSS positionng techniques that I used were using element selectors, ID selectors, and class selectors.
+The goal is for users to place orders for flowers by a single flower or by the dozen. The challenges I faced were implementing the Express server, since I have not worked with it before.
+The authentication strategy I used was through passport.js. For the database I used a lowdb. I used this because the database would be stroing a large amount of information, also because it was intuitive to implement, also that there is persistent data storage.
+For the CSS framework I chose to use Bootstrap in combination with elements I previously used on the last project.
+The five Express middleware packages I used are the following:
 
-Your application is required to implement the following functionalities:
+- Passport, to authenticate using stategies
+- Body-parser, to parse HTTP request body
+- Cookie-parser, to parse cookie header and populate req.cookies
+- Express.static, serves static files such as images, CSS, and JS
+- Helmet, to secure apps by setting various HTTP headers
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
+## Login Credentials
 
-Your application is required to demonstrate the use of the following concepts:
-
-HTML:
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
-
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
-
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
-
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
-
-Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+- Username: username
+- Password: password
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+
+- **Login**: Implemented OAuth authentication, with a library, passport.js.
+- **Login/Logout**: The landing page is now a Login page or register an account page. While on the site after logging in, you may also logout.
+- **Order Form**: I included a form on the landing page for the user to order flowers.
+- **Form Completion Checking**: The form will be checked if has been completely filled out. If the form has not, a pop-up will appear. Otherwise a submission page will appear.
+- **Menu on Webpage**: For easier navigation the webpage includes a menu to switch between ordering flowers and looking at the order history.
+- **User History Updates**: The webpage will update the order history table when the user selects the history page, the user will be able to update or delete the order.
+- **Price Calculation**: A function was included to calculate the cost for the ordered flowers.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+
+- **Transition on Login Page**: The login page is animated to slide down when the page is first lloaded/ refreshed.
+- **Transition background for Color Scheme**: Using JavaScript and CSS I was able to use a color scheme to modulate between a few colors to animate the background.
+- **Images that Match Theme**: I included images on my webpage to add to my projects theme and color scheme.
+- **Various Form Options**: The form I created included text-box repsonses, radio buttons, and a submit button.
+
+### Links for the images I used:
+
+- https://www.weloveflorists.com/2019/06/21/how-to-start-a-wedding-florist-business-all-you-need-to-know/
+- https://www.floristmargate.com/product/5762f13c2ff66/classic-long-stem-yellow-rose-bouquet
+- https://www.housebeautiful.com/entertaining/holidays-celebrations/g4365/mothers-day-flowers-ideas/
+- https://www.chicagolandflorist.com/always-on-my-mind-flower-bouquet/
+- https://www.ftd.com/product/abundant-rose-bouquet-prd-e5-5239s
