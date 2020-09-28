@@ -1,21 +1,31 @@
-const express = require('express')
-const bcrypt = require('bcrypt')
-const passport = require('passport')
-const flash = require('express-flash')
-const session = require('express-session')
-const methodOverride = require('method-override')
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
-const adapter = new FileSync('.data/db.json')
-const db = low(adapter)
-const mongodb = require('mongodb')
+const express = require("express");
+const bcrypt = require("bcrypt");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const flash = require("express-flash");
+const session = require("express-session");
+const methodOverride = require("method-override");
+const low = require("lowdb");
+const FileSync = require("lowdb/adapters/FileSync");
+const adapter = new FileSync(".data/db.json");
+const db = low(adapter);
+const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient;
-const app = express()
+const app = express();
 
 let email = process.env.USERNAME;
 let password = process.env.PASSWORD;
 let dbname = process.env.DBNAME;
-const uri = "mongodb+srv://" + email + ":" + password + "@prod.npojt.mongodb.net/" + dbname + "?retryWrites=true&w=majority";
+
+const uri =
+  "mongodb+srv://" +
+  email +
+  ":" +
+  password +
+  "@cluster0.fjsgg.mongodb.net/" +
+  dbname +
+  "?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
 
 const http = require("http"),
   fs = require("fs"),
@@ -36,7 +46,7 @@ const server = http.createServer(function(request, response) {
 const handleGet = function(request, response) {
   const filename = dir + request.url.slice(1);
   if (request.url === "/") {
-    sendFile(response, "public/index.html");
+    sendFile(response, "public/views/index.ejs");
   } else {
     sendFile(response, filename);
   }
@@ -48,7 +58,6 @@ const handlePost = function(request, response) {
     dataString += data;
   });
   request.on("end", function() {
-    let app = JSON.parse(dataString);
     response.writeHead(200, "OK", { "Content-Type": "text/plain" });
     response.end(JSON.stringify(app));
   });
@@ -72,89 +81,101 @@ const sendFile = function(response, filename) {
 };
 
 
-var listener = app.listen(process.env.PORT, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
+var listener = app.listen(process.env.PORT, function() {
+  console.log("Your app is listening on port " + listener.address().port);
 });
 
 
 //passport
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
 }
 
-const initializePassport = require('./passport-config')
+const initializePassport = require("./passport-config");
 initializePassport(
   passport,
   email => users.find(user => user.email === email),
   id => users.find(user => user.id === id)
-)  
+);
 
-const users = []
-app.set('views', __dirname + '/public/views');
-app.use(express.static(__dirname + '/public'));
-app.set('view engine', 'ejs')
-app.use(express.urlencoded({ extended: false }))
-app.use(flash())
-app.use(session({secret: '{secret}', name: 'session_id', saveUninitialized: true, resave: true})); //This is the line i use in my code that worked
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(methodOverride('_method'))
+const users = [];
+app.set("views", __dirname + "/public/views");
+app.use(express.static(__dirname + "/public"));
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: false }));
+app.use(flash());
+app.use(
+  session({
+    secret: "{secret}",
+    name: "session_id",
+    saveUninitialized: true,
+    resave: true
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(methodOverride("_method"));
 
-
-app.get("/", checkAuthenticated, function (request, response) {
-  response.render('index',{ name: request.user.name, email: request.user.email })
-
+app.get("/", checkAuthenticated, function(request, response) {
+  response.render("index", {
+    name: request.user.name,
+    email: request.user.email
+  });
 });
 
-app.get('/login', checkNotAuthenticated, (req, res) => {
-  res.render('login')
-})
+app.get("/login", checkNotAuthenticated, (req, res) => {
+  res.render("login");
+});
 
-app.get('/email', (req,res) => {
-  res.send(req.user.email)
-})
+app.get("/email", (req, res) => {
+  res.send(req.user.email);
+});
 
-app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true 
-}))
+app.post(
+  "/login",
+  checkNotAuthenticated,
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true
+  })
+);
 
-app.get('/createaccount', checkNotAuthenticated, (req, res) => {
-  res.render('createaccount.ejs')
-})
+app.get("/createaccount", checkNotAuthenticated, (req, res) => {
+  res.render("createaccount.ejs");
+});
 
-app.post('/createaccount', checkNotAuthenticated, async (req, res) => {
+app.post("/createaccount", checkNotAuthenticated, async (req, res) => {
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10)
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
     users.push({
       id: Date.now().toString(),
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword
-    })
-    res.redirect('/login')
+    });
+    res.redirect("/login");
   } catch {
-    res.redirect('/createaccount')
+    res.redirect("/createaccount");
   }
-})
+});
 
-app.delete('/logout', (req, res) => {
-  req.logOut()
-  res.redirect('/login')
-})
+app.delete("/logout", (req, res) => {
+  req.logOut();
+  res.redirect("/login");
+});
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return next()
+    return next();
   }
 
-  res.redirect('/login')
+  res.redirect("/login");
 }
 
 function checkNotAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return res.redirect('/')
+    return res.redirect("/");
   }
-  next()
-} 
+  next();
+}

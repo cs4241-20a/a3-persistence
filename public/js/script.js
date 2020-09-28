@@ -8,6 +8,7 @@ var allData = [
 ];
 
 const submit = function(e) {
+  let i;
   // prevent default form action from being carried out
   e.preventDefault();
 
@@ -17,7 +18,7 @@ const submit = function(e) {
     track = document.getElementsByName("track");
 
   let trackValue = null;
-  for (let i = 0; i < track.length; i++) {
+  for (i = 0; i < track.length; i++) {
     if (track[i].checked) {
       trackValue = track[i].value;
       break;
