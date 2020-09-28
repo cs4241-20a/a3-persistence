@@ -3,7 +3,6 @@ const lowFrequencyThreshold = 1000/50.0; // ~50 FPS
 
 const minDpr = 0.25;
 const maxDpr = window.devicePixelRatio;
-const deltaDpr = 0.1;
 
 const relaxPeriod = 1000;
 const accumulatorLength = 20;
@@ -43,10 +42,18 @@ function monitor(frameTimestamp, now) {
   fpsText.textContent = Math.round(1000.0 / frequencyMedian);
 
   if (frequencyMedian > lowFrequencyThreshold && dpr > minDpr) {
-    console.log("Low FPS, setting resolution factor to " + (dpr - deltaDpr));
-    updateDpr(dpr, -deltaDpr, now);
+    let deltaDpr = (lowFrequencyThreshold - frequencyMedian) / 100.0;
+    deltaDpr = deltaDpr < -0.75 ? -0.75 : deltaDpr;
+    deltaDpr = deltaDpr > -0.1 ? -0.1 : deltaDpr;
+    console.log("Low FPS, setting resolution factor to " + (dpr + deltaDpr));
+    console.log("Delta dpr is " + deltaDpr);
+    updateDpr(dpr, deltaDpr, now);
   } else if (frequencyMedian < highFrequencyThreshold && dpr < maxDpr) {
+    let deltaDpr = (frequencyMedian - highFrequencyThreshold) / 100.0;
+    deltaDpr = deltaDpr > 0.75 ? 0.75 : deltaDpr;
+    deltaDpr = deltaDpr < 0.1 ? 0.1 : deltaDpr;
     console.log("High FPS, setting resolution factor to " + (dpr + deltaDpr));
+    console.log("Delta dpr is " + deltaDpr);
     updateDpr(dpr, deltaDpr, now);
   }
 }
