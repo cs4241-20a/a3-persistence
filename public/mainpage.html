@@ -23,7 +23,7 @@
     />
 
     <!-- import the webpage's client-side javascript file -->
-    <script src="/script.js" defer></script>
+    
     <style>
       .row {
         display: flex;
@@ -44,7 +44,7 @@
 
       <p>Fill in the form below to add an entry</p>
 
-      <form id="patronForm">
+      <form id="patronForm" onload="javascript:forms2()">
         <div class="row">
           <div class="column">
             <label>
@@ -154,10 +154,6 @@
     </main>
 
     <footer>Made with <a href="https://glitch.com">Glitch</a>!</footer>
-
-    <!-- include the Glitch button to show what the webpage is about and
-          to make it easier for folks to view source and remix -->
-    <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
-    <script src="https://button.glitch.me/button.js" defer></script>
+    <script src="/script2.js"></script>
   </body>
 </html>
