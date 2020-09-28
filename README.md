@@ -1,34 +1,50 @@
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
 ## Motocross Results Tracker
 
 http://a3-nconill13.glitch.me
 
-This application allows users to log into an account that tracks
+Please use full screen.
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+This application allows users to log into an account that allows them to track past
+motocross race results, including the date, track, class they rode, and their finishing
+position. 
+
+I faced an extreme amount of challenges, specifically in not being able to adjust this 
+project to correctly use mongodb. While I used my A2 project as a starter, I was unable
+to correctly adjust the form to connect to my cluser, thus rendering the database entries
+and user databases rather useless.
+
+I used the passport.js authentication strategy because it was the easiest to implement, and
+had plenty of searchable guides.
+
+I largely modified the CSS framework, as visible in the CSS files. While it was based off
+the framework of Water.css, I created many updates to allow it to stylize to the theme
+of motocross, and specifically the two background images.
+
+The five Express middleware packages I fully used are as follows: (1) passport - an authentication
+strategy; (2) body-parser - parses HTTP request bodies; (3) bycrypt - enforces password hashing;
+(4) morgan - makes logging into Node.js HTTP servers easy; (5) method-override - returns a 
+new middleware function to override the req.method property with a new value.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: I implemented authentication through passport.js.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Design Achievement 1**: I included the following tweleve tips from the W3C Web 
+Accessibility Initiative: (1) I made link text meaningful, such as creating account; (2)
+I provided informative headings regarding entering new races and viewing prior entries;
+(3) I provided sufficient color contrasts between the foreground and background; (4) I provided
+easily identifiable feedback such as no email being associated with the log in; (5) I used
+heads and spacing to group related content, such as the form for new entries and the table
+for existing entries; (6) I didn't use color alone to convey information; (7) The interactive 
+elements are easily identificable as dark grey buttons; (8) I help users correct mistakes by
+providing alerts; (9) All interactive elements are keyboard accessible using tab to manuever; (10)
+A label is associated with every form option; (11) There is clear and consistent navigation options 
+between logging in, logging out, and creating an account; and (12) conent is overall clear and concise.
+- **Design Achievement 2**: I followed the CRAP principles. For contrast, since the
+backgrounds tend to be light colors of brown, I used a light accent of grey for boxes
+surrounded black text. The repetition is the same from the login screen to the main page,
+including the same style of text, buttons, etc. The alignment in full screen is essential
+to the layout of the app, as it is edited through CSS in order to line up as necessary
+to allow the picture of the motocross rider in the background to be seen. Finally,
+proximity exists in that the new entry form is grouped together, just as the existing
+entry form is far enough away to be its own element on the page.
