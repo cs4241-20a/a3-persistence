@@ -34,7 +34,7 @@ app.get("/index.html", (request, response) => {
 });
 
 app.get("/", (request, response) => {
-  if(account.length == 0){
+  if(account != null){
     response.sendFile(__dirname + "/views/login.html")
   } else {
     response.sendFile(__dirname + "/views/index.html")
@@ -91,18 +91,26 @@ app.get('/logout', function (request, response){
   return response.end()
 });
 
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
+
 passport.use(
   new GitHubStrategy(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: process.env.CALLBACK_URL,
+      callbackURL: process.env.CALLBACK_URL
     },
     async (accessToken, refreshToken, profile, cb) => {
       const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
       await client.connect();
       const collection = client.db("TaskDatabase").collection("Users");
-      const existingUser = await collection.find({username: username, github: true}).toArray()
+      const existingUser = await collection.find({username: account, github: true}).toArray()
 
       const newUser = {
         username: profile.username,
@@ -116,15 +124,16 @@ passport.use(
 
       const userJSON = await collection.find({ username: profile.username, github: true }).toArray();
       await client.close();
-      cb(null, userJSON[0]);
       github = true;
+      account = profile.username
+      cb(null, userJSON[0]);
     }
 ));
 
 app.get("/auth/github", passport.authenticate("github"));
 
-app.get("/callback/github", passport.authenticate("github", { failureRedirect: "/" }), function (request, response) {
-    res.redirect("/index.html");
+app.get('/auth/github/callback', passport.authenticate("github", { failureRedirect: "/" }), function (request, response) {
+    response.redirect("/index.html");
 });
 
 app.post("/submit", async (request, response) => {
