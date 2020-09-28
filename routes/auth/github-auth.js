@@ -1,10 +1,11 @@
+"use strict";
+
 const express = require("express");
 const passport = require("passport");
 const GitHubStrategy = require("passport-github2").Strategy;
 
 const router = express.Router();
 
-//? consider moving to external config file
 const ensureAuthenticated = (req, res, next) => {
 	if (req.isAuthenticated()) {
 		return next();
@@ -12,7 +13,6 @@ const ensureAuthenticated = (req, res, next) => {
 	res.redirect("/login");
 }
 
-//? consider moving to external config file
 const setupPassport = () => {
 	const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 	const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;

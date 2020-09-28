@@ -31,7 +31,7 @@ const formatDataAsTable = data => {
 	data.forEach(row => {
 		for (let key in row) {
 			if (!keys.includes(key)) {
-				if (key === "_id" || key === "date" || key === "__v") {
+				if (key === "_id" || key === "username" || key === "date" || key === "__v") {
 					continue;
 				}
 				keys.push(key);
@@ -118,9 +118,9 @@ const handleItemEditing = (data, editButton, row) => {
 		editButton.value = "Edit";
 		const currentItem = {...data[row.rowIndex - 1]};
 		let editedFields = {};
-		const newName = row.cells[0].innerHTML;
-		const newPrice = row.cells[1].innerHTML;
-		const newQty = row.cells[2].innerHTML;
+		const newName = row.cells[1].innerHTML;
+		const newPrice = row.cells[2].innerHTML;
+		const newQty = row.cells[3].innerHTML;
 
 		if (newName !== currentItem.name) {
 			editedFields.name = newName

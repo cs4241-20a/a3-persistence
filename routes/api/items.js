@@ -1,34 +1,37 @@
+"use strict";
+
 const express = require("express");
 
 const Item = require("../../models/Item");
+const githubAuth = require("../auth/github-auth");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-	res.json(await Item.find().sort({date: -1}));
+router.get("/", githubAuth.ensureAuthenticated, async (req, res) => {
+	res.json(await Item.find({username: req.user.username}).sort({date: -1}));
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", githubAuth.ensureAuthenticated, async (req, res) => {
 	try {
-		res.json(await Item.findById(req.params.id));
+		res.json(await Item.find({username: req.user.username, _id: req.params.id}));
 	} catch {
 		res.status(404);
 		res.send({error: "Item not found"});
 	}
 });
 
-router.post("/", async (req, res) => {
+router.post("/", githubAuth.ensureAuthenticated, async (req, res) => {
 	let {name, price, quantity} = req.body;
 	price = price.replace("$", "").replace(",", "");
 	const total = parseFloat(price) * quantity;
-	const newItem = new Item({name, price, quantity, total});
+	const newItem = new Item({username: req.user.username, name, price, quantity, total});
 	
 	res.json(await newItem.save());
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", githubAuth.ensureAuthenticated, async (req, res) => {
 	try {
-		await Item.findByIdAndDelete(req.params.id);
+		await Item.findOneAndDelete({username: req.user.username, _id: req.params.id});
 		res.status(204).send();
 	} catch {
 		res.status(404);
@@ -36,14 +39,11 @@ router.delete("/:id", async (req, res) => {
 	}
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", githubAuth.ensureAuthenticated, async (req, res) => {
 	try {
-		const item = await Item.findById(req.params.id);
+		const item = await Item.find({username: req.user.username, _id: req.params.id});
 		let {name, price, quantity} = req.body;
 		price = price.replace("$", "").replace(",", "");
-		console.log("here");
-
-		console.log(item);
 
 		if (name) {
 			item.name = name;
@@ -56,8 +56,6 @@ router.patch("/:id", async (req, res) => {
 			item.quantity = quantity;
 			item.total = parseFloat(price) * quantity;
 		}
-
-		console.log(item);
 
 		res.json(await item.save());
 	} catch {

@@ -1,3 +1,4 @@
+"use strict";
 
 const fs = require("fs");
 const path = require("path");
@@ -11,7 +12,7 @@ const helmet = require("helmet");
 const session = require("express-session");
 
 const items = require("./routes/api/items");
-const githubAuth = require("./routes/auth/github");
+const githubAuth = require("./routes/auth/github-auth");
 
 const app = express();
 const passport = githubAuth.passport;
