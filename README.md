@@ -39,6 +39,7 @@ Install packages
 npm install
 cd server
 npm install
+# Remember to return to the parent directory when done
 ```
 Build for production:
 ```sh
