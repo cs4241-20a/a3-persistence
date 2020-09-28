@@ -5,56 +5,8 @@ Jordan Stoessel
 
 This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
 
----
-
-Your application is required to implement the following functionalities:
-
-
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-bodyParser, 
-passport.Authenticate, 
-next,
-
-Your application is required to demonstrate the use of the following concepts:
-
-HTML:
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
-
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
-
-
-JavaScript:
-
-Node.js:
-- At least five pieces of Express middleware
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
+--- 
 - (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
 ## Speed Clicker 2.0
@@ -62,17 +14,13 @@ Sample Readme (delete the above when you're ready to submit, and modify the belo
 
 your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+Speed Clicker is a game where you can input an amount of time to play and see how fast you can click. Over the time limit the user's click count is tallied till time is elapsed. At this point, the user may type in their name to be uploaded into the database. For assignment 3, the user would be automatically registered based on the authentication login over a unique username. This didn't work as planned as such I left the code mostly intact but reverted it to it's original functionality. The issue I had with implementing authentication was maintaining a secure authentication along with bcrypt and  obscurity with passcodes. I figured out how to compare hash to password, but for some reason it would continuously always compare to be true. I chose to use passport for authentication along with bcrypt for encryption simply because that was the documentation I was reading into. I chose Bootstrap as my CSS framework because that was the most popular one along with the fact that I was wanting to try it for a while. I found it to be quite interesting with how seamlessly the webpage moves now. The only edits I made to the CSS files were the centering of just about everything along with color/marginal changes. Nothing too heavy. I made use of body-parser, passport's Authenticate, next, checkAuthenticate, and checkNotAuthenticate. body-parser was used because of the tutorial video in class which became helpful for auto parsing the JSON body information for easier handling. passport's authenticate middleware was used to enable local authentication for handling usernames and passwords (this worked till associated with the mongodb database). The next middleware function used was next which makes use of the next function/line within the code: This was useful for processing without messing with the request-response cycle. The last two middlewares that were used were defined to check if the user was authenticated (logged in) or not. These two worked by essentially enabling and disabling '/login', '/register', and '/' depending on if the user was already logged in or not. This was done by redirecting the user to the correct location until logged in or out. I seemed to have struggled on this particular project and as such I will work to understanding how to better organize my code to correctly implement authentication along with the database. Mongodb worked flawlessly. The issue came from connecting the server script's authentication process to mongodb itself for identifying a user. The code still shows most of the ideas I had for this implementation where had it have worked the last requirement I needed would have been removing username input and replacing it with the login username for '/submit', '/delete', and '/modify'.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: I made use of passport to handle usernames and passwords as a unique idenifier and user authenticator. Initializing passport became an issue when converting from array to database therefore I was forced to revert some changes before submission.
+
+- **(Actual) Tech Achievement 2**: I uploaded my project to Heroku instead of glitch. 
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Design Achievement 1**: I made use of bcrypt to securely encrypt passwords before uploading into the mongodb user database. The idea in doing so was for allowing users to create accounts and login to automatically add themselves to the leaderboard. The most confusing part to deal with in bcrypt was making use of the compare function.
