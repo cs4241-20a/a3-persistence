@@ -8,7 +8,6 @@ const dotenv = require('dotenv');
 const appdata = [];
 
 dotenv.config();
-console.log(process.env.SESSION_SECRET)
 app.use(session({secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true, cookie: {secure: false}})),
 
 app.use(express.static("public"));
