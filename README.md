@@ -1,17 +1,18 @@
 ## Your Web Application Title
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+Heroku: https://a3-nlingram.herokuapp.com/
+(DISCLAIMER: For some reason I was unable to figure out, GitHub Oauth2.0 was not working when I deployed my project to Heroku, It does work on my )
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+The application that I made is a continuation of my a2 project, a simple todo-list. This project has far improved and now offers OAuth2.0 with GitHub and better styling with Boostrap4.
+Implementing Oauth 2.0 with GitHub proved to be challenging but after watching some tutorials online I was able to figure it out.
+I choose to use Bootstrap for the css framework because I am partially familiar with it and it is easy to use. I used a custom gif in a styles.css file in addition to Boostrap.
+The five express middlewars that I used are :
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
-
-The application that I made is a continuation of my a2 project, a simple todo-list. This project has far improved from the first, based not only on the technical designs of
+- static: this allows the server to serve static files
+- timeout: allos the server to set timeout periods inbetween HTTP requests
+- morgan: logs HTTP requests
+- body-parser: this will parse HTTP request body's, in this project to JSON files
+- response-time: this will record the HTTP response time
 
 ## Technical Achievements
 
