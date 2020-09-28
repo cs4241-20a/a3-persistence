@@ -1,0 +1,12 @@
+.headerBar{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px;
+    border-bottom-style: solid;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+}
+.bucket {
+    min-height: 100%;
+}

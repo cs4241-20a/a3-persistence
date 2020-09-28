@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bulma.min.css">
+    <link rel="stylesheet" href="dragula.css">
+    <link rel="stylesheet" href="my.css">
+    <script src="store.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class = "headerBar">
+        <h1 class="title is-1 mb-0">Store</h1>
+        <div style = "display:flex">
+            <p class = "content is-medium mb-0 mr-2 " id = "welcomeText"></p>
+            <button class = "content is-medium mb-0" id = 'changePass'>Change password</button>
+            <button class = "content is-medium mb-0" id = 'logOut'>Logout</button>
+        </div>
+        
+    </div>
+    
+    <div class = "columns" >
+        <div class = "column"  style="flex: auto;">
+            <h1 class = "title has-text-centered">
+                Store
+            </h1>
+            <div id = "items" class="bucket">
+
+            </div>
+        </div>
+        <div class = "column" >
+            <h1  class = "title has-text-centered">
+                Basket
+            </h1>
+            <div id = "basket" class="bucket">
+
+            </div>
+        </div>
+    </div>
+    <script src="dragula.js"></script>
+</body>
+</html>
