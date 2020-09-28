@@ -1,0 +1,11 @@
+ul {
+    list-style-type: none;
+    padding: 20px 0px;
+}
+
+li {
+    padding: 10px 0px;
+}
+input[type=text] {
+    border: 5px solid lightgray;
+}

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>CS4241 Assignment 3</title>
+  <meta charset="utf-8">
+  <script src="js/scripts.js"></script>
+  <link href="css/style.css" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+  <link rel="icon" href="data:,">
+
+</head>
+
+<body>
+  <div class="jumbotron text-center">
+    <h1>Camera List Boi Reloaded</h1>
+        <button id="logoutbutton">Log out</button>
+  </div>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-sm-6">
+        <div class="card-body">
+          <h2 class="card-title">Add Listing</h2>
+          <form>
+            <ul>
+              <li>
+                <input type="text" id="cameramake" value="Camera Make">
+              </li>
+              <li>
+                <input type="text" id="cameramodel" value="Camera Model">
+              </li>
+              <li>
+                <input type="text" id="cameraformat" value="Camera format">
+              </li>
+              <li>
+                <input type="number" id="price" min="1" required>
+                <label for="price">Please Enter Price in Dollars</label>
+              </li>
+              <li>
+                <select name="condition" id="condition">
+                  <option value="great">Great</option>
+                  <option value="good">Good</option>
+                  <option value="decent">Decent</option>
+                  <option value="poor">Poor</option>
+                </select>
+              </li>
+              <li>
+                <button id="submitbutton">submit</button>
+              </li>
+            </ul>
+          </form>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card-body">
+          <h2 class="card-title">Update Listing</h2>
+          <form>
+            <ul>
+              <li>
+                <input type="text" id="updatecameramake" value="Camera Make">
+              </li>
+              <li>
+                <input type="text" id="updatecameramodel" value="Camera Model">
+              </li>
+              <li>
+                <input type="text" id="updatecameraformat" value="Camera format">
+              </li>
+              <li>
+                <input type="number" id="updateprice" min="1" size ="5" required>
+                <label for="price">Please Enter Price in Dollars</label>
+              </li>
+              <li>
+                <select name="condition" id="updatecondition">
+                  <option value="great">Great</option>
+                  <option value="good">Good</option>
+                  <option value="decent">Decent</option>
+                  <option value="poor">Poor</option>
+                </select>
+              </li>
+              <li>
+                <input type="number" id="listingnumber" min="0" size="3" required>
+                <label for="listingnumber">Listing Number</label>
+              </li>
+              <li>
+                <button id="updatebutton">Update</button>
+              </li>
+            </ul>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card-body">
+          <h2 class="card-title">Delete Listing</h2>
+          <form>
+            <ul>
+              <li>
+                <input type="number" id="deletelistingnumber" min="0" required>
+                <label for="deletelistingnumber">Listing Number</label>
+              </li>
+              <li>
+                <button id="deletebutton">delete</button>
+              </li>
+            </ul>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card-body">
+          <h2 class="card-title">Current Listings</h2>
+          <form>
+            <button id='listingsbutton'>Listings</button>
+          </form>
+          <div data-modal="results" id="dvTable"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+
+
+    // assigns window.onload to a function
+    window.onload = function () {
+
+      const submitButton = document.getElementById('submitbutton')
+      const deleteButton = document.getElementById('deletebutton')
+      const listingsButton = document.getElementById('listingsbutton')
+      const updateButton = document.getElementById('updatebutton')
+      const logoutButton = document.getElementById('logoutbutton')
+      // when this button is clicked, call submit for the button that was found in this document
+      submitButton.onclick = submit
+      deleteButton.onclick = deleteListing
+      listingsButton.onclick = getListings
+      updateButton.onclick = updateListing
+      logoutButton.onclick = logout
+    }
+  </script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
