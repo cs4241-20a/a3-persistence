@@ -24,7 +24,7 @@ passport.use(new GitHubStrategy({
     callbackURL: `https://a3-truman-larson.herokuapp.com/auth/github/callback`
   },
   function(accessToken, refreshToken, profile, cb) {
-    cb(null, {profile})
+    return cb(null, {profile})
   }
 ));
 
