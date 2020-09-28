@@ -1,0 +1,33 @@
+{
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "custom-env": "^2.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.2",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-github": "^1.1.0",
+    "passport-oauth": "^1.0.0",
+    "response-time": "^2.3.2",
+    "serve-favicon": "^2.5.0"
+  },
+  "name": "a3-persistence",
+  "description": "Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template ===",
+  "version": "1.0.0",
+  "main": "script.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rfdolan/a3-persistence.git"
+  },
+  "author": "raymond dolan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rfdolan/a3-persistence/issues"
+  },
+  "homepage": "https://github.com/rfdolan/a3-persistence#readme"
+}

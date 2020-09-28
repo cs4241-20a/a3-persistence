@@ -74,6 +74,21 @@ Include a very brief summary of your project here. Images are encouraged, along 
 - what CSS framework you used and why
   - include any modifications to the CSS framework you made via custom CSS you authored
 - the five Express middleware packages you used and a short (one sentence) summary of what each one does
+The goal of the application was to make an initiative tracker for use in tabletop roleplaying games to keep track of combat order.
+
+In realizing the application I had a few challenges in design and scope, since I wanted it to do much more. I wanted to implement a DM view and player view but did not have time. I ran into issues resolving ties when using the database since the format was so different.
+
+AUTH STRAT
+
+CSS FRAMEWORK
+
+The middlewares I used were
+- morgan: logs http requests which is helpful for debugging.
+- body-parser: helps parse incoming request bodies.
+- response-time: records the response time for requests in HTTP servers.
+- serve-favicon: serves a favicon for the page, allowing easy use of custom icon.
+- passport: uses strategies to help authenticate oauth requests.
+
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
