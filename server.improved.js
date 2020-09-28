@@ -11,7 +11,7 @@ const express = require('express'),
 let currUserId = null
 
 const MongoClient = mongodb.MongoClient;
-const uri = 'mongodb+srv://${DBUSER}:${DBPW}@cluster0.6usct.gcp.mongodb.net/testdatabase?retryWrites=true&w=majority';
+const uri = 'mongodb+srv://${process.env.DBUSER}:${process.env.DBPW}@cluster0.6usct.gcp.mongodb.net/testdatabase?retryWrites=true&w=majority';
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 let collection = null
 let loginCollection = null
@@ -41,8 +41,8 @@ var submitFunc = function(request, response, next) {
 var GitHubStrategy = require('passport-github').Strategy;
 
 passport.use(new GitHubStrategy({
-        clientID: GHCLIENTID,
-        clientSecret: GHCLIENTSECRET,
+        clientID: process.env.GHCLIENTID,
+        clientSecret: process.env.GHCLIENTSECRET,
         callbackURL: "http://https://a3-maria-medina-martinez.herokuapp.com/auth/github/callback"
     },
     async function(accessToken, refreshToken, profile, cb) {
