@@ -29,7 +29,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Ingredients</span>
                         </div>
-                        <input type="text" class="form-control" id="ingredientInput" placeholder="Type in an ingredient, then click 'Add'.">
+                        <input type="text" class="form-control" id="ingredientInput" placeholder="Type in an ingredient, then click 'Add' or press Enter.">
                         <div class="input-group-append">
                             <button class="btn btn-secondary" type="button" @click="addIngredient()">Add</button>
                         </div>
@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="row justify-content-center">
-                        <input id="submitButton" type="button" @click="<%= submitFn %>()" class="btn btn-primary" value="Submit" style="padding: 1rem 3rem; margin: 2rem; min-width: 10rem">
+                        <input id="submitButton" type="button" @click='<%= submitFn %>()' class="btn btn-primary" value="Submit" style="padding: 1rem 3rem; margin: 2rem; min-width: 10rem">
                     </div>
                 </div>
             </form>
@@ -79,6 +79,7 @@
                         console.log(val)
                         this.ingredients.push(val)
                     }
+                    var val = document.getElementById("ingredientInput").value = "";
                 },
                 removeIngredient: function(ingredient) {
                   const index = this.ingredients.indexOf(ingredient);
@@ -105,8 +106,25 @@
                 showStatus: function(success) {
                   this.addSuccess = success
                   this.showBanner = true
+                },
+                newRecipe: function() {
+                      fetch('/recipes/add', {
+                      method: 'POST',
+                      body: JSON.stringify(app.getRecipe()),
+                      headers: {
+                          "Content-Type": "application/json"
+                      }
+                  })
+                  .then( (res) => {
+                    if(res.status == 200) {
+                      app.showStatus(true)
+                    }
+                    else {
+                      app.showStatus(false)
+                    }
+                    console.log(res.status)
+                  })
                 }
-
             },
             created: function() {
               // Check if there is a recipe ID in url params
@@ -130,25 +148,15 @@
             }
         })
 
-        function newRecipe() {
-            fetch('/recipes/add', {
-                method: 'POST',
-                body: JSON.stringify(app.getRecipe()),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            .then( (res) => {
-              if(res.status == 200) {
-                app.showStatus(true)
-              }
-              else {
-                app.showStatus(false)
-              }
-              console.log(res.status)
-            })
-        }
+        // Enter keypress handler for adding ingredient
+        document.getElementById("ingredientInput").addEventListener("keyup", (e) => {
+          e.preventDefault();
+          if (e.keyCode === 13) {
+            app.addIngredient();
+          }
+        })
       
+      // Update existing recipe
       function updateRecipe() {
         fetch('/recipes/edit?recipeID='+ app.recipeID, {
                 method: 'POST',
