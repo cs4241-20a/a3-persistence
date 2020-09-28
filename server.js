@@ -91,12 +91,20 @@ app.post( "/verify", bodyParser.json(), (request, response) => {
         let responseCode = -1
         if (result == null){
             responseCode = 0
-            collection.insertOne(request.body).then(newResult => result = newResult)
+            collection.insertOne(request.body).then(() => 
+                collection.findOne({username: request.body.username})
+                .then( newResult =>
+                    response.json({responseCode, newResult
+            })))
         }
         else if (result.password == request.body.password){
             responseCode = 1
+            response.json({responseCode, result})
         }
-        response.json({responseCode, result})
+        else {
+            response.json({responseCode, result})
+        }
+        
     }).catch(err => console.error(err))
     
 })
