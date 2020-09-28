@@ -1,12 +1,21 @@
 {
-  "name": "cs4241-a2",
+  "name": "cs4241-a3",
   "version": "0.1.0",
-  "description": "WPI CS 4241 second assignment",
+  "description": "WPI CS 4241 third assignment",
   "author": "Neville Ingram",
   "scripts": {
     "start": "node server.improved.js"
   },
   "dependencies": {
-    "mime": "^2.4.4"
+    "body-parser": "^1.19.0",
+    "connect-timeout": "^1.9.0",
+    "csrf": "^3.1.0",
+    "express": "^4.17.1",
+    "mime": "^2.4.4",
+    "mongodb": "^3.6.2",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-github": "^1.1.0",
+    "response-time": "^2.3.2"
   }
 }

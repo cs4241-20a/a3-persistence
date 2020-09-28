@@ -6,87 +6,161 @@
       href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap"
       rel="stylesheet"
     />
-    <title>CS4241 Assignment 2</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+
+    <title>CS4241 Assignment</title>
     <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
   </head>
   <body>
     <div class="container">
       <div class="">
-        <h1>Neville Ingram's Todo List</h1>
+        <h1>Todo List</h1>
       </div>
-      <form class="form" action="">
-        <label
-          ><input type="text" class="" id="task" value="Enter a task"
-        /></label>
-        <label
-          ><input
-            type="text"
-            class=""
-            id="due"
-            value="How many days till it's due?"
-        /></label>
-        <label
-          ><button id="submit" type="button" class="">submit</button>
-        </label>
-      </form>
+      <a href="http://localhost:3000/login">Login again here</a>
+      <div>
+        <form class="form" action="">
+          <label
+            ><input type="text" class="" id="task" value="Enter a task"
+          /></label>
+          <label
+            ><input
+              type="text"
+              class=""
+              id="due"
+              value="How many days till due?"
+          /></label>
+          <label
+            ><button id="submit" type="button" class="btn-success">
+              submit
+            </button>
+          </label>
+        </form>
+        <form class="form" action="">
+          <label
+            ><input
+              type="text"
+              class=""
+              id="task-upd"
+              value="Change what task ?"
+          /></label>
+          <label
+            ><input
+              type="text"
+              class=""
+              id="due-upd"
+              value="Enter new days until due"
+          /></label>
+          <label
+            ><button id="update" type="button" class="btn-primary">
+              change
+            </button>
+          </label>
+        </form>
+      </div>
       <div class="list">
-        <ul class="" id="todo-list"></ul>
+        <h2>Todo's</h2>
+        <h6>Click to delete</h6>
+        <ul class="list-group" id="todo-list"></ul>
       </div>
     </div>
   </body>
   <script>
-    let local = [];
     const list = document.getElementById("todo-list");
 
+    const appendTodo = (newTodo) => {
+      let todo = document.createElement("li");
+      todo.innerText =
+        `${newTodo.task}` + " is due in " + `${newTodo.due}` + " days ";
+      todo.className = "list-group-item";
+      list.appendChild(todo);
+      todo.onclick = () => {
+        fetch("/delete", {
+          method: "POST",
+          body: JSON.stringify({ id: newTodo._id }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((response) => {
+          response.json().then((id) => {
+            todo.remove();
+          });
+        });
+      };
+    };
+
+    const updateTodo = (updTodo) => {
+      list.childNodes.forEach((child) => {
+        let afterTask = child.innerText.indexOf("is");
+        let task = child.innerText.substr(0, afterTask - 1);
+        if (task === updTodo.task) {
+          child.innerText =
+            `${updTodo.task}` + " is due in " + `${updTodo.due}` + " days ";
+        }
+      });
+    };
+
+    fetch("/todos", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((todos) => {
+        JSON.parse(todos).forEach(appendTodo);
+      });
+
     const submit = function (e) {
-      // prevent default form action from being carried out
       e.preventDefault();
+
       const input1 = document.querySelector("#task");
       const input2 = document.querySelector("#due");
       const json = { task: input1.value, due: input2.value };
-      const body = JSON.stringify(json);
-      fetch("/submit", {
+
+      fetch("/add", {
         method: "POST",
-        body,
-      }).then(function (response) {
-        const data = response
-          .json()
-          .then((todos) => {
-            local = todos;
-          })
-          .then(() => {
-            loadTodos();
-          });
+        body: JSON.stringify({ todo: json }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((response) => {
+        response.json().then((newTodo) => {
+          appendTodo(newTodo);
+        });
       });
       return false;
     };
-    const loadTodos = () => {
-      // This will remove the currently loaded list from the page
-      list.querySelectorAll("*").forEach((child) => child.remove());
-      let i;
-      for (i = 0; i < local.length; i++) {
-        let todo = document.createElement("li");
-        todo.className = "list-group-item";
-        let task = document.createTextNode(
-          " Task#" +
-            `${local[i].id + 1}` +
-            " is: " +
-            `"${local[i].task}"` +
-            " and is due in " +
-            `${local[i].due}` +
-            " days "
-        );
-        let done = document.createElement("input");
-        done.type = "checkbox";
-        todo.appendChild(task);
-        todo.appendChild(done);
-        list.appendChild(todo);
-      }
+
+    const updater = (e) => {
+      e.preventDefault();
+      const input1 = document.querySelector("#task-upd");
+      const input2 = document.querySelector("#due-upd");
+      const json = { task: input1.value, due: input2.value };
+
+      fetch("/update", {
+        method: "PUT",
+        body: JSON.stringify({ todo: json }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((response) => {
+        response.json().then((updTodo) => {
+          updateTodo(updTodo);
+        });
+      });
     };
 
     window.onload = function () {
-      const button = document.querySelector("button");
+      const button = document.getElementById("submit");
       button.onclick = submit;
+      const update = document.getElementById("update");
+      update.onclick = updater;
     };
   </script>
 </html>

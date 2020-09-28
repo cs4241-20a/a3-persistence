@@ -1,72 +1,76 @@
-const http = require("http"),
-  fs = require("fs"),
-  mime = require("mime"),
-  dir = "public/",
-  port = 3000;
+const express = require("express");
 
-let currentID = 0;
-const todos = [];
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
+const responseTime = require("response-time");
+const timeout = require("connect-timeout");
 
-const server = http.createServer(function (request, response) {
-  if (request.method === "GET") {
-    handleGet(request, response);
-  } else if (request.method === "POST") {
-    handlePost(request, response);
-  }
+const mongodb = require("mongodb");
+const MongoClient = mongodb.MongoClient;
+const uri =
+  "mongodb+srv://root:admin@cluster0.ljo9i.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+let collection = null;
+client.connect((err) => {
+  collection = client.db("datatest").collection("test");
 });
 
-const handleGet = function (request, response) {
-  const filename = dir + request.url.slice(1);
+const app = express();
 
-  if (request.url === "/") {
-    sendFile(response, "public/index.html");
-  } else {
-    sendFile(response, filename);
-  }
-};
+app.use(express.static("public"));
+app.use(responseTime());
+app.use(timeout("100s"));
 
-const handlePost = function (request, response) {
-  let dataString = "";
+morgan((tokens, req, res) => {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, "content-length"),
+    "-",
+    tokens["response-time"](req, res),
+    "ms",
+  ].join(" ");
+});
 
-  request.on("data", function (data) {
-    dataString += data;
+app.get("/home", (request, response) => {
+  response.sendFile(__dirname + "/public/index.html");
+});
+
+app.get("/login", (request, response) => {
+  response.sendFile(__dirname + "/public/login.html");
+});
+
+app.get("/todos", (request, response) => {
+  collection
+    .find({})
+    .toArray()
+    .then((result) => {
+      response.json(JSON.stringify(result));
+    });
+});
+
+app.post("/delete", bodyParser.json(), (request, response) => {
+  collection
+    .deleteOne({ _id: mongodb.ObjectID(request.body.id) })
+    .then((res) => {
+      response.json(res);
+    });
+});
+
+app.put("/update", bodyParser.json(), (request, response) => {
+  let todoUpd = request.body;
+  collection.updateOne(
+    { task: todoUpd.todo.task },
+    { $set: { due: todoUpd.todo.due } }
+  );
+  response.json(request.body.todo);
+});
+
+app.post("/add", bodyParser.json(), (request, response) => {
+  collection.insertOne(request.body.todo).then((dbresponse) => {
+    response.json(dbresponse.ops[0]);
   });
+});
 
-  request.on("end", function () {
-    const todo = JSON.parse(dataString);
-    addTodo(todo);
-    response.writeHead(200, "OK", { "Content-Type": "text/plain" });
-    response.end(JSON.stringify(todos));
-  });
-};
-/* @param todo is the todo to be added
-Function that adds a todo item to the todo list on server memory
-*/
-const addTodo = (todo) => {
-  todos.push({
-    id: currentID,
-    task: todo.task,
-    due: parseInt(todo.due),
-    done: false,
-  });
-  currentID++;
-};
-
-const sendFile = function (response, filename) {
-  const type = mime.getType(filename);
-
-  fs.readFile(filename, function (err, content) {
-    // if the error = null, then we've loaded the file successfully
-    if (err === null) {
-      // status code: https://httpstatuses.com
-      response.writeHeader(200, { "Content-Type": type });
-      response.end(content);
-    } else {
-      // file not found, error code 404
-      response.writeHeader(404);
-      response.end("404 Error: File Not Found");
-    }
-  });
-};
-
-server.listen(process.env.PORT || port);
+const listener = app.listen(3000);
