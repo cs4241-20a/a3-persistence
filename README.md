@@ -1,6 +1,7 @@
-## Your Web Application Title
+## My Reading List
+Xiaoyue Lyu
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+https://a3-xiaoyue-lyu.glitch.me
 
 
 - This application allows authenticated users to create, modify, and delete books from their reading list. It allows users to record the title, author, isbn of a book, as well their reviews of the book and if they have a copy of it. All the data are protected and can only be accessed by logged-in users. Only books added by the user themself will show up on the their reading list, yet the full record of books can be found in /allbooks. Data are permanently saved in MongoDB.
