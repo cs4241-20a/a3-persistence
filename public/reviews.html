@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>CS4241 Assignment 2</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bulma.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="favicon.ico" />
+  <script src="js/reviews.js"></script>
+</head>
+
+<body>
+  <section class="hero is-success is-bold" style="margin-bottom: 20px;">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title">WELCOME!</h1>
+        <h1 class="subtitle">
+          This is a Phone/Tablet/Laptop User Rating
+        </h1>
+      </div>
+    </div>
+  </section>
+  <div class="container" style="min-width: 95%;">
+    <div class="columns is-centered" id="content-container">
+      <div class="container" style=" background-color: lightgray;">
+        <div class="column" id="leftColumn">
+
+          <div class="field is-horizontal is-grouped is-grouped-centered">
+            <h2 class="title is-centered">Collected User Reviews</h2>
+          </div>
+
+          <div class="field">
+            <label class="label">Username: </label>
+            <input class="input" type='text' id='username' disabled=true>
+          </div>
+
+          <div class="field">
+            <label class="label">Your Name: </label>
+            <input class="input" type='text' id='name' placeholder="John Doe">
+          </div>
+
+          <div class="field">
+            <label class="label">Choose Device: </label>
+            <div class="control">
+              <div class="select is-fullwdith">
+                <select name="device-selection" id="device">
+                  <optgroup label="Phones">
+                    <option value="Apple iPhone 11 Pro Max">Apple iPhone 11 Pro Max</option>
+                    <option value="Apple iPhone SE">Apple iPhone SE</option>
+                    <option value="Google Pixel 3a">Google Pixel 3a</option>
+                    <option value="Google Pixel 4a">Google Pixel 4a</option>
+                    <option value="Google Pixel 4">Google Pixel 4</option>
+                    <option value="Samsung Galaxy S20 Ultra">Samsung Galaxy S20 Ultra</option>
+                  </optgroup>
+                  <optgroup label="Tablets">
+                    <option value="Apple iPad Pro (2020)">Apple iPad Pro (2020)</option>
+                    <option value="Google Pixel Slate">Google Pixel Slate</option>
+                    <option value="Samsung Galaxy Tab S6">Samsung Galaxy Tab S6</option>
+                    <option value="Samsung Galaxy Tab S5e">Samsung Galaxy Tab S5e</option>
+                  </optgroup>
+                  <optgroup label="Laptops">
+                    <option value="Apple MacBook Pro (2020)">Apple MacBook Pro (2020)</option>
+                    <option value="Apple MacBook Air (2020)">Apple MacBook Air (2020)</option>
+                    <option value="Lenovo ThinkPad X1 Carbon Gen 6">Lenovo ThinkPad X1 Carbon Gen 6</option>
+                    <option value="Dell XPS 13 (2020)">Dell XPS 13 (2020)</option>
+                    <option value="Dell XPS 15 (2020)">Dell XPS 15 (2020)</option>
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Price Rating: </label>
+            <div class="control">
+              <div class="select">
+                <select name="price-rating" id="price">
+                  <option value="1 Star">1 Star</option>
+                  <option value="2 Stars">2 Stars</option>
+                  <option value="3 Stars">3 Stars</option>
+                  <option value="4 Stars">4 Stars</option>
+                  <option value="5 Stars">5 Stars</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Battery Life Rating: </label>
+            <div class="control">
+              <div class="select">
+                <select name="battery-life-rating" id="battery">
+                  <option value="1 Star">1 Star</option>
+                  <option value="2 Stars">2 Stars</option>
+                  <option value="3 Stars">3 Stars</option>
+                  <option value="4 Stars">4 Stars</option>
+                  <option value="5 Stars">5 Stars</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Performance Rating: </label>
+            <div class="control">
+              <div class="select">
+                <select name="performance-rating" id="performance">
+                  <option value="1 Star">1 Star</option>
+                  <option value="2 Stars">2 Stars</option>
+                  <option value="3 Stars">3 Stars</option>
+                  <option value="4 Stars">4 Stars</option>
+                  <option value="5 Stars">5 Stars</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Device Feel Rating: </label>
+            <div class="control">
+              <div class="select">
+                <select name="device-feel-rating" id="device-feel">
+                  <option value="1 Star">1 Star</option>
+                  <option value="2 Stars">2 Stars</option>
+                  <option value="3 Stars">3 Stars</option>
+                  <option value="4 Stars">4 Stars</option>
+                  <option value="5 Stars">5 Stars</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="container has-text-centered" style="margin-top: 50px;">
+            <button id="signOut" class="button">Sign Out</button>
+            <button id='submit' class="button">submit</button>
+            <button id='save' class="button">save modification</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="container has-text-centered">
+        <div class="column" id="rightColumn">
+          <div class="field is-horizontal is-grouped is-grouped-centered">
+            <h2 class="title is-centered">Collected Reviews</h2>
+          </div>
+
+          <table class="table" id="table" style="visibility: hidden;">
+            <tr>
+              <th>Username</th>
+              <th>Name</th>
+              <th>Device Name</th>
+              <th>Price Rating</th>
+              <th>Battery Life Rating</th>
+              <th>Performance Rating</th>
+              <th>Device Feel Rating</th>
+              <th>Overall Rating</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
+</html>

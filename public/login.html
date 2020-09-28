@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/bulma.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Shrikhand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="favicon.ico"/>
+    <script src="js/login.js"></script>
+</head>
+
+<body>
+    <h1 class="title is-1" style="color: green;">LOGIN</h1>
+
+    <div class="container">
+        <div>
+            <form>
+                <div style="margin-bottom: 30px;">
+                    <label>Username: </label>
+                    <input type='text' id='username' class="input is-rounded" placeholder="Username">
+                </div>
+                <div>
+                    <label>Password: </label>
+                    <input type='password' id='password' placeholder="Password" class="input is-rounded">
+                </div>
+                <div class="container has-text-centered" style="margin-top: 100px;">
+                    <button id='login' class="button is-large is-success">Login</button>
+                    <button id='signUp' class="button is-large is-success">Sign Up</button>
+                </div>
+            </form>
+        </div>
+        <a href="/auth/github">
+            <img src="images/github-icon.png">
+        </a>
+    </div>
+</body>
+
+</html>
