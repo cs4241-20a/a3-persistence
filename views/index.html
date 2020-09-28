@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3 - TODO</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="homepage.js"></script>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <form action="">
+      <h1 class="title">TODO - Task Management Application</h1>
+
+      <label for="task-title">
+      Task Name
+      <input type='text' id='taskName' placeholder="">
+      </label>
+
+      <label for="description">
+      Description
+      <input type='text' id='taskDesc' placeholder="">
+      </label>
+
+      <div class="submitRow">
+      <label for="priority">
+      Priority
+      <select id='prio'>
+        <option value="low">Low </option>
+        <option value="medium">Medium </option>
+        <option value="high">High </option>
+      </select>
+      </label>
+
+      <button id="addBtn">Add</button>
+      <button class="logoutBtn" id="logoutBtn">Logout</button>
+    </div>
+    </form>
+
+    <div> </div>
+    <div>
+        <h1>Tasks</h1>
+        <table>
+          <thread>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Priority</th>
+              <th>Due Date</th>
+            </tr>
+          </thread>
+          <tbody id="tasks"></tbody>
+        </table>
+    </div>
+  </body>
+</html>
