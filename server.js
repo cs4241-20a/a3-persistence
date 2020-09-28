@@ -3,7 +3,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const { response } = require('express');
-const mongodb = require('mongodb')
+const mongodb = require('mongodb');
+const bcrypt = require('bcrypt');
 
 
 // checks for objects in the public folder
