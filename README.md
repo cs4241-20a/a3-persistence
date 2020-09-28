@@ -62,21 +62,51 @@ Below are suggested technical and design achievements. You can use these to help
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
-## Your Web Application Title
+## To Do List 
+### Danya Baron 
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+Glitch link: https://glitch.com/~a3-danya-baron
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+- The goal of this application is for users to be able to log into the website using Github, and have their credentials stored in a database so they can save their tasks. 
+Users are able to add, edit, and delete to-do list items. 
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+
+- My biggest challenge in this application was getting the authentication to work properly. It took way longer than I had anticipated, and was very challenging.
+I believe that the authentication was challenging because of the lack of documentation online regarding the methods and techniques of using Github Oauth. 
+
+
+- I chose to use Github Oauth because I really wanted to challenge myself and maybe use this authentication in the future. This authentication was challenging, but I was also able to kill two birds
+with one stone by implementing the Passport middleware with the Github authentication.
+
+
+- I chose to use Bootstrap for this application because I had prior experience with it before. I also chose Bootstrap because they have fantastic documentation
+and it's easy to implement into web applications.
+  
+  
+- The five middleware packages I used for this web application are:
+
+**Passport**
+This middleware handles authentication for users simply.
+
+**Body Parser**
+This middleware parses the body of any received post requests 
+and transforms it into json.
+
+**Session**
+This middleware establishes server-based sessions which is useful in implementing
+authentication.
+
+**Serve-Static**
+This middleware serves static files within a given root directory.
+
+**Morgan**
+This middleware is a HTTP request logger, and gives developers access to see
+HTTP requests.
+
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy. 
+In order for this to work due to a bug in Glitch, you must run/open the website in a new window.
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
