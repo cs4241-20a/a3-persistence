@@ -1,4 +1,4 @@
-## Your Web Application Title
+## Todo List by Neville Ingram
 
 Heroku: https://a3-nlingram.herokuapp.com/
 (DRAWBACK: The login/home pages URL's are hard coded, so those will only work on either the localhost or Heroku, one at a time. For submission I made them work for Heroku, I wasn't able to figure out how to make this modular in time)
