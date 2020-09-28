@@ -19,7 +19,12 @@ document.getElementById("submit-button").addEventListener("click", async evt => 
 	evt.preventDefault();
 	addUser();
 });
- 
+
+document.getElementById("logout-button").addEventListener("click", evt => {
+	evt.preventDefault();
+	window.location.href = "/logout";
+});
+
 const formatDataAsTable = data => {
 	let keys = [];
 

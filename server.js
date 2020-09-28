@@ -1,4 +1,4 @@
-// TODO: re-order imports
+
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
@@ -9,20 +9,20 @@ const compression = require("compression");
 const methodOverride = require("method-override");
 const helmet = require("helmet");
 const session = require("express-session");
-const GitHubStrategy = require("passport-github2").Strategy;
+
 const users = require("./routes/api/users");
 const githubAuth = require("./routes/auth/github");
-const passport = githubAuth.passport;
 
 const app = express();
+const passport = githubAuth.passport;
 
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV;
 const MONGO_URI = process.env.MONGO_URI;
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+
+githubAuth.setupPassport();
 
 try {
 	mongoose.connect(MONGO_URI, {
@@ -42,15 +42,6 @@ if (NODE_ENV === "development") {
 	}));
 }
 
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((obj, done) => done(null, obj));
-passport.use(new GitHubStrategy({
-	clientID: GITHUB_CLIENT_ID,
-	clientSecret: GITHUB_CLIENT_SECRET,
-	//TODO: change for deployment
-	callbackURL: "http://127.0.0.1:3000/auth/github/callback"
-}, (accessToken, refreshToken, profile, done) => process.nextTick(() => done(null, profile))));
-
 app.use(helmet());
 app.use(compression());
 app.use(express.json());
@@ -66,6 +57,25 @@ app.use(passport.session());
 
 app.use("/api/users", users.router);
 app.use("/auth/github", githubAuth.router);
-app.use("/", express.static(path.join(__dirname, "public")));
+
+//? Why does this need to be here?
+app.get("/css/style.css", (req, res) => {
+	res.sendFile(path.join(__dirname, "public/css/style.css"));
+})
+app.get("/js/login.js", (req, res) => {
+	res.sendFile(path.join(__dirname, "public/js/login.js"));
+})
+
+app.get("/login", (req, res) => {
+	res.sendFile(path.join(__dirname, "public/login.html"));
+});
+app.get("/logout", (req, res) => {
+	req.logout();
+	res.redirect("/login");
+});
+app.use("/", githubAuth.ensureAuthenticated, express.static(path.join("public")));
+app.get("*", (req, res) => {
+	res.status(404).send("Error 404. Not found.");
+});
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

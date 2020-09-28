@@ -10,47 +10,39 @@ body {
 
 .title {
 	text-align: center;
-	margin-bottom: 32px;
+	margin-bottom: 48px;
 }
 
-/* TODO: give better id */
-#test1 {
-	padding-right: 96px;
+#submit-button {
+	margin-bottom: 48px;
+}
+
+#login-button {
+	margin-top: 48px;
+}
+
+#logout-button {
+	margin-top: 32px;
 }
 
 .header {
 	text-align: center;
-	margin-bottom: 12px;
-}
-
-.container-xs {
-	padding-top: 32px;
-}
-
-.btn-wrapper {
-	text-align: center;
-}
-
-form-group {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    gap: 16px;
+	margin-bottom: 16px;
 }
 
 table {
 	border-collapse: separate;
 	border: solid 2px #d6dbe0;
-	border-radius: 6px;
-	-moz-border-radius: 6px;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
 	overflow-x: visible; 
 	overflow-y: hidden;
 }
 
 table tbody {
 	display: block;
-	/*TODO: tune numbers */
-	max-height: 512px;
-	max-width: 1920px;
+	max-height: 632px;
+	max-width: 1408px;
 	overflow-y: scroll;
 }
 
