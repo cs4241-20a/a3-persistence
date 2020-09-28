@@ -94,3 +94,12 @@ app.post("/delete", bodyParser.json(), function(request, response){
     .deleteOne({ _id:mongodb.ObjectID( request.body.id ) })
     .then( result => response.json( result ) )
 })
+
+app.post( '/update', (req,res) => {
+  collection
+    .updateOne(
+      { _id:mongodb.ObjectID( req.body._id ) },
+      { $set:{ item:req.body.item, price: req.body.price, dept: req.body.dept } }
+    )
+    .then( result => res.json( result ) )
+})
