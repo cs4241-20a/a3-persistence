@@ -1,82 +1,113 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
+README.md
 ===
 
-Due: September 28th, by 11:59 PM.
-
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
-
-Baseline Requirements
+CS 4241: Webware Assignment 3: Persistence
 ---
 
-Your application is required to implement the following functionalities:
+### Author: Eric Reardon
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
+**Live App Link**: https://a3-eric-reardon.glitch.me
 
-Your application is required to demonstrate the use of the following concepts:
+# Karate Dojo Roster WebApp
 
-HTML:
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
+For assignment 3, I developed a karate dojo roster management WebApp. The purpose 
+of this app is to allow different sensei's to keep track of and manage their unique
+rosters (or list of students). Upon login (in which a sensei would enter their last name
+and password), it will display each student in their class and each student's
+unique information (name, karate belt color, age, and win ratio). From here, a
+user is able to add and delete students from their class, and edit their students'
+information as it changes. All of this data is shown on the front end and stored
+in a mongoDB database.
 
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
+For the login, a user will enter their username (last name) and password, which
+will give them access to their individual roster. Currently, I have two accounts
+already set up.
+- Sensei Reardon
+  - **username: Reardon**
+  - **password: password**
+- Sensei Roberts
+  - **username: Roberts**
+  - **password: password**
+  
+To create a new account, simply use the "New Account" form that is below. This will
+create an account and let a user login using the "Login" form.
 
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
+## Baseline Requirements
 
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
+**Server**
+- Successfully created using Express.
 
-Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
+**Results**
+- Results functionality which shows the entire dataset for each Sensei in a table, 
+residing in the mongoDB database.
 
-Deliverables
----
+**Form/Entry**
+- Login form to allow access to a particular user
+- New Account form to create a new account in the database
+- Roster Management form which allows users to add, modify, and delete data items
+associated with their account
 
-Do the following to complete this assignment:
+**Express Middleware**
+- The six express middleware packages I used were:
+  - serve-static: serves files statically, including html, javascript, and css files
+  - body-parser: parses HTTP request body and transforms it into more managable json objects
+  - passport: handles OAuth authentication for user login
+  - helmet: increases security on database requests (get, post, delete), by providing default headers
+  - morgan: HTTP request logger to cutomize and "combine" output
+  - compression: compreses HTTP requests
 
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
+**MongoDB Storage**
+- Achieved persistent data storage between server sessions by using MongoDB
 
-Acheivements
----
+**CSS Framework**
+- For CSS framework, I used Wing. Wing is an extremely lightweight framework which is great for an elegant
+minimalist design. It made styling very easy, as all I had to do was add a `<link>` in the `<head>` to import 
+Wing styling into my project. It also came with many packages/features which were very easy to learn.
 
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
+**HTML**
+- I use various HTML input tags (mostly `<input>`) and various other HTML elements to cleanly display all
+data for a particular authenticated user.
 
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
+**CSS**
+- Most of my CSS styling is provided by my chosen framework, Wing. The use of Wing allowed me to
+deploy a more professional looking design aesthetic without doing much graphic design myself. However,
+I also handled a lot of CSS styling to make sure to satisfy CRAP principles.
 
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
+**JavaScript**
+- My script.js and server.js files are used to get / fetch data from the database.
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+**Node.js**
+- I've succesfully made a server using Express, used five pieces of Express middleware, and get/store data
+from a persistent database (mongodb).
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
 
-### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+**Technical**
+- (10 points) Implement OAuth authentication
+  - I chose the local authentication strategy instead of GitHub, as it was much simpler. For the purpose 
+of my WebApp, I'm not too concerned with the security which GitHub would've provided. Due to this, be cautious
+of using an important password when testing this application, as it is just stored in plain text.
+To achieve OAuth authentication, I used the passport middleware library to authorize() all requests.
+  
+**Design/UX**
+- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's 
+Design Book readings
+  - Contrast
+    - For my colors, I used a more simple theme. By keeping a white background, I was able to make sure
+    that all of my text was contrasting its background in order to stand out.
+  - Repetition
+    - For color theme, I used the repeated shades of purple which show up for the buttons, forms, and table coloring.
+    Additionally, my text formatting is repeated thanks to Wing, and all of my buttons are formatted the same way (with
+    the exception of the table buttons - edit and delete). These two are different by design to keep it simple and clean
+    within the table. Customizing responsive buttons within the table might have been "too much" on the user. Lastly, I 
+    have the same styling for all inputs.
+  - Alignment
+    - I made it a priority this project to make sure all text and elements are aligned. I used CSS styling and flex boxes
+    to make sure that all my text is either aligned perfectly, or centered on the page. The use of flex boxes to display
+    the enrollment form and class information made it very easy to align elements well. Additionally, the table handles
+    a lot of alignment as well. The hardest part was to just make sure that they all spread the same width on the page and 
+    maintained this alignment consistently.
+  - Proximity
+    - For proximity, I was mostly concerned with the padding around inputs. I made sure that there was consistent spacing around
+    text and inputs by using `margin:`and `pattern:` CSS styling. Nothing on my WebApp overlaps, and there is sufficient spacing
+    so that the items on the screen don't look too crowded.
