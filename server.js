@@ -8,6 +8,7 @@ const morgan = require('morgan')
 const fs = require('fs')
 const path = require('path')
 const ObjectID = require('mongodb').ObjectID
+const PORT = process.env.PORT
 
 
 const app = express()
@@ -260,4 +261,4 @@ const listings = {}
 
 
 
-app.listen(3000)
+app.listen(PORT)
