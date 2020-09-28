@@ -96,7 +96,8 @@ Express Middleware:
   and brightly colored.
   * Alignment
   I used Bootstrap's container, column and row system to align my UI elements. By default, elements within a container will be centered horizontally on the page, so that was taken care of for me. However, in
-  aligning buttons, inputs, and other elements within a card div, elements typically weren't centered by default. I wasn't quite satisfied with the sizing and spacing. I added some margin around buttons and inputs and also made buttons bigger.
+  aligning buttons, inputs, and other elements within a card div, elements typically weren't centered by default and I wasn't quite satisfied with the sizing and spacing. I chose to center-align these elements, and
+  added some margin around buttons and inputs and also made buttons bigger.
   * Proximity
 
 
