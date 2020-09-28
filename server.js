@@ -28,7 +28,7 @@ app.use(timeOutHalt);
 app.get("/login_github", (req, res) => {
     //const path = req.protocol + '://' + req.get('host');
     //const url = `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=${path}/github/callback`;
-    res.json("https://a3-jsong2333333.glitch.me/github/callback");
+    res.json("https://a3-jialin-song.glitch.me/github/callback");
 });
 
 app.get("/yourdata", (request, response) =>{
@@ -89,7 +89,7 @@ app.post('/login', bodyparser.json(), function(req, res){
 passport.use(new GitHubStrategy({
         clientID: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
-        callbackURL: "https://a3-jsong2333333.glitch.me/github/callback"
+        callbackURL: "https://a3-jialin-song.glitch.me/github/callback"
     },
     function(accessToken, refreshToken, profile, done) {
         process.nextTick(function () {
