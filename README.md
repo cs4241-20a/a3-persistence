@@ -20,6 +20,7 @@ Authentication Strategy:
     - I chose this because it provides an easy way to create a new user account or log into an existing one without using another app.
   - Github OAuth
     - This provides users an easy way to log into the application.
+    - The default test account you may log in with is "testuser"/"pw".
 
 CSS framework:
   - Used the minimalist Sakura-Vader framework. I used this because it was simple to implement and did not require familiarizing myself with obscure class names that other frameworks seem to use to customize your app. This framework was simple to use and provided a clean look to my app.
