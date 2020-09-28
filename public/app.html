@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
+    <!-- CSS only -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+
+    <!-- JS, Popper.js, and jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/script.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="flex-container">
+        <h1 onclick="location.reload()">
+          Project Manager
+        </h1>
+        <p>
+          A WebApp for managing projects. All priorities are determined by time
+          frame.
+        </p>
+        <h2>
+          Submit a Project Here:
+        </h2>
+        <form>
+          <input
+            type="text"
+            id="pName"
+            onfocus="this.value = ''"
+            placeholder="Project Name"
+          />
+          <input
+            type="text"
+            id="pDesc"
+            onfocus="this.value = ''"
+            placeholder="Project Description"
+          />
+          <input
+            type="text"
+            id="pSDate"
+            onfocus="this.value = ''"
+            placeholder="Start Date MM-DD-YYYY"
+          />
+          <input
+            type="text"
+            id="pEDate"
+            onfocus="this.value = ''"
+            placeholder="End Date MM-DD-YYYY"
+          />
+          <button id="submit">Submit</button>
+        </form>
+        <p id="status"></p>
+
+        <h2>
+          Current Projects
+        </h2>
+        <button id="reset">
+          Reset
+        </button>
+        <p>
+          *Resets the table in the database
+        </p>
+        <button id="example">
+          Add an Example
+        </button>
+        <p>
+          *Adds an example entry
+        </p>
+        <table id="projectTable" class="table">
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Priority</th>
+            <th>Edit</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
