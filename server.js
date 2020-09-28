@@ -175,17 +175,22 @@ app.post("/submit", bodyParser.json(), (request, response) => {
     incomingData.lister = currentUser
     listingsLength = listings[currentUser].length
     // console.log( listingsLength )
+    // console.log( listings[currentUser])
     if (listingsLength === 0) {
         incomingData.id = 1
         // listings[currentUser].push( incomingData )
-    } else if (listings[currentUser][listingsLength - 1].id === listings[currentUser].length) {
-        // the last ID and length matches!å
+    } else if (parseInt( listings[currentUser][listingsLength - 1].id ) === listingsLength ){
+        // the last ID and length matches!
+        
         incomingData.id = listings[currentUser].length + 1
+        // console.log( "the last ID and length matches!" + incomingData.id )
         // listings[currentUser].push( incomingData )
     } else {
-        for (var i = 0; i < listings.length; i++) {
-            if (listings[currentUser][i].id != i + 1) {
+        for (var i = 0; i < listingsLength; i++) {
+            console.log(listings[currentUser][i] )
+            if ( parseInt( listings[currentUser][i].id ) !== i + 1) {
                 incomingData.id = i + 1
+                // console.log( "sliding in extra data" + incomingData.id )
                 // listings[currentUser].splice( i, 0, incomingData )
                 break
             }

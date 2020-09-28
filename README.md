@@ -6,6 +6,11 @@ Clay Oshiro-Leavitt
 CS4241
 Heroku Link: https://cs4518-assignment3.herokuapp.com
 
+Default Login:
+Username: Username
+Password: Password
+
+
 This webpage is a continuation of the previous webpage I made where individuals can post listings of cameras to a website - this time using their own accounts. On arrival to the website, the user is presented with a login screen - here they can either enter their existing credentials or create a new account. Once past the login, the user can either list, update, or delete an existing listing as well as view the listings they currently have posted. 
 
 This assignment had numerous challenges. One major challenge was debugging issues due mistakes in control flow. I had a particularly frustrating bug that would present itself as a Mongodb error with the message that there was no Primary server available. However, this was not the case. The actual issue was that there was a certain branch of my login logic that would not send a message back to the client. This led to a timeout, which somehow resulted in that error message. After struggling for hours with that error, I was finally able to track it down and resolve it after noticing that new logins were being logged in my remote database.
