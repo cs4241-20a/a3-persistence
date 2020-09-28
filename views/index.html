@@ -2,51 +2,58 @@
 <!-- served from your routes in server.js -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A cool thing made with Glitch">
 
-    <title>Welcome to Dream Tracker</title>
+<head>
 
-    <link id="favicon" rel="icon" href="https://pbs.twimg.com/profile_images/529291252080992256/C5CyG1U1.jpeg" type="image/x-icon">
-    <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <title>Welcome to Dream Tracker</title>
 
-    <!-- import the webpage's client-side javascript file -->
-    <script src="/script.js" defer></script>
-  </head>
-  <body>
-    <header>
-      <h1>A Dream of the Future</h1>
-    </header>
+  <link id="favicon" rel="icon" href="https://pbs.twimg.com/profile_images/529291252080992256/C5CyG1U1.jpeg"
+    type="image/x-icon">
+  <!-- import the webpage's stylesheet -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
+  <!-- import the webpage's client-side javascript file -->
+  <script src="/script.js" defer></script>
+</head>
 
-    <main>
+<body>
+  <header>
+    <h1>A Dream of the Future</h1>
+  </header>
 
-      <p>Tell me your hopes and dreams:</p>
+  <main>
 
-      <form id = 'add-dream'>
-        <label>
-          New Dream
-          <input name="dream" type="text" maxlength="100" required placeholder="Dreams!">
-        </label>
-        <button type="submit" id="submit-dream">Add Dream</button>
-      </form>
+    <p>Tell me your hopes and dreams:</p>
 
-      <form id = 'remove-dream'>
-        <label>
-          Remove Dream (match spelling)
-          <input name="dream" type="text" maxlength="100" required placeholder="Bad Dream?">
-        </label>
-        <button type="submit" id="submit-delete">Remove Dream</button>
-      </form>
+    <form id='add-dream'>
+      <label>
+        New Dream
+        <input name="dream" type="text" maxlength="100" required placeholder="Dreams!">
+      </label>
+      <button type="submit" id="submit-dream">Add Dream</button>
+    </form>
 
-      <section class="dreams">
-        <ul id="dreams">
-          <em>loading dreams&hellip;</em>
-        </ul>
-      </section>
-    </main>
-  </body>
+    <form id='change-dream'>
+      <label>
+        Change Dream
+        <input name="old_dream" type="text" maxlength="100" required placeholder="Old Dream (spelling!)">
+        <input name="new_dream" type="text" maxlength="100" required placeholder="New Dream">
+      </label>
+      <button type="submit" id="submit-change">Change Dream</button>
+    </form>
+    <label>
+      Click to Remove Dream
+    </label>
+
+    <section class="dreams">
+      <ul id="dreams">
+        <em>loading dreams&hellip;</em>
+      </ul>
+    </section>
+  </main>
+</body>
+
 </html>

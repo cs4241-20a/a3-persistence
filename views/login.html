@@ -1,0 +1,38 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Login</title>
+
+  <link id="favicon" rel="icon" href="https://pbs.twimg.com/profile_images/529291252080992256/C5CyG1U1.jpeg"
+    type="image/x-icon">
+  <!-- import the webpage's stylesheet -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
+  <!-- import the webpage's client-side javascript file -->
+  <script src="/script.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>Login</h1>
+  </header>
+
+  <main>
+    <form id='login'>
+        <label>
+          <input name="username" type="text" maxlength="100" required placeholder="username">
+          <input name="password" type="text" maxlength="100" required placeholder="password">
+        </label>
+        <button type="submit" id="submit-login">Login</button>
+      </form>
+  </main>
+</body>
+
+</html>
