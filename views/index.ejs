@@ -25,6 +25,7 @@
     <button onclick="window.location.href='/profile'">View your Mazes</button>
     <button onclick="window.location.href='/logout'">Logout</button><br /><br />
     <h2>Maze Generator</h2>
+    <em>Configure the options for your maze. Keep in mind that mazes larger than 100x100 may take a long time to load or potentially fail to be created. As a note, if you wish to annotate your maze the recommended passage size is 15 or greater, as smaller passage sizes may not work. You can annotate your maze here if you want, but you can only save annotations in your profile.</em><br /><br />
     <form>
       <label for="name">Maze name:</label>
       <input id="name" type="text">
@@ -35,6 +36,14 @@
       <label for="size">Passage width:</label>
       <input id="size" type="number">
       <label for="drawEnab">Enable Maze Annotation: <input id="drawEnab" type="checkbox"></label>
+      <h4>Annotation color (if applicable): </h4>
+      <label for="blue"><input type="radio" id="blue" name="color" value="#ADD8E6"> Blue</label>
+      <label for="purple"><input type="radio" id="purple" name="color" value="#DDA0DD"> Purple</label>
+      <label for="pink"><input type="radio" id="pink" name="color" value="#FFB6C1"> Pink</label>
+      <label for="red"><input type="radio" id="red" name="color" value="#CD5C5C"> Red</label>
+      <label for="orange"><input type="radio" id="orange" name="color" value="#FF7F50"> Orange</label>
+      <label for="yellow"><input type="radio" id="yellow" name="color" value="#F0E68C"> Yellow</label>
+      <label for="green"><input type="radio" id="green" name="color" value="#98FB98"> Green</label>
     </form><br>
     <button onclick="newMaze(<%=user.id%>)">Make Maze</button><br><br>
     <h3 id="mazeName"></h3>

@@ -1,18 +1,20 @@
 var mouseDown = false;
+var erase = true;
 
 document.body.onmousedown = function() {
   mouseDown = true;
+  erase = !erase; // flips between erasing and annotating on each click
 };
 document.body.onmouseup = function() {
   mouseDown = false;
 };
 
-function makePath(cell) {
-  if(mouseDown) {
-    if(cell.style.backgroundColor == "rgb(227, 227, 227)") {
-      cell.style.cssText += "background-color: #ADD8E6";
-    } else {
+function makePath(cell, color) {
+  if (mouseDown) {
+    if (erase) {
       cell.style.cssText += "background-color: #E3E3E3";
+    } else {
+      cell.style.cssText += "background-color: " + color;
     }
   }
 }
@@ -132,7 +134,14 @@ function drawMaze(grid, pS) {
       if (grid[r][c].getWalls()[3].exists) {
         cell.style.cssText += "border-left: 1px solid black";
       } //left
-      cell.setAttribute("onmouseenter", "makePath(this)");
+      if (document.getElementById("drawEnab").checked) {
+        cell.setAttribute(
+          "onmouseenter",
+          "makePath(this, '" +
+            document.querySelector('input[name="color"]:checked').value +
+            "')"
+        );
+      }
       row.appendChild(cell);
     }
   }
@@ -206,7 +215,6 @@ function populateMazes(userId) {
     .then(mazes => {
       document.getElementById("mazeButtons").innerText = "";
       for (let i = 0; i < mazes.length; i++) {
-        console.log(mazes[i]);
         let mazeButton = document.createElement("button");
         mazeButton.textContent = mazes[i].mazeName;
         mazeButton.style.cssText = "margin-right: 10px";
@@ -227,7 +235,10 @@ function update(userId) {
     method: "POST",
     body: JSON.stringify({
       _id: document.getElementById("mazeId").innerText.replace("Maze ID: ", ""),
-      mazeName: (document.getElementById("newName").value != "" ? document.getElementById("newName").value : document.getElementById("mazeName").innerText),
+      mazeName:
+        document.getElementById("newName").value != ""
+          ? document.getElementById("newName").value
+          : document.getElementById("mazeName").innerText,
       maze: document.getElementById("maze").innerHTML
     }),
     headers: {

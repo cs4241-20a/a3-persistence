@@ -1,8 +1,3 @@
-// server.js
-// where your node app starts
-
-// we've started you off with Express (https://expressjs.com/)
-// but feel free to use whatever libraries or frameworks you'd like through `package.json`.
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -10,6 +5,8 @@ const passport = require("passport");
 const app = express();
 const GitHubStrategy = require("passport-github").Strategy;
 const mongodb = require("mongodb");
+const compression = require("compression");
+const timeout = require("connect-timeout");
 const MongoClient = mongodb.MongoClient;
 const uri = `mongodb+srv://mazeGeneratorPage:${process.env.DATABASEPASSWORD}@mazes.5kglj.mongodb.net/${process.env.DATABASEID}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
@@ -19,9 +16,17 @@ const client = new MongoClient(uri, {
 
 app.use(bodyParser.json({ limit: "20mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: true }));
-app.use(require('morgan')('combined'));
-app.use(require('cookie-parser')());
-app.use(require('express-session')({ secret: process.env.SESSIONSECRET, resave: true, saveUninitialized: true }));
+app.use(require("morgan")("combined"));
+app.use(
+  require("express-session")({
+    secret: process.env.SESSIONSECRET,
+    resave: false,
+    saveUninitialized: false,
+    secure: true
+  })
+);
+app.use(compression());
+app.use(timeout("30s"));
 
 passport.use(
   new GitHubStrategy(
@@ -50,7 +55,8 @@ app.use(passport.session());
 app.set("view engine", "ejs");
 
 app.get("/", function(req, res) {
-  res.render("index", { user: req.user });
+  require("connect-ensure-login").ensureLoggedIn(),
+    res.render("index", { user: req.user });
 });
 
 app.get("/login", function(req, res) {
@@ -68,13 +74,13 @@ app.get(
 );
 
 app.get("/profile", function(req, res) {
-  // require('connect-ensure-login').ensureLoggedIn(),
-  res.render("profile", { user: req.user });
+  require("connect-ensure-login").ensureLoggedIn(),
+    res.render("profile", { user: req.user });
 });
 
 app.get("/logout", function(req, res) {
   req.logout();
-  delete req.session;
+  req.session.destroy;
   res.redirect("/login");
 });
 
@@ -91,7 +97,6 @@ app.post("/add", bodyParser.json(), function(req, res) {
   collection
     .insertOne(req.body) //req.body is full content of new item
     .then(dbres => {
-      console.log(dbres);
       res.json(dbres.ops[0]);
     });
 });
