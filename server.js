@@ -4,6 +4,7 @@
 // we've started you off with Express (https://expressjs.com/)
 // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
 const express = require("express");
+const body_parser = require("body-parser");
 const app = express();
 
 // our default array of dreams
@@ -28,7 +29,21 @@ app.get("/dreams", (request, response) => {
   response.json(dreams);
 });
 
+//add the data to the database
+app.post('/add', body_parser.json(), (request,response) => {
+  // the request gets added to the database
+  console.log('Adding to the database: ' + request.body.dream)
+  dreams.push(JSON.stringify(request.body.dream))
+  response.json(request.body)
+})
+
+// remove data from the database
+app.delete('/delete', body_parser.json(), (request,response) => {
+  // the request gets reomoved from the database
+  console.log('Removing from the database')
+})
+
 // listen for requests :)
-const listener = app.listen(process.env.PORT, () => {
+const listener = app.listen(3000, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });

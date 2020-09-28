@@ -8,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A cool thing made with Glitch">
 
-    <title>Welcome to Glitch!</title>
+    <title>Welcome to Dream Tracker</title>
 
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <link id="favicon" rel="icon" href="https://pbs.twimg.com/profile_images/529291252080992256/C5CyG1U1.jpeg" type="image/x-icon">
     <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
 
@@ -23,16 +23,23 @@
     </header>
 
     <main>
-      <h2>Oh hi,</h2>
 
       <p>Tell me your hopes and dreams:</p>
 
-      <form>
+      <form id = 'add-dream'>
         <label>
           New Dream
           <input name="dream" type="text" maxlength="100" required placeholder="Dreams!">
         </label>
         <button type="submit" id="submit-dream">Add Dream</button>
+      </form>
+
+      <form id = 'remove-dream'>
+        <label>
+          Remove Dream (match spelling)
+          <input name="dream" type="text" maxlength="100" required placeholder="Bad Dream?">
+        </label>
+        <button type="submit" id="submit-delete">Remove Dream</button>
       </form>
 
       <section class="dreams">
