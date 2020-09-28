@@ -22,15 +22,13 @@ const login = function( e ) {
     window.location.href = '/mylists.html';
     console.log(response.username)
   })
-   //window.location.href = '/mylists.html';
-     //console.log(response.header)
-   //});
+
 }
 
 const loginWithGitHub = function( e ) {
   e.preventDefault()
   window.location.href = '/login/github';
-  //fetch("/login/github")
+
   
 }
 
@@ -38,8 +36,14 @@ const loginWithGitHub = function( e ) {
 window.onload = function() {
     const githubButton = document.getElementById( 'githubLogin' );
     const submitButton = document.getElementById( 'submitLogin' );
-    submitButton.onclick = login;
-    githubButton.onclick = loginWithGitHub;
 
+  if(submitButton != null){
+    submitButton.addEventListener("click", login);
   }
+  if(githubButton != null){
+    githubButton.addEventListener("click", loginWithGitHub);
+  }
+    
+  
+}
 
