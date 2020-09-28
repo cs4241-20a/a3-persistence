@@ -1,0 +1,51 @@
+{% extends 'template.html' %}
+
+{% block title %}{{ username }}'s Movie List{% endblock %}
+
+{% block content %}
+
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-7 is-offset-3">
+
+          <h1 class="title is-4 is-spaced">{{ username }}'s Movie List</h1>
+
+          <table class="table is-bordered is-fullwidth has-background-light is-hoverable is-narrow">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Plt</th>
+              <th>Meaning</th>
+              <th>Sound</th>
+              <th>Ejy</th>
+              <th>★</th>
+              <th>Date</th>
+            </tr>
+            </thead>
+            <tbody id="table-container">
+            {% for entry in data %}
+              <tr>
+                <td>{{ entry.n }}</td>
+                <td>{{ entry.name }}</td>
+                <td>{{ entry.ps }}</td>
+                <td>{{ entry.ms }}</td>
+                <td>{{ entry.ss }}</td>
+                <td>{{ entry.es }}</td>
+                <td>{{ entry.score }}</td>
+                <td>{{ entry.date }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          <p><span id="mean-score"></span></p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
