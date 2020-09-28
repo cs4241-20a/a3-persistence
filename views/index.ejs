@@ -1,5 +1,4 @@
-<!doctype html>
-<html lang="en">
+<!doctype ejs>
 
 <head>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -13,6 +12,9 @@
 <body>
   <div>
     <h1>Welcome to Speed Clicker</h1>
+    <form class="center" action="/logout?_method=DELETE" method="POST">
+      <button type="submit">Log Out</button>
+    </form>
 
     <p id="WelcomeText">
       This is a webpage for Jordan Stoessel's Assignment 3. After hitting the <strong>start</strong> button you will be
@@ -34,10 +36,9 @@
   <div class="center">
     <form>
       <p id="inputname" class="postgame">
-        Please input your name:
       </p>
       <div class="center">
-        <input type='text' id='yourname' name='yourname' class='postgame' value="">
+        <input type='text' id='yourname' name='yourname' class='postgame' placeholder="username here" value="">
         <button id='submitbtn' class='postgame'>Submit</button>
       </div>
     </form>
@@ -68,6 +69,6 @@
     <input type='textarea' id='modseconds' name='modseconds' placeholder='seconds' value="">
     <button id='modbtn'>Modify Scores</button>
   </div>
-</body>
 
-</html>
+
+</body>

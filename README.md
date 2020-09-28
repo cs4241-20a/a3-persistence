@@ -13,6 +13,8 @@ Your application is required to implement the following functionalities:
 - a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
 - Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
 bodyParser, 
+passport.Authenticate, 
+next,
 
 Your application is required to demonstrate the use of the following concepts:
 
