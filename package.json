@@ -4,7 +4,7 @@
   "description": "A guest list to determine who is in the building and what privileges they have",
   "author": "Connor Burri",
   "scripts": {
-    "start": "node server.improved.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

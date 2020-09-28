@@ -106,6 +106,6 @@ let getDrinkingValidity = function (birthday) {
 };
 
 // set port to listen
-let listener = app.listen(3000, () => {
+let listener = app.listen(process.env.PORT, () => {
     console.log("App is listening on port: " + listener.address().port);
 });
