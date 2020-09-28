@@ -1,0 +1,19 @@
+{
+  "name": "mgulbin13-a3-persistence",
+  "version": "1.0.0",
+  "description": "continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)",
+  "author": "@mgulbin13",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mime": "^2.4.4",
+    "mongodb": "^3.6.2",
+    "passport": "^0.4.1",
+    "passport-github": "^1.1.0"
+  }
+}
