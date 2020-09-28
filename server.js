@@ -247,7 +247,6 @@ passport.deserializeUser(function (obj, done) {
 // ---------------------------------------------------------------------
 
 app.use(morgan("combined"));
-
 app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -288,7 +287,6 @@ app.post(
   })
 );
 
-//logs user out of site, deleting them from the session, and returns to homepage
 app.get("/logout", function (req, res) {
   if (req.user) {
     var name = req.user.username;

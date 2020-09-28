@@ -1,82 +1,43 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
+Assignment 3 By Matthew Kaminski
 
-Due: September 28th, by 11:59 PM.
+## The forum
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
+glitch link [http://a3-matthew-kaminski.glitch.me](http://a3-matthew-kaminski.glitch.me)
 
-Baseline Requirements
----
-
-Your application is required to implement the following functionalities:
-
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
-
-Your application is required to demonstrate the use of the following concepts:
-
-HTML:
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
-
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
-
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
-
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
-
-Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+Sample login credentials: username: username, password: password (Or just register a new account)
 
 - the goal of the application
+  - This application is a minimalist internet forum intended for developers and end users to discuss a product.
 - challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
+  - It was difficult to implement the entire user interface while keeping every aspect of it dynamic/responsive in real-time. Also, the server at some point was long and unmanageable. This problem was solved by splitting the project into multiple modules and importing the functions and variables in the server.
+- what authentication strategy you chose to use and why
+  - _passport.js_ was used because it was one of the most popular solutions and therefore had a great number of resources and tutorials for implementing / debugging it.
 - what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
+  - For the css framework, wingcss was used. wing is a css framework designed for minimalists, which was a great fit for the forum which is meant to be simple and clean. There are only a few classes and the forum and button elements looked great. Some very minor modifications of the css colors and properties were made in the _sass_ folder in this directory in order to make it better suit the site aesthetics/color scheme.
 - the five Express middleware packages you used and a short (one sentence) summary of what each one does
+  - morgan - Morgan was used to help with debugging and logging requests on the server.
+  - compression - Compression is an easy middleware that compresses files before sending it to the user when possible.
+  - body-parser - Used to automatically parse JSON post requests into a javascript object.
+  - helmet - A middleware to better protect the server from malicious end users.
+  - express-yup-middleware - A middleware that easily allows input verification for user forms.
+  - cookieParser, session, passport - Middleware that allow easy user login management.
+  - express-handlebars - A template middleware that allows easy string replacements when generating a html file for the user. This allows different website generation for logging in / different users that are logged in.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+
+- **Tech Achievement 1**(5 points?): Implement templated website for each user using Handlebars.
+
+  - Using handlebars, a new website is generated for each user. When the user is not logged in, the website that is generated is the login/sign up page. However, if the user is logged in, it generates a unique website for that user. An example if this is the "username" form for adding a comment is prepopulated with the username using the handlebars template system, and that generated page is then rendered and sent only to that user. Some other differences can also be in the set of scripts that are sent to the user. To implement this, the _handlebars middleware_ was used to render the website with access to the user information generated using _passport.js_.
+
+- **Tech Achievement 2**(5 points?): Implement input sanitization and validation for all POST requests
+  - Input sanitization was implemented using the yup library, and integrated into each post request separately using middleware. Each schema is found in a new module/file _schemas.js_, which includes what each post request body is expecting and the requirements for each field. This schema is injected into each post request handler in _server.js_, and if the POST fails, it responds with a error code. In addition, each post request json element is sanitized using the _sanitizer_ library.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+
+- **Design Achievement 1** (5-10 points?): The server uses sass files (sass/.scss) in order to stylize the website. Sass is like regular css but allows making variables and calling various functions, which is useful for things such as color manipulation and calculated values. In addition to learning and using Sass, the server watches the /sass directory using a folder watcher and whenever there is a change, it hashes the entire directory. If the hash does not match the previous hash (which is stored in persistent storage), it deletes the /public/css folder, and regenerates the css files (using node-sass). This allows modifying the sass in real time and seeing the changed in the website automatically. This took a long time to make, and all of the code is found in the _compileSass.js_ file. Using this, the website variables are easily changed (e.g. colors) simply by just modifying variables in the variables.scss file.
+
+- **Design Achievement 2** (5 points): The CRAP principles were deeply considered when defining the layout of the website. I will discuss all elements separately, and each element is discussed with as much detail as I could think of:
+  - Contrast: I used a color scheme generator to choose the colors: [https://coolors.co/](https://coolors.co/). This website uses color theory to allow color scheme generation that allows customizing a color scheme while also retaining contrast and balance between the colors. The part of the website that you read is darker or blue with white text, while forms that you enter is white, allowing easy distinction between where to interact with the page. The text color was also considered in the same way to make it easy to read. The most contrast is between the background (very dark) and the page sections (a shade of blue/grey/teal?)
+  - Repetition: Once the user is logged in, the repetition is very noticeable. Each section is in the same box style, and the colors, fonts, and section layouts share the same characteristics. This unifies the website nicely.
+  - Alignment: Perhaps the element of the website that took the longest, but all page elements are carefully designed and aligned to organize the data in an easy to follow way. Everything is alignment to the margin and text boxes are dynamically aligned whenever the website page size is modified.
+  - Proximity: All alike elements are placed with each other in the same section (e.g. different forms), and all sections are visually distanced using different section boxes. This nicely organizes the website in an easy to use way.
