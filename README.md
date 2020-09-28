@@ -3,7 +3,7 @@ Assignment 3 - Persistence: Two-tier Web Application with Database, Express serv
 
 Due: September 28th, by 11:59 PM.
 
-## Classic Car Wishlist
+## Classic Car Wishlist - Maria Medina Martinez
 
 https://a3-maria-medina-martinez.herokuapp.com/
 
