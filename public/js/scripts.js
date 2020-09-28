@@ -132,10 +132,11 @@ function handle_clear(){
 }
 
 function handle_login(){
-    let loginData = document.getElementById("login_form");
+    let usernameField = document.getElementById("username_input");
+    let passwordField = document.getElementById("password_input");
     let json = {
-        "username": loginData.elements[0].value,
-        "password": loginData.elements[1].value
+        "username": usernameField.value,
+        "password": passwordField.value
     }
     let body = JSON.stringify(json);
     fetch("/signin", {

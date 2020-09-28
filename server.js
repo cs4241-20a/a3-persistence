@@ -32,12 +32,6 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(id, done) {
     done(null, id);
 });
-/*passport.serializeUser(function(user, cb) {
-    cb(null, user);
-});
-passport.deserializeUser(function(obj, cb) {
-    cb(null, obj);
-});*/
 
 let GitHubStrategy = require('passport-github').Strategy;
 passport.use("github", new GitHubStrategy({
@@ -59,15 +53,6 @@ app.get('/auth/github/callback', passport.authenticate('github'),
     }
 );
 
-/*
-app.get('/login', passport.authenticate('github', { failureRedirect: '/login' }, function(request, response){
-    response.sendFile("./public/login.html", {root: "./" }, function(error){
-        if(error){
-            console.log("Error occurred sending login.html: " +error);
-        }
-    });
-}));
-*/
 app.get("/app", function(request, response){
     response.sendFile("./public/app.html", {root: "./"}, function(error){
         if(error){
@@ -84,7 +69,6 @@ app.post("/signin", bodyParser.json(), function(request, response){
     if(request.body.username && request.body.password){
         username = request.body.username;
         handleUser(request.body.username, false, request.body.password, response);
-        //response.redirect("/");
     }else{
         response.statusCode = 400;
         response.end("username and/or password not provided");
@@ -142,8 +126,6 @@ const getUserDbInfo = function(username){
         promises.push(getTotals(username));
         promises.push(getAverages(username));
         Promise.all(promises).then(function (results) {
-            console.log("getTotals result: " + results[0]);
-            console.log("getAverages result: " + results[1]);
             let totalsLoaded = false;
             let avgsLoaded = false;
             if (results[0].length !== 4) {

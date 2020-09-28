@@ -8,16 +8,30 @@
         <script src="js/scripts.js"></script>
     </head>
     <body>
-        <h1>Login with Github</h1>
-        <a href="/auth/github/callback">Login</a>
-        <br><br><strong>OR</strong><br><br>
-        <h1>Sign in with FPS Stat Calculator account:</h1>
-        <form id="login_form">
-            <label for="username_input">Username: </label>
-            <input type="text" id="username_input">
-            <label for="password_input">Password: </label>
-            <input type="text" id="password_input">
-        </form>
-        <button id="login_button" onclick="handle_login()">Log In</button>
+        <div class="column is-one-third">
+            <div class="box is-border has-background-info-light is-rounded">
+                <h1 class="title">Login with Github</h1>
+                <a href="/auth/github/callback">Login</a>
+                <br><br><strong>OR</strong><br><br>
+                <h1 class="title">Sign in with FPS Stat Calculator account:</h1>
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <label class="label" for="username_input">Username</label>
+                    </div>
+                    <div class="field-body">
+                        <input class="field-body input is-inline" type="text" id="username_input">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <label class="label" for="password_input">Password</label>
+                    </div>
+                    <div class="field-body">
+                        <input class="field-body input is-inline" type="text" id="password_input">
+                    </div>
+                </div>
+                <button id="login_button" onclick="handle_login()">Log In</button>
+            </div>
+        </div>
     </body>
 </html>
