@@ -11,6 +11,7 @@ import { UserList } from './UserList';
 import { authHeader } from '../util';
 import { Conversation } from './Conversation';
 import 'overlayscrollbars/css/OverlayScrollbars.css';
+import { dark } from '@material-ui/core/styles/createPalette';
 
 const spacingAmount = 4;
 
@@ -114,7 +115,7 @@ const App: FunctionComponent = props => {
                             flexBasis: `min(240px, calc(100vw - ${theme.spacing(spacingAmount) * 2}px))`,
                             flexGrow: isThinScreen ? 1 : undefined
                         }}>
-                            <UserList userList={userList} onSelectUser={setSelectedConversation}/>
+                            <UserList userList={userList} selectedUser={selectedConversation} onSelectUser={setSelectedConversation}/>
                         </ReactivePaper>
                     </Slide>
                     <Slide direction="left" in={selectedConversation != null} mountOnEnter unmountOnExit>

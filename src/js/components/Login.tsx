@@ -131,7 +131,7 @@ export const Login: FunctionComponent<{loginAsCallback: (user: AuthenticatedUser
                         value={username}
                         onChange={e => setUsername(e.target.value)}
                         error={registering && !validateUsername(username)}/>
-                        
+
                     <FormControl variant="filled" required={registering} error={registering && !validatePassword(password)}>
                         <InputLabel htmlFor="login-password">Password</InputLabel>
                         <FilledInput
