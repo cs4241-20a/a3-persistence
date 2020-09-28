@@ -1,5 +1,6 @@
 
 ## Shared Bar Database
+Ryan Birchfield
 
 https://rhbirchfield-a3-persistance.herokuapp.com/
 
