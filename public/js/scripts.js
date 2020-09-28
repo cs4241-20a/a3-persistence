@@ -143,9 +143,31 @@ const saveItem = function () {
   alert("Saved entry.")
 }
 
+const logout = function (e) {
+  // prevent default form action from being carried out
+  e.preventDefault()
+
+  fetch('/logout',{
+    method: 'POST',
+    headers:{
+      "Content-Type":"application/json"
+    }
+  })
+    .then(response => {
+        if(response.status == 200)
+          console.log("Logged out.")
+    })
+
+  window.location.href = "/views/login.html";
+  return false
+}
+
 window.onload = function () {
-  const button = document.querySelector('button')
-  button.onclick = submit
+  const submitBtn = document.querySelector('#submit-btn')
+  submitBtn.onclick = submit
+
+  const logoutBtn = document.querySelector('#logout-btn')
+  logoutBtn.onclick = logout
 
   fetch('/data')
     .then(response => response.json())

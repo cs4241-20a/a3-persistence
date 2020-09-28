@@ -1,5 +1,11 @@
 console.log("Welcome to assignment 3!")
 
+/**
+ * 1. When inserting car into db check to see that a user's id is added with the car
+ * 2. Need to clear the userID when they log out, or back button is pressed
+ */
+
+
 const login = function (e) {
   // prevent default form action from being carried out
   e.preventDefault()
@@ -29,14 +35,13 @@ const login = function (e) {
     .then(json => {
       if (json != null) {
         alert("Logging in.")
+        window.location.href = "/views/index.html";
       } else {
-        alert("Please create account.")
+        alert("This account does not exist. Please create account or enter valid credentials.")
       }
     })
   document.getElementById('Username').value = ""
   document.getElementById('Password').value = ""
-
-  window.location.href = "/views/index.html";
 
   return false
 }

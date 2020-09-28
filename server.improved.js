@@ -70,7 +70,7 @@ app.get('/data', function (request, response) {
 
 app.post('/login', async function (request, response) {
   console.log("Logging in.")
-  // currUserId = null
+
   let dbresponse = await loginCollection.findOne(
     {
       $and: [
@@ -80,13 +80,19 @@ app.post('/login', async function (request, response) {
     }
   )
 
-  console.log(dbresponse)
-
   if (dbresponse != null)
     currUserId = dbresponse._id
 
   response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
   response.write(JSON.stringify(dbresponse))
+  response.end()
+})
+
+app.post('/logout', async function (request, response) {
+  console.log("Logging out.")
+  currUserId = null
+
+  response.sendStatus(200)
   response.end()
 })
 

@@ -7,7 +7,7 @@ tr:hover {
 tr:first-child:hover {
     color: inherit;
 }
-input, #submit-btn, .del-btn, .save-btn, #login-btn, #create-btn{
+input, #submit-btn, .del-btn, .save-btn, #login-btn, #create-btn, #logout-btn{
     font-family: inherit;
     font-size: inherit;
 }
@@ -22,4 +22,12 @@ input {
     margin: 8px 0;
     padding: 5px 20px;
     width: 50%
+}
+#logout-btn{ 
+    text-align: center;
+    margin: 8px 0;
+    padding: 5px 20px;
+}
+.wrapper{
+    text-align: right;
 }
