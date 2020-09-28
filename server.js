@@ -10,6 +10,44 @@ const bodyparser = require("body-parser");
 /* PASSPORT ADDITIONS */
 const passport = require('passport');
 
+/*favicon addtions */
+var favicon = require('serve-favicon')
+var path = require('path')
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+/* end of favicon additions */
+
+/* LOCAL AUTH*/
+// var LocalStrategy = require('passport-local').Strategy;
+
+// passport.use(new LocalStrategy(
+//     function(username, password, cb) {
+//       collection.users.findByUsername(username, function(err, user) {
+//         if (err) { return cb(err); }
+//         if (!user) { return cb(null, false); }
+//         if (user.password != password) { return cb(null, false); }
+//         return cb(null, user);
+//       });
+//     }));
+
+// passport.serializeUser(function(user, done) {
+// 	done(null, user.id);
+// });
+
+// passport.deserializeUser(function(id, done) {
+// 	User.loadOne({ _id: id }).then(function(user) {
+//         done(null, user);
+//     }).catch(function(err) {
+//         done(err, null);
+//     });
+// });
+
+// app.post('/login', 
+//   passport.authenticate('local', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     res.redirect('/');
+//   });
+
+/*LOCAL AUTH END */
 const GitHubStrategy = require('passport-github').Strategy;
 
 passport.use(new GitHubStrategy({
@@ -52,16 +90,6 @@ app.get('/home',
 require('connect-ensure-login').ensureLoggedIn(),
 );
 
-// app.get('/',
-//   function(req, res) {
-//     res.render('/views/index', { root : __dirname, user: req.user});
-//   });
-
-// app.get('/login',
-//   function(req, res){
-//     res.render('login');
-//   });
-
   app.get('/auth/github',
   passport.authenticate('github'));
 
@@ -76,13 +104,9 @@ app.get('/return',
     res.redirect('/home');
   });
 
-//   app.get('/profile',
-//   require('connect-ensure-login').ensureLoggedIn(),
-//   function(req, res){
-//     res.render('profile', { user: req.user });
-//   });
-
 /* END OF PASSPORT ADDITIONS */
+
+
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
@@ -119,6 +143,8 @@ app.get("/dreams", (request, response) => {
     if (err) {
       // if an error happens
       response.send("Error in GET req.");
+    } else if (docs.length == 0){
+        response.send("new user");
     } else {
       // if all works
       console.log(docs);
@@ -158,3 +184,4 @@ app.post("/update", bodyparser.json(), function(req, res) {
     .then(result => res.json(result));
   console.log("json", res);
 });
+

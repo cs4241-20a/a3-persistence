@@ -6,7 +6,8 @@ console.log("hello world :o");
 // define variables that reference elements on our page
 const dreamsList = document.getElementById("dreams");
 const dreamsTable = document.getElementById("dreams2");
-const dreamsForm = document.querySelector("form");
+const dreamsForm = document.getElementById("dreamsForm");
+const loginForm = document.getElementById("loginForm");
 
 //helper fucntion that creates a table row for a given dream
 function appendNewDreamRow(dreamItem, id) {
@@ -102,5 +103,31 @@ dreamsForm.addEventListener("submit", event => {
   dreamsForm.reset();
   dreamsForm.elements.dream.focus();
 });
+
+
+// listen for the form to be submitted and add a new dream when it is
+loginForm.addEventListener("submit", event => {
+    // stop our form submission from refreshing the page
+    event.preventDefault();
+  
+    // get dream value and add it to the list
+    let userName = loginForm.elements.userName.value;
+    let password = loginForm.elements.password.value;
+    
+    fetch("/add", {
+      method: "GET",
+      body: JSON.stringify({ userID: userName, password: password }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(json => {
+        appendNewDreamRow(json, json._id);
+      });
+    // reset form
+    dreamsForm.reset();
+    dreamsForm.elements.dream.focus();
+  });
 
 

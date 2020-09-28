@@ -80,3 +80,6 @@ Include a very brief summary of your project here. Images are encouraged, along 
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+
+NOTE: serve-favicon may not initially work on chrome, and need to be refreshed. It will work on other browsers.
+https://stackoverflow.com/questions/11658035/unable-to-change-favicon-with-express-js

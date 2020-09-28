@@ -8,9 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="A cool thing made with Glitch" />
 
-    <title>Welcome to Glitch!</title>
+    <!-- <title>Welcome to Glitch!</title>
 
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon"/>
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon"/> -->
+    <!-- <link id="favicon" rel="icon" href="/public/favicon.ico" type="image/x-icon" /> -->
     <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css" />
     <!-- Google Fonts -->
@@ -25,15 +26,17 @@
   </head>
   <body>
     <header>
-      <h1>Ice Cream Shop</h1>
+      <h1>Developer's Ice Cream Shop</h1>
+      <h3>As refreshing as pressing F5!</h3>
     </header>
 
     <main>
+      <div class="container">
       <h2>Oh hi,</h2>
       <!-- <a href="auth/github">Sign in with Github</a> -->
       <p>Tell me your ice cream order:</p>
-
-      <form>
+      <div class="container">
+      <form id="dreamsForm">
         <label>
           Your Flavor
           <input name="dream" type="text" maxlength="100" required placeholder="Flavor!"/>
@@ -43,22 +46,28 @@
           <input name="numScoops" type="number" maxlength="100" required placeholder="Scoops!"/>
         </label>
         <label>
-          Sprinkles?
+          Check For Sprinkles
           <input name="sprinkles" type="checkbox" />
         </label>
         <button type="submit" id="submit-dream">Add Order</button>
       </form>
+      </div>
+    
 <!-- 
       <section class="dreams">
         <ul id="dreams">
           <em>loading dreams&hellip;</em>
         </ul> -->
-        
+        <p>If you would like to change the flavor of ice cream you ordered, please click in the flavor cell, type your new flavor, and click UPDATE.</p>
+        <p>If you would like to delete your order, please select DELETE.</p>
+        </div>
         <table id="dreams2" >
           <tr>
             <td>What did you get?</td>
             <td>How Many Scoops?</td>
             <td>Any Sprinkles?</td>
+            <td></td>
+            <td></td>
           </tr>
         </table>
       </section>
