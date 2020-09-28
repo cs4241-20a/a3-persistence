@@ -131,6 +131,25 @@ function handle_clear(){
     return false;
 }
 
+function handle_login(){
+    let loginData = document.getElementById("login_form");
+    let json = {
+        "username": loginData.elements[0].value,
+        "password": loginData.elements[1].value
+    }
+    let body = JSON.stringify(json);
+    fetch("/signin", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body
+    }).then(function(response){
+        if(response.status === 201){
+            alert("User did not exist, so a new account was created with given username and password");
+        }
+        window.location = response.url;
+    });
+}
+
 /**
  * Send a /results API HTTP request to retrieve all the current
  * stats stored in the server. The updated stats are then displayed

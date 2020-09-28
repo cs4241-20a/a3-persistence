@@ -40,11 +40,7 @@ passport.use("github", new GitHubStrategy({
         callbackURL: process.env.callbackURL
     },
     function(accessToken, refreshToken, profile, cb) {
-        console.log("profile: " + profile);
         cb(null, profile);
-        //User.findOrCreate({ githubId: profile.id }, function (err, user) {
-        //  return cb(err, user);
-        //});
     }
 ));
 
@@ -53,7 +49,7 @@ app.get('/auth/github', passport.authenticate('github'));
 app.get('/auth/github/callback', passport.authenticate('github'),
     function(request, response) {
         username = request.user.username;
-        response.redirect("/");
+        handleUser(username, true, "", response);
     }
 );
 
@@ -64,6 +60,51 @@ app.get('/login', passport.authenticate('github', { failureRedirect: '/login' },
         }
     });
 }));
+
+app.post("/signin", bodyParser.json(), function(request, response){
+    //console.log(JSON.stringify(request));
+    console.log(request.body);
+    console.log("username: " +request.username);
+    console.log("password: " +request.password);
+    if(request.body.username && request.body.password){
+        username = request.body.username;
+        handleUser(request.body.username, false, request.body.password, response);
+        //response.redirect("/");
+    }else{
+        response.statusCode = 400;
+        response.end("username and/or password not provided");
+    }
+});
+
+const handleUser = function(username, isGithub, password, response){
+    //this.username = username;
+    let users = client.db("FPS_Stats").collection("users");
+    let user = {
+        username: username,
+        isGithub: isGithub,
+        password: password
+    };
+    users.find(user, {},).toArray(function(error, result){
+        if(error){
+            console.log("Error looking up user in database: " +error);
+        }else if(result.length < 0 || result.length > 1){
+            console.log("Unexpected number of users found in database: " +result.length);
+        }else{
+            if(result.length === 1) {
+                getUserDbInfo(user.username).then(function(result){
+                    console.log("User: " + username + " has signed in.");
+                    response.redirect("/");
+                });
+            }else{
+                console.log("new user: " +username +" signing in.");
+                addNewDbUser(user).then(function(results){
+                    response.redirect("/");
+                    response.statusCode = 201;
+                });
+            }
+        }
+    });
+}
 ///////////////////////////////////////////////////////////////////////
 
 /////////////////// Database Initialization ///////////////////////////
@@ -74,14 +115,52 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
     if(err){
         console.log("error connecting to database: " +err);
+    }else{
+        console.log("Database connected");
     }
-    //Retrieve the running totals and averages
-    let totals = client.db("FPS_Stats").collection("totals");
-    totals.find({}).toArray(function(error, result){
+});
+
+const getUserDbInfo = function(username){
+    return new Promise(function(resolve, reject) {
+        //Retrieve the running totals and averages
+        let promises = [];
+        promises.push(getTotals(username));
+        promises.push(getAverages(username));
+        Promise.all(promises).then(function (results) {
+            console.log("getTotals result: " + results[0]);
+            console.log("getAverages result: " + results[1]);
+            let totalsLoaded = false;
+            let avgsLoaded = false;
+            if (results[0].length !== 4) {
+                console.log("Found unexpected number of totals on server startup: " + results[0].length);
+            } else {
+                totalKills = results[0][0].amount;
+                totalAssists = results[0][1].amount;
+                totalDeaths = results[0][2].amount;
+                numEntries = results[0][3].amount;
+                totalsLoaded = true;
+            }
+            if (results[1].length !== 3) {
+                console.log("Found unexpected number of averages on server startup: " + results[1].length);
+            } else {
+                avgKills = results[1][0].amount;
+                avgAssists = results[1][1].amount;
+                avgDeaths = results[1][2].amount;
+                avgsLoaded = true;
+            }
+            if(totalsLoaded && avgsLoaded){
+                resolve(true);
+            }else{
+                reject("Unable to load both totals and averages for given user");
+            }
+        });
+    });
+    /*
+    totals.find({username: username}).toArray(function(error, result){
         if(error){
             console.log("Unable to retrieve number of entries on server startup.");
         }else if(result.length !== 4){
-            console.log("Found unexpected number of totals on server startup");
+            console.log("Found unexpected number of totals on server startup: " +result.length);
         }else {
             totalKills = result[0].amount;
             totalAssists = result[1].amount;
@@ -90,18 +169,39 @@ client.connect(err => {
         }
     });
     let avgs = client.db("FPS_Stats").collection("averages");
-    avgs.find({}).toArray(function(error, result){
+    avgs.find({username: username}).toArray(function(error, result){
         if(error){
             console.log("Unable to retrieve averages on server startup.");
         }else if(result.length !== 3){
-            console.log("Found unexpected number of averages on server startup");
+            console.log("Found unexpected number of averages on server startup: " +result.length);
         }else {
             avgKills = result[0].amount;
             avgAssists = result[1].amount;
             avgDeaths = result[2].amount;
         }
     });
-});
+    */
+}
+
+const addNewDbUser = function(user){
+    let users = client.db("FPS_Stats").collection("users");
+    let totals = client.db("FPS_Stats").collection("totals");
+    let avgs = client.db("FPS_Stats").collection("averages");
+    let promises = [];
+    promises.push(users.insertOne(user, {}));
+    promises.push(totals.insertMany([
+        {username: user.username, type: "kills", amount: 0},
+        {username: user.username, type: "assists", amount: 0},
+        {username: user.username, type: "deaths", amount: 0},
+        {username: user.username, type: "entries", amount: 0}
+    ]));
+    promises.push(avgs.insertMany([
+        {username: user.username, type: "kills", amount: 0},
+        {username: user.username, type: "assists", amount: 0},
+        {username: user.username, type: "deaths", amount: 0},
+    ]));
+    return Promise.all(promises);
+}
 ///////////////////////////////////////////////////////////////////////
 
 const DECIMAL_PRECISION = 2;
@@ -154,9 +254,8 @@ const convertDataToNum = function(request, response, next){
 
 const checkForAccount = function(request, response, next){
     if(!username){
-        console.log("username: " +username);
         response.statusCode = 400;
-        response.end("Requestor is not signed into a valid account");
+        response.end("Requester is not signed into a valid account");
     }else {
         next();
     }
@@ -184,6 +283,7 @@ const addItem = function(request, response){
 
     let ratios = calculateKDandAD(request.body.kills, request.body.assists, request.body.deaths);
     let obj = {
+        "username": username,
         "kills": request.body.kills,
         "assists": request.body.assists,
         "deaths": request.body.deaths,
@@ -255,7 +355,7 @@ const modifyItem = function(request, response){
 
             update(0, -item.kills, -item.assists, -item.deaths);
             update(0, updatedObj.kills, updatedObj.assists, updatedObj.deaths);
-            promises.push(game_stats.updateOne({_id: id}, {$set: updatedObj}));
+            promises.push(game_stats.updateOne({username: username, _id: id}, {$set: updatedObj}));
         }
     }
 
@@ -300,7 +400,7 @@ const deleteItem = function(request, response){
     }
 
     //Not that all running stats are updated, erase from database.
-    game_stats.deleteMany({_id: {$in: ids}}, function(error, result){
+    game_stats.deleteMany({username: username, _id: {$in: ids}}, function(error, result){
         if (error) {
             console.log("Error occurred during deletion: " + error);
         }else{
@@ -369,7 +469,17 @@ app.get('/results', checkForAccount, function(request, response){
 
 const getAllStats = function(){
     let game_stats = client.db("FPS_Stats").collection("game_stats");
-    return game_stats.find({}).toArray();
+    return game_stats.find({username: username}).toArray();
+}
+
+const getTotals = function(username){
+    let totals = client.db("FPS_Stats").collection("totals");
+    return totals.find({username: username}).toArray();
+}
+
+const getAverages = function(username){
+    let avgs = client.db("FPS_Stats").collection("averages");
+    return avgs.find({username: username}).toArray();
 }
 
 /**
@@ -432,14 +542,14 @@ const clearStats = function(response){
 
     //Set all running stats back to zero
     let total = client.db("FPS_Stats").collection("totals");
-    total.updateMany({type: {$in: ["kills", "assists", "deaths", "entries"]}}, {$set: {amount: 0}}, handleClear);
+    total.updateMany({username: username, type: {$in: ["kills", "assists", "deaths", "entries"]}}, {$set: {amount: 0}}, handleClear);
 
     let avgs = client.db("FPS_Stats").collection("averages");
-    avgs.updateMany({type: {$in: ["kills", "assists", "deaths"]}}, {$set: {amount: 0}}, handleClear);
+    avgs.updateMany({username: username, type: {$in: ["kills", "assists", "deaths"]}}, {$set: {amount: 0}}, handleClear);
 
     //Clear the entire game_stats collection
     let game_stats = client.db("FPS_Stats").collection("game_stats");
-    game_stats.deleteMany({}, handleClear);
+    game_stats.deleteMany({username: username}, handleClear);
     sendTable(response);
 }
 app.get('/clear', checkForAccount, function(request, response){
@@ -488,9 +598,9 @@ const updateTotals = function(kills, assists, deaths){
     totalDeaths += deaths;
     let totals = client.db("FPS_Stats").collection("totals");
     let promises = [];
-    promises.push(totals.updateOne({type: "kills"}, {$inc: {amount: kills}}, {}));
-    promises.push(totals.updateOne({type: "assists"}, {$inc: {amount: assists}}, {}));
-    promises.push(totals.updateOne({type: "deaths"}, {$inc: {amount: deaths}}, {}));
+    promises.push(totals.updateOne({username: username, type: "kills"}, {$inc: {amount: kills}}, {}));
+    promises.push(totals.updateOne({username: username, type: "assists"}, {$inc: {amount: assists}}, {}));
+    promises.push(totals.updateOne({username: username, type: "deaths"}, {$inc: {amount: deaths}}, {}));
     return Promise.all(promises);
 }
 
@@ -511,16 +621,16 @@ const updateAvgs = function() {
     }
     let avgs = client.db("FPS_Stats").collection("averages");
     let promises = [];
-    promises.push(avgs.updateOne({type: "kills"}, {$set: {amount: avgKills}}, {}));
-    promises.push(avgs.updateOne({type: "assists"}, {$set: {amount: avgAssists}}, {}));
-    promises.push(avgs.updateOne({type: "deaths"}, {$set: {amount: avgDeaths}}, {}));
+    promises.push(avgs.updateOne({username: username, type: "kills"}, {$set: {amount: avgKills}}, {}));
+    promises.push(avgs.updateOne({username: username, type: "assists"}, {$set: {amount: avgAssists}}, {}));
+    promises.push(avgs.updateOne({username: username, type: "deaths"}, {$set: {amount: avgDeaths}}, {}));
     return Promise.all(promises);
 }
 
 const updateNumEntries = function(delta){
     numEntries += delta;
     let totals = client.db("FPS_Stats").collection("totals");
-    return totals.updateOne({type: "entries"}, {$inc: {amount: delta}});
+    return totals.updateOne({username: username, type: "entries"}, {$inc: {amount: delta}});
 }
 
 const update = function(entriesDelta, kills, assists, deaths){

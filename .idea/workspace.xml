@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6d51bfc6-7107-4f11-ab1e-03eb79ea192b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/scripts.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
@@ -50,7 +50,7 @@
       <workItem from="1600810112170" duration="15310000" />
       <workItem from="1601178278423" duration="9088000" />
       <workItem from="1601232669874" duration="63000" />
-      <workItem from="1601241765255" duration="10033000" />
+      <workItem from="1601241765255" duration="18925000" />
     </task>
     <task id="LOCAL-00001" summary="Made server.improved.js into an Express server">
       <created>1600494176830</created>
@@ -129,7 +129,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601184541257</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Github auth working, requires login for functionality to work">
+      <created>1601257761094</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1601257761094</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,17 +154,18 @@
     <MESSAGE value="numEntries is now retrieved from database on server start-up, meaning sendCSV now works if it's the first request made on server start-up." />
     <MESSAGE value="Totals and averages are also now retrieved on server startup." />
     <MESSAGE value="Removed empty form tag action modifiers" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed empty form tag action modifiers" />
+    <MESSAGE value="Github auth working, requires login for functionality to work" />
+    <option name="LAST_COMMIT_MESSAGE" value="Github auth working, requires login for functionality to work" />
   </component>
   <component name="WindowStateProjectService">
     <state x="478" y="183" key="#Log_Highlighting_(ideolog)" timestamp="1601242300411">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="478" y="183" key="#Log_Highlighting_(ideolog)/0.0.1536.824@0.0.1536.824" timestamp="1601242300411" />
-    <state x="55" y="0" key="CommitChangelistDialog2" timestamp="1601184540469">
+    <state x="55" y="0" key="CommitChangelistDialog2" timestamp="1601257760160">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="55" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1601184540469" />
+    <state x="55" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1601257760160" />
     <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1601232731540">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -182,17 +190,17 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="619" y="133" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1601244723434" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1601184545732">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1601257765252">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1601184545732" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1600732640280">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1601257765252" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1601261972365">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1600732640280" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1601098214971">
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1601261972365" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1601262950022">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1601098214971" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1601262950022" />
   </component>
 </project>
