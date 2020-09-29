@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A cool thing made with Glitch" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Assignment 3</title>
+
+    <link
+      id="favicon"
+      rel="icon"
+      href="https://glitch.com/edit/favicon-app.ico"
+      type="image/x-icon"
+    />
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css" />
+    <!-- Google Fonts -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
+    />
+
+    <!-- CSS Reset -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
+    />
+
+    <!-- Milligram CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
+    />
+
+    <!-- You should properly set the path from the main file. -->
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script2.js" defer></script>
+  </head>
+  <body>
+    <header>
+        <h1>Sign-In to Your To-Do List</h1>
+      </header>
+    <form  id="login-form" action="/login" method = "post">
+      <!-- -->
+      <fieldset>
+        <label for="nameField">Username</label>
+        <input type="text" placeholder="username" id="User" required/>
+        <label for="passField">Password</label>
+        <input type="password" placeholder="password" id="Pass" required/>
+        <p><button href="/auth/github" id="login-btn" class="button-primary" type="submit">Login</button></p>
+       <!--  <p><button id="signup-btn" class="button-primary" type="submit">Sign Up</button></p>
+        switch pages-->
+        </fieldset>
+        </form>
+       <!-- <form action="/signin" method = "post">
+        <button id="signup-btn" class="button-primary" type="submit">Sign Up</button>
+    </form> --> 
+  </body>
+</html>

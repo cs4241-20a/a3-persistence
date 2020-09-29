@@ -1,82 +1,55 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
+Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template README
 ===
 
-Due: September 28th, by 11:59 PM.
+## A simple To-do List Part 2
+glitch link e.g. https://glitch.com/~a3-lara-padir
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
+This project connects my glitch application to a MongoDb database. Once a user logs in, they can add items, delete items, and modify items on their to-do list. 
+I used the Git Oauth authentication for this application. I used this authentication in order to try to recieve extra points on the assignment. This is the part of the assignment
+that I particularly struggled with. I first tried to have a collection of just users, so when a user makes an account their user would be added to that collection. 
+Then for each item, when a user logged in their tasks would display on the page. I was unable to get this working properly. I then tried to save the username and send that to the database
+with the added item (under the same collection), but I was unable to get this to work as well. I put a lot of time into this, but unfortunately was not able to get this to work.
 
-Baseline Requirements
----
 
-Your application is required to implement the following functionalities:
+I use the body parser, error handler, cookie-parser, passport, and cookie-session middleware packages. The body parser is responsible for parsing the incoming request
+bodies in a middleware before it is handled. The error handler package is responsible for handling errors, separating them, and sending responses accordingly. 
+The cookie-parser package is responsible for parsing cookies attached to the the client request object. The passport package is respobsible for authentication in node.js. Lastly, the cookie-session 
+package is responsible for storing data from the client in a cookie and storing the session data on the server.
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
-
-Your application is required to demonstrate the use of the following concepts:
-
-HTML:
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
-
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
-
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
-
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
-
-Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+Lastly, I used milligram as my basis css framework. I changed the button styles and added color, and a hover color to the buttons.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: I used OAuth GitHub Authentication
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative. 
+First, I provided informative heading titles. I used "Sign-In to Your ToDo List" and "ToDo List" for each page.
+Second, I use headings to convey meaning nd structure. Having a sub-heading of "add an item to your todo list" separates my page and makes it clear to the user what do do on the ToDo Page.
+Third, I provide clear instructions. On the login page, I say that a user must enter a username and password in order to login. If the user does not do this an alert will pop up telling the user to input in both fields.
+Fourth, I keep content clear and consise. I have no filler words on the page that will distract the user from their task.
+Fifth, provide sufficient contrast between foreground and background. I have a grey box to contrast the list items and the form from the rest of the page.
+Sixth, I never use just color to convey information. I have color and words to convey a message. For example, the delete button is red but also says delete.
+Seventh, I ensure that interactive elevements are easy to identify. For example, when you hover over a button the button will change colors, so the user knows its a button.
+Eigth, I make elements associated with labels. I have the username and passord labels to identify the text fields underneath.
+Ninth, I use markup to convey meaning and structure. I use id values in my html code to go with corresponding values. For example, the id for username is user.
+Tenth, I have help users identify and correct mistakes. I use alert messages to tell the user if they did not fill out on of the necessary field items.
+Eleventh, I make my buttons keyboard accessible. I allow the user to press enter or click any button on the site.
+Lastly, I provide easily identifiable feedback to the user. For example, I alert the user if they have not filler out all of the fields to log-in to their todo list.
+
+- **Design Achievement 2**: I followed the CRAP principles:
+
+First, for contrast I use a grey background behind the form and list items. This draws the users attention to this part of the page, which is where I want their attention to be. 
+I also provide contrast to the text and button colors on the page. I have brighter colors for the buttons so the users attention is also drawn to them. The hover button color is different, and provides different contrast
+to show the user that there is an interactive functionality to them as well.
+
+Next, for repition I use the same button classes for the whole site. I also use the same font, text boxes, header styles, and form style for the whole site.
+This provides the most consistency to my design. The website is pretty plain, but the repition I use make it simple, elegant and most importantly consistant across both webpages.
+
+Then, for alignment I use the left-align for my whole website. This is an intuitive and readable way for users to look at the site and understand what is going on. Their eyes will read left-to-right
+and then top-to-bottom, which is the oder in which I want them to see my site. I did not center the title of each page, because I thought it would mess up my consistency and would not look as clean as the left-alignment.
+
+
+Lastly, for proximity I group elements that are related in a single form. All of the login items are contained in one form, displaying to the user that each of these items are realted to one another.
+Similarly on the todo list page, all of the list elements and atted items are in the same form. The logout button however is not in the dame form as those items because it is not related to the users todo list. 
+I furthermore made sure the spacing between each element was not too wide, but also not too squished togehter. The spacing allows the user to see which title goes with which text field and allows them to group items together.
+That is why the spacing is very important to each of the elements on the page.

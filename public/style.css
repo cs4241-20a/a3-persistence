@@ -1,0 +1,83 @@
+/* this file is loaded by index.html and styles the page */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 2em 1em;
+  line-height: 1.5em;
+}
+
+h1 {
+  font-style: italic;
+  color: black;
+  max-width: calc(100% - 5rem);
+  line-height: 1.1;
+}
+
+form {
+  padding-left: 100px;
+  background-color: #eee;
+  display: grid;
+  grid-gap: 1em;
+  padding: 20px;
+  max-width: 100ch;
+  margin-left: 60px;
+}
+
+input {
+  border: 1px solid white;
+  display: block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  max-width: 90ch;
+  padding: 5px;
+  width: 100%;
+}
+
+form button {
+  margin-top: 10px;
+  background-color: #584CFF;
+  border: 2px solid currentColor;
+  border-radius: .25em;
+  cursor: pointer;
+  font-size: inherit;
+  line-height: 1.4em;
+  padding: 0.25em 1em;
+  max-width: 20ch;
+}
+
+form button:hover {
+  background-color: #F6CFD6;
+}
+
+footer {
+  margin-top: 3em;
+  padding-top: 1.5em;
+  border-top: 1px solid lightgrey;
+}
+
+dreams{
+  margin-top: 100px;
+  margin-left: 60px;
+}
+
+.button-small {
+  font-size: .8rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  padding: 0 1.5rem;
+  background-color: #F5615D;
+  margin-left: 20px;
+}
+
+.updateBtn {
+  font-size: .8rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  padding: 0 1.5rem;
+  background-color: #88F0C9;
+  margin-left: 20px;
+}
