@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A cool thing made with Glitch" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Assignment 3</title>
+
+    <link
+      id="favicon"
+      rel="icon"
+      href="https://glitch.com/edit/favicon-app.ico"
+      type="image/x-icon"
+    />
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css" />
+    <!-- Google Fonts -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
+    />
+
+    <!-- CSS Reset -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
+    />
+
+    <!-- Milligram CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
+    />
+
+    <!-- You should properly set the path from the main file. -->
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+    <div class="content">
+      <header>
+        <h1>My ToDo List</h1>
+      </header>
+
+      <main>
+        <!-- <h2></h2>
+
+      <p>Tell me your hopes and dreams:</p> -->
+
+        <form>
+          <label>
+            Add a new Item to the List
+            <input
+              name="dream"
+              id="dream"
+              type="text"
+              maxlength="100"
+              required
+              placeholder="New List Item"
+            />
+          </label>
+          <button type="submit" id="submit-dream">Add Item</button>
+        </form>
+
+        <section>
+          <ul id="dreams"  class="dreams">
+          </ul>
+        </section>
+      </main>
+    </div>
+    <form action="/logout" method = "post">
+        <button class="button-primary" type="submit" id="logout-btn" >Logout</button>
+    </form>
+  </body>
+</html>
