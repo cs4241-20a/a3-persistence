@@ -1,6 +1,8 @@
 FPS Stat Calculator (A3) - Joe Swetz
 ===
 
+Project site: https://a3-joe-swetz.herokuapp.com/
+
 This project continued with the application I created for A2: it is a stat calculator 
 for First Person Shooter (FPS) games. The user enters the kills, assists and deaths for
 game they play, and the application enters them into a running table, along with the 
@@ -90,14 +92,19 @@ I satisfied the requirements for this assignment in the following ways:
     middleware were used, and a persistent database from MongoDB was used (see 
     points above for more detail on there)
 
-Acheivements
+Achievements
 ---
 
 *Technical*
 - I implemented OAuth authentication with Github via passport.js. On the home page, there is
  an option to login with Github, or do non-Github username/password. If you log in with a non-Github,
  username and password, and the account does not exist, it will be created and user will be notified.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
+- Instead of Glitch, I hosted my site on Heroku at https://a3-joe-swetz.herokuapp.com/. The majority
+ of the process went smooth until I tried to open the app for the first time and it crashed. The web GUI
+ only shows you a few of the most recent log messages, so to see the full log I had to download the CLI
+ and display the logs in the terminal, only to find that some of the dependencies were under "devDependencies"
+ in package.json. I was able to easily fix this, but Glitch didn't seem to care, so I found using Glitch
+ to be a slightly easier experience.
 
 *Design/UX*
 - (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
