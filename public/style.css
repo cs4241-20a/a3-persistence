@@ -2,7 +2,7 @@
 .pure-button.button-delete,
 .pure-button.button-update,
 .pure-button.button-clear,
-.pure-button.button-logout{
+.pure-button.button-logout {
   color: white;
   border-radius: 4px;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
@@ -28,16 +28,22 @@
   background: rgb(132, 105, 170);
 }
 
-h1, body, form{
-  padding-top:10px;
-  text-align:center
+h1,
+body,
+form {
+  padding-top: 10px;
+  text-align: center;
 }
 
-table,thead,tbody,tr,tb{
-   margin-left: auto;
+table,
+thead,
+tbody,
+tr,
+tb {
+  margin-left: auto;
   margin-right: auto;
 }
 
-button{
+button {
   display: inline-block;
 }

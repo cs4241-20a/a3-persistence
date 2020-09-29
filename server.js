@@ -18,9 +18,6 @@ app.use(compression());
 
 //**********OAuth**********
 
-const client_id = process.env.GITHUB_CLIENT_ID;
-const client_secret = process.env.GITHUB_CLIENT_SECRET;
-
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
@@ -43,8 +40,8 @@ passport.deserializeUser(function(obj, cb) {
 passport.use(
   new GitHubStrategy(
     {
-      clientID: "a80535eaf0e5c2922f66",
-      clientSecret: "0f2757ddcdca72733893876511f10b9b742fb87f",
+      clientID: process.env.GITHUB_CLIENT,
+      clientSecret: process.env.GITHUB_SECRET,
       callbackURL: "https://a3-afsimoneau.glitch.me/auth/github/callback"
     },
     async function(accessToken, refreshToken, profile, cb) {

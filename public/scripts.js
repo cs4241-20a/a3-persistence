@@ -55,22 +55,22 @@ let inputDistance = document.querySelector("#inputDistance");
 const clear = function(e) {
   // prevent default form action from being carried out
   e.preventDefault();
-  
+
   inputRoute = document.querySelector("#inputRoute");
   inputTime = document.querySelector("#inputTime");
   inputDistance = document.querySelector("#inputDistance");
-  inputRoute.value="";
-  inputTime.value="";
-  inputDistance.value="";
-  
+  inputRoute.value = "";
+  inputTime.value = "";
+  inputDistance.value = "";
+
   return false;
 };
 
 const logout = function(e) {
   // prevent default form action from being carried out
   e.preventDefault();
-  window.location.replace("/logout")
-  
+  window.location.replace("/logout");
+
   return false;
 };
 
