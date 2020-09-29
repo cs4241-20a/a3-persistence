@@ -33,12 +33,6 @@ const login = (event) => {
 		body: JSON.stringify(loginData),
     	headers: {'Content-Type':'application/x-www-form-urlencoded'}
 	}).then((response) => {
-		response.text().then(text => {
-			console.log(text);
-			if (text === 'false') {
-				window.location.href = 'main.html';
-			}
-		});
 		M.updateTextFields();
 		M.toast({html: 'Logging you in!'});
 	}).catch((err) => { console.log(err) });

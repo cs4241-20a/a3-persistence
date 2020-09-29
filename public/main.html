@@ -1,22 +1,52 @@
-<!doctype html>
-
+<!Doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+	<meta charset="utf-8">
+	<title>A3 athammana</title>
+	<meta name="description" content="Project 3 Webware">
+	<meta name="author" content="AJ Thammana">
 
-  <title>A3 athammana</title>
-  <meta name="description" content="Project 3 Webware">
-  <meta name="author" content="AJ Thammana">
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"/>
+	<link rel="stylesheet" href="css/styles.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"/>
-  <!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
-
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="js/materialize.min.js"></script>
+	<script type="text/javascript" src="js/scripts.js"></script>
 </head>
-
 <body>
-	<a class="waves-effect waves-light btn" onclick="location.href='index.html';"><i class="material-icons left">cloud</i>LOGIN TO GIT</a>
+	<div id="root">
+		<div id="side">
+			<ul id="slide-out" class="sidenav"> 
+				<div id="left-block" class='container center-align'>
+					<li><p>Leaderboard name:</p></li>
+					<li><h4 id="name"></h4></li>
+					<li>Current: <span id="currScore">0</span></li>
 
+					<li><strong>Previous Scores</strong></li>
+					<li><table id="serverscores"></table></li>
 
-  <script src="js/scripts.js"></script>
+					<li><a id="end" class="waves-effect waves-light btn" onclick="endGame()"><i class="material-icons left">cloud</i>End Game</a></li>
+<!-- 					<li><a id="hint" class="waves-effect waves-light btn" onclick="hint()"><i class="material-icons left">cloud</i>Cheats</a></li> -->
+					<li><a id="delete" class="waves-effect waves-light btn" onclick="deleteEverything()"><i class="material-icons left">cloud</i>Delete Everything</a></li>
+				</div>
+			</ul>
+		</div>
+
+		<a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
+		<div class="row container center-align">
+			<div class="col m12 center-align section">
+				<h2>Unscramble!</h2>
+				<div id="scrambledWord"></div>
+			</div>
+			<div id="inputs" class="col m6 offset-m3">
+				<br> <br>
+				<form onsubmit="return false" autocomplete="off">
+					<input type='text' maxlength="7" id='answer' class="underlines" data-hint="">
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
