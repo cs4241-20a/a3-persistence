@@ -4,7 +4,7 @@
 // define variables that reference elements on our page
 const dreamsList = document.getElementById("dreams");
 const dreamsTable = document.getElementById("dreams2");
-const dreamsTable2 = document.getElementById("dreams3");
+const yike = document.getElementById("dreams3");
 const dreamsForm = document.getElementById("dreamsForm");
 const loginForm = document.getElementById("loginForm");
 
@@ -84,7 +84,7 @@ function appendNewDreamRow(dreamItem, id) {
     cell4.innerText = 'DELETE'
     cell5.innerText = 'UPDATE'
       
-    dreamsTable2.appendChild(newTableItem);
+    yike.appendChild(newTableItem);
   }
 fetch("/dreams", {
     method: "GET"
