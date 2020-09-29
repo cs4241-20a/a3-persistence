@@ -1,0 +1,21 @@
+ion-toolbar{
+    --ion-background-color: #A4B7BB;
+}
+ion-content{
+  --ion-background-color: #E8ECED
+}
+
+button {
+  transition-duration: 0.6s;    
+  box-shadow:inset 0px 1px 0px 0px #dcecfb;
+	background-color:#f2f2f2;
+	border-radius:6px;
+	border:1px solid #84bbf3;
+	cursor:pointer;
+	font-size:15px;
+	padding:6px 24px;
+}
+
+button:hover {
+  background-color: #76A0B0;
+}

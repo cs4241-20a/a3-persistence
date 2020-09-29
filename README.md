@@ -1,82 +1,69 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
+Alexa Freglette
+afreglett
 
+Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 Due: September 28th, by 11:59 PM.
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
 
-Baseline Requirements
----
 
-Your application is required to implement the following functionalities:
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
+What's in my Refrigerator  
+https://a3-alexa-freglette.glitch.me/
 
-Your application is required to demonstrate the use of the following concepts:
 
-HTML:
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
+The goal of my application is to create a website that will help its users keep track of and store items in their refrigerator.
 
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
+1) Challenges you faced in realizing the application
 
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
+I struggled the most with getting the data to separate the data and only portraying the data that is for the specified user. 
+I was unable to implement this fully, however I believe that I came very very close to. 
+In my server I created an app.get that would search my database via find({username: userid}), to find all of the usernames that were similar to the current userid.
+I then made this into an array and sent it as a json to the client side. The client side would then take the results and parse it. 
+Each element of the array would be sent to build, where (theoretically) it would be build by the client side, just as it would with my add function.
 
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
+2) What authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
+I chose to use GitHub OAuth via passport.js. I believed that passport.js was very well documented and thought it would have been the easiest to implement.
 
-Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
+3) What CSS framework you used and why
+I decided to use the CSS FrameWork Ionic. I have previously used Ionic and knew much about its functionalities. I also really like how simple and sleep ionic designs look.
 
-Deliverables
----
+4) Include any modifications to the CSS framework you made via custom CSS you authored
+From what I discovered, Ionic  does not define table styles in their framework, so I had to create that in my custom css. I also was unable to make the Ionic buttons work with my functions, so I had to customly create those.
+The other modifications were mostly adding colors and centering grids. 
 
-Do the following to complete this assignment:
+5) The five Express middleware packages you used and a short (one sentence) summary of what each one does
+Passport, Next, Error, CookieParser, Bodyparser
+Passport is an express middleware package that allowed for authentification which I used to implement my Github OAuth
+I used the next middleware package to eliminate any hanging, Next will pass the control to the next middleware package. 
+I used Error to handle my sign in page (if sign in was successful or unsuccessful), as it is created to handle errors properly on the express code.
+I used the Cookie-Parser to parse the Cookie header on the request and expose the cookie data. Using this I can display cookie name & cookie value.
+I used the bodyparser to parse all incoming requests.
 
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
 
-Acheivements
----
 
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
 
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
+Technical Achievements
+Tech Achievement 1: 
+I used OAuth authentication via the GitHub strategy
 
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
+Another technical achievement I decieded to try was using Axios, which allowed the process of making HTTP requests & the saving of data much easier.
+Using Axios at first was a bit awkward, however once I was able to manipulate the middleware to save my token data from my github user and insert it into my database. 
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
 
-## Your Web Application Title
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+Design/Evaluation Achievements
+Design Achievement 1:
+CRAP Principles 
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+Contrast is important as it can be used to determine where a user will pay attention immediate attention to. In my homepage, I wanted my user’s attention to be drawn to the button in the middle of the page, where the button is. For this reason, I outlined the button with a blue border and underlined the text inside of the button to emphasize it. When the button is hovered over, the button changes color. Furthermore, I created contrast on the Welcome Page, by divided the header and body into two different colors, which are separated by a white line. 
+On the second page, I wanted my users’ eyes to be drawn to the form. To do this, I surrounded each of the form items with a white box. I believe that this box creates a blatant contrast from the background and the form items.
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+In my first page there weren’t many elements to apply the proximity principle to. Mainly I wanted to keep the “Welcome Back” text near the logo for my website so the reader associates them with each other. There were more elements to manipulate with proximity on my second page. For example, I decided to keep my elements on top of each other, without any breaks in between the form items, as I wanted to user to fill out each item of the form from top to bottom. I used the principle of proximity in a similar way when creating my table. I wanted my website to have structure, and therefore minimized the amount of “white space” between information that is related.  
 
-## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+For design elements, I mainly relied on the CSS Framework Ionic. I, however, did not feel that the buttons the framework provided fit the theme of my website, as they were bulky and elaborate. The text that was used were all supplied by the Framework, and therefore was consistent. I created a color palette and used those colors (A4B7BB, E8ECED, 76A0B0, f2f2f2, 35262D, FFFBFF). I repeatedly used the same button (both on the welcome page and the table page) to maintain consistency with the design. This principle of consistency/repetition can also be found through my form layout and table display. Perhaps not with my simple website design, but if a website were more complicated, and the layout was not consistent a user will quickly become confused with how to use the website. 
 
-### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+I decided to center my website, since there wasn’t a great deal of text, and I wanted all of my elements to line up with each other in the middle. This center alignment can be found in both my welcome page and in my table page. For my form I placed each of my objects on top of each other, and used the Ionic tool that gave it a slight right aligned to the edge of each object’s white box, unfortunately I could not figure out how to make the Size input box go to the right edge which I found to be incredibly frustrating. Similarly, my table is centered aligned. If this website was more complex, with more elements and text, I would have been able to use alignment as a way to connect each of my elements together. A website with proper alignment will aid in the view’s experience and helping them read/understand the website’s information. 
+	
+
+
+

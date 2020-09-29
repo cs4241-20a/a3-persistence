@@ -1,0 +1,97 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch">
+
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+<script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+<link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">
+<script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>
+<link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+<link rel="stylesheet" href="/style.css">
+
+    
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+<ion-content>
+
+  <body>
+
+    <ion-toolbar class="bar-stable">
+              <h1 class="title"> Inside My Refrigerator</h1>
+    <ion-text>a tool used to aid in keeping track of and storing food items in your refrigerator!
+</ion-text> 
+    </ion-toolbar>
+    
+  <ion-card>
+  <form id="contact-form" class="contact-form">
+<ion-item>
+<ion-label> Food Name</ion-label>
+<ion-input type="text" id="foodname" name = "foodname"></ion-input>
+  </ion-item> 
+    <ion-item>
+  <ion-label> Purchased Date</ion-label>
+      <ion-input type= "date" id = "purchased"  name = "purchased"></ion-input>
+    </ion-item>
+    <ion-item>
+    <ion-label> Rate this food(ex. 1-dislike) </ion-label>
+      <ion-input type="number" id="enjoyability" name="enjoyability" min="1" max="5"></ion-input>
+      </ion-item>
+
+    <ion-item>
+      
+  <ion-label for="size"> Size of Item (ex.small-orange) :  </ion-label>
+          <select name="size" id="size">
+          <option value="small">small</option>
+          <option value="medium">medium</option>
+          <option value="large">large</option>
+                  </select>
+    </ion-item>
+    <br>
+          <button id="btn">Submit form</button> 
+          
+
+</form>
+  <br>
+    <br>
+</ion-card>
+    <br>
+    <ion-text> Hover over an item to add to your online shopping cart! </ion-text>
+    <br>
+    <br>
+   
+    <br>
+    <br>
+  <table class="table table-striped"> 
+          <tr  class="bg-info">
+          <th>Food Name</th>
+          <th>Date Bought</th>
+          <th>Enjoy</th>
+          <th>Size</th>
+          <th>In Cart</th>
+      </tr>
+      <tbody id="myTable">
+    </tbody>
+  </table>
+    
+  </body>
+</ion-content>
+
+
+    <footer>Made with <a href="https://glitch.com">Glitch</a>!</footer>
+
+    <!-- include the Glitch button to show what the webpage is about and
+          to make it easier for folks to view source and remix -->
+    <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js" defer></script>
+
+</html>
