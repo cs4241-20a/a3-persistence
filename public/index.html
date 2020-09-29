@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge;" />
+        
+            <link href="https://unpkg.com/cirrus-ui" type="text/css" rel="stylesheet" />
+        
+            <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+            <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+  </head>
+  <body>
+    <h1> Lindberg's Package Delivery Service </h1>
+    <div class="grid-container">
+		<div class="input_section item1">
+      		<form id="package_form">
+        		<label for="description">Item Description:</label>
+        		<input type="text" id="description" placeholder="E.g: Book"><br>
+        		<label for="weight">Weight (in lbs):</label>
+        		<input type="number" id="weight" placeholder="2"><br>
+        		<label for="deliv_date">Delivery Date (number of days from today):</label>
+        		<input type="number" id="deliv_date" placeholder="3"><br>
+        		<button id="submitButton">Submit</button> <br> <br>
+      		</form>
+      		      
+    	</div>
+    	<div class="results_section item2">
+      		<table id="package_table">
+            <h4>
+              Results Table
+            </h4>
+        		<tr >
+          			<th>Description</th>
+          			<th>Weight (lbs)</th>
+          			<th>Day(s) until delivery</th>
+          			<th>Cost of shipment (USD)</th>
+                <th>Edit</th>
+                <th>Delete</th>
+        		</tr>
+      		</table>
+    	</div>
+    </div>
+    
+
+
+  </body>
+ 
+</html>
