@@ -3,14 +3,17 @@
 
 // we've started you off with Express (https://expressjs.com/)
 // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
+
+// import from npm
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const GithubStrategy = require("passport-github").Strategy;
-
 const cookieSession = require("cookie-session");
 const mongodb = require("mongodb");
+
+// set up mongodb
 const MongoClient = mongodb.MongoClient;
 const uri =
   "mongodb+srv://dbUser:dbUserPassword@a3-recipe-book.xyl2m.mongodb.net/recipes?retryWrites=true&w=majority";
@@ -24,17 +27,17 @@ client.connect(err => {
   collection = client.db("recipebook").collection("recipes");
 });
 
+// Set up cookie session
 app.use(
   cookieSession({
     maxAge: 24 * 60 * 60 * 1000, // One day in milliseconds
     keys: ["randomstringhere"]
   })
 );
-
 app.use(passport.initialize()); // Used to initialize passport
 app.use(passport.session()); // Used to persist login sessions
 
-// Strategy config
+// Strategy config for Github OAuth
 passport.use(
   new GithubStrategy(
     {
@@ -50,22 +53,41 @@ passport.use(
 
 // Used to stuff a piece of information into a cookie
 passport.serializeUser((user, done) => {
-    done(null, user);
+  done(null, user);
 });
 
 // Used to decode the received cookie and persist session
 passport.deserializeUser((user, done) => {
-    done(null, user);
+  done(null, user);
 });
 
 // Middleware to check if the user is authenticated
 function isUserAuthenticated(req, res, next) {
-    if (req.user) {
-        next();
-    } else {
-        res.send('You must login!');
-    }
+  if (req.user) {
+    next();
+  } else {
+    res.send("You must login!");
+  }
 }
+
+// passport.authenticate middleware is used here to authenticate the request
+app.get(
+  "/auth/",
+  passport.authenticate("github", {
+    scope: ["profile"] // Used to specify the required data
+  })
+);
+
+// The middleware receives the data from Google and runs the function on Strategy config
+app.get("/auth/github/", passport.authenticate("github"), (req, res) => {
+  res.redirect("/main");
+});
+
+// Logout route
+app.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
@@ -77,34 +99,25 @@ app.get("/", (request, response) => {
 });
 
 // Secret route
-app.get('/main', isUserAuthenticated, (req, res) => {
-  console.log(req.user)
-  res.sendFile(__dirname + '/public/main.html')
+app.get("/main", isUserAuthenticated, (req, res) => {
+  console.log(req.user);
+  res.sendFile(__dirname + "/public/main.html");
 });
-
-// passport.authenticate middleware is used here to authenticate the request
-app.get('/auth/', passport.authenticate('github', {
-    scope: ['profile'] // Used to specify the required data
-}));
-
-// The middleware receives the data from Google and runs the function on Strategy config
-app.get('/auth/github/', passport.authenticate('github'), (req, res) => {
-    res.redirect('/main');
-});
-
 
 app.post("/add", bodyParser.json(), (request, response) => {
-  collection.insertOne(Object.assign({}, request.body, {user: request.user.id})).then(dbresponse => {
-    console.log(dbresponse);
-    response.json(dbresponse.ops[0]);
-  });
+  collection
+    .insertOne(Object.assign({}, request.body, { user: request.user.id }))
+    .then(dbresponse => {
+      console.log(dbresponse);
+      response.json(dbresponse.ops[0]);
+    });
 });
 
 app.get("/recipes", (req, res) => {
   if (collection !== null) {
     // get array and pass to res.json
     collection
-      .find({user: req.user.id})
+      .find({ user: req.user.id })
       .toArray()
       .then(result => res.json(result));
   }
@@ -130,14 +143,11 @@ app.post("/update", bodyParser.json(), (req, res) => {
 
 app.post("/delete", bodyParser.json(), (request, response) => {
   collection
-    .deleteOne({ _id: mongodb.ObjectID(request.body.id), user: request.user.id })
+    .deleteOne({
+      _id: mongodb.ObjectID(request.body.id),
+      user: request.user.id
+    })
     .then(result => response.json(result));
-});
-
-// Logout route
-app.get('/logout', (req, res) => {
-    req.logout(); 
-    res.redirect('/');
 });
 
 // listen for requests :)
