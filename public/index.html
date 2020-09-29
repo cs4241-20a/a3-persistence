@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>CS4241 Assignment 3</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/scripts.js"></script>
+</head>
+
+<body>
+  <h1 class="heading">Game High Scores!</h1>
+  <a href="/auth/github">Login with Github</a>
+  <p>Please enter your initials, score, and location here:</p>
+  <form id='form'>
+    <input type='text' maxlength="3" id='yourname' value="AAA">
+    <input type="number" id='score' value="000000">
+    <input type='text' id='location' value='your location here'>
+    <button id="submitbtn">Submit</button>
+  </form>
+  <table id='datatable'>
+    <thead>
+      <tr>
+        <th>Initials</th>
+        <th>Score</th>
+        <th>Location</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id='scoretable'>
+    </tbody>
+  </table>
+</body>
+</html>
