@@ -1,0 +1,93 @@
+extends layout
+
+mixin display(item)
+	- id = `${item.id}-display`
+	if !item.mime_type
+		img(id=id src='/res/file_icon.png' alt=item.file_name)
+	else
+		- mt = item.mime_type.slice(0, item.mime_type.indexOf('/'))
+		case mt
+			when 'audio'
+				audio(id=id controls)
+					source(src=item.download_path)
+			when 'video'
+				video.embed-responsive-item(id=id controls src=item.download_path)
+			when 'image'
+				img(id=id src=item.download_path alt=item.file_name)
+			default
+				img(id=id src='/res/file_icon.png' alt=item.file_name)
+
+
+
+mixin display-table(item)
+	- tbl_columns = {'id': 'Id', 'file_name': 'File Name', 'mime_type': 'Mimetype', 'size_formatted': 'Size', 'quota_percentage': '% of Total Space', 'created_at': 'Upload Timestamp'}
+	table.table.table-borderless
+		caption #{item.uploader}: #{item.title}
+		each val, key in tbl_columns
+			tr
+				th(scope="row") #{val}
+				td(id=`${item.id}-${key}`) #{item[key]}
+
+
+
+
+block append body
+	each entry in entries
+		.panel(id=`${entry.id}-panel` title=entry.title)
+			.panel-heading
+				.container
+					if user && user._id == entry.uploader_id
+						.row
+							.col-xs-8.col-sm-8.col-md-6.col-lg-6
+								.row
+									.col.col-sm-8
+										div(id=`${entry.id}-title-view`)
+											i.panel-title #{entry.title}
+											h6.panel-subtitle #{entry.uploader}
+										div(id=`${entry.id}-title-edit` hidden)
+											.panel-title
+												input(id=`${entry.id}-title-input` type='text' value=`${entry.title}`)
+											.panel-subtitle
+												input(id=`${entry.id}-uploader-input` type='text' value=`${entry.uploader}`)
+											button.btn.btn-success(id=`${entry.id}-update`)
+												+icon("ok")
+									.col.col-md-4
+										button.btn.btn-secondary.edit-btn(id=`${entry.id}-edit-toggle`)
+											+icon("pencil")
+									
+							.col-xs-4.col-sm-4.col-md-6.col-lg-6
+								.row
+									.col-3.col-xs-auto.col-sm-6
+										a.btn.btn-primary.icon-right(id=`${entry.id}-download` href=entry.download_path download=entry.file_name)
+											| Download 
+											+icon('download-alt')
+									.col-3.col-xs-auto.col-sm-6
+										button.btn.btn-danger.icon-right(id=`${entry.id}-delete`)
+											| Delete 
+											+icon('remove')
+					else
+						.row
+							.col-xs-8.col-sm-8.col-md-6.col-lg-6
+								.panel-title 
+									i #{entry.title}
+								.panel-subtitle
+									h6 #{entry.uploader}
+							.col-xs-4.col-sm-4.col-md-6.col-lg-6
+								.row
+									.col-3.col-xs-auto.col-sm-6
+										a.btn.btn-primary.icon-right(id=`${entry.id}-download` href=entry.download_path download=entry.file_name)
+											| Download 
+											+icon('download-alt')
+									.col-3.col-xs-auto.col-sm-6
+										//- button.btn.btn-danger.icon-right(id=`${entry.id}-delete`)
+										//-	 | Delete 
+										//-	 +icon('remove')
+			.panel-body.container
+					.row
+						.col.col-md-8.display
+							+display(entry)
+						.col.col-md-4
+							+display-table(entry)
+block append scripts
+	script(src='/js/uploads.js')
+			
