@@ -105,7 +105,6 @@ app.post('/delete', bodyParser.json(), (request, response) => {
 // load all of the records
 app.post('/load', (request, response) => {
     // get all of the records
-    console.log(currentAuthor);
     collection.find({'author': currentAuthor}).toArray(function(err, results) {
         response.json(results);
     });
@@ -120,7 +119,6 @@ app.post('/modify', bodyParser.json(), (request, response) => {
         return document[0];
     }).then((document) => {
         let newVal = !document['ableToDrink'];
-        console.log(newVal)
         collection.updateOne({'fullName': document['fullName'], 'author': currentAuthor}, {$set: {'ableToDrink': newVal}});
     }).then(() => {
         collection.find({"author": currentAuthor}).toArray(function (err, results) {
@@ -147,6 +145,6 @@ let getDrinkingValidity = function (birthday) {
 };
 
 // set port to listen
-let listener = app.listen(3000, () => {
+let listener = app.listen(process.env.PORT, () => {
     console.log("App is listening on port: " + listener.address().port);
 });
