@@ -11,3 +11,23 @@
     align-items: center;
 }
 
+svg {
+    fill: white;
+    stroke: white;
+}
+
+path {
+    fill: white;
+    stroke: white;
+}
+
+.playerButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 2rem;
+}
+
+.btn-icon {
+    font-size: 2rem !important;
+}

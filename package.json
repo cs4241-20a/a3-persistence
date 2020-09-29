@@ -12,7 +12,6 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "abcjs": "^5.12.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",

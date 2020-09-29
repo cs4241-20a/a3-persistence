@@ -11,8 +11,7 @@
       type="text/css"
     />
     <script src="/js/lib/materialize.min.js"></script>
-    <script src="/js/lib/abcjs.min.js"></script>
-    <script src="/js/lib/tone.min.js"></script>
+    <script src="/js/lib/abcjs2.min.js"></script>
     <link href="/css/index.css" rel="stylesheet" type="text/css" />
     <link href="/css/base.css" rel="stylesheet" type="text/css" />
     <title>Note | Home</title>
@@ -78,7 +77,6 @@
           </header>
           <section class="card-content">
             <p class="flow-text white-text">
-              Welcome back! The last song you were working on was ???. You had the song up to ??? tempo, at % of its original. Daily practice is the key to success.
             </p>
             <aside class="card-action">
             <a href="/songs/id">Latest Song</a>
@@ -97,7 +95,7 @@
                 <p class="flow-text white-text">
                     This is an example music player. 
                 </p>
-                <form class="container form">
+                <form id="songForm" class="container form" enctype="multipart/form-data">
                     <label for="songName" class="songName white-text">
                         Song name
                     </label>
@@ -118,12 +116,20 @@
                             name="fileUpload"
                             type="file"
                         />
-                        <button class="btn waves-effect waves-light teal accent-3 black-text" type="submit" name="action" id="login">
+                        <button class="btn waves-effect waves-light teal accent-3 black-text" type="submit" name="action" id="uploadXML">
                             Submit
                                 <i class="material-icons right">send</i>
                         </button>
                     </div>
                 </form>
+                <aside class="center-align">
+                  <div class="playerButtons">
+                    <button class="waves-effect waves-light btn-large orange darken-4 white-text" id="playButton"><i class="material-icons medium btn-icon">play_circle_outline</i></button>
+                    <button class="waves-effect waves-light btn-large orange darken-4 white-text" id="pauseButton"><i class="material-icons medium btn-icon">pause_circle_outline</i></button>
+                    <button class="waves-effect waves-light btn-large red darken-4 white-text" id="stopButton"><i class="material-icons medium btn-icon">stop</i></button>
+                  </div>               
+                  <div id="abcjsRender"></div>
+                </aside>
               </header>
           </div>
       </article>

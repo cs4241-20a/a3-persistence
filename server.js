@@ -1,3 +1,5 @@
+const { Store } = require("express-session");
+
 require("dotenv").config();
 const express = require("express"),
   serveStatic = require("serve-static"), //1
@@ -10,7 +12,18 @@ const express = require("express"),
   session = require("express-session"), //3
   bodyParser = require("body-parser"), //4
   passport = require("passport"), //5
+  fs = require('fs'),
   multer = require("multer"), //6
+  storage = multer.diskStorage({
+    destination: function(req, file, done){
+      done(null, 'public/temp/')
+    },
+    filename: function(req, file, done){
+      console.log(file.originalname)
+      done(null, Date.now() + path.extname(file.originalname))
+    }
+  })
+  upload = multer({storage: storage})
   LocalStrategy = require("passport-local").Strategy,
   bcrypt = require("bcrypt"),
   mongoUri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@a3.xvhzl.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
@@ -21,7 +34,7 @@ const client = new MongoClient(mongoUri, {
   useUnifiedTopology: true,
 });
 client.connect();
-app.use(bodyParser.json());
+app.use(bodyParser.json({'limit': '50mb'}));
 
 const userReg = (username, password, email) => {
   return new Promise((resolve, reject) => {
@@ -371,17 +384,72 @@ app.post("/login", function (req, res, next) {
   }
 });
 
-//Running a python script in the console
-// let enddata = '';
-// const python = spawn('python3', ['./lib/xml2abc.py'])
-// python.stdout.on('data', function(data) {
-//     console.log('pipe data from python script ,,,')
-//     enddata += data.toString()
-// })
-// python.on('close', (code) => {
-//     console.log(`child process close all stdio with code ${code}`)
-//     console.log(enddata.slice(0,-1))
-// })
+app.post("/uploadXML", upload.single('xmlFile'), (req, res) => {
+  console.log(req.file.path)
+  parseXML(req.file.path).then((result) => {
+    fs.unlink(req.file.path, (err) => {
+      console.log(err)
+      if(err){
+        res.writeHead(500)
+        res.end(JSON.stringify({
+          error: err
+        }))
+      }
+      else {
+        console.log(req.user)
+        res.writeHead(200)
+        res.end(JSON.stringify({
+          abcString: result
+        }))
+      }
+    })
+    
+  })
+  .catch((err) => {
+    fs.unlink(req.file.path, (error) => {
+      if(error){
+        console.log(error)
+      }
+      res.writeHead(500)
+      res.end(JSON.stringify({
+        error: err
+      }))
+    })
+  })
+  // .catch((err) => {
+  //   console.log("err found")
+  //   fs.unlink(req.file.path).then((success) => {
+  //     res.writeHead(500)
+  //     res.end(JSON.stringify({
+  //       error: err
+  //     }))
+  //   }).catch((err) => {
+  //     res.writeHead(500)
+  //     res.end(JSON.stringify({error: err}))
+  //   })
+  // })
+})
+// Running a python script in the console
+
+const parseXML = (filePath) => {
+  let xmlParseResult = '';
+  return new Promise((resolve) => {
+    errres = '';
+    const python = spawn('python3', ['./lib/xml2abc.py', filePath])
+    python.stdout.on('data', function(data) {
+      console.log("success")
+        xmlParseResult += data.toString()
+    })
+    python.stderr.on('data', function(data) {
+      errres += data
+    })
+    python.on('close', (code) => {
+      const final = xmlParseResult.trim()
+        resolve(final)
+    })
+  })
+}
+
 app.use(
     serveStatic(path.join(__dirname, "public/statics"), {
       index: "index.html",
