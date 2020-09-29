@@ -9,12 +9,11 @@ const start = () => {
 		fetch('/githubUserName?access_token=' + url.searchParams.get('access_token'))
 			.then(res => res.json())
 			.then(res => {
-				console.log(res);
 				document.querySelector("#name").innerText = res.name;
 				username = res.login;
 
 				let loginData = {'name': res.name, 'user': res.login, 'password': res.node_id};
-				console.log(loginData);
+
 				fetch('/createAccount', {
 					method: 'POST',
 					body: JSON.stringify(loginData),
@@ -22,7 +21,7 @@ const start = () => {
 				})
 				.then((res) => res.text())
 				.then((res) => {
-					console.log(res); 
+
 					sessionId = res;
 					newScrambled();
 					updateScores();
@@ -86,7 +85,7 @@ const updateScores = () => {
 			insertDiv.innerHTML = '';
 
 			Object.keys(scores).forEach((key, i) => {
-  				let ele = document.createElement('tr');
+  				let ele = document.createElement('h6');
   				ele.innerHTML = `${scores[key].name}: ${scores[key].score}`;
   				insertDiv.appendChild(ele);
 			});
@@ -113,9 +112,9 @@ const changeInputUnderlines = () => {  // Change all the css styling needed for 
 	input.value = '';
 	input.dataset.hint = '';
 	input.maxLength = length;
-	input.style.width = `${totalWidth}ch`;
-	input.style.letterSpacing = `${gap}ch`;
-	input.style.background = `repeating-linear-gradient(to right, black 0, black ${charWidth}ch, transparent 0, transparent ${charWidth + gap}ch) 0 100% / ${totalWidth - gap}ch 2px no-repeat`;
+	// input.style.width = `${totalWidth}ch !important`;
+	// input.style.letterSpacing = `${gap}ch !important`;
+	// input.style.background = `repeating-linear-gradient(to right, black 0, black ${charWidth}ch, transparent 0, transparent ${charWidth + gap}ch) 0 100% / ${totalWidth - gap}ch 2px no-repeat !important`;
 }
 
 
@@ -134,7 +133,7 @@ const newScrambled = () => { // Changes the scrambled word to a new one from the
 
 const guessWord = (guess) => { // takes in a value and sends it to the server to see if its correct
 	let data = JSON.stringify({'guess': guess});
-	console.log(data, guess);
+
 	fetch('/guess?id=' + sessionId + '&user=' + username + '&guess=' + guess, {
 		method: 'GET'
 	}).then((res) => {

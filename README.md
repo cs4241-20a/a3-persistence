@@ -7,37 +7,38 @@ Author: Abhijay Thammana
 
 Demo: https://a3-athammana.herokuapp.com/
 
-Acheivements
 ---
 
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
+## Unscramble v2!
 
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
 
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
+Unscramble v2!
+	The app differs from the first one because of the sign in ability and the connection to a databse. Now you can verse your friends or other strangers if you don't have any. The website opens up to a login page that offers your three options. You can create an account, sign in with your preexisting username and password, or sign in with your github account. Once you are logged in the app handles all the backend work for you. It carries your identifying information (Username) and assigns it to an id so it can be unique in all of the app's database. The database has 3 tables. One table handles the current word for a given person. One handles all of the scores, in progress ones are tied to an id, while others are not. And lastly a table with all the user information. All accounts, including github oauth accounts, have a username, id, and a encrypted password. Every call made to the database is through the server. 
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
+Goal
+	The application basically works as a standalone app that anyone can sign in, and then try to beat the high score in Unscramble! to get their name to the top of the leaderboard. The premis is pretty simple, but there are a decent amount of nuances involved in the app.
 
-## Your Web Application Title
+Challenges
+	I had a lot of trouble porting my application form a3 into one that uses a database. The old was and is very messy. The database access was also a bit hard, because there were a lot of promises involved as well as MongoClient.Connects. I also kept running into bugs that I didn't understand because of all the new technologies I used, like a database, oauth and a css framework. All of those were new for me so it was definitely a slow learning curve.
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+Authentication
+	I chose to challenge myself. I went with both oauth, a username password thing, and bcrypt to secure the passwords. I chose the oauth because of the extra points, the username and password because I wanted to see if I could actually make a username password system. It was easier that I thought, I was not able to do any crazy authentication on the main page to make sure you're are logged in or something though.
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+CSS framework
+	I chose to go with the framework 'Materialize', because it contains an easy enough way to work with grids. It also contains a lot of components that add a lot to the webpages functionality. It also makes everything look better. For extra styles, I added a background with a couple svg blobs from 'https://www.blobmaker.app/' and I also set the font size and family to make sure it was constant. There was also a need for an incorrect class that turned the text red, and an on focus class that made the text plum because its my favorite color. I also added some inline styles for the main input field, because it was making it look horrible without them.
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+
+Express Middleware Packages
+	- Body-Parser: Parse the request bodies beforethey come into the handler functions so you can actually read them
+	- CORS: Enables: CORS so you can safely make requests to outside domains
+	- ErrorHandler: Gives a function that logs the errors and sends a request with an error http code
+	- Serve-Favicon: Sets a favicon for app's pages
+	- Helmet: Sets a ton of HTTP headers that protect your website from evil hackers and stuff
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: I used Oauth via the Github Strategy. I didn't use the library because it seemed complicated, but I just processed the callback and kept the access token with the user
+- **Tech Achievement 2**: I hosted my app on heroku. This was SIGNIFICANTLY better. Heroku is actually a godsend. Everything was easier that glitch, and you can do it all from the terminal. Also it doesn't look like it puts my webpage to sleep after a long period of inactivity.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Design Achievement 1**: I think I followed all the tips from the website. My website doesn't really have any pictures or crowded text, so it is pretty simple to complete the desired tasks.
+- **Design Achievement 2**: Didn't do this 
