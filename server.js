@@ -5,6 +5,9 @@ const passport = require("passport");
 const GitHubStrategy = require("passport-github").Strategy;
 const cookieParser = require("cookie-parser");
 var session = require("express-session");
+
+var compression = require('compression')
+
 app.use(cookieParser());
 
 app.use(
@@ -14,6 +17,9 @@ app.use(
     resave: true
   })
 );
+
+
+
 
 app.use(passport.initialize());
 
@@ -145,8 +151,9 @@ app.post("/login/account", bodyparser.json(), async function(
   }
   console.log("The account used for logging in is", presentAccountID);
   request.session.accountSession = presentAccountID;
-  response.redirect("./");
-
+  //response.redirect("/mylists.html");
+  //response.redirect = "/mylists.html";
+  response.body = response.json(true);
   client.close();
 });
 

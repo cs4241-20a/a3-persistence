@@ -20,7 +20,9 @@ const login = function( e ) {
     body:    JSON.stringify( data )
   }).then(function(response){
     window.location.href = '/mylists.html';
-    console.log(response.username)
+     //window.location = ;
+    //response.redirect()
+    console.log(response.url)
   })
 
 }
