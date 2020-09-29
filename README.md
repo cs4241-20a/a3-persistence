@@ -4,8 +4,15 @@ Bryce Corbitt
 http://mbsr.wpi.edu:2020
 
 ## ~~Glitch~~ Drive++
-***Drive++*** is a new and improved version of my prior assignment, **Glitch Drive** that has an account system and is no longer served via Glitch. Users may sign in/up using their Google account. Uploader name and upload title may be edited after upload. A password key is no longer needed when submitting a new file.
+***Drive++*** is a new and improved version of my prior assignment, **Glitch Drive** that has an account system and is no longer served via Glitch. Users may sign in/up using their Google account. Uploader name and upload title may be edited after upload. A password key is no longer needed when submitting a new file; edit and delete controls only show on the files tied to your account. Clicking the "Your Uploads" button on the Home Screen while being logged in will take you to a custom upload page that only shows your uploaded files.
 
+### Screenshots:
+#### Home Screen
+![Home Screen](https://i.imgur.com/kUgAy4c.png)
+#### Home Screen (logged in)
+![Home Screen (logged in)](https://i.imgur.com/x01uLqc.png)
+#### Uploads Screen
+![Uploads Screen](https://i.imgur.com/xI0WY90.png)
 
 ### HTML:
 - text input and file input tags are used in the form submission.
@@ -21,16 +28,18 @@ Custom framework overriding styles include the following:
 - Both inline-flexboxes and grids were used in positioning
 
 
-JavaScript:
+### JavaScript:
 - fetch requests are used in the front-end to submit deletion and edit requests for uploads, as well as to fill status information on the gauge.
 - Script is used to transform the UTC upload timestamps to the local time of the browser.
 
-Node.js:
+### Node.js:
 - Express framework was used along with the Pug.js view engine.
+- uuid used for generating unique file IDS for being stored.
+- express-session used for maintaining user session.
 - Mongoose ODM was used for interfacing with MongoDB database.
 - Passport used for OAuth2 authentication.
 - dotenv used to load environment variables.
-- Multer library used for parsing and storing the uploaded files. I hadn't used it before, so it was pretty fun to learn.
+- Multer library used for parsing and storing the uploaded files.
 
 
 
