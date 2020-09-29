@@ -1,0 +1,19 @@
+{
+  "name": "todolist",
+  "version": "1.0",
+  "description": "Todo list with authentication and database storage",
+  "author": "acdesveaux",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "body-parser": "^1.19.0",
+    "mongodb": "^3.6.2",
+    "dotenv": "^8.2.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "helmet": "^4.1.1",
+    "errorhandler": "^1.5.1"
+  }
+}
