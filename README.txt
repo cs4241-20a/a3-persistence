@@ -26,3 +26,6 @@ I had expected, and I could not get it to work correctly.  I used the water.css 
 colors and simple aesthetic.  See above for description of middleware.  I did not do any achievements because the
 authentication and mongodb connection parts of the assignment took much longer than I expected.  (I tried to deploy
 using heroku but kept getting strange errors)
+
+IMPORTANT: Please message me on teams or email if glitch isn't properly getting the packages and the application isn't loading.  As of now, submitting the assignment,
+it is working but I had issues with glitch on my last assignment - having to run npm install repeatedly.
