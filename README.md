@@ -3,7 +3,7 @@
 [Heroku Link](https://a3-yongcheng-liu.herokuapp.com/)  
   
 
-In this assignment, I have managed to do the following:
+In this assignment, I have managed to do the following:  
     - 1. Server: The server is completely written off express, which can be checked in server.js  
         - Five Middleware Packages: 1. body parser. 2. error handler. 3. dotenv (for .env file locally) 4. response time 5. connection timeout 6. node statsd  
     - 2. Results Functionality + Form Entry + CSS(BootStrap) + HTML Input Tags:   
