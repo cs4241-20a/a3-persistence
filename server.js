@@ -7,7 +7,6 @@ const fs   = require("fs"),
       mongo = require("mongodb"),
       passport = require("passport"),
       bodyParser = require("body-parser"),
-      cors = require("cors"),
       morganLogger = require("morgan"),
       port = process.env.PORT || 3000;
 
@@ -16,8 +15,6 @@ app.listen(port);
 /////////////////// Middleware Initialization /////////////////////////
 //Automatically send out contents of public folder
 app.use(express.static("./public"));
-
-app.use(cors());
 
 //Set up logging of incoming requests
 let logfile = fs.createWriteStream("serverRequests.log");
