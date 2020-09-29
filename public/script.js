@@ -19,7 +19,7 @@ async function loadDB() {
         <h3>${post.title}</h3>
         <img height = "400px" width = "400px" src="${post.image}">
         <div class="buyinginfo"><p>This item hasn't been sold yet</p> <div></div>
-        <p>${post.price}</p></div>
+        <p>$${post.price}.00</p><div></div></div>
         <div style="margin-top: 20px;" id="${post.title}commentsection"><button id="viewcomments${post.title}">View comments</button></div>
         <div class="addcomment"><div></div><input type="text" id="${post.title}commentbox" placeholder="Add a comment..."><button id="${post.title}commentbutton">Submit</button> <div></div></div>
         </div>
