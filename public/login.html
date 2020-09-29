@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <style src="/style1.css"></style>
+  <title>CS4241 Assignment 2</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="/style1.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+</head>
+<body>
+  
+  <form>
+    <label>
+      <h3>
+        Login
+      </h3>
+      <p>
+        <i>Please enter your user information:</i>
+      </p>
+      <input id="user" type="text" maxlength="100" for="username" required placeholder="Username">
+      <input id="pass" type="text" maxlength="100" for="password" required placeholder="Password">
+    </label>
+    <button type="submit" id="submit-dream" class="pure-button pure-button-primary">Login</button>
+  </form>
+
+<div id="background">
+  
+</div>
+
+</body>
+<script>
+  
+  // client-side js, loaded by index.html
+// run by the browser each time the page is loaded
+
+// define variables that reference elements on our page
+const dreamsList = document.getElementById("results");
+const dreamsForm = document.querySelector("form");
+
+var inputU = "";
+var inputP = "";
+
+// a helper function that creates a list item for a given dream
+function checkUandP(data) {
+  
+  if(data.length == 2){
+    if(inputU == data[0] && inputP == data[1]){
+      window.location = "./professor.html";
+    }
+    else {
+      alert("Incorrect username or password");
+    }
+  }
+  else if(data.length == 3){
+    if(inputU == data[0] && inputP == data[1] && "New User" == data[2]){
+      alert("You have created a new account since you are the first user.");
+      window.location = "./professor.html";
+    }
+    else {
+      alert("Incorrect username or password");
+    }
+  }
+  else{
+    console.log(data)
+    alert("Incorrect username or password");
+  }
+}
+
+// listen for the form to be submitted and add a new dream when it is
+    const submit = function(e) {
+      console.log("submitting");
+      // stop our form submission from refreshing the page
+      event.preventDefault();
+      inputU = document.getElementById("user").value;
+      inputP = document.getElementById("pass").value;
+      var loginInfo = document.getElementById("user").value + " " + document.getElementById("pass").value;
+      console.log(loginInfo);
+       
+      fetch("/login", {
+        method:'POST',
+        body:JSON.stringify({ dream:loginInfo}),
+        headers:{
+          "Content-Type":"application/json"
+        }
+      })
+      .then( response => response.json() )
+      .then( json => {
+        checkUandP(json[0]);
+      })
+    };
+
+window.onload = function() {
+    button = document.getElementById( 'submit-dream' );
+    button.onclick = submit;
+  }
+
+</script>
+</html>

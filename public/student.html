@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <style src="/style1.css"></style>
+  <title>CS4241 Assignment 2</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="/style1.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+</head>
+<body>
+  <div id="forms">
+    <form style="float:right;">
+      <label>
+        <h3>
+          Enroll in a class!
+        </h3>
+        <p>
+          <i>Enter your information seperated by space(" ") charecters.</i>
+        </p>
+        <textarea name="dream" type="text" maxlength="100" for="enroll information" required placeholder="First-N Last-N Grade # D.O.G."></textarea>
+      </label>
+      <button type="submit" id="submit-dream" class="pure-button pure-button-primary">Enroll</button>
+    </form>
+  
+    <form style="float:right;">
+      <label>
+        <h3>
+          Drop a class!
+        </h3>
+        <p>
+          <i>Enter your First and Last name seperated by a space(" ").</i>
+        </p>
+        <input id="removeItem" for="first and last name" type="text" maxlength="100" required placeholder="First-Name Last-Name">
+      </label>
+      <button type="delete" id="delete-dream" class="pure-button pure-button-primary">Drop</button>
+    </form>
+      
+    <form style="float:right;">
+      <label>
+        <h3>
+          Modify Enrollment Information:
+        </h3>
+        <input name="mod-dream" id="mod-dream" type="text" for="current student information" required placeholder="First-Name Last-Name">
+      </label>
+      <label>
+        <p>
+          Replace with: 
+        </p>
+        <textarea name="new-dream" id="new-dream" type="text" maxlength="100" for="updated student information" required placeholder="First-N Last-N Grade # D.O.G."></textarea>
+      </label>
+      <button type="submit" class="pure-button pure-button-primary" id="mod-submit-dream">Update Info</button>
+    </form>
+  </div>
+<div id="background">
+  
+</div>
+<div class="content" style="float:left;">
+
+  <h1 id="header" style="margin:20px;">Your Class Roster:</h1>
+  <table id="results" >
+    <colgroup>
+      <col span="5">
+    </colgroup>
+    <tr>
+      <th class="title">First Name</th>
+      <th class="title">Last Name</th>
+      <th class="title">Grade</th>
+      <th class="title"># Accidents</th>
+      <th class="title">D.O.G. (Date of Graduaton)</th>
+    </tr>
+  </table>
+</div>
+</body>
+<script>
+  
+  // client-side js, loaded by index.html
+// run by the browser each time the page is loaded
+
+// define variables that reference elements on our page
+const dreamsList = document.getElementById("results");
+const dreamsForm = document.querySelector("form");
+
+// a helper function that creates a list item for a given dream
+function appendNewDream(dream) {
+  
+  var row = document.getElementById("results").insertRow(1);
+  var fn = row.insertCell(0);
+  var ln = row.insertCell(1);
+  var grade = row.insertCell(2);
+  var accidents = row.insertCell(3);
+  var dog = row.insertCell(4);
+  
+  var res = dream.split(" ");
+  
+  if(res.length <= 0) {
+    fn.innerHTML = "No Name Given";
+    ln.innerHTML = "No Last Name Given";
+    grade = "No Data Given";
+    accidents = "No Data Given";
+    dog = "No Data Given";
+  }
+  else if(res.length == 1){
+    fn.innerHTML = res[0];
+    ln.innerHTML = "No Last Name Given";
+    grade.innerHTML = "No Data Given";
+    accidents.innerHTML = "No Data Given";
+    dog.innerHTML = "No Data Given";
+  }
+  else if(res.length == 2){
+    fn.innerHTML = res[0];
+    ln.innerHTML = res[1];
+    grade.innerHTML = "No Data Given";
+    accidents.innerHTML = "No Data Given";
+    dog.innerHTML = "No Data Given";
+  }
+  else if(res.length == 3){
+    fn.innerHTML = res[0];
+    ln.innerHTML = res[1];
+    grade.innerHTML = res[2];
+    accidents.innerHTML = "No Data Given";
+    dog.innerHTML = "No Data Given";
+  }
+  else if(res.length == 4){
+    fn.innerHTML = res[0];
+    ln.innerHTML = res[1];
+    grade.innerHTML = res[2];
+    accidents.innerHTML = res[3];
+    dog.innerHTML = "No Data Given";
+  }
+  else{
+    fn.innerHTML = res[0];
+    ln.innerHTML = res[1];
+    grade.innerHTML = res[2];
+    accidents.innerHTML = res[3];
+    dog.innerHTML = res[4];
+  }
+  // var tBox = document.createElement('input');
+  //                       tBox.setAttribute('type', 'checkbox');
+  //                       tBox.setAttribute('value', '');
+  //                       remove.appendChild(tBox);
+  
+  //const newListItem = document.createElement("li");
+  //newListItem.innerText = dream;
+  //dreamsList.appendChild(newListItem);
+}
+
+// fetch the initial list of dreams
+fetch("/dreams")
+  .then(response => response.json()) // parse the JSON from the server
+  .then(dreams => {
+    // remove the loading text
+    dreamsList.firstElementChild.remove();
+  
+    // iterate through every dream and add it to our page
+    dreams.forEach(appendNewDream);
+  });
+
+// listen for the form to be submitted and add a new dream when it is
+    const submit = function(e) {
+      console.log("submitting");
+      // stop our form submission from refreshing the page
+      event.preventDefault();
+      
+      fetch("/add", {
+        method:'POST',
+        body:JSON.stringify({ dream:dreamsForm.elements.dream.value}),
+        headers:{
+          "Content-Type":"application/json"
+        }
+      })
+      .then( response => response.json() )
+      .then( json => {
+        appendNewDream( json.dream );
+      })
+
+      // reset form
+      dreamsForm.reset();
+      dreamsForm.elements.dream.focus();
+    };
+
+    const remove = function(e){
+      
+      console.log("removing");
+      
+      // stop our form submission from refreshing the page
+      event.preventDefault();
+      
+      fetch("/remove", {
+        method:'delete',
+        body:JSON.stringify({ dream:document.getElementById("removeItem").value}),
+        headers:{
+          "Content-Type":"application/json"
+        }
+      })
+      .then( response => response.json() )
+      .then( dreams => {
+        var tableHeaderRowCount = 1;
+        var table = document.getElementById('results');
+        var rowCount = table.rows.length;
+        for (var i = tableHeaderRowCount; i < rowCount; i++) {
+          table.deleteRow(tableHeaderRowCount);
+        }
+        
+        // iterate through every dream and add it to our page
+        dreams.forEach(appendNewDream);
+      })
+
+      // reset form
+      dreamsForm.reset();
+      dreamsForm.elements.dream.focus();
+      
+    };
+
+const modify = function(e){
+      
+      console.log("modifying");
+  
+      var passIn = document.getElementById("mod-dream").value + " : " + document.getElementById("new-dream").value;
+  
+      // stop our form submission from refreshing the page
+      event.preventDefault();
+      
+      fetch("/modify", {
+        method:'POST',
+        body:JSON.stringify({ dream:passIn}),
+        headers:{
+          "Content-Type":"application/json"
+        }
+      })
+      .then( response => response.json() )
+      .then( dreams => {
+        var tableHeaderRowCount = 1;
+        var table = document.getElementById('results');
+        var rowCount = table.rows.length;
+        for (var i = tableHeaderRowCount; i < rowCount; i++) {
+          table.deleteRow(tableHeaderRowCount);
+        }
+        
+        // iterate through every dream and add it to our page
+        dreams.forEach(appendNewDream);
+      })
+
+      // reset form
+      dreamsForm.reset();
+      dreamsForm.elements.dream.focus();
+      
+    };
+
+window.onload = function() {
+    var button = document.getElementById( 'delete-dream' );
+    button.onclick = remove;
+    button = document.getElementById( 'submit-dream' );
+    button.onclick = submit;
+    button = document.getElementById( 'mod-submit-dream' );
+    button.onclick = modify;
+  }
+
+</script>
+</html>

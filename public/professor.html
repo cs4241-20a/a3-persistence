@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <style src="/style1.css"></style>
+  <title>CS4241 Assignment 2</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="/style1.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+</head>
+<body>
+
+<div id="background">
+  
+</div>
+<div class="content">
+  <h1 id="header" style="margin:20px;">Your Class Roster:</h1>
+  <table id="results">
+    <colgroup>
+      <col span="5">
+    </colgroup>
+    <tr>
+      <th class="title">First Name</th>
+      <th class="title">Last Name</th>
+      <th class="title">Grade</th>
+      <th class="title"># Accidents</th>
+      <th class="title">D.O.G. (Date of Graduaton)</th>
+      <th class="title">Grade</th>
+    </tr>
+  </table>
+</div>
+</body>
+<script>
+  
+  // client-side js, loaded by index.html
+// run by the browser each time the page is loaded
+
+// define variables that reference elements on our page
+const dreamsList = document.getElementById("results");
+const dreamsForm = document.querySelector("form");
+
+// a helper function that creates a list item for a given dream
+function appendNewDream(dream) {
+  
+  var row = document.getElementById("results").insertRow(1);
+  var fn = row.insertCell(0);
+  var ln = row.insertCell(1);
+  var grade = row.insertCell(2);
+  var accidents = row.insertCell(3);
+  var dog = row.insertCell(4);
+  var score = row.insertCell(5);
+  
+  var res = dream.split(" ");
+  
+  if(res.length <= 0) {
+    fn.innerHTML = "No Name Given";
+    ln.innerHTML = "No Last Name Given";
+    grade.innerHTML = "No Data Given";
+    accidents.innerHTML = "No Data Given";
+    dog.innerHTML = "No Data Given";
+    score.innerHTML = "No-Grades";
+  }
+  else if(res.length == 1){
+    fn.innerHTML = res[0];
+    ln.innerHTML = "No Last Name Given";
+    grade.innerHTML = "No Data Given";
+    accidents.innerHTML = "No Data Given";
+    dog.innerHTML = "No Data Given";
+    score.innerHTML = "No-Grades";
+  }
+  else if(res.length == 2){
+    fn.innerHTML = res[0];
+    ln.innerHTML = res[1];
+    grade.innerHTML = "No Data Given";
+    accidents.innerHTML = "No Data Given";
+    dog.innerHTML = "No Data Given";
+    score.innerHTML = "No-Grades";
+  }
+  else if(res.length == 3){
+    fn.innerHTML = res[0];
+    ln.innerHTML = res[1];
+    grade.innerHTML = res[2];
+    accidents.innerHTML = "No Data Given";
+    dog.innerHTML = "No Data Given";
+    score.innerHTML = "No-Grades";
+  }
+  else if(res.length == 4){
+    fn.innerHTML = res[0];
+    ln.innerHTML = res[1];
+    grade.innerHTML = res[2];
+    accidents.innerHTML = res[3];
+    dog.innerHTML = "No Data Given";
+    score.innerHTML = "No-Grades";
+  }
+  else if(res.length == 5){
+    fn.innerHTML = res[0];
+    ln.innerHTML = res[1];
+    grade.innerHTML = res[2];
+    accidents.innerHTML = res[3];
+    dog.innerHTML = res[4];
+    score.innerHTML = "No-Grades";
+  }
+  else{
+    fn.innerHTML = res[0];
+    ln.innerHTML = res[1];
+    grade.innerHTML = res[2];
+    accidents.innerHTML = res[3];
+    dog.innerHTML = res[4];
+    score.innerHTML = res[5];
+  }
+  
+  //const newListItem = document.createElement("li");
+  //newListItem.innerText = dream;
+  //dreamsList.appendChild(newListItem);
+}
+
+// fetch the initial list of dreams
+fetch("/dreams")
+  .then(response => response.json()) // parse the JSON from the server
+  .then(dreams => {
+    // remove the loading text
+    dreamsList.firstElementChild.remove();
+  
+    // iterate through every dream and add it to our page
+    dreams.forEach(appendNewDream);
+  });
+
+// listen for the form to be submitted and add a new dream when it is
+    const submit = function(e) {
+      console.log("submitting");
+      // stop our form submission from refreshing the page
+      event.preventDefault();
+      
+      fetch("/add", {
+        method:'POST',
+        body:JSON.stringify({ dream:dreamsForm.elements.dream.value}),
+        headers:{
+          "Content-Type":"application/json"
+        }
+      })
+      .then( response => response.json() )
+      .then( json => {
+        appendNewDream( json.dream );
+      })
+
+      // reset form
+      dreamsForm.reset();
+      dreamsForm.elements.dream.focus();
+    };
+
+    const remove = function(e){
+      
+      console.log("removing");
+      
+      // stop our form submission from refreshing the page
+      event.preventDefault();
+      
+      fetch("/remove", {
+        method:'delete',
+        body:JSON.stringify({ dream:dreamsForm.elements.dream.value}),
+        headers:{
+          "Content-Type":"application/json"
+        }
+      })
+      .then( response => response.json() )
+      .then( dreams => {
+        var tableHeaderRowCount = 1;
+        var table = document.getElementById('results');
+        var rowCount = table.rows.length;
+        for (var i = tableHeaderRowCount; i < rowCount; i++) {
+          table.deleteRow(tableHeaderRowCount);
+        }
+        
+        // iterate through every dream and add it to our page
+        dreams.forEach(appendNewDream);
+      })
+
+      // reset form
+      dreamsForm.reset();
+      dreamsForm.elements.dream.focus();
+      
+    };
+
+const modify = function(e){
+      
+      console.log("modifying");
+      
+    };
+
+</script>
+</html>
