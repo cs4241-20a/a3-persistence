@@ -4,6 +4,7 @@
 // define variables that reference elements on our page
 const dreamsList = document.getElementById("dreams");
 const dreamsTable = document.getElementById("dreams2");
+const dreamsTable2 = document.getElementById("dreams3");
 const dreamsForm = document.getElementById("dreamsForm");
 const loginForm = document.getElementById("loginForm");
 
@@ -67,6 +68,34 @@ fetch("/dreams", {
     dreams.forEach(appendNewDreamRow);
   });
 //   .catch(error => alert(error.message));
+
+/* START of ann's bad idea */
+//helper fucntion that creates a table row for a given dream
+function appendNewDreamRow(dreamItem, id) {
+    const newTableItem = document.createElement("tr");
+    var cell1 = newTableItem.insertCell(0)
+    var cell2 = newTableItem.insertCell(1)
+    var cell3 = newTableItem.insertCell(2)
+    var cell4 = newTableItem.insertCell(3)
+    var cell5 = newTableItem.insertCell(4)
+    cell1.innerText = dreamItem.dream;
+    cell2.innerText = dreamItem.scoops;
+    cell3.innerText = dreamItem.sprinkles;
+    cell4.innerText = 'DELETE'
+    cell5.innerText = 'UPDATE'
+      
+    dreamsTable2.appendChild(newTableItem);
+  }
+fetch("/dreams2", {
+    method: "GET"
+  })
+    .then(response => response.json()) // parse the JSON from the server
+    .then(dreams => {
+   
+      // iterate through every dream and add it to our page
+      dreams.forEach(appendNewDreamRow);
+    });
+/* END of ann's bad idea */
 
 // listen for the form to be submitted and add a new dream when it is
 dreamsForm.addEventListener("submit", event => {
