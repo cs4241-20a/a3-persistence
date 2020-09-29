@@ -1,0 +1,19 @@
+.submit {
+    cursor: pointer;
+}
+
+.modify {
+    border:none;    
+}
+.modify input {
+    visibility:hidden;
+    font-size:10px;
+}
+
+img {
+    width:100%;
+}
+
+.info {
+    font-style:italic;
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <title>Data • MTG Custom Card Creator</title>
+        <link rel="stylesheet" href="css/style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" id="welcome" href="">Welcome back, </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="/data.html">My Cards</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tutorial.html">Tutorial</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="signout" href="#">Sign Out</a>
+                  </li>
+                
+              </ul>
+              
+            </div>
+          </nav>
+        <div class="container">
+            <div class="jumbotron">
+                <h1>'s Custom Cards</h1>
+            </div>
+            
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Mana Cost</th>
+                        <th>Card Type</th>
+                        <th>Abilities</th>
+                        <th>Flavor Text</th>
+                        <th>Rarity</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <br>
+            <h2>Add a card below:</h2>
+            <br>
+            <form>
+                <div class="row text-right">
+                    <div class="col-sm-4">
+                        <label for="name">Name</label>
+                        <input class='addCard' type='text' id="name" name="name">
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="manacost">Mana Cost</label>
+                        <input class='addCard' type='text' id="manacost" name="manacost">
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="cardtype">Card Type</label>
+                        <input class='addCard' type='text' id="cardtype" name="cardtype">
+                    </div>
+                </div>
+                <div class="row text-right">
+                    <div class="col-sm-4">
+                        <label for="abilities">Abilities</label>
+                        <textarea class='addCard' id="abilities" name="abilities"></textarea>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="flavortext">Flavor Text</label>
+                        <textarea class='addCard' id="flavortext" name="flavortext"></textarea>
+                        <br><br>
+                        <input type="submit" value="Forge My Card" id="addCard">
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <label>Rarity</label>
+                        <div class="text-left row">
+                            
+                        <div class="col-sm-7">
+                            <input type="radio" id="common" name="rarity" value="common">
+                            <label for="common">Common</label><br>
+                            <input type="radio" id="uncommon" name="rarity" value="uncommon">
+                            <label for="uncommon">Uncommon</label><br>
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="radio" id="rare" name="rarity" value="rare">
+                            <label for="rare">Rare</label><br>
+                            <input type="radio" id="mythic" name="rarity" value="mythic">
+                            <label for="mythic">Mythic</label>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <br>
+        </div>
+        <script src="js/datascript.js"></script>
+    </body>
+</html>
