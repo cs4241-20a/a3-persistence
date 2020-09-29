@@ -12,7 +12,7 @@ function getItems(username) {
         })
 }
 
-//Edit a field using a prompt
+//Edit a field
 function editField(e) {
     let textNode = e.target.parentElement.firstChild;
     let entryID = e.target.parentElement.parentElement.id;
@@ -36,7 +36,7 @@ function editField(e) {
         })
 }
 
-//Delete an item from the database and list
+//Delete an item
 function deleteItem(e) {
     let row = e.target.parentElement.parentElement;
     fetch('/delete', {
@@ -51,11 +51,9 @@ function deleteItem(e) {
         })
 }
 
-//Add one json object to the table as the last row
+//Add an object to the table
 function addTableEntry(jsonData) {
-    //Find the table
     const tableBody = document.getElementById("taskBody");
-    //Insert a new row and then new cells
     let row = tableBody.insertRow(-1);
     row.id = jsonData["_id"];
 
@@ -78,7 +76,7 @@ function addTableEntry(jsonData) {
     row.insertCell(4).innerHTML = "<button title=\"Delete\" class=\"delete\">Delete</button>";
 }
 
-//Submits form data to the server
+//Submit form data
 function submitFormData(e) {
     e.preventDefault();
     let data = {};
@@ -107,7 +105,7 @@ function submitFormData(e) {
         });
 }
 
-//Tries to log in the user
+//Logs in
 function login(e) {
     e.preventDefault();
 
@@ -156,7 +154,7 @@ function newAccount(e) {
         })
 }
 
-//Handles edit button clicks and delete button clicks
+//Handles buttons
 function clickHandler(e) {
     if (e.target.tagName === "BUTTON") {
         if (e.target.className === "edit") {

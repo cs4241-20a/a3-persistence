@@ -116,7 +116,7 @@ app.post('/login', bodyParser.json(),
 let server = null;
 waitForElement();
 
-//Wait for the database connection to be made before the server
+//Wait for the connection to database
 function waitForElement(){
     if (collection !== null){
         console.log("Server started");
