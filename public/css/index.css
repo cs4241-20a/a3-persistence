@@ -1,4 +1,23 @@
-﻿/*login page*/
+﻿
+html,
+body {
+    background-color: #7793B8;
+}
+
+html,
+body,
+input,
+textarea,
+button {
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+    font-family:'Times New Roman', Times, serif;
+}
+
+button {
+    font-size: 1em;
+}
+
+/*login page*/
 #loginTitle {
     color: #242D38;
 }
@@ -9,6 +28,11 @@
     left: 30%;
     margin-right: -30%;
     transform: translate(-50%, -50%);
+}
+
+.google-icon {
+    display: flex;
+    align-items: center;
 }
 
 /*main page*/

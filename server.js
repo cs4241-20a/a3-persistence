@@ -1,15 +1,18 @@
 // JavaScript source code
-const express = require("express");
+const express = require('express');
 const app = express();
-const bodyParser = require("body-parser");
-const morgan = require("morgan");
-const favicon = require("serve-favicon");
-const path = require("path");
-const responseTime = require("response-time");
-const helmet = require("helmet");
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const favicon = require('serve-favicon');
+const responseTime = require('response-time');
+const compression = require('compression');
+const helmet = require('helmet');
+const app = express(),
+const port = 3000;
 
 app.use(express.static("public"));
 app.use(bodyParser.json());
+app.use(compression());
 app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 app.use(
     responseTime((request, response, time) =>
@@ -37,7 +40,7 @@ const client_secret = process.env.GITHUB_CLIENT_SECRET;
 
 app.get("/", (request, response) => {
     if (request.session.githubid) {
-        response.sendFile(__dirname + "/public/inv.html");
+        response.sendFile(__dirname + "/public/index.html");
     } else {
         response.sendFile(__dirname + "/public/login.html");
     }
@@ -52,7 +55,7 @@ app.get("/geturl", (request, response) => {
 
 async function getAccessToken(code) {
     const response = await fetch("https://github.com/login/oauth/access_token", {
-        method: "POST",
+        method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             client_id,
@@ -63,7 +66,7 @@ async function getAccessToken(code) {
     const data = await response.text();
 
     const params = new URLSearchParams(data);
-    return params.get("access_token");
+    return params.get('access_token');
 }
 
 async function getGHUser(accessToken) {
@@ -74,13 +77,13 @@ async function getGHUser(accessToken) {
     return data;
 }
 
-app.get("/login/github/callback", async (request, response) => {
-    const atoken = await getAccessToken(
+app.get('/login/github/callback', async (request, response) => {
+    const accessToken = await getAccessToken(
         request.query.code,
         client_id,
         client_secret
     );
-    const GHData = await getGHUser(atoken);
+    const GHData = await getGHUser(accessToken);
 
     if (GHData) {
         request.session.githubid = GHData.id;
@@ -115,7 +118,7 @@ app.post("/delete", (request, response) => {
     collection.deleteOne({ _id: mongodb.ObjectID(request.body._id) }).then(() => {
         var array = [];
         collection
-            .find({ githubid: request.session.githubid })
+            .find({ "githubid": request.session.githubid })
             .forEach(doc => {
                 array.push(doc);
             })
@@ -134,11 +137,13 @@ app.post("/edit", (request, response) => {
         timeWorked: request.body.timeWorked,
         payment: request.body.payment
     };
+    const id = request.body._id;
     const newVal = { $set: json };
     collection.updateOne(
         { _id: mongodb.ObjectID(request.body._id) },
         newVal,
-        (err, response) => {
+        (error, response) => {
+            if (error) throw error;
             return;
         }
     );
@@ -153,4 +158,4 @@ app.post("/edit", (request, response) => {
         });
 });
 
-app.listen(process.env.PORT)
+app.listen(process.env.PORT || port)

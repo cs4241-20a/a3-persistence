@@ -1,4 +1,4 @@
-// JavaScript source code
+
 const login = function (e) {
     e.preventDefault();
 
@@ -7,11 +7,12 @@ const login = function (e) {
     })
         .then(response => response.json())
         .then(url => {
-            window.location.href = url;
+            window.location.href = url
         })
 
     return false;
 }
+
 
 window.onload = function () {
     const button = document.querySelector('#loginButton')

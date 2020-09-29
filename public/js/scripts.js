@@ -3,7 +3,7 @@ window.onload = function () {
     button.onclick = submit;
 
     const logoutButton = document.querySelector('#logoutButton')
-    button.onclick = logout;
+    logoutButton.onclick = logout;
 
     const table = document.querySelector('#timesheet')
     fetch('/appdata', {
@@ -16,24 +16,23 @@ window.onload = function () {
 }
 
 const submit = function (e) {
-    e.preventDefault();
+    e.preventDefault()
 
-    const nameinput = document.querySelector('#studentName');
-    const idinput = document.querySelector('#studentID');
-    const gradeinput = document.querySelector('#studentClass');
-    const timeinput = document.querySelector('#timeWorked');
-    const json = { studentName: nameinput.value, studentID: idinput.value, studentClass: gradeinput.value, timeWorked: timeinput.value, payment: ((timeinput.value * 12.75) * 0.9) }
+    const nameinput = document.querySelector('#studentName'),
+        idinput = document.querySelector('#studentID'),
+        gradeinput = document.querySelector('#studentClass'),
+        timeinput = document.querySelector('#timeWorked'),
+        table = document.querySelector('#resultsTable'),
+        json = { studentName: nameinput.value, studentID: idinput.value, studentClass: gradeinput.value, timeWorked: timeinput.value, payment: ((timeinput.value * 12.75) * 0.9) }
 
-    if (nameinput.value === "" || idinput.value === "") {
-        window.alert("Fields are not filled out");
-        return 0;
+    if (nameinput.value == "" || idinput.value == "") {
+        console.log("Fields are not filled out");
+        return;
     }
-
     if (gradeinput.value > 4 || gradeinput < 1) {
         window.alert("Put in the correct field");
         return 0;
     }
-
     console.log(json)
     fetch('/submit', {
         method: 'POST',
@@ -42,7 +41,7 @@ const submit = function (e) {
     })
         .then(response => response.json())
         .then(json => {
-            updatetimeSheet(table, json)
+            updatetimesheet(table, json)
         })
 
     nameinput.value = "";
@@ -50,7 +49,7 @@ const submit = function (e) {
     gradeinput.value = "";
     timeinput.value = "";
 
-    return false;
+    return false
 }
 
 const sheetEdit = function (table, row, id) {
@@ -58,6 +57,7 @@ const sheetEdit = function (table, row, id) {
     const idinput = document.querySelector('#studentID');
     const gradeinput = document.querySelector('#studentClass');
     const timeinput = document.querySelector('#timeWorked');
+    const button = document.querySelector('#submitButton');
 
     nameinput.value = row.cells[0].innerHTML;
     idinput.value = row.cells[1].innerHTML;
@@ -70,18 +70,21 @@ const sheetEdit = function (table, row, id) {
 }
 
 const logout = function (e) {
-    e.preventDefault();
+    e.preventDefault()
 
     fetch('/logout', {
         method: 'GET'
-    }).then(() => {
-        window.location.href="/"
     })
+        .then(() => {
+            window.location.href = "/"
+        })
+
     return false;
 }
 
+
 const edit = function(nameinput, idinput, gradeinput, timeinput, table, id, button){
-    button.onclick = submit;
+    button.onclick = submit
 
     if (nameinput.value === "" || idinput.value === "") {
         window.alert("Fields are not filled out");
@@ -100,7 +103,7 @@ const edit = function(nameinput, idinput, gradeinput, timeinput, table, id, butt
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(json)
     })
-        .then(reponse => response.json())
+        .then(response => response.json())
         .then(array => {
             var numRows = table.rows.length;
             for (var i = 1; i < numRows; i++) {
@@ -109,13 +112,13 @@ const edit = function(nameinput, idinput, gradeinput, timeinput, table, id, butt
 
             console.log(array);
 
-            array.forEach(element => updatetimeSheet(table, element))
+            array.forEach(element => updatetimesheet(table, element))
         })
 
     return false;
 }
 
-const sheetdel = function (table, id) {
+const del = function (table, id) {
     json = { _id: id }
     console.log(json)
 
@@ -134,7 +137,7 @@ const sheetdel = function (table, id) {
                 table.deleteRow(1);
             }
 
-            array.forEach(element => updateTable(table, element))
+            array.forEach(element => updatetimesheet(table, element))
         })
 
     const button = document.querySelector('#submitButton');
@@ -151,6 +154,7 @@ const updatetimesheet = function (table, data) {
     var grade = row.insertCell(2);
     var time = row.insertCell(3);
     var money = row.insertCell(4);
+    var btnCell = row.insertCell(5);
 
     name.innerHTML = data.studentName;
     id.innerHTML = data.studentID;
@@ -169,6 +173,6 @@ const updatetimesheet = function (table, data) {
     delBtn.id = "deleteButton";
     delBtn.className += "mui-btn mui-btn--raised mui-btn--danger";
     delBtn.innerHTML = '<span class="google-icon"><span class="material-icons">delete_outline</span>Delete</span>'
-    delBtn.onclick = function () { sheetdel(table, data._id) }
+    delBtn.onclick = function () { del(table, data._id) }
     btnCell.appendChild(delBtn);
 }
