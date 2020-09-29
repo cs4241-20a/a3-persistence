@@ -1,7 +1,7 @@
 
-## Your Web Application Title
+## Student Score Board
 
-your glitch (or alternative server) link e.g. https://a3-wying8349.glitch.me/
+glitch (or alternative server) link e.g. https://a3-wying8349.glitch.me/
 
 Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
