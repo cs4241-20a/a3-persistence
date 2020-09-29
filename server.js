@@ -16,6 +16,12 @@ var path = require('path')
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 /* end of favicon additions */
 
+/*compression additions */
+var compression = require('compression')
+// compress all responses
+app.use(compression())
+/*end of compression additions */
+
 /* LOCAL AUTH*/
 // var LocalStrategy = require('passport-local').Strategy;
 
