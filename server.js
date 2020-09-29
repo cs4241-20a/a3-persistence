@@ -76,7 +76,6 @@
         function (req, res) {
             // Successful authentication, redirect home.
             db.getAllArtistRecords().then(userRecords => {
-                console.log(userRecords)
                 res.render('catalog', {records: userRecords, layout: false});
             })
         }

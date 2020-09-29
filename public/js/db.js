@@ -60,7 +60,8 @@ async function modifyRecord(oldRecord, newRecord) {
     myDatabase
         .db(dbName)
         .collection('artist_records')
-        .updateOne({$and: [{github_id:oldRecord.github_id},{artist: oldRecord.artist}]}, {$set: {artist:newRecord.artist}});
+        .updateOne({$and: [{github_id:oldRecord.github_id},{artist: oldRecord.artist}]}, {$set: {artist:newRecord.artist, genre:newRecord.genre, birthdate:newRecord.birthdate,
+                                                                                                deathdate:newRecord.deathdate, birthplace:newRecord.birthplace}});
 
 }
 
@@ -73,7 +74,6 @@ async function getUserRecords(user_id) {
 //get user records
 async function getAllArtistRecords() {
     const userRecords = await myDatabase.db(dbName).collection('artist_records').find().toArray()
-    console.log(userRecords)
     return userRecords
 }
 
