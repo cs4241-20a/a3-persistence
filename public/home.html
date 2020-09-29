@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--main page-->
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>a3-persistence</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+      integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ"
+      crossorigin="anonymous"
+    />
+    <script type="text/javascript" src="scripts.js"></script>
+  </head>
+  <body>
+    <h1>Training Log</h1>
+    <hr />
+    
+    <form id="input" class="pure-form pure-form-aligned">
+      <fieldset>
+        <div class="pure-control-group">
+          <label for="inputRoute">Route Name</label>
+          <input type="text" id="inputRoute" value="" /><br />
+        </div>
+        <div class="pure-control-group">
+          <label for="inputTime">Time (only in whole minutes)</label>
+          <input type="text" id="inputTime" value="" /><br />
+        </div>
+        <div class="pure-control-group">
+          <label for="inputDistance">Distance (in miles)</label>
+          <input type="text" id="inputDistance" value="" /><br />
+        </div>
+        <p></p>
+      </fieldset>
+    </form>
+    <div class="pure-controls">
+          <button id="add-button" class="pure-button button-add" action="add">
+            Add
+          </button>
+          <button
+            id="update-button"
+            class="pure-button button-update"
+            action="update"
+          >
+            Update
+          </button>
+          <button
+            id="delete-button"
+            class="pure-button button-delete"
+            action="del"
+          >
+            Delete
+          </button>
+          <button
+            id="clear-button"
+            class="pure-button button-clear"
+            action="clear"
+          >
+            Clear
+          </button>
+        </div>
+    <hr />
+    <table class="pure-table">
+      <thead>
+        <tr>
+          <th>Route</th>
+          <th>Time</th>
+          <th>Distance</th>
+          <th>Fitness Score</th>
+        </tr>
+      </thead>
+      <tbody id="resultTableBody"></tbody>
+    </table>
+    <p></p>
+    <button
+      id="logout-button"
+      class="pure-button button-logout"
+      action="logout"
+    >
+      Logout
+    </button>
+  </body>
+</html>

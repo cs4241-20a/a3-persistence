@@ -1,0 +1,43 @@
+.pure-button.button-add,
+.pure-button.button-delete,
+.pure-button.button-update,
+.pure-button.button-clear,
+.pure-button.button-logout{
+  color: white;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.pure-button.button-add {
+  background: rgb(28, 184, 65);
+}
+
+.pure-button.button-delete {
+  background: rgb(202, 60, 60);
+}
+
+.pure-button.button-update {
+  background: rgb(223, 117, 20);
+}
+
+.pure-button.button-clear {
+  background: rgb(66, 184, 221);
+}
+
+.pure-button.button-logout {
+  background: rgb(132, 105, 170);
+}
+
+h1, body, form{
+  padding-top:10px;
+  text-align:center
+}
+
+table,thead,tbody,tr,tb{
+   margin-left: auto;
+  margin-right: auto;
+}
+
+button{
+  display: inline-block;
+}
