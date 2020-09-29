@@ -2,20 +2,11 @@
 
  http://a3-chaarke.glitch.me
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
-
-**The Goal:** a place for users to record movies they want to see. 
-**The Challenges:** fiddling with passport.js. I spent close to 4 hours on a stack overflow rabbit hole. 
-**The Authentication:** Passport.js for Github OAuth! I used it for the bonus points.
-**The Framework:** Bootstrap. It's a classic, I've worked with it before and enjoy using their layout grid more than the diy approach with css grid.
-**The Middleware:** Passport. Bodyparser. Express Session. Favicon. Response Time.
+- **The Goal:** a place for users to record movies they want to see. 
+- **The Challenges:** fiddling with passport.js. I spent close to 4 hours on a stack overflow rabbit hole. 
+- **The Authentication:** Passport.js for Github OAuth! I used it for the bonus points.
+- **The Framework:** Bootstrap. It's a classic, I've worked with it before and enjoy using their layout grid more than the diy approach with css grid.
+- **The Middleware:** Passport. Bodyparser. Express Session. Favicon. Response Time.
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
