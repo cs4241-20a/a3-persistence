@@ -38,9 +38,21 @@ const submit = function( e ) {
   return false
 }
 
+const gitlogin  = function( e ) {
+  // prevent default form action from being carried out
+  e.preventDefault()
+  
+  fetch( '/auth/github', {
+    method:'GET'
+  })
+}
+
 window.onload = function() {
     const button = document.querySelector( '#submitter' )
     button.onclick = submit
+    
+    const login = document.querySelector( '#loginbtn' )
+    login.onclick = gitlogin
 }
 
 function addtoTable( table, assignment ) {

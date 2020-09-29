@@ -1,35 +1,35 @@
-const MSG_ERR_NAME_BLANK = "Error: the Name field must not be empty."
-      MSG_ERR_FIELD_MISMATCH = "Error: invalid input.  Score & Value fields must either be both empty or both filled."
-      MSG_ERR_NON_NUMERIC = "Error: the Score and Value fields must only contain numbers."
-      MSG_ERR_NO_ASSIGNMENT = "Error: no assignment with this name exists.  To create one, fill in the Score and Value fields."
-      MSG_SUC_ASSIGN_ADD = "Successfully added a new assignment."
-      MSG_SUC_ASSIGN_EDIT = "Successfully edited assignment."
+const MSG_ERR_NAME_BLANK = "Error: the Name field must not be empty.",
+      MSG_ERR_FIELD_MISMATCH = "Error: invalid input.  Score & Value fields must either be both empty or both filled.",
+      MSG_ERR_NON_NUMERIC = "Error: the Score and Value fields must only contain numbers.",
+      MSG_ERR_NO_ASSIGNMENT = "Error: no assignment with this name exists.  To create one, fill in the Score and Value fields.",
+      MSG_SUC_ASSIGN_ADD = "Successfully added a new assignment.",
+      MSG_SUC_ASSIGN_EDIT = "Successfully edited assignment.",
       MSG_SUC_ASSIGN_REMOVE = "Successfully removed assignment."
-      ACTION_NONE = "none"
-      ACTION_EDIT = "edit"
-      ACTION_NEW = "new"
 
 
 const express         = require('express'),
       app             = express(),
       bodyparser      = require('body-parser'),
-      favicon         = require('serve-favicon')
-      path            = require('path')
-      helmet          = require("helmet")
-      debug           = require('express-debug')
-      lowercasePaths  = require("express-lowercase-paths")
-      GitHubStrategy  = require('passport-github').Strategy;
+      favicon         = require('serve-favicon'),
+      path            = require('path'),
+      helmet          = require("helmet"),
+      debug           = require('express-debug'),
+      lowercasePaths  = require("express-lowercase-paths"),
+      passport        = require("passport"),
+      GitHubStrategy  = require('passport-github').Strategy,
+      cors            = require('cors')
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(express.static( 'public' ))
 app.use(bodyparser.json())
 app.use(helmet());
 app.use(lowercasePaths())
+app.use(cors())
 
 passport.use(new GitHubStrategy({
-    clientID: GITHUB_CLIENT_ID,
-    clientSecret: GITHUB_CLIENT_SECRET,
-    callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+    clientID: "c1e503b1f352b54a86ac",
+    clientSecret: process.env.AUTH_GITHUB_SECRET,
+    callbackURL: "https://a3-edward-philippo.glitch.me/auth/github/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOrCreate({ githubId: profile.id }, function (err, user) {
@@ -42,6 +42,21 @@ app.get('/', function(request, response) {
   response.sendFile(__dirname + '/views/index.html')
 })
 
+app.get('/auth/github', function (request, response) {
+  console.log("Need to auth")
+  passport.authenticate('github')
+})  
+//app.get('/auth/github', cors(), passport.authenticate('github'))        
+        
+        
+
+app.get('/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+  // Successful authentication, redirect home.
+  res.redirect('/');
+});
+
 app.post( '/submit', function( request, response ) {
   let jsonResponse = {}
   console.log(request.body)
@@ -53,7 +68,6 @@ app.post( '/submit', function( request, response ) {
   response.writeHead( 200, {'Content-Type': 'application/json'})
   response.end( JSON.stringify( jsonResponse ) )
 })
-
 
 
 
@@ -80,13 +94,11 @@ function handleInput(reply, input) {
   const assignName = input.inputName
   if(assignName === "") {
     reply.message = MSG_ERR_NAME_BLANK
-    reply.action = ACTION_NONE
     return
   }
   if( (input.inputScore === "") !== (input.inputPossible === "") ) {
     // ensure score & possible are either both full or both blank
     reply.message = MSG_ERR_FIELD_MISMATCH
-    reply.action = ACTION_NONE
     return
   }
   const assignScore = Number(input.inputScore)
@@ -94,7 +106,6 @@ function handleInput(reply, input) {
   if( Number.isNaN(assignScore) || Number.isNaN(assignPossible) ) {
     // ensure numeric fields are actually numeric
     reply.message = MSG_ERR_NON_NUMERIC
-    reply.action = ACTION_NONE
     return
   }
   
@@ -104,7 +115,6 @@ function handleInput(reply, input) {
         // delete item
         grades.splice(i)
         reply.message = MSG_SUC_ASSIGN_REMOVE
-        reply.action = ACTION_DELETE
         return
         
       } else {
@@ -113,7 +123,6 @@ function handleInput(reply, input) {
         grades[i].assignPossible = assignPossible
         grades[i].percent = getAssignPercent( assignScore, assignPossible )
         reply.message = MSG_SUC_ASSIGN_EDIT
-        reply.action = ACTION_EDIT
         return
       }
     }
@@ -122,7 +131,6 @@ function handleInput(reply, input) {
   if( input.inputScore === "") {
     // but first check that fields are filled in
     reply.message = MSG_ERR_NO_ASSIGNMENT
-    reply.action = ACTION_NONE
     return
   }
   
@@ -131,7 +139,6 @@ function handleInput(reply, input) {
   grades.push( assignment )
   
   reply.message = MSG_SUC_ASSIGN_ADD
-  reply.action = ACTION_NEW
   return
 }
 
