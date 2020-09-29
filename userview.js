@@ -12,15 +12,31 @@ function loadUserData() {
       listItem.innerHTML = 
         '<div class="d-flex justify-content-between">'+
           '<div class="align-self-center">' + element.taskText +'</div>'+
-          '<div>'+
-            '<button class="btn btn-outline-primary btn-sm inlineButton">Edit</button>'+
-            '<button class="btn btn-outline-danger btn-sm inlineButton">Delete</button>'+
+          '<div class = "d-flex align-items-center">'+
+            '<form > <div class="noBottomMargin form-group">'+
+            '<input type="text" class="form-control" id="updateTaskField" placeholder="Update task" onkeypress="return noenter()"/>' +
+            '</div> </form>' +
+            '<button class="btn btn-outline-primary btn-sm inlineButton" data_id = ' + element._id + ' onclick="updateData(this)">Update</button>'+
+            '<button class="btn btn-outline-danger btn-sm inlineButton" data_id = ' + element._id + ' onclick="deleteData(this)">Delete</button>'+
           '</div>'+
         '</div>';
       listGroup.appendChild(listItem);
       
     });
   });
+}
+
+function deleteData(button){
+  
+  var body = {ID: button.getAttribute('data_id')}
+  fetch( '/delete', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(body)
+  }).then(function (response){
+    
+    loadUserData();
+  })
 }
 
 window.onload = function() {
@@ -55,9 +71,26 @@ function submitNewTask(e){
     //console.log(response);
     loadUserData();
   })
-    
-    
     taskSubmissionBox.value = '';
 }
 
 
+function updateData(button){
+  
+  var id = button.getAttribute('data_id')
+  var textfield = button.previousElementSibling.childNodes[1].childNodes[0];
+  var text = textfield.value
+  console.log("Updating", id, "with value", text);
+  fetch( '/update', {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({_id:id, newText: text})
+  }).then(function (response){
+    
+    loadUserData();
+  })
+}
+
+
+function noenter() {
+  return !(window.event && window.event.keyCode == 13); }

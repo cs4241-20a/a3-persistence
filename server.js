@@ -54,8 +54,8 @@ passport.use(
       var presentAccountID = null;
 
       if (results.length > 0) {
-        console.log(results.length + " accounts found matching");
-        console.log(results[0]);
+        console.log("User aleady has account with ID",results[0]._id);
+        //console.log(results[0]);
         presentAccountID = results[0]._id;
         //return true;
       } else {
@@ -88,7 +88,7 @@ app.get(
   passport.authenticate("github", { failureRedirect: "/" }),
   function(req, res) {
     // Successful authentication, redirect home.
-    console.log("we did it", req.session.passport.user);
+    //console.log("we did it", req.session.passport.user);
     req.session.accountSession = req.session.passport.user;
     //res.username =
 
@@ -124,8 +124,8 @@ app.post("/login/account", bodyparser.json(), async function(
   var presentAccountID = null;
 
   if (results.length > 0) {
-    console.log(results.length + " accounts found matching");
-    console.log(results[0]);
+    console.log("User aleady has account with ID",results[0]._id);
+    //console.log(results[0]);
     presentAccountID = results[0]._id;
     //return true;
   } else {
@@ -175,12 +175,8 @@ app.get("/userdata", async function(req, res) {
   var userAccountName = await nameCollection
     .find({ _id: new ObjectID(req.session.accountSession) })
     .toArray();
-  //var userAccountName = await nameCollection.find({email: "o", password: "p"}).toArray()
-
-  console.log("Welcome,", userAccountName[0]);
   var body = { tasks: results, email: userAccountName[0].email };
   res.body = res.json(body);
-  //res.name = userAccountName[0].email;
   client.close();
 });
 
@@ -210,6 +206,42 @@ app.post("/add", bodyparser.json(), async function addToDatabase(req, res) {
   res.body = res.json(newtask);
 });
 
-//app.get("")
+
+app.post("/delete", bodyparser.json(), async function addToDatabase(req, res) {
+  
+  const mongodb = require("mongodb");
+  const MongoClient = mongodb.MongoClient;
+  const uri = `mongodb+srv://admin:${process.env.DBPASSWORD}@cluster0.vilmh.mongodb.net/<dbname>?retryWrites=true&w=majority`;
+  const client = new MongoClient(
+    uri,
+    { useNewUrlParser: true },
+    { useUnifiedTopology: true }
+  );
+  await client.connect();
+  var ObjectID = require("mongodb").ObjectID;
+  var collection = await client.db("Webware").collection("tasks");
+  console.log("Deleting task with ID", req.body.ID)
+  collection.deleteOne({_id: new ObjectID(req.body.ID)})
+  res.body = res.json(true)
+});
+         
+
+app.post("/update", bodyparser.json(), async function addToDatabase(req, res) {
+  
+  const mongodb = require("mongodb");
+  const MongoClient = mongodb.MongoClient;
+  const uri = `mongodb+srv://admin:${process.env.DBPASSWORD}@cluster0.vilmh.mongodb.net/<dbname>?retryWrites=true&w=majority`;
+  const client = new MongoClient(
+    uri,
+    { useNewUrlParser: true },
+    { useUnifiedTopology: true }
+  );
+  await client.connect();
+  var ObjectID = require("mongodb").ObjectID;
+  var collection = await client.db("Webware").collection("tasks");
+  console.log("Updating task with ID", req.body._id, "with value",{userID: req.session.accountSession, taskText:req.body.newText})
+  collection.updateOne({ _id: new ObjectID(req.body._id) },{$set:{userID: req.session.accountSession, taskText:req.body.newText}},{ upsert: true })
+  res.body = res.json(true);
+});
 
 app.listen(3000);

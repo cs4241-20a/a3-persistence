@@ -49,3 +49,7 @@ h3{
 #addatask{
   font-size: 18px;
 }
+
+.noBottomMargin{
+  margin-bottom: 0px;
+}
