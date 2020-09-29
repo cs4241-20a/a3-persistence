@@ -28,7 +28,7 @@ let collection = null;
 passport.use(new GitHubStrategy({
         clientID: '847470238063eb7674e1',
         clientSecret: '927ebede89f357d6f737ed7142dd51948275abcf',
-        callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+        callbackURL: "https://cjburri-a3-persistence-1.glitch.me/auth/github/callback"
     },
     function(accessToken, refreshToken, profile, cb) {
         return cb(null, profile);
