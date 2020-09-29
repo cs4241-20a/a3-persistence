@@ -10,6 +10,7 @@ const fs   = require("fs"),
 
 //Allow for use of .env file
 require("dotenv").config();
+
 app.listen(port);
 
 /////////////////// Middleware Initialization /////////////////////////
@@ -28,7 +29,6 @@ app.use(passport.initialize());
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });
-
 passport.deserializeUser(function(id, done) {
     done(null, id);
 });
@@ -44,6 +44,7 @@ passport.use("github", new GitHubStrategy({
     }
 ));
 
+//Routes for Github authentication, based on passport documentation.
 let username = null;
 app.get('/auth/github', passport.authenticate('github'));
 app.get('/auth/github/callback', passport.authenticate('github'),
@@ -53,7 +54,7 @@ app.get('/auth/github/callback', passport.authenticate('github'),
     }
 );
 
-let newUser = false;
+let newUser = false;//used to indicate whether or not to alert client of new account
 app.get("/app", function(request, response){
     //The "new" header will tell the client whether or not they need to
     //display a new message to the user that a new account was created.
@@ -65,6 +66,7 @@ app.get("/app", function(request, response){
     });
 });
 
+//Route for signing into the application with a username and password
 app.post("/signin", bodyParser.json(), function(request, response){
     if(request.body.username && request.body.password){
         username = request.body.username;
@@ -75,6 +77,20 @@ app.post("/signin", bodyParser.json(), function(request, response){
     }
 });
 
+/**
+ * Handle the login of a user into the application. Will either load running
+ * totals and averages for existing user, or will add new totals and averages
+ * (set to 0) into the database for a new user. After a laod or add, the
+ * reponse will be populated with a redirect to /app.
+ *
+ * @param username the username of the account trying to login.
+ * @param isGithub true if this is a Github account, false if login was via a
+ *     <b>username</b> and <b>password</b>.
+ * @param password the password of the account trying to login. If <b>isGithub</b>
+ *     is false, this value will be ignored.
+ * @param response the HTTP response to populate with the status of the login
+ *     operation one complete.
+ */
 const handleUser = function(username, isGithub, password, response){
     //this.username = username;
     let users = client.db("FPS_Stats").collection("users");
@@ -89,12 +105,12 @@ const handleUser = function(username, isGithub, password, response){
         }else if(result.length < 0 || result.length > 1){
             console.log("Unexpected number of users found in database: " +result.length);
         }else{
-            if(result.length === 1) {
+            if(result.length === 1) {//User exists
                 getUserDbInfo(user.username).then(function(result){
                     console.log("User: " + username + " has signed in.");
                     response.redirect("/app");
                 });
-            }else{
+            }else{//User does not exist
                 console.log("new user: " +username +" signing in.");
                 addNewDbUser(user).then(function(results){
                     newUser = true;
@@ -120,6 +136,21 @@ client.connect(err => {
     }
 });
 
+/**
+ * Retrieve the totals and averages for the user with the given
+ * <b>username</b>. Theses values are the placed in the following
+ * globals variables: totalKills, totalAssists, totalDeath,
+ * totalEntries, avgKills, avgAssists, avgDeaths. The purpose of
+ * this is to have local copies of these running totals to
+ * prevent having to wait in two extra database queries (get and set)
+ * whenever the user adds/modifies/deletes data.
+ *
+ * @param username the username of the account whose totals and
+ *     averages are to be loaded.
+ * @returns {Promise} a Promise that will be resolved once
+ *     the data has been retrieved and loaded into the corresponding
+ *     global variables, or if an error occurs.
+ */
 const getUserDbInfo = function(username){
     return new Promise(function(resolve, reject) {
         //Retrieve the running totals and averages
@@ -155,6 +186,28 @@ const getUserDbInfo = function(username){
     });
 }
 
+/**
+ * Add a new user to the database with the given user account
+ * information. This will place a new user entry into the
+ * users collection of the database, as well as totals and
+ * averages, all set to 0, to their respective collections. The
+ * given <b>user</b> should be an object with the following
+ * fields:
+ *     user {
+ *         username: String
+ *         isGithub: boolean
+ *         password: String
+ *     }
+ *
+ * @param user the user to be added to the database
+ * @returns {Promise<[]>} A Promise that will resolve once
+ * the user and its totals and averages have all been inserted into
+ * their respective collections, or reject on failure to do so. The
+ * promise will return an array of results in which:
+ *     results[0] = results of adding user to "users" collection
+ *     results[1] = result of adding totals to "totals" collection
+ *     results[2] = result of adding averages to "averages" collection
+ */
 const addNewDbUser = function(user){
     let users = client.db("FPS_Stats").collection("users");
     let totals = client.db("FPS_Stats").collection("totals");
@@ -176,6 +229,8 @@ const addNewDbUser = function(user){
 }
 ///////////////////////////////////////////////////////////////////////
 
+//Decimal precision for derived stats to prevent repeating decimal
+//number from stretching the client table to far.
 const DECIMAL_PRECISION = 2;
 
 //Global variables and constants used to maintain state without
@@ -192,13 +247,20 @@ let avgDeaths = 0;
 /////////////////// Additional Middleware /////////////////////////////
 /**
  * Converts the stats given in the HTTP request to Numbers, and stores
- * them back into <b>request.body</b>.
+ * them back into <b>request.body</b>. The following fields will be
+ * checked for in the request:
+ *      id:
+ *      kills:
+ *      assists:
+ *      deaths:
+ *      rows: [{id, kills, assists, deaths}, ...]
+ * Any field that is found will have its corresponding value converted
+ * to a Number
  *
- * @param request the HTTP request to convert "id," "kills," "assists"
- *     and "deaths" fields to Numbers.
+ * @param request the HTTP request to convert the fields of to Numbers.
  * @param response the HTTP response to be populated with the results of
- *     the request (will not be modified by this function).
- * @param next the next middleware function the call
+ *     the <b>request</b> (will not be modified by this function).
+ * @param next the next middleware function to call
  */
 const convertDataToNum = function(request, response, next){
     if(request.body.hasOwnProperty("id"))
@@ -224,6 +286,20 @@ const convertDataToNum = function(request, response, next){
     next();
 }
 
+/**
+ * Check if a user has signed in. If not, return a 400 error here
+ * stating that the action cannot take place because no one has signed
+ * in. This prevents users from bypassing the login page by going straight
+ * to "./app.html"
+ *
+ * @param request the HTTP request to either block or let go through,
+ *     depending on whether ot not a user has signed in yet.
+ * @param response the HTTP reponse to be populated. If a user has not
+ *     signed in yet, this will be populated with a status code of 400
+ *     with a corresponding error message. Otherwise, it will not be
+ *     modified.
+ * @param next the next middleware function to be called.
+ */
 const checkForAccount = function(request, response, next){
     if(!username){
         response.statusCode = 400;
@@ -236,23 +312,26 @@ const checkForAccount = function(request, response, next){
 
 ////////////////////// POST Request Handlers //////////////////////////
 /**
- * Add the item stored in <b>data</b> into the appdata table. This set
+ * Add the item stored in <b>request</b> into the database. This set
  * of stats is assigned an unique ID number as well.
  *
- * @param request the HTTP response contain the data to add to the table
- * @param response the HTTP response to be populated with the results of
- *     the request
- * @return {boolean} true on successful addition, false otherwise
+ * @param request the HTTP response containing the data to add to the
+ *     database
+ * @param response the HTTP response to be populated with the results
+ *     of the request. If addition was successful, this response will
+ *     be populated with the entire table of data for the current
+ *     user so the client can display the most up-to-date information.
  */
 const addItem = function(request, response){
     if (Number.isNaN(request.body.kills) || request.body.kills < 0 ||
         Number.isNaN(request.body.assists) || request.body.assists < 0 ||
         Number.isNaN(request.body.deaths) || request.body.deaths < 0){
-            response.writeHead(400, "Add request failed", {"Content-Type": "text/plain"});
+            response.writeHead(400, "Add request failed, invalid stats", {"Content-Type": "text/plain"});
             response.end();
-            return false;
+            return;
     }
 
+    //Calculated derived fields and prepare the object to be inserted.
     let ratios = calculateKDandAD(request.body.kills, request.body.assists, request.body.deaths);
     let obj = {
         "username": username,
@@ -263,27 +342,37 @@ const addItem = function(request, response){
         "ad_ratio": ratios.ad_ratio
     };
 
+    //Update both local and remote copies of the running stats.
     update(1, request.body.kills, request.body.assists, request.body.deaths);
 
+    //Finally, insert the object into the database.
     let collection = client.db("FPS_Stats").collection("game_stats");
     collection.insertOne(obj, {}, function(error, result){
         if(error){
             console.log("error occurred adding item: " +error);
             return;
         }
+        //Now that insertion has finished, can send the updated table
+        //back to the user.
         sendTable(response);
     });
 }
+//Route for add requests
 app.post("/add", [checkForAccount, bodyParser.json(), convertDataToNum], addItem);
 
 /**
- * Modify the row in the appdata table with the given id to instead
- * have the stats stored in <b>data</b>. This set of stats will keep
- * the unique ID number that was assigned to it when it was added.
+ * Modify the rows in the database with the given stats. For all the
+ * rows modified, the new values will be used in the corresponding
+ * fields for all rows, meaning they will each have the same values
+ * for those fields. Non-modified fields will remained different
+ * between the rows. Rows with invalid stats will not be modified.
  *
- * @param request the HTTP response contain the data to modify in the table
+ * @param request the HTTP response contain the data to modify in the
+ *    database.
  * @param response the HTTP response to be populated with the results of
- *     the request
+ *     the request. If modification was successful, this response will
+ *     be populated with the entire table of data for the current
+ *     user so the client can display the most up-to-date information.
  * @return {boolean} true on successful modification, false otherwise.
  */
 const modifyItem = function(request, response){
@@ -302,8 +391,8 @@ const modifyItem = function(request, response){
     let game_stats = client.db("FPS_Stats").collection("game_stats");
     let rows = request.body.rows;
 
-    //Have to use updateOne since each row will have a new kd ration and ad
-    //ratio based on the stats that were no modified in their respective rows.
+    //Have to use updateOne since each row will have a new kd ratio and ad
+    //ratio based on the stats that were not modified in their respective rows.
     //So collect all promises and use Promise.all to only send table once all
     //all modifications are done.
     let promises = [];
@@ -325,6 +414,7 @@ const modifyItem = function(request, response){
             updatedObj.kd_ratio = ratios.kd_ratio;
             updatedObj.ad_ratio = ratios.ad_ratio;
 
+            //Delete old stats, and add back the new ones
             update(0, -item.kills, -item.assists, -item.deaths);
             update(0, updatedObj.kills, updatedObj.assists, updatedObj.deaths);
             promises.push(game_stats.updateOne({username: username, _id: id}, {$set: updatedObj}));
@@ -337,20 +427,31 @@ const modifyItem = function(request, response){
         sendTable(response);
     });
 }
+//Route for modification
 app.post("/modify", [checkForAccount, bodyParser.json(), convertDataToNum], modifyItem);
 
+/**
+ * Determine if teh given <b>value</b> is not NaN and is greater than
+ * or equal to 0.
+ *
+ * @param value the value to determine the validity ofl
+ * @returns {boolean} true if the value is valid i.e. not NaN and
+ *     greater than 0, false otherwise.
+ */
 const valid = function(value){
     return (!isNaN(value) && value >= 0);
 }
 
 /**
- * Delete the row in the appdata table with the given id.
+ * Delete the given rows from the database. Rows with invalid values
+ * will be skipped.
  *
- * @param request the HTTP response contain the ID of the row to delete
- *     from the table
+ * @param request the HTTP response containing the IDs of all the rows
+ *     to delete from the database.
  * @param response the HTTP response to be populated with the results of
- *     the request
- * @return {boolean} true on successful deletion, false otherwise.
+ *     the request. If deletion was successful, this response will
+ *     be populated with the entire table of data for the current
+ *     user so the client can display the most up-to-date information.
  */
 const deleteItem = function(request, response){
     let game_stats = client.db("FPS_Stats").collection("game_stats");
@@ -380,15 +481,16 @@ const deleteItem = function(request, response){
         }
     });
 }
+//Route for deletion
 app.post("/delete", [checkForAccount, bodyParser.json(), convertDataToNum], deleteItem);
 //////////////////////////////////////////////////////////////////////
 
 /////////////////////// GET Request Handlers //////////////////////////
 /**
- * Creates an HTTP response with a JSON object that contains all the data for the
- * total_avg_results and result_list tables in index.html. This includes every
- * row of appdata as well as total and average number of kills, assists and deaths.
- * This JSON object is then stored in <b>response</b> and the headers are set.
+ * Populates the given HTTP response with a JSON object that contains
+ * all the data for the current user for the total_avg_results and
+ * result_list tables in  app.html. This JSON object is  then stored
+ * in <b>response</b> and the headers are set.
  *
  * The format of the JSON object is as follows:
  * {
@@ -398,13 +500,16 @@ app.post("/delete", [checkForAccount, bodyParser.json(), convertDataToNum], dele
  *         ...
  *         { "id": , "kills": , "assists": , "deaths": , "kd_ratio": , "ad_ratio": },
  *     ],
- *     totals_avgs: {
- *         total_kills:
- *         avg_kills:
- *         total_assists:
- *         avg_assists:
- *         total_deaths:
- *         avg_deaths:
+ *     totals: {
+ *         kills:
+ *         assists:
+ *         deaths:
+ *         entries:
+ *     },
+ *     avgs: {
+ *         kills:
+ *         assists:
+ *         deaths:
  *     }
  * }
  *
@@ -435,32 +540,57 @@ const sendTable = function(response){
             response.json(json);
     });
 }
+//Route for getting current stats.
 app.get('/results', checkForAccount, function(request, response){
     sendTable(response);
 });
 
+/**
+ * Gets all game stats for the current user from the "game_stats"
+ * collection.
+ *
+ * @returns {Promise|void|any[]} a Promise that will resolve once
+ *     all game stats have been retrieved. The resolved promise will
+ *     return an array of the all the stats.
+ */
 const getAllStats = function(){
     let game_stats = client.db("FPS_Stats").collection("game_stats");
     return game_stats.find({username: username}).toArray();
 }
 
+/**
+ * Gets all totals for the current user from the "totals" collection.
+ *
+ * @returns {Promise|void|any[]} a Promise that will resolve once
+ *     all totals have been retrieved. The resolved promise will return
+ *     an array of the all the totals.
+ */
 const getTotals = function(username){
     let totals = client.db("FPS_Stats").collection("totals");
     return totals.find({username: username}).toArray();
 }
 
+/**
+ * Gets all averages for the current user from the "averages"
+ * collection.
+ *
+ * @returns {Promise|void|any[]} a Promise that will resolve once
+ *     all averages have been retrieved. The resolved promise will
+ *     return an array of the all the totals.
+ */
 const getAverages = function(username){
     let avgs = client.db("FPS_Stats").collection("averages");
     return avgs.find({username: username}).toArray();
 }
 
 /**
- * Creates an HTTP response that contains the contents of a stats.csv file,
- * which is a csv file that contains every row of appdata as well as total
- * and average number of kills, assists and deaths. This response is then
- * stored in <b>response</b> and the headers are set.
+ * Populates the given HTTP response with the contents of a stats.csv
+ * file, which contains every all totals, averages and game stats for
+ * the current user. This response is then stored in <b>response</b>
+ * and the headers are set.
  *
- * @param response an HTTP response that will be populated the data for stats.csv.
+ * @param response an HTTP response that will be populated the data for
+ *     stats.csv.
  */
 const sendCSV = function(response){
     /*
@@ -489,22 +619,23 @@ const sendCSV = function(response){
         file.end();
     })
 }
+//Route for getting a CSV file of all the current user's stats.
 app.get('/csv', checkForAccount, function(request, response){
     sendCSV(response);
 });
 
 /**
- * Wipe all the data stored on the server and reset count variables.
- * Return an a json indicating an empty table so index.html knows to
- * display and empty table.
+ * Wipe all the data stored on the server for the given user. Returns a
+ * json object indicating an empty table so app.html knows to display
+ * an empty table.
  *
- * @param response an HTTP response that will be populate with an
+ * @param response an HTTP response that will be populated with an
  *     empty table to indicate that server data has been wiped.
  */
 const clearStats = function(response){
     function handleClear(error, result){
         if(error){
-            console.log("error occurred during clear: " +error);
+            console.log("Error occurred during clear: " +error);
         }
     }
 
@@ -524,6 +655,7 @@ const clearStats = function(response){
     game_stats.deleteMany({username: username}, handleClear);
     sendTable(response);
 }
+//Route for clearing the current user's data.
 app.get('/clear', checkForAccount, function(request, response){
     clearStats(response);
 });
@@ -557,12 +689,50 @@ const calculateKDandAD = function(kills, assists, deaths){
 }
 
 /**
- * Update the total and average kills, assists and deaths by taking into
- * account the new set of <b>kills</b>, <b>assists</b> and <b>deaths</b>.
+ * Update the local and database copies of the totals, averages and
+ * number of entries for the current user.
+ *
+ * @param entriesDelta the amount to increase or decrease the number of entries by.
+ * @param kills the number of kills to update the total and average with.
+ * @param assists the number of assists to update the total and average with.
+ * @param deaths the number of deaths to update the total and average with.
+ */
+const update = function(entriesDelta, kills, assists, deaths){
+    updateNumEntries(entriesDelta);
+    updateTotals(kills, assists, deaths);
+    updateAvgs();
+}
+
+/**
+ * Update the local and database copies of the number of entries
+ * (games) that have stats recorded for the current user.
+ *
+ * @param delta the amount of increase or decrease the number of
+ *     entries by.
+ * @returns {Promise} A Promise that will be resolved once the total
+ *     number of entries for the given user has been updated in the
+ *     database. The Promise will return the result of the call to
+ *     update the total number of entries.
+ */
+const updateNumEntries = function(delta){
+    numEntries += delta;
+    let totals = client.db("FPS_Stats").collection("totals");
+    return totals.updateOne({username: username, type: "entries"}, {$inc: {amount: delta}});
+}
+
+/**
+ * Updates the local and database copies of the total kills, assists
+ * and deaths for the current user by taking into account the new set
+ * of <b>kills</b>, <b>assists</b> and <b>deaths</b>.
  *
  * @param kills number of kills from the game
  * @param assists number of assists from the game
  * @param deaths number of deaths from the game
+ * @return {Promise<[]>} a Promise that will be resolved once all the
+ *     totals in the database for the current user have been updated.
+ *     The Promise will return an array of results in which the three
+ *     elements are the results of the calls to update total kills,
+ *     assists and deaths, respectively.
  */
 const updateTotals = function(kills, assists, deaths){
     totalKills += kills;
@@ -577,8 +747,15 @@ const updateTotals = function(kills, assists, deaths){
 }
 
 /**
- * Update the average kills, assists and deaths based on the current number
- * of kills, assists and deaths.
+ * Updates the local and database copies of the average kills, assists
+ * and deaths for the current user by taking into account the current
+ * values of the totalKills, totalsAssists and totalDeaths.
+ *
+ * @return {Promise<[]>} a Promise that will be resolved once all the
+ *     averages in the database for the current user have been updated.
+ *     The Promise will return an array of results in which the three
+ *     elements are the results of the calls to update average kills,
+ *     assists and deaths, respectively.
  */
 const updateAvgs = function() {
     if(numEntries <= 0){
@@ -598,15 +775,4 @@ const updateAvgs = function() {
     promises.push(avgs.updateOne({username: username, type: "deaths"}, {$set: {amount: avgDeaths}}, {}));
     return Promise.all(promises);
 }
-
-const updateNumEntries = function(delta){
-    numEntries += delta;
-    let totals = client.db("FPS_Stats").collection("totals");
-    return totals.updateOne({username: username, type: "entries"}, {$inc: {amount: delta}});
-}
-
-const update = function(entriesDelta, kills, assists, deaths){
-    updateNumEntries(entriesDelta);
-    updateTotals(kills, assists, deaths);
-    updateAvgs();
-}
+///////////////////////////////////////////////////////////////////////

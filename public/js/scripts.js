@@ -2,10 +2,7 @@
  * Send an /add API HTTP request to add a new game's stats to the
  * table. The stats are taken from the "add" form in index.html.
  * The updated stats are then displayed in total_avg_results and
- * results_list tables in index.html.
- *
- * @returns {boolean} true if server returned a 2O0 status code,
- *      false otherwise.
+ * results_list tables in app.html.
  */
 function handle_add(){
     //The following source showed me how to extract values from a
@@ -25,11 +22,8 @@ function handle_add(){
     }).then(function( response ) {
           if(response.status === 200){
               updateResults(response);
-              return true;
           }
     });
-
-    return false;
 }
 
 /**
@@ -37,9 +31,6 @@ function handle_add(){
  * setting them to the values in the "modify" form in index.html.
  * The updated stats are then displayed in total_avg_results and
  * results_list tables in index.html.
- *
- * @returns {boolean} true if server returned a 2O0 status code,
- *      false otherwise.
  */
 function handle_modify(){
     const input = document.getElementById("modify");
@@ -70,11 +61,8 @@ function handle_modify(){
     }).then(function( response ) {
         if(response.status === 200){
             updateResults(response);
-            return true;
         }
     });
-
-    return false;
 }
 
 /**
@@ -82,9 +70,6 @@ function handle_modify(){
  * the table. The ID# of the game to remove are taken from the
  * "delete" form in index.html The updated stats are then displayed
  * in total_avg_results and results_list tables in index.html.
- *
- * @returns {boolean} true if server returned a 2O0 status code,
- *      false otherwise.
  */
 function handle_delete(){
     let json = {
@@ -111,26 +96,28 @@ function handle_delete(){
     }).then(function( response ) {
         if(response.status === 200){
             updateResults(response);
-            return true;
         }
     });
-
-    return false;
 }
 
+/**
+ * Send a /clear API HTTP request to clear the all of the current
+ * user's stats.
+ */
 function handle_clear(){
     fetch( '/clear', {
         method:'GET',
     }).then(function( response ) {
         if(response.status === 200){
             updateResults(response);
-            return true;
         }
     });
-
-    return false;
 }
 
+/**
+ * Send a /signin API HTTP request to log into the application with the
+ * given username and password.
+ */
 function handle_login(){
     let usernameField = document.getElementById("username_input");
     let passwordField = document.getElementById("password_input");
@@ -152,12 +139,10 @@ function handle_login(){
 }
 
 /**
- * Send a /results API HTTP request to retrieve all the current
- * stats stored in the server. The updated stats are then displayed
- * in total_avg_results and results_list tables in index.html.
- *
- * @returns {boolean} true if server returned a 2O0 status code,
- *      false otherwise.
+ * Send a /results API HTTP request to retrieve all the current stats
+ * for the current user stored in the database. The updated stats are
+ * then displayed in total_avg_results and results_list tables in
+ * index.html.
  */
 function getLatestResults(){
     fetch( '/results', {
@@ -165,17 +150,13 @@ function getLatestResults(){
     }).then(function( response ) {
         if(response.status === 200){
             updateResults(response);
-            return true;
         }
     });
 }
 
 /**
- * Downloads all the data from both tables as a CSV file called
- * "stats.csv".
- *
- * @returns {boolean} if stats.csv was successfully created
- *     and downloaded.
+ * Downloads all of the current user's stats from the database as a CSV
+ * file called "stats.csv".
  */
 function handle_csv(){
     /*
@@ -206,10 +187,7 @@ function handle_csv(){
           document.body.appendChild(a);// OA: we need to append the element to the dom -> otherwise it will not work in firefox
           a.click();
           a.remove();// OA: afterwards we remove the element again
-          return true;
       });
-
-    return false;
 }
 
 /**
