@@ -17,14 +17,12 @@ const express         = require('express'),
       lowercasePaths  = require("express-lowercase-paths"),
       passport        = require("passport"),
       GitHubStrategy  = require('passport-github').Strategy,
-      cors            = require('cors')
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(express.static( 'public' ))
 app.use(bodyparser.json())
 app.use(helmet());
 app.use(lowercasePaths())
-app.use(cors())
 
 passport.use(new GitHubStrategy({
     clientID: "c1e503b1f352b54a86ac",
@@ -42,11 +40,7 @@ app.get('/', function(request, response) {
   response.sendFile(__dirname + '/views/index.html')
 })
 
-app.get('/auth/github', function (request, response) {
-  console.log("Need to auth")
-  passport.authenticate('github')
-})  
-//app.get('/auth/github', cors(), passport.authenticate('github'))        
+app.get('/auth/github', passport.authenticate('github'))        
         
         
 
