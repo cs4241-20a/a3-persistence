@@ -1,0 +1,95 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CS4241 A3</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+  </head>
+  
+  <body>
+  <div id="loginPage">
+    <h1>Login</h1>
+    <form action="">
+      <div>
+        <label>Last Name:</label>
+        <input id="username" type="text" name="username" />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input id="password" type="password" name="password" />
+      </div>
+      <div>
+        <button id="login">Log In</button>
+      </div>
+      <div>
+        <button href="/auth/github">Log in with GitHub</button>
+      </div>
+    </form>
+    
+    <br><br>
+    <h2>New Account</h2>
+      <form>
+        <input id="newUsername" name="username" type="text" placeholder="Last Name">
+        <input id="newPassword" name="password" type="password" placeholder="Password">
+        <button id="create">Create User</button>
+      </form>
+  </div>
+    
+  <div id="mainPage" hidden>
+    <div>
+      <h1>Register For Your Season</h1>
+      <p>Coach: </p>
+      <p id="coach"></p>
+      <p>Team Size: </p>
+      <p id="size"></p>
+    </div>
+    
+    <div id="playerForm">
+      <form action="">
+        <label for="number"> Number: </label>
+        <input type="number" id="number">
+        <label for="firstName"> First Name: </label>
+        <input type="text" id="firstName">
+        <label for="lastName"> Last Name: </label>
+        <input type="text" id="lastName"><br>
+        <label for="experience"> Experience: </label>
+        <select id="experience">
+          <option value="beginner">0-3 yrs</option>
+          <option value="intermediate">4-7 yrs</option>
+          <option value="advanced">8+ yrs</option>
+        </select><br>
+        <button type="submit" id="submitPlayer">Submit</button>
+      </form>
+    </div>
+
+    <div>
+      <section class="players">
+        <p>
+          <strong>Team Roster</strong>
+        </p>
+      <table id="table">
+        <thead>
+          <tr>
+            <th>Number</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Experience</th>
+          </tr>
+        </thead>
+    </table>
+    </section>
+  </div>
+</div>    
+    
+<script src="script.js"></script>
+</body>
+</html>
