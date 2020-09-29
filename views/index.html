@@ -35,11 +35,14 @@
         Need to know when you should get started on that homework assignment? Look no further than iPrioritize!
         Enter a task, a priority, and the date your task was created or assigned and get advice!
       </p>
+      <p>
+        <span style="color:#FF0000">Required fields</span> are in denoted in red and marked with an asterisk*
+      </p>
     <div class = "flex-container">
     <form>
       <div>
-      <label><h2>
-        Task:</h2></label><br />
+      <label style= "color:#FF0000"><h2>
+        Task*:</h2></label><br />
         <p id = "task-instruction">
           Enter your task in the input field below
         </p>
@@ -53,11 +56,14 @@
       <div>
         
    
-      <label><h2>
+      <label style= "color:#FF0000"><h2>
         
-        Priority:</h2></label><br />
+        Priority*:</h2></label><br />
         <p>
           Choose one priority level to represent your task in the option list below
+        </p>
+        <p>
+          Example: <img id = "save" src = "https://cdn.glitch.com/3806485b-89bc-4da2-b9f9-3d7912791a91%2FScreen%20Shot%202020-09-28%20at%208.29.27%20PM.png?v=1601339415206" width = 100>
         </p>
       <input
         type="radio"
@@ -103,14 +109,14 @@
       <p>
         Look at the list of tasks below to keep track of your to-do list. Modifying your task list: <ul>
       <li> <b>Add </b> a new task through the submission form at the top.</li>
-      <li><b>Delete</b> a task by clicking on it in the list below.</li>
-      <li><b>Modify</b> a task by clicking on the pencil icon on the desired list item.</li>
+      <li><b>Delete</b> a task by double clicking on it in the list below.</li>
+      <li><b>Modify</b> a task by clicking on the desired list item and changing the editable field. Remember to click the save button below to save your changes <img id = "edit" src = "https://cdn.glitch.com/3806485b-89bc-4da2-b9f9-3d7912791a91%2Fedit%2Bpen%2Bpencil%2Bicon-1320183237584811650.png?v=1601297770237" width = "50"></li>
       </ul>
       </p>
     </form>
       <div>
-      <img id = "edit" src = "https://cdn.glitch.com/3806485b-89bc-4da2-b9f9-3d7912791a91%2Fedit%2Bpen%2Bpencil%2Bicon-1320183237584811650.png?v=1601297770237" width = "50">
-       <img id = "save" src = "https://cdn.glitch.com/3806485b-89bc-4da2-b9f9-3d7912791a91%2FSave-512.png?v=1601297878497" width = "50">
+      
+       
         
       </div>
       <section class = "tasks">
@@ -119,7 +125,7 @@
         </ul>
       </section>
       </div>
-    <table id="data">
+<!--     <table id="data">
       <thead>
       <tr id = "myRow">
         <th>Task</th>
@@ -130,13 +136,16 @@
         </thead>
       <tbody id = "tableBody">
       </tbody>
-    </table>
+    </table> -->
        </div>
   
   <p>
     Read more about <a href="https://toggl.com/track/time-management-tips/">tips on time management!</a>
   </p>
   
+  <p>
+    Sign in to your account with the button below
+  </p>
   <button onclick = "window.location.href='https://a3-carley-gilmore.glitch.me/login.html';">
     Sign In
   </button>
@@ -242,5 +251,6 @@ function generateRows(jsonobj) {
     };
   </script> -->
   <script src="https://button.glitch.me/button.js" defer></script>
+  
     </body>
 </html>

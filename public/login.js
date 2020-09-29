@@ -2,8 +2,8 @@ var users = [];
 var objects = []; //meetings
 var account = "guest"
 
-const taskList = document.getElementById("tasks");
-const login = document.querySelector("login");
+//const taskList = document.getElementById("tasks");
+const login = document.querySelector("form");
 //const error = document.getElementById("error");
 
 function addUser(user, pass, id) {
@@ -13,15 +13,15 @@ function addUser(user, pass, id) {
   users.push({
     "user": user,
     "pass": pass,
-    "id": id
+    "_id": id
   });
 }
 
-login.addEventListener("signin", event => {
+login.addEventListener("submit", event => {
   event.preventDefault();
-
-  let newUser = login.elements.username.value;
-  let newPass = login.elements.password.value;
+  console.log("clicked")
+  let newUser = login.elements.username.value;//login.elements.username.value;
+  let newPass = login.elements.password.value;//login.elements.password.value;
   
   let createAccount = true;
   
@@ -31,7 +31,8 @@ login.addEventListener("signin", event => {
       if(user.pass.localeCompare(newPass) === 0) {
         account = newUser;
         localStorage.setItem("account", newUser);
-        document.location.href = "/schedule.html";
+        document.location.href = "/index.html";
+        alert("Successfully logged in!")
       }
       else {
         alert("Incorrect Password for this  Username");
@@ -40,8 +41,8 @@ login.addEventListener("signin", event => {
   })
 
   if(createAccount) {
-    
-    fetch("/add", {
+    console.log("reached Fetch")
+    fetch("/addUser", {
       method: "POST",
       body: JSON.stringify({ user: newUser, pass: newPass }),
       headers: {
@@ -57,7 +58,6 @@ login.addEventListener("signin", event => {
       });
     
   }
-
   login.reset();
   login.elements.username.focus();
 });
@@ -67,7 +67,19 @@ window.onload = function() {
   fetch("/users")
     .then(res => res.json())
     .then(json => {
-      Array.from(json).forEach(user => addUser(user.username, user.password, user._id))
+      Array.from(json).forEach(user => addUser(user.user, user.pass, user._id))
+    })
+  
+    fetch("/tasks", {
+    method: "POST",
+    body: JSON.stringify({account}),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(res => res.json())
+    .then(json => {
+      Array.from(json).forEach(task => add(task._id, task.user, task.yourtask, task.priority, task.creationdate))
     })
   
 }

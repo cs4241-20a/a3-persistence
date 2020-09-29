@@ -9,7 +9,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const helmet = require("helmet");
+var timeout = require('connect-timeout');
 //const cookieParser = require("cookie-parser");
+//var csurf = require('csurf');
 const morgan = require("morgan");
 const compression = require("compression");
 //responsetime //node
@@ -48,20 +50,21 @@ const tasks = [
   // }
 ];
 
-// app.use(cookieParser())
+//app.use(cookieParser())
 
 // app.get('/', function (req, res) {
-//   // Cookies that have not been signed
-//   console.log('Cookies: ', req.cookies)
+//  //Cookies that have not been signed
+// console.log('Cookies: ', req.cookies)
 
-//   // Cookies that have been signed
-//   console.log('Signed Cookies: ', req.signedCookies)
+// //Cookies that have been signed
+//  console.log('Signed Cookies: ', req.signedCookies)
 // })
 
+//app.use(csurf());
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("public"));
-
+app.use(timeout('5s'));
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
@@ -97,35 +100,6 @@ client.connect(err => {
   auth = client.db("Assignment3").collection("Users");
   // perform actions on the collection object
 });
-
-const LocalStrategy = require('passport-local').Strategy;
-
-
-passport.use(new LocalStrategy({
-    usernameField: 'username',
-    passwordField: 'password'
-    },
-    function (username, password, done) {
-        auth.find({ username: username, password: password }).toArray()
-        .then(function (result) {
-            if (result.length >= 1) {
-                return done(null, username);
-            } else {
-                return done(null, false, { message: "Incorrect username or password" });
-            }
-        });
-    }
-));
-
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-  
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
-
-app.use(passport.initialize());
 
 app.use(helmet());
 
@@ -181,23 +155,31 @@ app.post( '/update', bodyParser.json(), (req,res) => {
  // })
 })
 
+app.post('/addUser', bodyParser.json(), function(req,res){
+  
+  auth.insertOne(req.body).then(dbresponse => {
+  res.json(dbresponse.ops[0]);
+  })
+  console.log("User should be added")
+})
+
 app.get("/users", function(req, res) {
   auth.find().toArray().then(dbresponse => {
     res.json(dbresponse);
+    console.log("Searching through list of users")
   })
 })
 
-app.post('/login', bodyParser.json(),
-    passport.authenticate('local', {failureFlash: false}), function(request, response) {
-      response.json({username: request.user});
-    }
-);
+// app.post('/login', bodyParser.json(),
+//     passport.authenticate('local', {failureFlash: false}), function(request, response) {
+//       response.json({username: request.user});
+//     }
+// );
 
-app.get("/results", function(request, response) {
-  collection.find({ username: request.headers.username })
-  .toArray()
-  .then(tasks => {
-    console.log(`Successfully found ${tasks.length} document(s) for Sensei ${request.headers.tasks}.`);
-    response.json( tasks );
-  })
-})
+// app.get("/results", function(request, response) {
+//   collection.find({ username: request.headers.username })
+//   .toArray()
+//   .then(tasks => {
+//     console.log(`Successfully found ${tasks.length} document(s) for Sensei ${request.headers.tasks}.`);
+//     response.json( tasks );
+//   })

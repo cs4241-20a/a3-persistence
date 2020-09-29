@@ -72,72 +72,9 @@ function appendNewTask(task) {
   })
     .then(response => response.json())
     .then(json => {
-      getRoster();
       return json;
     });
   }
-
-  function login(e) {
-    e.preventDefault();
-
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
-
-    fetch('/login', {
-      method: "POST",
-      body: JSON.stringify({username, password}),
-      headers: {
-        "Content-Type":"application/json"
-      }
-    })
-    .then(async function(response) {
-      if (response.status === 200) {
-        let json = await response.json();
-        let username = json.username;
-        getRoster();
-      } 
-      else {
-        window.alert("Incorrect username or password");
-      }
-    });
-}
-  
-  function getRoster(){
-  fetch("/results", {
-    method:"GET",
-    headers: {
-      "tasks": newListItem.innerText
-    }
-  })
-  .then( response => response.json() )
-  .then( json => {
-  })
-}
-  
-//   newListItem.onclick = function() {
-//     fetch('/modify', {
-//     method: "POST",
-//     body: JSON.stringify({id: task._id}),
-//     headers: {
-//       "Content-Type": "application/json"
-//     }
-//   })
-//     .then(response => response.json())
-//     .then(json => {
-//       var tasks = document.getElementById("tasks");
-//         for(var i = 0; i < tasks.length; i++)
-//           if(tasks[i].id.localeCompare() === 0)
-//             tasks.splice(i, 1);
-      
-      
-      
-//     });
-//   }
-  
-  var pencil = document.getElementById("edit");
-pencil.addEventListener("click", function(){
-  console.log("edit button clicked")
-});
   
   tasksList.appendChild(newListItem);
   newListItem.appendChild(modifyButton);
@@ -148,7 +85,7 @@ fetch("/task")
   .then(response => response.json()) // parse the JSON from the server
   .then(tasks => {
     // remove the loading text
-    tasksList.firstElementChild.remove();
+   // tasksList.firstElementChild.remove();
 
     // iterate through every dream and add it to our page
     tasks.forEach(appendNewTask);
@@ -184,5 +121,7 @@ tasksForm.addEventListener("submit", event => {
   tasksForm.reset();
   tasksForm.elements.yourtask.focus();
 });
+
+
 
 
