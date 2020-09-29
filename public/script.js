@@ -146,13 +146,13 @@ const createItem = function (e) {
 
 const logoutUser = () => {
     fetch("/logout").then(() => {
-        document.getElementById("login").setAttribute("style", "");
+        document.getElementById("userDetails").setAttribute("style", "");
         document.getElementById("profile").setAttribute("style", "display:none");
 
         document.getElementById("l-username").innerHTML = "";
 
-        document.getElementById("loginGate").setAttribute("style", "");
-        document.getElementById("pages").setAttribute("style", "display:none");
+        document.getElementById("checkLogin").setAttribute("style", "");
+        document.getElementById("webpage").setAttribute("style", "display:none");
 
         const items = document.getElementById("items");
         items.innerHTML = "";
