@@ -154,7 +154,7 @@ app.get('/currentWord', (req, res) => {
 		const update = { $set: {'id': id, 'word': word}};
 		const options = {'upsert': true}
 		db.collection('_currwords').updateOne(query, update, options);
-		res.send(word);
+		res.send(scramble(word));
 	});
 });
 
