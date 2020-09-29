@@ -1,0 +1,96 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Assignment 3</title>
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"> 
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+  <body id ="body" class="bg-gray">
+    <main>
+        <div class="flex items-start flex-column">
+          <div class ="flex items-start">
+            <button class="b ph3 pv2 ba b--black bg-moon-gray pointer f5 dib mr link black ma2 fl">Weekly Planner</button>
+          </div>
+          <div class = "hide-child">
+            <button class="b ph3 pv2 input-reset ba b--black bg-moon-gray pointer f5 dib ma2" value="Add Event" id="add">
+            Add Event</button>
+            <div class="child">
+              <form>
+                <input class="b ph3 pv2 input-reset ba b--black bg-moon-gray pointer f5 dib ma2" type="submit" value="Add Event" id="addThis">
+                <input class="b ph3 pv2 input-reset ba b--black bg-moon-gray pointer f5 dib ma2" onfocus="if (this.value=='Name') this.value = ''"  type="text" id="addEventName" value = "Name">
+                <input class="b ph3 pv2 input-reset ba b--black bg-moon-gray pointer f5 dib ma2" onfocus="if (this.value=='Day') this.value = ''" type="text" id="addEventDay" value = "Day">
+                <input class="b ph3 pv2 input-reset ba b--black bg-moon-gray pointer f5 dib ma2" onfocus="if (this.value=='Place') this.value = ''" type="text" id="addEventPlace" value = "Place">
+                <input class="b ph3 pv2 input-reset ba b--black bg-moon-gray pointer f5 dib ma2" onfocus="if (this.value=='Note') this.value = ''" type="text" id="addEventNote" value = "Note">
+              </form>
+            </div>
+          </div>
+          <div class = "hide-child">
+            <button class="b ph3 pv2 input-reset ba b--black bg-moon-gray pointer f5 dib ma2" value="Reschedule Event" id="change">
+            Reschedule Event</button>
+            <div class="child">
+              <form>
+                <input class="b ph3 pv2 input-reset ba b--black bg-moon-gray pointer f5 dib ma2" type="submit" value="Add Event" id="updateThis">
+                <input class="b ph3 pv2 input-reset ba b--black bg-moon-gray pointer f5 dib ma2" onfocus="if (this.value=='Name') this.value = ''"  type="text" id="updateEventName" value = "Name">
+                <input class="b ph3 pv2 input-reset ba b--black bg-moon-gray pointer f5 dib ma2" onfocus="if (this.value=='Day') this.value = ''" type="text" id="updateEventDay" value = "Day">
+                <input class="b ph3 pv2 input-reset ba b--black bg-moon-gray pointer f5 dib ma2" onfocus="if (this.value=='Place') this.value = ''" type="text" id="updateEventPlace" value = "Place">
+                <input class="b ph3 pv2 input-reset ba b--black bg-moon-gray pointer f5 dib ma2" onfocus="if (this.value=='Note') this.value = ''" type="text" id="updateEventNote" value = "Note">
+              </form>
+            </div>
+          </div>
+          </div>
+         <div class="flex items-start">
+          <div class="outline w-25 pa3 mr2 ml2 bg-light-blue pointer">
+            <code>Sunday</code>
+            <ul class = "list pa1" id="Sunday">
+            </ul>
+          </div>
+          <div class="outline w-25 pa3 mr2 bg-blue pointer">
+            <code>Monday</code>
+            <ul class = "list pa1" id="Monday">
+            </ul>
+          </div>
+          <div class="outline w-25 pa3 mr2  bg-light-purple pointer">
+            <code>Tuesday</code>
+            <ul class = "list pa1" id="Tuesday">
+            </ul>
+          </div>
+          <div class="outline w-25 pa3 mr2  bg-pink pointer">
+            <code>Wednesday</code>
+            <ul class = "list pa1" id="Wednesday">
+            </ul>
+          </div>
+          <div class="outline w-25 pa3 mr2  bg-light-pink pointer">
+            <code>Thursday</code>
+            <ul class = "list pa1" id="Thursday">
+            </ul>
+          </div>
+          <div class="outline w-25 pa3 mr2  bg-light-yellow grow pointer">
+            <code>Friday</code>
+            <ul class = "list pa1" id="Friday">
+            </ul>
+          </div>
+          <div class="outline w-25 pa3 mr2  bg-yellow grow pointer">
+            <code>Saturday</code>
+            <ul class = "list pa1" id="Saturday">
+            </ul>
+          </div>
+         </div>
+    </main>
+
+    <!-- include the Glitch button to show what the webpage is about and
+          to make it easier for folks to view source and remix -->
+    <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js" defer></script>
+  </body>
+</html>
