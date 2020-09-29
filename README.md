@@ -6,20 +6,17 @@ Submission: [a3-matthew-stlouis.herokuapp.com](https://a3-matthew-stlouis.heroku
 1. [Tagteam Marathon (v2.0)](#tagteam-marathon-v20)
    1. [Core Assignment](#core-assignment)
       1. [Goal](#goal)
-      2. [Required Components Checklist](#required-components-checklist)
-      3. [Authentication](#authentication)
-      4. [CSS Framework](#css-framework)
-      5. [Express Middleware](#express-middleware)
-      6. [Challenges](#challenges)
+      2. [Usage](#usage)
+      3. [Required Components Checklist](#required-components-checklist)
+      4. [Authentication](#authentication)
+      5. [CSS Framework](#css-framework)
+      6. [Express Middleware](#express-middleware)
+      7. [Challenges](#challenges)
          1. [Passport.js](#passportjs)
          2. [Middleware](#middleware)
          3. [Huroku](#huroku)
    2. [Template](#template)
-   3. [Achievements](#achievements)
-      1. [Technical Achievements](#technical-achievements)
-      2. [Design/Evaluation Achievements](#designevaluation-achievements)
-2. [Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template](#assignment-3---persistence-two-tier-web-application-with-database-express-server-and-css-template)
-   1. [Acheivements](#acheivements)
+   3. [Technical Achievements](#technical-achievements)
 
 ## Core Assignment
 ### Goal
@@ -28,6 +25,29 @@ This project is a new version of my project for the last assignment - [Tagteam M
 Tagteam Marathon is an app to help teams of runners share their runs with each other and track their collective progress. The intended use of this is for runners who want to have a social aspect to their runs without physically meeting up during the time of social distancing. Users can log in with GitHub to add, modify, and delete runs.
 
 Currently, runs are tied to specific accounts, and there is no way to share runs across accounts, so the app is only suited for runners tracking their runs as an individual. However, the app provides all functionality necessary to meet this goal.
+
+### Usage
+To get started with TagTeam marathon, sign in with GitHub using the button in the upper right of the page.
+
+__The first time you sign in, you will get an `alert()` notifying you that an account has been created with the app. It will only appear once. Please do not miss it.__
+
+You can add new runs via the New Run form at the bottom of the page. Submit with the Submit button.
+
+![New Run Form](assets/New%20Run.png)
+
+Once you have submitted a run, it will display in the Completed Runs table. This table will initially be empty, as the new user will not have any runs before they add one.
+
+![Completed Runs Table](assets/Home.png)
+
+You can view the notes in a saved run with the __View Notes__ button in the __Completed Runs__ table under the __Actions__ menu. You can edit these notes with the __Edit Notes__ button in the same menu.
+
+To delete a run, use the __Delete Run__ button in the __Actions__ menu on the __Completed Runs__ table.
+
+![Actions Menu](assets/Actions.png)
+
+To modify a run, use the __Edit Run__ button in the __Actions__ menu on the __Completed Runs__ table. This will transform the relevant table entries to inputs where the user can edit the data. Save this with the __Submit Edits__ button that now appears under the __Actions__ menu, or discard changes either with the __Cancel Edits__ button under the __Actions__ menu or by editing another run.
+
+![Completed Runs Table (editing mode)](assets/Edit.png)
 
 ### Required Components Checklist
 - [x] A `Server`, created using Express
@@ -128,35 +148,14 @@ Include a very brief summary of your project here. Images are encouraged, along 
   - include any modifications to the CSS framework you made via custom CSS you authored
 - the five Express middleware packages you used and a short (one sentence) summary of what each one does
 
-## Achievements
-### Technical Achievements
-- **Tech Achievement 1**: 
-- I used OAuth authentication via the GitHub strategy
+## Technical Achievements
+I used OAuth authentication via the GitHub strategy using passport.js and the following middleware:
+- __passport__
+- __passport-github__
+- __connect-ensure-login__
+- __morgan__
+- __cookie-parer__
+- __express-session__
+It was good to get some experience writing an app with user accounts and externally managed security. The difficulties for this are mentioned [above](#passportjs).
 
-### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
-
-# Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-## Acheivements
-
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
+I hosted the site on [Heroku](https://www.heroku.com) rather than Glitch. Heroku looks like it can easily handle more complicated builds than Glitch, but the experience was certainly not as user-friendly for setting up the project, going through logs, and setting environment variables. However, one thing that Heroku excels at where I feel Glitch comes up short is with GitHub integration. I have Heroku set up to automatically rebuild and redeploy the project every time I commit to this branch on GitHub, whereas  I find Glitch's process for manually importing a project from GitHub a bit cumbersome.
