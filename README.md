@@ -1,7 +1,6 @@
 ## A3-Xiaowei Chen
 		
-
-		your glitch (or alternative server) link e.g. https://a3-xchen0326.glitch.me/
+https://a3-xchen0326.glitch.me/
 		
 
 ## Important！！！Things to notice in order to sucessfully run my application!
