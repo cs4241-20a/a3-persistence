@@ -114,6 +114,11 @@ app.get("/results", function (request, response) {
     })
 });
 
+app.post("/newAccount", bodyParser.json(), function (request, response){
+  users.insertOne(request.body)
+    .then(() => response.sendStatus(200));
+});
+
 app.get("/", (_, response) => {
   response.sendFile(__dirname + "/views/index.html");
 });

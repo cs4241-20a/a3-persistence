@@ -148,9 +148,31 @@ const login = (e) => {
   })
 };
 
+const createUser = (e) => {
+  e.preventDefault();
+  
+  let coach = document.getElementById("newUsername").value;
+  let password = document.getElementById("newPassword").value;
+  
+  fetch('/newAccount', {
+    method: "POST",
+    body: JSON.stringinfy({coach, password}),
+    headers: { "Content-Type": "application/json"}
+  })
+  .then( function(response) {
+    if(response.ok) {
+      window.alert("created account :) - please log in with your new credentials now")
+    } else {
+      window.alert("error - new account has not been created :(")
+    }
+  })
+}
+
 window.onload = function() {
   const loginButton = document.getElementById("login");
   loginButton.onclick = login;
   const submitButton = document.getElementById("submitPlayer");
   submitButton.onclick = submit;
+  const createButton = document.getElementById("create");
+  createButton.onclick = createUser;
 };

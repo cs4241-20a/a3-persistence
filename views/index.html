@@ -20,7 +20,7 @@
     <h1>Login</h1>
     <form action="">
       <div>
-        <label>Username:</label>
+        <label>Last Name:</label>
         <input id="username" type="text" name="username" />
       </div>
       <div>
@@ -28,12 +28,20 @@
         <input id="password" type="password" name="password" />
       </div>
       <div>
-        <button id="login">Log In / Sign Up</button>
+        <button id="login">Log In</button>
       </div>
       <div>
         <button href="/auth/github">Log in with GitHub</button>
       </div>
     </form>
+    
+    <br><br>
+    <h2>New Account</h2>
+      <form>
+        <input id="newUsername" name="username" type="text" placeholder="Last Name">
+        <input id="newPassword" name="password" type="password" placeholder="Password">
+        <button id="create">Create User</button>
+      </form>
   </div>
     
   <div id="mainPage" hidden>
@@ -82,6 +90,6 @@
   </div>
 </div>    
     
-<script src="public/script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
