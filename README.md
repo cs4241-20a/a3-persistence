@@ -1,4 +1,4 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
+P    Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 ===
 
 Due: September 28th, by 11:59 PM.
@@ -104,5 +104,7 @@ Express Middleware:
   added some margin around buttons. I also made buttons larger so they filled up more of the space they took up. This aspect was simultaneously the most difficult and easiest; Bootstrap does most of the heavy lifting
   automatically, but I found that in cases where I didn't like the default Bootstrap styling, it was surprisingly difficult to figure out which properties to override in order to better fit my idea. I ultimately managed
   to align everything to my satisfaction, but it took me a surprising amount of time to get it just right.
-  * Proximity
-  I   
+  * Prox
+  Proximity was one of the most straightforward design principles to me. I've worked with Bootstrap in the past and I've gotten in the habit of placing forms as well as anything that displays data inside of a Card element.
+  I find that being in a card gives a nice smooth outline and creates a subtle but important separation between different visual elements. For instance, on the page where recipes are displayed, each recipe is nicely
+  bordered to clearly indicate where one ends and another begins.   I   
