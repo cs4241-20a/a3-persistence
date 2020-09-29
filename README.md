@@ -40,7 +40,7 @@ I used the Cookie-Parser to parse the Cookie header on the request and expose th
 I used the bodyparser to parse all incoming requests.
 
 
-
+included a screenshot of the database working in the glitch repo
 
 Technical Achievements
 Tech Achievement 1: 
