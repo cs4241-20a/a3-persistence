@@ -1,5 +1,7 @@
 ## Weather Reporting by Kyle Mikolajczyk
+http://kylem.org:3000/
 
+(if my website is not working above for whatever reason here is the glitch fallback)
 https://a3-kyle-mikolajczyk.glitch.me/
 
 - The goal of this application was to make a simple weather reporting site that allows a user to report their own weather and see all the submissions they have done, at anytime.
