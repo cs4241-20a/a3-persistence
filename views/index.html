@@ -1,0 +1,130 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A cool thing made with Glitch" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>a3-wying8349</title>
+
+    <!--Import Google Icon Font-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!--Import materialize.css-->
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="/materialize.min.css"
+      media="screen,projection"
+    />
+    <link
+      id="favicon"
+      rel="icon"
+      href="https://glitch.com/edit/favicon-app.ico"
+      type="image/x-icon"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-2.1.1.min.js"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        $("select").material_select();
+      });
+    </script>
+    <script src="/script.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Score Board</h1>
+    </header>
+
+    <main>
+      <p>Fill in the following form to report your scores</p>
+
+      <div class="row">
+        <form class="col s12" id="score-form">
+          <div class="row">
+            <div class="input-field col s4">
+              <input id="first_name" type="text" class="validate" />
+              <label for="first_name">First Name</label>
+            </div>
+            <div class="input-field col s4">
+              <input id="last_name" type="text" class="validate" />
+              <label for="last_name">Last Name</label>
+            </div>
+            <div class="input-field col s4">
+              <input id="student_id" type="text" class="validate" />
+              <label for="student_id">Student ID</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="course_id" type="text" class="validate" />
+              <label for="course_id">Course ID</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="score" type="text" class="validate" />
+              <label for="score">Score</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              Select your grade here:
+              <div class="input-field col s12 inline">
+                <select>
+                  <optgroup label="Undergraduate">
+                    <option value="1">Freshmen</option>
+                    <option value="2">Sophomore</option>
+                    <option value="3">Junior</option>
+                    <option value="4">Senior</option>
+                  </optgroup>
+                  <optgroup label="Graduate">
+                    <option value="5">Freshmen</option>
+                    <option value="6">Senior</option>
+                  </optgroup>
+                </select>
+                <label>Optgroups</label>
+              </div>
+            </div>
+          </div>
+          <button class="btn waves-effect waves-light" type="submit" id="submit-score">
+            Submit <i class="material-icons right">send</i>
+          </button>
+        </form>
+      </div>
+
+
+
+      <section class="dreams">
+        <ul id="dreams">
+          <em>loading dreams&hellip;</em>
+        </ul>
+      </section>
+    </main>
+
+    <footer>Made with <a href="https://glitch.com">Glitch</a>!</footer>
+
+    <!-- include the Glitch button to show what the webpage is about and
+          to make it easier for folks to view source and remix -->
+    <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js" defer></script>
+  </body>
+</html>
