@@ -87,6 +87,11 @@ app.post("/register", (request, response) => {
   })
 });
 
+app.get("/loadData", async (request, response) => {
+  let data = await posts.find({}).toArray();
+  await response.json(data);
+})
+
 app.post("/addpost", (request, response) => {
   console.log(request.body);
   posts.insertOne(request.body).then(function () {
@@ -95,13 +100,17 @@ app.post("/addpost", (request, response) => {
 });
 
 app.post("/editpost", async (request, response) => {
-  // let post = await posts.findOne({title: request.body.title});
-  // console.log(post);
-  // await response.json(post);
-  posts.findOne({title: request.body.title}).then(result => {
-    console.log(result);
-    response.json(result);
-  })
+  let post = await posts.findOne({title: request.body.title});
+  console.log(post);
+  await response.json(post);
+  // posts.findOne({title: request.body.title}).then(result => {
+  //   console.log(result);
+  //   response.json(result);
+  // })
+});
+
+app.post("/deletepost", async (request, response) => {
+  await posts.deleteOne({title: request.body.title});
 });
 
 app.get('/logout', function(req, res){
