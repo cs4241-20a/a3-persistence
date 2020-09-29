@@ -15,8 +15,7 @@ Submission: [a3-matthew-stlouis.herokuapp.com](https://a3-matthew-stlouis.heroku
          1. [Passport.js](#passportjs)
          2. [Middleware](#middleware)
          3. [Huroku](#huroku)
-   2. [Template](#template)
-   3. [Technical Achievements](#technical-achievements)
+   2. [Technical Achievements](#technical-achievements)
 
 ## Core Assignment
 ### Goal
@@ -137,16 +136,6 @@ Uploading to Huroku was not too challenging, but I think it was significant enou
 I fumbled with Digital Ocean for about an hour before giving up on it. I downloaded an authenticator app and went through account setup before realizing that there was no free tier. I tired to host it there anyway, but I could not get my code onto the server. I tried VS Code's SSH, but it wasn't working, and I tried their web terminal, which was unresponsive.
 
 When I switched to Heroku, I spent a good hour just trying to get the GitHub Authentication to work again. The URL's are very finnicky. I got to the point where I tried reformatting the strings for the callback URL a few times, and one of them worked. I don't know what I did differently the time it worked, but it must have been something.
-
-## Template
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
 
 ## Technical Achievements
 I used OAuth authentication via the GitHub strategy using passport.js and the following middleware:
