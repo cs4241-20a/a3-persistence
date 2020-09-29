@@ -17,7 +17,7 @@ const MongoClient = require("mongodb").MongoClient;
 const GitHubStrategy = require("passport-github").Strategy;
 const LocalStrategy = require("passport-local").Strategy;
 
-const uri = "mongodb+srv://ben-mongouser:bena3mongo@cluster0.e9zfq.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const uri = process.env.A3_URI;
 const mongoSetup = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -26,7 +26,7 @@ const mongoSetup = {
 app.set("trust proxy", 1); // trust first proxy
 app.use(
   session({
-    secret: "9x5q7n8osek5fliqlk",
+    secret: process.env.A3_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
@@ -55,9 +55,9 @@ passport.deserializeUser(function (user, done) {
 passport.use(
   new GitHubStrategy(
     {
-      clientID: "69e7c003870971b9dcab",
-      clientSecret: "0cc91bec13f1ec331e832f580feef2ff83eb870b",
-      callbackURL: "http://localhost:3000/auth/github/callback",
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: process.env.GITHUB_CALLBACK,
     },
     async (accessToken, refreshToken, profile, cb) => {
       const client = new MongoClient(uri, mongoSetup);
