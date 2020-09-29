@@ -22,14 +22,14 @@ form {
   display: grid;
   grid-gap: 1em;
   padding: 1em;
-  max-width: 40ch;
+  max-width: 97%;
+  border-radius:5px;
 }
 
 input {
   border: 1px solid silver;
   display: block;
   font-size: 16px;
-  margin-bottom: 10px;
   padding: 5px;
   width: 100%;
 }
@@ -45,12 +45,8 @@ form button {
   max-width: 20ch;
 }
 
-form button:hover {
-  background-color: lavender;
+li{
+  margin-top: 3%;
+  margin-bottom:3%;
 }
 
-footer {
-  margin-top: 3em;
-  padding-top: 1.5em;
-  border-top: 1px solid lightgrey;
-}

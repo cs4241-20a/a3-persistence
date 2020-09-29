@@ -5,17 +5,29 @@ console.log("hello world :o");
 
 // define variables that reference elements on our page
 const dreamsList = document.getElementById("dreams");
-const dreamsForm = document.querySelector("form");
+const dreamsForm = document.querySelector("#dreamForm");
 
 // a helper function that creates a list item for a given dream
 function appendNewDream(dream, id) {
   const newListItem = document.createElement("li");
-  newListItem.innerText = dream;
+  newListItem.innerText = dream + " ";
 
-  newListItem.onclick = function() {
+  var delButton = document.createElement("button");
+  delButton.innerText = "Delete";
+  delButton.setAttribute("id", "Delete");
+  delButton.setAttribute("class", "delete-button pure-button");
+  newListItem.append(delButton);
+
+  var editButton = document.createElement("button");
+  editButton.innerText = "Edit";
+  editButton.setAttribute("id", "Edit");
+  editButton.setAttribute("class", "edit-button pure-button");
+  newListItem.append(editButton);
+
+  delButton.onclick = function() {
     fetch("/delete", {
       method: "POST",
-      body: JSON.stringify({ id }),
+      body: JSON.stringify({ dream: dream }),
       headers: {
         "Content-Type": "application/json"
       }
@@ -24,6 +36,26 @@ function appendNewDream(dream, id) {
       .then(json => {
         newListItem.remove();
       });
+  };
+
+  editButton.onclick = function() {
+    var newStr = prompt("Enter new text:", "New Text");
+    if (newStr != null && newStr != undefined && newStr != "") {
+      //send the string over
+      var result = { oldText: dream, newText: newStr };
+      fetch("/edit", {
+        method: "POST",
+        body: JSON.stringify(result),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(response => response.json())
+      .then( dreams =>{
+        newListItem.innerText = newStr + " ";
+        newListItem.append(delButton);
+        newListItem.append(editButton);
+      });
+    }
   };
 
   dreamsList.appendChild(newListItem);
