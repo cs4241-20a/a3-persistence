@@ -4,7 +4,6 @@
 
 Jacob Pelrah https://a3-herschelkrustofsky.glitch.me/
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
 I wrote this application because I enjoy music. I'm always interested in new music and discovering new artists and their history.
 My goal is to keep working on this website until it is ready to deploy.
