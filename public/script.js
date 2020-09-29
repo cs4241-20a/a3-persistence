@@ -80,6 +80,23 @@ fetch("/dreamsTotal", {
       // iterate through every dream and add it to our page
       dreams.forEach(appendNewDreamRow);
     });
+
+//helper fucntion that creates a table row for a given dream
+function appendNewDreamRow(dreamItem, id) {
+    const newTableItem = document.createElement("tr");
+    var cell1 = newTableItem.insertCell(0)
+    var cell2 = newTableItem.insertCell(1)
+    var cell3 = newTableItem.insertCell(2)
+    var cell4 = newTableItem.insertCell(3)
+    var cell5 = newTableItem.insertCell(4)
+    cell1.innerText = dreamItem.dream;
+    cell2.innerText = dreamItem.scoops;
+    cell3.innerText = dreamItem.sprinkles;
+    cell4.innerText = 'DELETE'
+    cell5.innerText = 'UPDATE'
+      
+    yike.appendChild(newTableItem);
+  }
 /*END BAD */
 
 // listen for the form to be submitted and add a new dream when it is
