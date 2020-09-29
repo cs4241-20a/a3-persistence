@@ -74,7 +74,7 @@ app.get('/', (req, res) => {
 // If the user is not logged in, send a 403 and lock them out of accessing the page
 app.get('/index.html', function (req, res){
   if(currentUser === ""){
-    res.sendStatus(403)
+    res.sendFile(path.join(__dirname,'public/login.html'));
   }
   else {
     res.sendFile(path.join(__dirname,'public/index.html'))
