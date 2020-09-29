@@ -50,6 +50,7 @@ const submit = function( e ) {
 };
 
 const loadTable = function ( json ){
+    console.log(json)
     const table = document.getElementById("table-body");
     table.innerHTML = "";
     for (let i = 0; i < json.length; i++){

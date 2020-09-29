@@ -2,16 +2,49 @@ let express = require("express");
 let mongoDB = require('mongodb');
 let app = express();
 
+//current author
+let currentAuthor = null;
+
 // middleware imports
 let bodyParser = require('body-parser');
+let morgan = require('morgan');
+let compression = require('compression');
+let helmet = require('helmet')
+let passport = require('passport')
+let GitHubStrategy = require('passport-github').Strategy;
 
-// directory to serve up files
+// middlware usages
 app.use(express.static("./public"));
+app.use(morgan('tiny'));
+app.use(compression());
+app.use(helmet());
 
 // constants and variable related to establishing a connection to the cluster
 const uri = "mongodb+srv://webserver:webserver1@cluster0.gswqr.mongodb.net/website-data?retryWrites=true&w=majority";
 const client = new mongoDB.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null;
+
+// passport stuff
+passport.use(new GitHubStrategy({
+        clientID: '847470238063eb7674e1',
+        clientSecret: '927ebede89f357d6f737ed7142dd51948275abcf',
+        callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+    },
+    function(accessToken, refreshToken, profile, cb) {
+        return cb(null, profile);
+    }
+));
+passport.serializeUser(function(user, cb) {
+    currentAuthor = user['id'];
+    cb(null, user);
+});
+passport.deserializeUser(function(obj, cb) {
+    console.log("deserialized");
+    cb(null, obj);
+});
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // connect to the MongoDB cluster
 client.connect().then( () => {
@@ -23,6 +56,16 @@ client.connect().then( () => {
     return "Connected to guests collection on website-data DB";
 }).then( console.log )
 
+app.get('/auth/github', passport.authenticate('github'));
+
+app.get('/auth/github/callback',
+    passport.authenticate('github', { failureRedirect: '/login' }),
+    function(req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('/guestList.html');
+    }
+);
+
 // add a guest
 app.post('/add', bodyParser.json(), (request, response) => {
     // get the data
@@ -30,6 +73,7 @@ app.post('/add', bodyParser.json(), (request, response) => {
 
     //constructing the document to be stored in the DB
     let document = {
+        author: currentAuthor,
         fullName: getFullName(data['firstName'], data['middleName'], data['lastName']),
         gender: data['gender'],
         birthday: data['birthday'],
@@ -38,7 +82,7 @@ app.post('/add', bodyParser.json(), (request, response) => {
 
     // insert the document into the DB
     collection.insertOne(document).then(result => {
-        collection.find({}).toArray(function (err, results) {
+        collection.find({'author': currentAuthor}).toArray(function (err, results) {
             response.json(results);
             console.log("INSERTED: " + document['fullName']);
         });
@@ -52,9 +96,8 @@ app.post('/delete', bodyParser.json(), (request, response) => {
 
     // delete the record
     collection.deleteOne(data).then(() => {
-        collection.find({}).toArray(function (err, results) {
+        collection.find({'author': currentAuthor}).toArray(function (err, results) {
             response.json(results);
-            console.log("DELETED: " + data['fullName']);
         });
     });
 });
@@ -62,9 +105,9 @@ app.post('/delete', bodyParser.json(), (request, response) => {
 // load all of the records
 app.post('/load', (request, response) => {
     // get all of the records
-    collection.find({}).toArray(function(err, results) {
+    console.log(currentAuthor);
+    collection.find({'author': currentAuthor}).toArray(function(err, results) {
         response.json(results);
-        console.log("Retrieved All Documents from DB");
     });
 });
 
@@ -73,17 +116,15 @@ app.post('/modify', bodyParser.json(), (request, response) => {
     // get the data from the request
     let data = request.body;
 
-    collection.find(data).toArray().then((document) => {
+    collection.find({'fullName': data['fullName'], 'author': currentAuthor}).toArray().then((document) => {
         return document[0];
     }).then((document) => {
         let newVal = !document['ableToDrink'];
-        collection.updateOne({'fullName': document['fullName']}, {$set: {'ableToDrink': newVal}});
-        return {'fullName': document['fullName'],
-                'ableToDrink': newVal};
-    }).then((information) => {
-        collection.find({}).toArray(function (err, results) {
+        console.log(newVal)
+        collection.updateOne({'fullName': document['fullName'], 'author': currentAuthor}, {$set: {'ableToDrink': newVal}});
+    }).then(() => {
+        collection.find({"author": currentAuthor}).toArray(function (err, results) {
             response.json(results);
-            console.log("UPDATED DRINKING VALUE OF \'" + information['fullName'] + "\' to " + information['ableToDrink']);
         });
     })
 });
@@ -106,6 +147,6 @@ let getDrinkingValidity = function (birthday) {
 };
 
 // set port to listen
-let listener = app.listen(process.env.PORT, () => {
+let listener = app.listen(3000, () => {
     console.log("App is listening on port: " + listener.address().port);
 });
