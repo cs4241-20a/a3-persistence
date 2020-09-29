@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">    
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+  </head>
+  
+  <body>
+    <div class="container">
+      
+      <span class="label label-success" id="account"></span>
+
+      <form>
+        <input type="text" id="title" placeholder="Title">
+        <input type="time" id="start" placeholder="Start Time">
+        <input type="time" id="end" placeholder="End Time">
+        <button type="submit" class="btn btn-sm btn-primary">Add Meeting</button>
+      </form>
+
+      <table class="table table-striped">
+        <thead>
+          <th>Meeting Title</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+        </thead>
+        <tbody id="meetings">
+        
+        </tbody>
+      </table>
+      
+
+      <script src="scheduleScript.js"></script>
+    </div>
+  </body>
+</html>

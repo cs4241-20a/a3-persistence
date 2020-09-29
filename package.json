@@ -1,0 +1,22 @@
+{
+  "name": "Scheduler",
+  "version": "1.0.0",
+  "description": "A simple scheduler app for the day",
+  "author": "Malek ElShakhs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.5.2",
+    "compression": "^1.7.4",
+    "errorhandler": "^1.5.1",
+    "express": "^4.17.1",
+    "github-oauth-express": "^1.0.4",
+    "helmet": "^4.1.1",
+    "mime": "^2.4.6",
+    "mongodb": "^3.6.2",
+    "morgan": "^1.10.0",
+    "response-time": "^2.3.2"
+  }
+}
