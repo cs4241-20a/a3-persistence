@@ -1,82 +1,29 @@
 Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 ===
 
-Due: September 28th, by 11:59 PM.
+## Nikhil Chintada Assignment 3
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
+https://a3-nikhil-chintada.glitch.me/
 
-Baseline Requirements
----
+The goal of this application was to create a two tiered web application with login capabilities and data that only a authenticated user can access. I created a site which allows users to make and modify a todo list with items containing priority, task name and due date (each being different input types).
 
-Your application is required to implement the following functionalities:
+Using MongoDB, I authenticated the user simply by taking in the username and password and using a query to search for the user provided. If the query was successful, then the password value of the item in the database would be compared to the password provided by the user. If they matched they were authenticated and sent to their user page. If they did not match a message would be displayed on screen saying that the password was incorrect. If the initial query was not successful this would return a message that the user didn't exist and suggest the user to add the new user they had tried to input (by checking the checkbox on the form). This seemed to be the most straightforward way to authenticate.
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
+I used Bootstrap for my CSS framework as it seemed simple and easy to use with elegant styling. I restyled very little, mainly adding a grey highlight when hovering over table values on the user page to indicate it can be clicked as well as centering the form and making the login error messages red.
 
-Your application is required to demonstrate the use of the following concepts:
-
-HTML:
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
-
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
-
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
-
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
-
-Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+I used the body-parser middleware package to process data between the client and server more easily without having to add in headers on each message and to utilize express' functions. I used cookie-parser in order to store a cookie of the current user which was used by the server in order to access the appropriate data based on the cookie and to keep the user signed in until they wished to sign out (at which point cookies are cleared). I used serve-favicon to create a favicon for my page (A3 on a red background). One thing to note for the favicon is it doesn't show up in edge unless the page is pinned. I used response-time in order to get the response time getting data from the server for auto-populating the table as this was more time consuming than other actions. I also added in connect-timeout for stopping the program if anything took longer than 5 seconds. I added in passport and passport-github for the OAuth authentication, those these were not fully implemented.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **(Attempted) OAuth Authenticaion **: I started setting up OAuth authentication via the GitHub strategy, however I did not get very far. My next steps would have been serializing the user data and setting up a get request for the call.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **CRAP Principles**: 
+***Contrast***
+In order to add a level of contrast to the webpage, a white background with black text was used, this creates an easy to read layout of the website. This color scheme is used in the form and table as well. The header row of the table is colored black, creating an immediate visual draw to the table, also helping to shape the table’s size and define it very well. The contrast of thick bolded text for headers and todo list item numbers in comparison to the regular text used for the body of the table and the form headers also helps in drawing the user’s eye to important information. Separate from all the rest in color scheme are the buttons, which are blue, indicating their difference from the static aspects of the page.
+***Repetition***
+The black and white color scheme assists with repetition. The repeated use of thick, bolded letters helps accentuate the section headers for the page, the table and the form. Both the table and the form have headers of the same size and font in order to visually communicate the fact that they are headers of equal importance. The header that breaks from this is the page header which welcomes the user because this is for the entire page rather than a single element, denoting its importance from its break from repetition. Between sections the size of items changes (the form inputs are less wide than the table items) which helps the user see the difference between the section without the use of section divisions. Additionally, the table has a very clear repeating style which differentiates it from the other items on the page, helping create a clear difference between the table and the form. 
+***Alignment***
+The items on the page are purposefully aligned in the center. The first element the user will see is “Hello user” (with the user’s name in place of the word user), before they see “Your To-Do List” followed by “Enter User Data” creating a clear flow of information for the user. Within each section, items belonging to the form and the table are aligned with one another in order to demonstrate their uniformity (within their respective section), while their changing size and center alignment helps differentiate and contrast them for the user. The sign out button being all the way at the bottom of the page by itself helps differentiate it and indicate that it is a separate and final process for the user.
+***Proximity***
+Proximity is used throughout the entire page in order to demonstrate different sections and related information. The first text on the page which welcomes the user is directly followed by “Your To-do List” which indicates just through proximity that the table is related to the user, with the text assisting this. However, even between these items there is a bigger gap between the introductory text and the to-do list header text than there is between the header and the table, indicating the text “Your To-Do List” is for the table below it. The grouping of the buttons all at the bottom of the page also helps indicate that this section is for user action. Additionally, grouping the buttons add, edit and delete in a single line helps indicate the separation between these actions which are for the form, and sign out, which logs the user out of the page and returns them to the start page. 
+
