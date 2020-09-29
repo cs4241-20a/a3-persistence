@@ -35,12 +35,12 @@ const submit = function (e) {
     }
 
     console.log(json)
-    fetch('/suibmit', {
+    fetch('/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(json)
     })
-        .then(reponse => response.json())
+        .then(response => response.json())
         .then(json => {
             updatetimeSheet(table, json)
         })
@@ -80,7 +80,7 @@ const logout = function (e) {
     return false;
 }
 
-const edit(nameinput, idinput, gradeinput, timeinput, table, id, button){
+const edit = function(nameinput, idinput, gradeinput, timeinput, table, id, button){
     button.onclick = submit;
 
     if (nameinput.value === "" || idinput.value === "") {
@@ -93,7 +93,7 @@ const edit(nameinput, idinput, gradeinput, timeinput, table, id, button){
         return 0;
     }
 
-    const json = { studentName: nameinput.value, studentID: idinput.value, studentClass: gradeinput.value, timeWorked: timeinput.value, payment: ((timeinput.value * 12.75) * 0.9) };
+    const json = { _id: id, studentName: nameinput.value, studentID: idinput.value, studentClass: gradeinput.value, timeWorked: timeinput.value, payment: ((timeinput.value * 12.75) * 0.9) };
 
     fetch('/edit', {
         method: 'POST',
@@ -121,7 +121,7 @@ const sheetdel = function (table, id) {
 
     fetch('/delete', {
         method: 'POST',
-        headers: { 'Content-Type' ; 'application/json'},
+        headers: { 'Content-Type' : 'application/json'},
         body: JSON.stringify(json)
     })
         .then(response => {

@@ -1,127 +1,156 @@
 // JavaScript source code
-const express = require('express');
+const express = require("express");
 const app = express();
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
-const favicon = require('serve-favicon');
-const path = require('path');
-const responseTime = require('response-time');
-const helmet = require('helmet');
-require('dotenv').config()
-const mongodb = require('mongodb')
-const MongoClient = mongodb.MongoClient;
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
+const favicon = require("serve-favicon");
+const path = require("path");
+const responseTime = require("response-time");
+const helmet = require("helmet");
 
-app.use(express.static('public'))
-app.use(bodyParser.json())
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
-app.use(responseTime((request, response, Time) => console.log(request.method, request.url, time + 'ms')))
-app.use(morgan('tiny'));
-app.use(helmet())
-
+app.use(express.static("public"));
+app.use(bodyParser.json());
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
+app.use(
+    responseTime((request, response, time) =>
+        console.log(request.method, request.url, time + "ms")
+    )
+);
+app.use(morgan("tiny"));
+app.use(helmet());
+require("dotenv").config();
+const mongodb = require("mongodb");
 
 //connectng to mongodb
 const MongoClient = mongodb.MongoClient;
-const uri = "mongodb+srv://dbuser:${process.env.DBPASSWORD}@cluster0.rtnhc.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const uri =
+    "mongodb+srv://dbuser:${process.env.DBPASSWORD}@cluster0.rtnhc.mongodb.net/<dbname>?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
-const collection = null;
+let collection = null;
 client.connect(err => {
     collection = client.db("bilbo").collection("swaggins");
     // perform actions on the collection object
 });
 
-const client_id = process.env.GITHUB_CLIENT_ID
-const client_secret = process.env.GITHUB_CLIENT_SECRET
+const client_id = process.env.GITHUB_CLIENT_ID;
+const client_secret = process.env.GITHUB_CLIENT_SECRET;
 
-pp.get('/', (request, response) => {
+app.get("/", (request, response) => {
     if (request.session.githubid) {
-        response.sendFile(__dirname + '/public/inv.html')
+        response.sendFile(__dirname + "/public/inv.html");
     } else {
-        response.sendFile(__dirname + '/public/login.html')
+        response.sendFile(__dirname + "/public/login.html");
     }
-})
+});
 
-    app.get('/geturl', (request, response) => {
-        const path = request.protocol + '://' + request.get('host');
-        const url = 'https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${path}/login/github/callback';
-        response.json(url);
-    })
+app.get("/geturl", (request, response) => {
+    const path = request.protocol + "://" + request.get("host");
+    const url =
+        "https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${path}/login/github/callback";
+    response.json(url);
+});
 
-        async function getAccessToken(code) {
-            const response = await fetch('https://github.com/login/oauth/access_token', {
-                method: 'POST',
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    client_id,
-                    client_secret,
-                    code
-                })
+async function getAccessToken(code) {
+    const response = await fetch("https://github.com/login/oauth/access_token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            client_id,
+            client_secret,
+            code
+        })
+    });
+    const data = await response.text();
+
+    const params = new URLSearchParams(data);
+    return params.get("access_token");
+}
+
+async function getGHUser(accessToken) {
+    const request = await fetch("https://api.github.com/user", {
+        headers: { Authorization: `bearer ${accessToken}` }
+    });
+    const data = await request.json();
+    return data;
+}
+
+app.get("/login/github/callback", async (request, response) => {
+    const atoken = await getAccessToken(
+        request.query.code,
+        client_id,
+        client_secret
+    );
+    const GHData = await getGHUser(atoken);
+
+    if (GHData) {
+        request.session.githubid = GHData.id;
+        request.session.token = GHData.token;
+        response.redirect("/");
+    } else {
+        console.log("Error while logging in");
+        response.redirect("/login.html");
+    }
+});
+
+app.get("/", (request, response) => {
+    request.session = null;
+    response.redirect("/");
+});
+
+app.post("/submit", (request, response) => {
+    const json = {
+        githubid: request.session.githubid,
+        studentName: request.body.studentName,
+        studentID: request.body.studentID,
+        studentClass: request.body.studentClass,
+        timeWorked: request.body.timeWorked,
+        payment: request.body.payment
+    };
+    collection.insertOne(json).then(data => {
+        response.json(data.json[0]);
+    });
+});
+
+app.post("/delete", (request, response) => {
+    collection.deleteOne({ _id: mongodb.ObjectID(request.body._id) }).then(() => {
+        var array = [];
+        collection
+            .find({ githubid: request.session.githubid })
+            .forEach(doc => {
+                array.push(doc);
             })
-            const data = await response.text()
+            .then(() => {
+                response.json(array);
+            });
+    });
+});
 
-            const params = new URLSearchParams(data);
-            return params.get('access_token');
+app.post("/edit", (request, response) => {
+    const json = {
+        githubid: request.session.githubid,
+        studentName: request.body.studentName,
+        studentID: request.body.studentID,
+        studentClass: request.body.studentClass,
+        timeWorked: request.body.timeWorked,
+        payment: request.body.payment
+    };
+    const newVal = { $set: json };
+    collection.updateOne(
+        { _id: mongodb.ObjectID(request.body._id) },
+        newVal,
+        (err, response) => {
+            return;
         }
-
-        async function getGHUser(accessToken) {
-            const request = await fetch('https://api.github.com/user', {
-                headers: { Authorization: `bearer ${accessToken}` }
-            })
-            const data = await request.json();
-            return data;
-        }
-
-        app.get('/login/github/callback', async (request, response) => {
-            const atoken = await getAccessToken(request.query.code, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET);
-            const GHData = await getGHUser(atoken);
-
-            if (GHData) {
-                request.session.githubid = GHData.id;
-                request.session.token = GHData.token;
-                response.redirect("/")
-            } else {
-                console.log('Error while logging in');
-                response.redirect("/login.html")
-            }
+    );
+    var array = [];
+    collection
+        .find({ githubid: request.session.githubid })
+        .forEach(doc => {
+            array.push(doc);
         })
+        .then(() => {
+            response.json(array);
+        });
+});
 
-        app.get('/', (request, response) => {
-            request.session = null;
-            response.redirect('/')
-        })
-
-        app.post('/submit', (request, response) => {
-            const json = { githubid: request.session.githubid, studentName: request.body.studentName, studentID: request.body.studentID, studentClass: request.body.studentClass, timeWorked: request.body.timeWorked, payment: request.body.payment }
-            collection.insertOne(json)
-            const data = await response.json(data.json[0])
-        })
-
-        app.post('/delete', (request, response) => {
-            collection.deleteOne({ _id: mongodb.ObjectID(request.body._id) })
-                .then(() => {
-                    var array = [];
-                    collection.find({ "githubid": request.session.githubid }).forEach(doc => {
-                        array.push(doc)
-                    })
-                        .then(() => {
-                            response.json(array);
-                        })
-                })
-        })
-
-        app.post('/edit', (request, response) => {
-            const json = { githubid: request.session.githubid, studentName: request.body.studentName, studentID: request.body.studentID, studentClass: request.body.studentClass, timeWorked: request.body.timeWorked, payment: request.body.payment }
-            const newVal = { $set: json }
-            collection.updateOne({ _id: mongodb.ObjectID(request.body._id) }, newVal, (err, response) => {
-                if (err) {
-                    throw error;
-                }
-                return
-            })
-            var array = [];
-            collection.find({ "githubid": request.session.githubid }).forEach(doc => {
-                array.push(doc)
-            })
-                .then(() => {
-                    response.json(array);
-                })
-        })
+app.listen(process.env.PORT)
