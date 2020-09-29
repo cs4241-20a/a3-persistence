@@ -28,7 +28,7 @@ These Express middlewares were used:
 
 ## Design Achievements
 
-* Works on mobile with an adjusted user interface to support the thinner screen. Some visual hiccups exist on mobile during transitions, but the site is otherwise fully reactive.
+* Works on mobile with an adjusted user interface to support the thinner screen. Some visual hiccups exist on mobile during transitions, but the site is otherwise fully responsive.
 * A dark and light theme toggle is available to give people the user experience they prefer, and the site will automatically detect your browser/system settings to set the brightness theme upon page load.
 * Skeleton elements are placed in conversations and the user list before the data has been recieved from the server. This conveys to the user that the site is loading. In some cases there are also loading bars (e.g. when logging in) and loading circles (e.g. when sending a message).
 
