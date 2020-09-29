@@ -2,19 +2,18 @@
   <head>
     <title>CS4241 Assignment 2</title>
     <meta charset="utf-8">
+     <meta http-equiv="pragma" content="no-cache" />
     <script src="/script.js"></script>
   </head>
   <body>
     <link rel="stylesheet" href="/style.css">
-    <div>
-      <h1 class="title">Fishing Log</h1>
-      <topcorner>
-        <h2>
-          Hi <%=name%>, welcome back
-        </h2>
-        <button id ="logOut">log out</button>
-      </topcorner>
+    <div class="topnav">
+    <icon href="https://cdn.glitch.com/b85cb2f6-a630-41ec-9c41-66e78e9d7fbc%2Ffishing%20icon.png?v=1601345282967"></icon>
+    <h2>Hi <%= name%>, welcome back</h2>
+    <a href="/logout">log out</a>
+    <a href="/register">register</a>
     </div>
+    <h1 class="title">Fishing Log</h1>
     <form>
       <center>
       <input type="text" id="fishtype" placeholder="your capture">
@@ -36,6 +35,5 @@
     <th>Weight</th>
     <th>Date Captured</th>
   </tr>
-  </table>
   </body>
 </html>

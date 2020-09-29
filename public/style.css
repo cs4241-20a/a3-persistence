@@ -1,4 +1,5 @@
 body {
+    margin: 0;
     background-image: url("https://cdn.glitch.com/bb7028ac-f733-4f0f-8f4c-7333e1109a24%2Fbackground.jpg?v=1600960783655");
     background-color: #32C6DB;
 }
@@ -12,6 +13,11 @@ body {
     font-family: Futura;
     font-size: 30px;
     text-align:center
+}
+h2{
+    image:"https://cdn.glitch.com/b85cb2f6-a630-41ec-9c41-66e78e9d7fbc%2Ffishing%20icon.png?v=1601345282967";
+  font-family: Futura;
+    font-size: 12px;
 }
 
 .grid-container {
@@ -43,6 +49,7 @@ input[Type = checkbox]{
 }
 button{
     font-family: Futura;
+    font-size: 14px;
     background-color: #359ddb;
     border: 3px solid darkblue;
     color: white;
@@ -51,7 +58,9 @@ button{
     margin: 4px 4px;
     cursor: pointer;
 }
-
+button:hover{
+  background-color: lightblue;
+}
 
 table, th, td {
     font-family: Futura;
@@ -88,4 +97,52 @@ label{
     color: 359ddb;
     text-decoration: none;
     margin: 4px 4px;
+}
+
+
+/* Style the top navigation bar */
+.topnav {
+  overflow: hidden;
+  background-color: hidden;
+}
+.bar{
+overflow: hidden;
+  background-color: hidden;
+}
+
+/* Style the topnav links */
+.topnav a {
+  font-family: Futura;
+  font-size: 14px;
+  background-color: #359ddb;
+  border: 3px solid darkblue;
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+.topnav h2{
+  float: right;
+  padding: 14px 16px;
+  text-align: center;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+  background-color: lightblue;
+}
+
+/* Style the footer */
+.footer {
+  background-color: #f1f1f1;
+  padding: 10px;
+}
+
+.icon {
+  position: relative;
+  /* Adjust these values accordingly */
+  top: 5px;
+  left: 5px;
 }

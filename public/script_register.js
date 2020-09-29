@@ -22,7 +22,7 @@ fetch('/register',{
   }
   else{
   window.alert('Successfully Recorded,You can login now')
-  window.location.href= "https://a3-peristance-jcybul.glitch.me/login"
+  window.location.href= "https://jcybul-a3-persistence.glitch.me/login"
   }
 })
 }

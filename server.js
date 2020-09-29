@@ -1,6 +1,5 @@
 // server.js
 // where your node app starts
-
 // we've started you off with Express (https://expressjs.com/)
 // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
 const express = require("express");
@@ -157,7 +156,8 @@ app.post('/add',bodyparser.json(),function(req,res){
   })
   })
 app.post('/deleteAll',bodyparser.json(),function(req,res){
-  collection.remove({name:name})
+  console.log("deleted all")
+  collection.deleteMany({anglername:name})
 })
 
 // listen for requests :)

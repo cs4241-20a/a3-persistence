@@ -13,8 +13,6 @@ for(var i = FishTable.rows.length - 1; i > 0; i--)
 }
 
 
-
-
 // helper function to get current day 
   var curday = function(sp){
     var today = new Date();
@@ -88,7 +86,7 @@ const logOut = function(event){
   fetch('/logout')
   .then(response =>{
     console.log("logged out")
-    window.location.href= "https://a3-peristance-jcybul.glitch.me/login"
+    window.location.href= "https://jcybul-a3-persistence.glitch.me/login"
   })
 }
 
@@ -149,7 +147,6 @@ var r = confirm(" Are you sure you want to continue?\nAll your data will be dele
     const button = document.getElementById( 'submitBtn' )
     const delButton = document.getElementById('deleteButton')
     const logout = document.getElementById('logOut');
-   logout.onclick = logOut;
-   delButton.onclick = deleteall;
+    delButton.onclick = deleteall;
     button.onclick = submit
  }
