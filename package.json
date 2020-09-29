@@ -1,0 +1,12 @@
+{
+  "name": "a2-shortstack",
+  "version": "1.0",
+  "description": "CS-4241 Assignment 2: Basic Two-tier Web Application using HTML/CSS/JS and Node.js",
+  "author": "Lindberg Simpson",
+  "scripts": {
+    "start": "node server.improved.js"
+  },
+  "dependencies": {
+    "mime": "^2.4.4"
+  }
+}

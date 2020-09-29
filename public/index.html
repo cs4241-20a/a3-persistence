@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Kite+One&family=Kufam&family=Yanone+Kaffeesatz&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/scripts.js"></script>
+  </head>
+  <body>
+    <h1> Lindberg's Package Delivery Service </h1>
+    <div class="grid-container">
+		<div class="input_section item1">
+      		<form id="package_form">
+        		<label for="description">Item Description:</label>
+        		<input type='text' id='description' placeholder="E.g: Book"><br>
+        		<label for="weight">Weight (in lbs):</label>
+        		<input type='number' id='weight' placeholder="2"><br>
+        		<label for="deliv_date">Delivery Date (number of days from today):</label>
+        		<input type='number' id='deliv_date' placeholder='3'><br>
+        		<button>submit</button> <br> <br>
+      		</form>
+      		      
+    	</div>
+    	<div class="results_section item2">
+      		<table id="package_table">
+        		<tr>
+          			<th>Description</th>
+          			<th>Weight (lbs)</th>
+          			<th>Day(s) until delivery</th>
+          			<th>Cost of shipment (USD)</th>
+        		</tr>
+      		</table>
+    	</div>
+    </div>
+    
+
+
+  </body>
+ 
+</html>
