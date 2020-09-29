@@ -11,14 +11,13 @@ Include a very brief summary of your project here. Images are encouraged, along 
 		
 
 - the goal of the application: 
-		The goal is to practice the skills of using express in node.js, assisted by other middlewares and mongodb. I also learnt how to use oauth in this assignment 
-		- challenges you faced in realizing the application: 
-		There are many challenges that I faced during this assignment. The first is the time limit. Because of another CS course, I only had 3 and a half days to do this assignment. Also, I met many wierd bugs like cannot insert things into mongodb, getting bad credentials from oauth. etc. Glad that I solved all the problems and get my application work well. 
-		- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable): 
+		The goal is to practice the skills of using express in node.js, assisted by other middlewares and mongodb. I also learnt how to use oauth in this assignment -- - - challenges you faced in realizing the application: 
+		There are many challenges that I faced during this assignment. The first is the time limit. Because of another CS course, I only had 3 and a half days to do this assignment. Also, I met many wierd bugs like cannot insert things into mongodb, getting bad credentials from oauth. etc. Glad that I solved all the problems and get my application work well.  
+- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable): 
 		The authentication strategy I chose is passport-github, using oauth2.0 from github to authroize users to log in. I chose this strategy as it is the easiest way to implement as I can let github do all the work. 
-		- what CSS framework you used and why: 
+- what CSS framework you used and why: 
 		I used bootstrap to serve the layout as it is one of the most famous frameworks in CSS, and it is quite simple to use. 
-		- the five Express middleware packages you used and a short (one sentence) summary of what each one does: 
+- the five Express middleware packages you used and a short (one sentence) summary of what each one does: 
 		Here are the five middlewares I used: express(is a minimal and flexible Node.js web application framework that provides a robust set of features to develop web and mobile applications), passport( authenticate requests), passport-github( authenticate requests especially for github), body-parser( automatically generate json) and connect-timeout( check if the server does not respond for a certain length of time). 
 ## Technical Achievements
 		- **Tech Achievement 1**: 
