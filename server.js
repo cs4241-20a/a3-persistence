@@ -90,8 +90,8 @@ app.get('/home',
 require('connect-ensure-login').ensureLoggedIn(),
 );
 
-  app.get('/auth/github',
-  passport.authenticate('github'));
+//   app.get('/auth/github',
+//   passport.authenticate('github'));
 
 let userID;
 app.get('/error', (req, res) => res.send("error logging in"));
