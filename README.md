@@ -83,8 +83,8 @@ Express Middleware:
 
 ## Technical Achievements
 - **Used Github OAuth authentication with PassportJS**: This took me much longer than expected, as I had difficulty finding accurate and up-to-date documentation about using Passport with a Github strategy. I
-struggled for a bit with the auth callback URL before realizing that 1) Passport is really just Express middleware and 2) I had to set the proper callback URL in GitHub for it to work properly. 
-- **Tech
+struggled for a bit with the auth callback URL before realizing that 1) Passport is really just Express middleware and 2) I had to set the proper callback URL in GitHub for it to work properly. I managed to figure
+it out, and even added a bit of custom middleware that checks if the user is logged in for several routes.
 
 ### Design/Evaluation Achievements
 - **Followed CRAP principles from Non-Designer's Design Book**:
