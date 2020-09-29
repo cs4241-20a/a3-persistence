@@ -1,10 +1,19 @@
+// stores all the titles of the current posts
 let postTitles = [];
+
+// loads all posts into the post-container div
 async function loadDB() {
+    // gets dom element for post container
     let posts = document.getElementById("post-container");
+    // empties the post container
     posts.innerHTML = "";
+
+    // gets all the post data from the server
     await fetch('/loadData').then(result => result.json().then(result => {
         result.forEach((post) => {
+            // adds the post title to the array
             postTitles.push(post.title);
+            // adds a new post into the post container
             posts.innerHTML += `
         <div align="center" class="post">
         <h3>${post.title}</h3>
@@ -19,13 +28,21 @@ async function loadDB() {
     }));
 
 }
+// when all the posts are loaded into the html then add event listeners to view comment buttons and stuff
 window.onload = () => loadDB().then(result => {
+    // holds all the view comment buttons
     let commentButtons = [];
+    // holds all the submit comment buttons
     let postCommentButtons = [];
+    // holds all the text boxes for adding comments
     let commentTextBoxes = [];
+    // goes through all posts and adds the event listeners
     for (let i = 0; i < postTitles.length; i++) {
+        // gets the view comment button for current post
         commentButtons[i] = document.getElementById('viewcomments' + postTitles[i]);
+        // gets the submit comment button for current post
         postCommentButtons[i] = document.getElementById(postTitles[i] + 'commentbutton');
+        // gets the text box for adding comment for current post
         commentTextBoxes[i] = document.getElementById(postTitles[i] + 'commentbox');
         // submitting comment
         postCommentButtons[i].addEventListener('click', function () {
@@ -37,14 +54,19 @@ window.onload = () => loadDB().then(result => {
         });
         // the show comments button
         commentButtons[i].addEventListener('click', function () {
+            // get the comment section for current post
             let commentSection = document.getElementById(postTitles[i] + 'commentsection');
+            // clear the html
             commentSection.innerHTML = "";
+            // send a post request with the post's current title
             fetch('/loadcomments', {
                 method: "POST",
                 body: JSON.stringify({title: postTitles[i]}),
                 headers: {'Content-Type': 'application/json'}
             }).then(result => result.json()).then(result => {
                 result.forEach((comment) => {
+                    // when the server sends back all the comments go through them and
+                    // add them as p elements
                     let pElement = document.createElement("p");
                     pElement.innerText = comment.text;
                     commentSection.appendChild(pElement);
@@ -54,11 +76,12 @@ window.onload = () => loadDB().then(result => {
     }
 });
 
-fetch("/getusername", {
-    method: "GET"
-}).then((result) => {
-    document.getElementById("username").innerHTML = result.username;
-});
+// fetch("/getusername", {
+//     method: "GET"
+// }).then((result) => {
+//     document.getElementById("username").innerHTML = result.username;
+// });
+// does stuff for logging in, not where i want it to be yet
 const register = document.getElementById("register");
 const login = document.getElementById("login");
 let user = document.getElementById("user");
