@@ -6,10 +6,8 @@ https://to-do-list-1234556.herokuapp.com/ and https://a3-alvaradoblancouribe.gli
 
 the goal of this application is to create a to-do list for students 
 
-![recording](/Screen Shot 2020-09-28 at 11.41.09 PM.png)
 
-
-Disclaimer: everything starting falling apart a couple of hours before I submited this assignemnt. There might be a lot of things that don't work properly now but there is code that shows that i meant for it to work/did work in the past. 
+Disclaimer: everything starting falling apart a couple of hours before I submited this assignemnt. The links currently do not work at the time that I am uploading this and I added screenshots of the application so you can see what it looks like. The code  shows what worked in the past and what I was hoping would work.  
 
 I used Bootstrap as my CSS template for the login page due to it's popularity and wide range of use. 
 
