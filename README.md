@@ -1,82 +1,30 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
+## A3-Xiaowei Chen
+		
+https://a3-xchen0326.glitch.me/
+		
 
-Due: September 28th, by 11:59 PM.
+## Important！！！Things to notice in order to sucessfully run my application!
+		- To delete or modify the results, you need to click the button "Starting to delete or modify" first every time you refresh the page, and then click on the delete or modify button. If you did not click the "Starting to delete or modify" button, the edits on the results will be unsuccessful!
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
-
-Baseline Requirements
----
-
-Your application is required to implement the following functionalities:
-
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
-
-Your application is required to demonstrate the use of the following concepts:
-
-HTML:
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
-
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
-
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
-
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
-
-Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
 
 Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+		
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
-
+- the goal of the application: 
+		The goal is to practice the skills of using express in node.js, assisted by other middlewares and mongodb. I also learnt how to use oauth in this assignment -- - - challenges you faced in realizing the application: 
+		There are many challenges that I faced during this assignment. The first is the time limit. Because of another CS course, I only had 3 and a half days to do this assignment. Also, I met many wierd bugs like cannot insert things into mongodb, getting bad credentials from oauth. etc. Glad that I solved all the problems and get my application work well.  
+- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable): 
+		The authentication strategy I chose is passport-github, using oauth2.0 from github to authroize users to log in. I chose this strategy as it is the easiest way to implement as I can let github do all the work. 
+- what CSS framework you used and why: 
+		I used bootstrap to serve the layout as it is one of the most famous frameworks in CSS, and it is quite simple to use. 
+- the five Express middleware packages you used and a short (one sentence) summary of what each one does: 
+		Here are the five middlewares I used: express(is a minimal and flexible Node.js web application framework that provides a robust set of features to develop web and mobile applications), passport( authenticate requests), passport-github( authenticate requests especially for github), body-parser( automatically generate json) and connect-timeout( check if the server does not respond for a certain length of time). 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
-
+		- **Tech Achievement 1**: 
+		I used OAuth authentication via the GitHub strategy. People can directly log into my application using their github account. If they do not have a github account, github provides the service to create it.
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Design Achievement 2**: 
+		- Contrast is one of the most effective ways to add visual interest to your page and to create an organizational hierarchy among different elements. The Principle of Contrast states: Contrast various elements of the piece to draw a reader’s eye into the page. This implies that, the contrast principle can help applications become easy to attract the users’ attention and let them be more focused on the content. The sharp contrast among colors make people get stick to the pages. In my application, I used the contrast principle. I mainly used two colors: light yellow and black. These two colors are demonstrated in textbook and are marked as highly contrast. By making the background colors of my application so contrast, I can keep the users staying on my web for more time.  
+		- The Principle of Repetition states: Repeat some aspect of the design throughout the entire piece. The repetitive element may be a bold font, a thick rule (line), a certain bullet, design element, color, format, spatial relationships, etc. It can be anything that a reader will visually recognize. Because of repetition, the users may have a deep impression about some contents. By doing this, I can have the users remember things that I want them to remember. This is a powerful psychology influence achieved by intentional web layout design. In my application, I used the repetition as well. The font size of the texts is repeated, the format of the layout is repeated (bootstrap design), and so on. Also, the result displaying part has multiple lines and each is almost the same. By doing this, the users can easily notice the result displaying part and do edits on it.  
+		- Here is what to pay attention to alignment: Nothing should be placed on the page arbitrarily. Every item should have a visual connection with something else on the page. The principle of alignment forces us to be conscious. If things are random displayed, it makes no sense and certainly make users feel pretty bad. When people write papers, they emphasize on logic, and it is the same to web layout design. In my application, items have a connection with things else. For example, I have an information header which categorizes all the results. Under the header there are different types of results (name, gender, current year and expected graduation year), and there is a clear connection between the header and the results. Also, if you look at the page, there are two main parts. One is the submit form and the other is the results displaying form. In the submit form, the elements are related together. The submit button is under the three input boxes, meaning that button is used to submit inputs.  
+		- The Principle of Proximity states: Group related items together. Move them physically close to each other so the related items are seen as one cohesive group rather than a bunch of unrelated bits. In my application, the results are displayed row by row, so each result list is a whole and are related together as a group.
