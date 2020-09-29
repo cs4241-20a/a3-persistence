@@ -2,17 +2,22 @@ const express = require('express');
 const app = express();
 const passport =require('passport')
 const bodyParser = require('body-parser');
+const cors = require('cors')
+
 fs   = require( 'fs' )
 var LocalStrategy = require('passport-local').Strategy;
 
 //setting up mongodb 
-const MongoClient = require('mongodb').MongoClient
-const connectionString = "mongodb://appUser:thesecretpass@a3-cluster-shard-00-00.jthwa.azure.mongodb.net:27017,a3-cluster-shard-00-01.jthwa.azure.mongodb.net:27017,a3-cluster-shard-00-02.jthwa.azure.mongodb.net:27017/<dbname>?ssl=true&replicaSet=atlas-n0lor0-shard-0&authSource=admin&retryWrites=true&w=majority"
+var MongoClient = require('mongodb').MongoClient
+var connectionString = "mongodb://appUser:thesecretpass@a3-cluster-shard-00-00.jthwa.azure.mongodb.net:27017,a3-cluster-shard-00-01.jthwa.azure.mongodb.net:27017,a3-cluster-shard-00-02.jthwa.azure.mongodb.net:27017/<dbname>?ssl=true&replicaSet=atlas-n0lor0-shard-0&authSource=admin&retryWrites=true&w=majority"
 
 MongoClient.connect(connectionString, {useUnifiedTopology: true},(err,client)=> 
 {
+  if(err) return console.error(err)
+
   const db = client.db('to-do-list')
-  const users=db.collection('users')
+  const users = db.collection('users')
+  
 //passport stuff
   passport.use(
     new LocalStrategy(function(username, password, done) {
@@ -52,6 +57,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
+app.use(cors())
 //serving the files 
 app.use(express.static('public'));
 app.use(passport.initialize()); 
@@ -65,8 +71,8 @@ const expressSession = require('express-session')({
 app.use(expressSession);
 
 //setting up mongodb 
-//MongoClient = require('mongodb').MongoClient
-//connectionString = "mongodb://appUser:thesecretpass@a3-cluster-shard-00-00.jthwa.azure.mongodb.net:27017,a3-cluster-shard-00-01.jthwa.azure.mongodb.net:27017,a3-cluster-shard-00-02.jthwa.azure.mongodb.net:27017/<dbname>?ssl=true&replicaSet=atlas-n0lor0-shard-0&authSource=admin&retryWrites=true&w=majority"
+MongoClient = require('mongodb').MongoClient
+connectionString = "mongodb://appUser:thesecretpass@a3-cluster-shard-00-00.jthwa.azure.mongodb.net:27017,a3-cluster-shard-00-01.jthwa.azure.mongodb.net:27017,a3-cluster-shard-00-02.jthwa.azure.mongodb.net:27017/<dbname>?ssl=true&replicaSet=atlas-n0lor0-shard-0&authSource=admin&retryWrites=true&w=majority"
 MongoClient.connect(connectionString, {useUnifiedTopology: true},(err,client)=> 
 {
   if(err) return console.error(err)
@@ -92,6 +98,8 @@ MongoClient.connect(connectionString, {useUnifiedTopology: true},(err,client)=>
     passport.authenticate('local', {failureRedirect: '/login'}),
                                    function(req,res){
                                      console.log("maybe there is hope")
+                                     var username = req.body.username;
+                                    var password = req.body.password;
                                      res.end(JSON.stringify({url:"/"}))                                                                                                       
                                    });
   
