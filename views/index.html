@@ -1,0 +1,100 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Watchlist - rank movies you want to see</title>
+
+    <link
+      id="favicon"
+      rel="icon"
+      href="https://cdn.glitch.com/69d88dc7-3d5d-4c7c-a0d8-625a37fba10c%2Fselfiedone%20(3).ico?v=1601330312750"
+      type="image/x-icon"
+    />
+    <!-- import the webpage's stylesheet -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <!--<link rel="stylesheet" href="/style.css">-->
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="navbar navbar-light">
+          <h1>
+            Watchlist
+          </h1>
+        </div>
+        <!--<div class="col"></div>-->
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <h2>
+            Update or add to your list:
+          </h2>
+          <ul>
+            <li> Add films to your list and our site will sort them by rating</li>
+            <li> Submit a film again to update its rating</li>
+            <li> Leave both fields blank and click submit to view your list</li>
+            
+          </ul>
+          <div class="form-group">
+            <form>
+              <!--<button id="submitName">submit</button>-->
+              <label for="movie"> Title </label>
+              <input type="text" class="form-control" id="movie" />
+              <p></p>
+              <label for="rating"> Priority Rating </label>
+              <input type="number" class="form-control" id="rating" min="0" max="10" />
+              <p></p>
+              <button class="btn btn-secondary btn-block" id="submit">submit</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+          
+          <h2 class="card-title" id="listtitle">
+            Your List:
+          </h2>
+          <div class="card-text" id="yourlist">
+            <ol id="list"></ol>
+          </div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
