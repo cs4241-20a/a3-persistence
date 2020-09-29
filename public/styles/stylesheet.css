@@ -39,7 +39,7 @@ label {
     display: flex;
     position: absolute;
     top: 10%;
-    left: 18%;
+    left: 17%;
     height: 80%;
     flex-direction: column;
 }
@@ -47,17 +47,17 @@ label {
 #existingrecipes {
     position: absolute;
     top: 10%;
-    right: 18%;
+    right: 17%;
 }
 
 #recipeForm {
-    width: 300px;
+    width: 500px;
 }
 
 #recipedisplay {
     visibility: hidden;
     padding-top: 20px;
-    width: 300px;
+    width: 500px;
 }
 
 #edit , #delete , #update {
@@ -72,4 +72,8 @@ ul {
 
 #name {
     text-decoration: underline;
+}
+
+#logImg {
+  text-align: center;
 }

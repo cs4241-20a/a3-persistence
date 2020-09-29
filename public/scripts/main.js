@@ -44,6 +44,7 @@ function displayRecipe(recipe) {
 
 $(function () {
     loadRecipesFromServer()
+  
 
     $("select[name=selectrecipe]").on("change", e => {
         displayRecipe(existingRecipes[e.target.value])
@@ -128,7 +129,7 @@ function updateRecipe() {
 }
 
 function deleteRecipe() {
-    data = {id:currentRecipe._id};
+    let data = {id:currentRecipe._id};
     let json = JSON.stringify(data)
 
     fetch('/delete', {
@@ -151,3 +152,4 @@ function deleteRecipe() {
             $("#recipedisplay").css("visibility", "hidden")
         })
 }
+
