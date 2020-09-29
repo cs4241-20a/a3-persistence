@@ -1,4 +1,4 @@
-
+## I modified my code after the deadline due to a bug in the modifyRecord function
 
 ## Musician Database
 
@@ -29,3 +29,4 @@ I added some CSS to align my Bootstrap components.
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+
