@@ -94,6 +94,7 @@ require('connect-ensure-login').ensureLoggedIn(),
   passport.authenticate('github'));
 
 let userID;
+app.get('/error', (req, res) => res.send("error logging in"));
 
 app.get('/return',
   passport.authenticate('github', { failureRedirect: '/error' }),
