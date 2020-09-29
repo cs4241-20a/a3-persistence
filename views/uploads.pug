@@ -20,7 +20,7 @@ mixin display(item)
 
 
 mixin display-table(item)
-	- tbl_columns = {'id': 'Id', 'mime_type': 'Mimetype', 'size_formatted': 'Size', 'quota_percentage': '% of Total Space', 'created_at': 'Upload Timestamp'}
+	- tbl_columns = {'id': 'Id', 'file_name': 'File Name', 'mime_type': 'Mimetype', 'size_formatted': 'Size', 'quota_percentage': '% of Total Space', 'created_at': 'Upload Timestamp'}
 	table.table.table-borderless
 		caption #{item.uploader}: #{item.title}
 		each val, key in tbl_columns

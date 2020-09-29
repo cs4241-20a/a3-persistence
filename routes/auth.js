@@ -7,7 +7,7 @@ const CLIENT_ID = process.env.GOOGLE_OAUTH_ID
 const CLIENT_SECRET = process.env.GOOGLE_OAUTH_SECRET
 const port = process.env.HOSTED_PORT? ':' + process.env.HOSTED_PORT : ''
 // const callback_url = `http://${process.env.HOST}${port}${process.env.PREFIX || ''}/auth/callback`
-const callback_url = 'http://localhost:2020/auth/callback'
+const callback_url = '/auth/callback'
 passport.serializeUser(function(user, done) {
 	done(null, user)
 })
@@ -39,7 +39,7 @@ async function(request, accessToken, refreshToken, params, profile, cb) {
 router.get('/', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'profile', 'email']}))
 router.get('/callback', passport.authenticate('google', {
 	successRedirect: '/',
-	failureRedirect: 'fail'
+	failureRedirect: '/auth/fail'
 }))
 
 router.get('/signout', function(req, res){

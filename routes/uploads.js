@@ -94,7 +94,7 @@ router.get('/user', function(req, res){
 	})
 })
 
-router.put('/file:id', async function(req, res){
+router.put('/file/:id', async function(req, res){
 	let file
 	let id = req.params.id
 	let {title, uploader} = req.body
@@ -115,7 +115,7 @@ router.put('/file:id', async function(req, res){
 	file.save().then(() => {
 		res.status(200).send()
 	}).catch((err) => {
-		res.status(500).send(err)
+		res.status(500).send(err._message)
 	})
 })
 
@@ -125,7 +125,10 @@ router.get('/capacity', async function (req, res) {
 			res.json({error: err})
 		}
 		else{
-			res.json({capacity: data[0].size})
+			if(!data[0])
+				res.json({capacity: 0})
+			else
+				res.json({capacity: data[0].size})
 		}
 	})
 })

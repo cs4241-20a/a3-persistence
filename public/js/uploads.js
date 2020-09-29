@@ -4,7 +4,6 @@ const request_delete = function (id, name) {
 		return
 	}
 	fetch(`/uploads/${id}`, {method: 'DELETE'}).then((res) => {
-		debugger
 		if(!res.ok){
 			alert(`Error (${res.status}): ${res.statusText}`)
 		}
@@ -59,10 +58,12 @@ class Entry {
 
 		if(this.update_btn) {
 			this.update_btn.addEventListener('click', () => {
-				let params = {title: this.title_input.innerText, uploader: this.uploader_input.innerHTML}
-				fetch(`/uploads/file/${this.id}`, {method: 'PUT', body: params}).then((res) => {
+				let params = JSON.stringify({title: this.title_input.value, uploader: this.uploader_input.value})
+				fetch(`/uploads/file/${this.id}`, {method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: params}).then((res) => {
 					if(res.status != 200){
-						alert(`Error (${res.status}): ${res.body}`)
+						res.text().then((text) => {
+							alert(`Error (${res.status}): ${text}`)
+						})
 					}
 					else {
 						location.reload()
