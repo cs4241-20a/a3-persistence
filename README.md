@@ -12,9 +12,7 @@ what authentication strategy you chose to use and why (choosing one because it s
 what CSS framework you used and why
 include any modifications to the CSS framework you made via custom CSS you authored
 the five Express middleware packages you used and a short (one sentence) summary of what each one does
-Technical Achievements
 
-Tech Achievement 1: I used OAuth authentication via the GitHub strategy
 
 # Assignment 3
 
@@ -24,7 +22,7 @@ The goal of the application is to provide users with a virtual to-do list. Users
 
 Challenges I faced in making the application was certainly setting up the Express server and getting MongoDB to work. The login part also has given me some trouble in terms of storing the data of each user up into the database.
 
-The authenication strategy I chose was the basic comparison one where another database is created in MongoDB for storing user data and the data is in the form of a JSON object with a username, password, and id. 
+The authenication strategy I chose was the basic comparison one where another database is created in MongoDB for storing user data and the data is in the form of a JSON object with a username, password, and id. This works completely.
 
 The CSS framework that I used is Cirrus because it is super simple and I thought that it went nicely with the purpose of my simple to-do list.
 
@@ -42,6 +40,9 @@ The 5+ Express middleware packages I used are:
 Technical
 
 (5 points) Instead of Glitch, host your site on a different service like Heroku or Digital Ocean. Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse?
+
+
+
 Design/UX
 
 (10 points) The 12 W3 guidelines are:
@@ -82,6 +83,13 @@ Every form control has a label Ex: priority has a label for every radio button
 (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words for each of four principles (four paragraphs, 500 words in total).
 
 Contrast: My website is primarily a simple website, which gives it some room to have many accounts of contrast. The black lettering on the simple white background is the starkest contrast featured on the webpage. This contrast makes the webpage even more accessible to everyone. The less colors featured, the better, especially in the text. I wanted to make sure that this contrast allowed the user to read every element on the page and be able to complete every field to create, add, and modify a task. There is also contrast with the red lettering on the white background. This lettering pops out on the page the most with its large font and bright coloring. Red makes the user think right away that the colored content is important and worth reading, which is contrasted with the calming white and grey undertones.
+
+Repetition: There is a lot of repetition on my webpage in terms of spacing, padding and parallel ideas. My website maintains consistency with a bulleted list, using the repetition of circular dots to present information. The repetition of dots helps the user scan and read the list of functionality quickly and easily. There is also a repetition of short, curt language in the delegated tasks and listed features with words like “choose”, “enter”, “add”, “modify”, and “delete” starting each sentence. There is repetition in font grouping and padding with small margins for each element as the webpage is lined up against the left side of the screen with corresponding fonts. There is also repetition in the text fields having gray text inside to indicate what the user should enter.
+
+Alignment: My webpage uses good alignment as it is consistent throughout the entire page. Images, text, and buttons are all aligned to the left side of the screen. This alignment continues when the user is prompted to sign in. I chose edge alignment as it fulfills the Alignment feature since, although my text in the paragraph elements are short, they are not short enough to have a center alignment, and it looks much more professional and readable in a left most alignment. The images are also leftmost aligned to stay consistent with the alignment of the text and form fields. The bulleted list at the bottom is also aligned to the left to match the layout of the website. Overall, this website succeeds in maintaining consistent, readable alignment to the left.
+
+Proximity: The P principle of CRAP states that elements associated with each other should be in close proximity to each other. My website utilizes this rule by placing the form items at the top in close proximity and placing the list that gets updated at the bottom in further proximity. There are no elements on my website that are very spaced out from each other, especially elements that are alike. The reason for this is that most of the elements on my page are alike, since the page itself is simple where each moving part is just as important to a holistic trend/feature. The main features of editing are at the bottom in close proximity to the list so that the user can easily find elements associated with each other.
+
 
 
 
