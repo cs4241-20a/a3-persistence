@@ -11,7 +11,10 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const GithubStrategy = require("passport-github").Strategy;
 const cookieSession = require("cookie-session");
+const favicon = require("serve-favicon")
 const mongodb = require("mongodb");
+const helmet = require("helmet");
+const path = require('path')
 
 // set up mongodb
 const MongoClient = mongodb.MongoClient;
@@ -26,6 +29,16 @@ let collection = null;
 client.connect(err => {
   collection = client.db("recipebook").collection("recipes");
 });
+
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+app.use( helmet({
+    contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'", "https:"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    },},
+  }))
 
 // Set up cookie session
 app.use(
