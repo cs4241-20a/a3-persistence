@@ -81,8 +81,6 @@ function appendNewOrder(dreamItem, id) {
     cell1.innerText = dreamItem.dream;
     cell2.innerText = dreamItem.scoops;
     cell3.innerText = dreamItem.sprinkles;
-    cell4.innerText = 'DELETE'
-    cell5.innerText = 'UPDATE'
       
     yike.appendChild(newTableItem);
   }
