@@ -91,12 +91,14 @@ app.post("/submit", bodyParser.json(), (request, response) => {
   let userDoc = {};
 
   console.log(request.body);
+  
+  
 
   collection.findOne({ userID: githubID }).then(dbresponse => {
     userDoc = dbresponse;
     if (userDoc === null) {
       let list = [];
-      list.push(request.body.data);
+      if ((request.body.data.title != "") && (request.body.data.rating != "")){ list.push(request.body.data); }
       let data = { userID: githubID, name: githubName, list: list };
       collection.insertOne(data).then(dbresponse => {
         response.json(dbresponse.ops[0]);
@@ -110,7 +112,7 @@ app.post("/submit", bodyParser.json(), (request, response) => {
           list[i].rating = request.body.data.rating;
         }
       }
-      if (duplicate === false) list.push(request.body.data);
+      if ((duplicate === false) && (request.body.data.title != "") && (request.body.data.rating != "")){ list.push(request.body.data); }
       list.sort(function(a, b) {
         return b.rating - a.rating;
       });
