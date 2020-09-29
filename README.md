@@ -1,6 +1,6 @@
 ## Raymond's Initiative Tracker
 
-http://www.a3-raymond-dolan.herokuapp.com
+http://a3-raymond-dolan.herokuapp.com
 
 The goal of the application was to make an initiative tracker for use in tabletop roleplaying games to keep track of combat order.
 
