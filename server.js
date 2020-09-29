@@ -143,7 +143,7 @@ app.post('/login', async function (req, res){
 });
 
 // listen for requests :)
-const listener = app.listen(5000, () => {
+const listener = app.listen(process.env.PORT | 5000, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
 
