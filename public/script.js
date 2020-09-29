@@ -86,7 +86,7 @@ function appendNewDreamRow(dreamItem, id) {
       
     dreamsTable2.appendChild(newTableItem);
   }
-fetch("/dreams2", {
+fetch("/dreams", {
     method: "GET"
   })
     .then(response => response.json()) // parse the JSON from the server
