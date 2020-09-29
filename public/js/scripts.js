@@ -1,178 +1,180 @@
-window.onload = function () {
-    const button = document.querySelector('#submitButton')
-    button.onclick = submit;
-
-    const logoutButton = document.querySelector('#logoutButton')
-    logoutButton.onclick = logout;
-
-    const table = document.querySelector('#timesheet')
-    fetch('/appdata', {
-        method: 'GET'
+﻿function getall(username) {
+    fetch('/data', {
+        method: "POST",
+        body: JSON.stringify({ username: username }),
+        headers: { "Content-Type": "application/json" }
     })
         .then(response => response.json())
-        .then(array => {
-            array.forEach(element => updatetimesheet(table, element))
-        })
-}
-
-const submit = function (e) {
-    e.preventDefault()
-
-    const nameinput = document.querySelector('#studentName'),
-        idinput = document.querySelector('#studentID'),
-        gradeinput = document.querySelector('#studentClass'),
-        timeinput = document.querySelector('#timeWorked'),
-        table = document.querySelector('#resultsTable'),
-        json = { studentName: nameinput.value, studentID: idinput.value, studentClass: gradeinput.value, timeWorked: timeinput.value, payment: ((timeinput.value * 12.75) * 0.9) }
-
-    if (nameinput.value == "" || idinput.value == "") {
-        console.log("Fields are not filled out");
-        return;
-    }
-    if (gradeinput.value > 4 || gradeinput < 1) {
-        window.alert("Put in the correct field");
-        return 0;
-    }
-    console.log(json)
-    fetch('/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(json)
-    })
-        .then(response => response.json())
-        .then(json => {
-            updatetimesheet(table, json)
-        })
-
-    nameinput.value = "";
-    idinput.value = "";
-    gradeinput.value = "";
-    timeinput.value = "";
-
-    return false
-}
-
-const sheetEdit = function (table, row, id) {
-    const nameinput = document.querySelector('#studentName');
-    const idinput = document.querySelector('#studentID');
-    const gradeinput = document.querySelector('#studentClass');
-    const timeinput = document.querySelector('#timeWorked');
-    const button = document.querySelector('#submitButton');
-
-    nameinput.value = row.cells[0].innerHTML;
-    idinput.value = row.cells[1].innerHTML;
-    gradeinput.value = row.cells[2].innerHTML;
-    timeinput.value = row.cells[3].innerHTML;
-
-    button.onclick = function () { edit(nameinput, idinput, gradeinput, timeinput, table, id, button) }
-
-    return false;
-}
-
-const logout = function (e) {
-    e.preventDefault()
-
-    fetch('/logout', {
-        method: 'GET'
-    })
-        .then(() => {
-            window.location.href = "/"
-        })
-
-    return false;
-}
-
-
-const edit = function(nameinput, idinput, gradeinput, timeinput, table, id, button){
-    button.onclick = submit
-
-    if (nameinput.value === "" || idinput.value === "") {
-        window.alert("Fields are not filled out");
-        return 0;
-    }
-
-    if (gradeinput.value > 4 || gradeinput < 1) {
-        window.alert("Put in the correct field");
-        return 0;
-    }
-
-    const json = { _id: id, studentName: nameinput.value, studentID: idinput.value, studentClass: gradeinput.value, timeWorked: timeinput.value, payment: ((timeinput.value * 12.75) * 0.9) };
-
-    fetch('/edit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(json)
-    })
-        .then(response => response.json())
-        .then(array => {
-            var numRows = table.rows.length;
-            for (var i = 1; i < numRows; i++) {
-                table.deleteRows(1);
+        .then(function (data) {
+            for (let i = 0; i < data.length; i++) {
+                addEntry(data[i]);
             }
-
-            console.log(array);
-
-            array.forEach(element => updatetimesheet(table, element))
         })
-
-    return false;
 }
 
-const del = function (table, id) {
-    json = { _id: id }
-    console.log(json)
+//Edit a field using a prompt
+function editField(e) {
+    let textNode = e.target.parentElement.firstChild;
+    let entryID = e.target.parentElement.parentElement.id;
+    let newValue = window.prompt("Enter a new value", textNode.data);
 
+    if (newValue == null) {
+        return 0;
+    }
+
+    let data = { id: entryID };
+    data[e.target.parentElement.className] = newValue;
+    fetch('/update', {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+    })
+        .then(function (response) {
+            if (response.ok) {
+                textNode.data = newValue;
+            }
+        })
+}
+
+//Delete an item from the database and list
+function deleteItem(e) {
+    let row = e.target.parentElement.parentElement;
     fetch('/delete', {
-        method: 'POST',
-        headers: { 'Content-Type' : 'application/json'},
-        body: JSON.stringify(json)
+        method: "POST",
+        body: JSON.stringify({ id: row.id }),
+        headers: { "Content-Type": "application/json" }
     })
-        .then(response => {
-            console.log(response)
-            return response.json()
-        })
-        .then(array => {
-            var numRows = table.rows.length
-            for (var i = 1; i < numRows; i++) {
-                table.deleteRow(1);
+        .then(function (response) {
+            if (response.ok) {
+                row.remove();
             }
-
-            array.forEach(element => updatetimesheet(table, element))
         })
-
-    const button = document.querySelector('#submitButton');
-    button.onclick = submit
-
-    return false;
 }
 
-const updatetimesheet = function (table, data) {
-    var tbody = table.getElementByTagName('tbody')[0]
-    var row = tbody.insertRow(-1);
-    var name = row.insertCell(0);
-    var id = row.insertCell(1);
-    var grade = row.insertCell(2);
-    var time = row.insertCell(3);
-    var money = row.insertCell(4);
-    var btnCell = row.insertCell(5);
+//Add one json object to the table as the last row
+function addEntry(jsonData) {
+    //Find the table
+    const tableBody = document.getElementById("covidSheet");
+    //Insert a new row and then new cells
+    let row = tableBody.insertRow(-1);
+    row.id = jsonData["_id"];
 
-    name.innerHTML = data.studentName;
-    id.innerHTML = data.studentID;
-    grade.innerHTML = data.studentClass;
-    time.innerHTML = data.timeWorked;
-    money.innerHTML = data.payment;
+    let [hours, minutes] = jsonData.time.split(":");
+    let newTime = ((hours > 12) ? hours - 12 : hours - 0) + ":" + minutes + " " + ((hours >= 12) ? 'PM' : 'AM');
 
-    var editBtn = document.createElement('button');
-    editBtn.id = "editButton";
-    editBtn.className += "mui-btn mui-btn--raised mui-btn--primary";
-    editBtn.innerHTML = '<span class="google-icon"><span class="material-icons">create</span>Edit</span>'
-    editBtn.onclick = function () { sheetEdit(table, row, data._id) }
-    btnCell.appendChild(editBtn);
+    let cell0 = row.insertCell(0);
+    cell0.className = "time";
+    cell0.innerHTML = newTime;// + "<button class=\"edit\">✎</button>";
 
-    var delBtn = document.createElement('button');
-    delBtn.id = "deleteButton";
-    delBtn.className += "mui-btn mui-btn--raised mui-btn--danger";
-    delBtn.innerHTML = '<span class="google-icon"><span class="material-icons">delete_outline</span>Delete</span>'
-    delBtn.onclick = function () { del(table, data._id) }
-    btnCell.appendChild(delBtn);
+    let cell1 = row.insertCell(1);
+    cell1.className = "name";
+    cell1.innerHTML = jsonData.food + "<button title=\"Edit\" class=\"edit\">✎</button>";
+
+    let cell2 = row.insertCell(2);
+    cell2.className = "studentID";
+    cell2.innerHTML = jsonData.calories + "<button title=\"Edit\" class=\"edit\">✎</button>";
+
+    let cell3 = row.insertCell(3);
+    cell3.className = "grade";
+    cell3.innerHTML = jsonData.meal + "<button title=\"Edit\" class=\"edit\">✎</button>";
+
+    row.insertCell(4).innerHTML = "<button title=\"Delete\" class=\"delete\">✘</button>";
 }
+
+//Submits form data to the server
+function submitFormData(e) {
+    e.preventDefault();
+    let data = {};
+    data["username"] = username;
+
+    let fields = document.getElementsByClassName("entry");
+    for (let i = 0; i < fields.length; i++) {
+        const element = fields[i];
+        if (element.value === "") {
+            window.alert("All fields must be fully filled out");
+            return 0;
+        } else {
+            data[element.id] = element.value;
+        }
+    }
+
+
+    fetch('/submit', {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+    })
+        .then(response => response.json())
+        .then(function (data) {
+            addEntry(data);
+        });
+}
+
+//Tries to log in the user
+function login(e) {
+    e.preventDefault();
+
+    let data = {};
+    data["username"] = document.getElementById("username").value;
+    data["password"] = document.getElementById("password").value;
+
+    fetch('/login', {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+    })
+        .then(async function (response) {
+            if (response.status === 200) {
+                let json = await response.json();
+                username = json.username;
+                document.getElementById("loginDiv").hidden = true;
+                document.getElementById("mainDiv").hidden = false;
+                document.title = "COVID Testing - CS4241 A3";
+                getall(username);
+            } else {
+                window.alert("Incorrect username or password");
+            }
+        });
+}
+
+//Creates a new account
+function newAccount(e) {
+    e.preventDefault();
+
+    let data = {};
+    data["username"] = document.getElementById("newUsername").value;
+    data["password"] = document.getElementById("newPassword").value;
+
+    fetch('/newuser', {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+    })
+        .then(function (response) {
+            if (response.ok) {
+                window.alert("Created new account");
+            } else {
+                window.alert("Error creating new account");
+            }
+        })
+}
+
+//Handles edit button clicks and delete button clicks
+function clickHandler(e) {
+    if (e.target.tagName === "BUTTON") {
+        if (e.target.className === "edit") {
+            editField(e);
+        } else if (e.target.className === "delete") {
+            deleteItem(e);
+        }
+    }
+}
+
+window.onload = function () {
+    document.getElementById("submit").addEventListener("click", submitFormData, false);
+    document.getElementById("login").addEventListener("click", login, false);
+    document.getElementById("create").addEventListener("click", newAccount, false);
+    document.addEventListener("click", clickHandler, false);
+}
+
+let username = null;

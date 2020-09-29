@@ -1,85 +1,43 @@
-﻿
-html,
-body {
-    background-color: #7793B8;
+﻿.loginDiv {
+    background-color: aquamarine;
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+    border-radius: 25px;
 }
 
-html,
-body,
-input,
-textarea,
-button {
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
-    font-family:'Times New Roman', Times, serif;
+.mainDiv{
+    font-size: large;
+    font-family: 'Times New Roman', Times, serif;
+    border-color: antiquewhite;
 }
 
 button {
     font-size: 1em;
 }
 
-/*login page*/
-#loginTitle {
-    color: #242D38;
+input {
+    font-size: 1em;
 }
 
-.centeredItem{
-    position: center;
-    bottom: 50%;
-    left: 30%;
-    margin-right: -30%;
-    transform: translate(-50%, -50%);
+.edit {
+    margin-left: -1.5rem;
+    float: right;
+    font-size: inherit + 1rem;
 }
 
-.google-icon {
-    display: flex;
-    align-items: center;
+.delete {
+    justify-self: center;
 }
 
-/*main page*/
-#mainform{
-    display: grid;
-    align-items: center;
-    justify-content: center;
-    justify-items: center;
-    grid-auto-flow: row;
-}
-
-#mainform > input {
-    text-align: center;
-    font-size: 12px;
-}
-
-#timesheet {
-    font-size: large;
-    width: 50%;
-    border-collapse: collapse;
-}
-
-.mainpage {
-    display: grid;
-    background-color: #90B2DE;
-    margin-top: 20%;
-    margin-bottom: 30%;
-    margin-left: 10%;
-    border-radius: 25%;
-    grid-template-areas: 'header header header header header' 'left content content content content';
-}
-
-.mainpage > div {
-    padding: 20px;
-}
-
-.header{
-    grid-area: header;
+tr {
     text-align: center;
 }
 
-.left {
-    grid-area: left;
+div {
     text-align: center;
 }
 
-.content{
-    grid-area: content;
-    text-align: center;
+.mid {
+    margin: 4rem;
 }
