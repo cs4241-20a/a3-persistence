@@ -53,7 +53,7 @@ const GitHubStrategy = require('passport-github').Strategy;
 passport.use(new GitHubStrategy({
     clientID: "688884ca4b9f79df989c",
     clientSecret: "99992c13b5dc0c95d2d30aff167d632066c4b28f",
-    callbackURL: "/return"
+    callbackURL: "https://a3-ahjicha.herokuapp.com/return"
   },
   function(accessToken, refreshToken, profile, cb) {
       console.log(profile)
@@ -90,8 +90,8 @@ app.get('/home',
 require('connect-ensure-login').ensureLoggedIn(),
 );
 
-//   app.get('/auth/github',
-//   passport.authenticate('github'));
+  app.get('/auth/github',
+  passport.authenticate('github'));
 
 let userID;
 app.get('/error', (req, res) => res.send("error logging in"));
