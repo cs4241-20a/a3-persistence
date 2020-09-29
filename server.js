@@ -16,10 +16,11 @@ const uri = `mongodb+srv://user:abcdef123@cluster0.z38ps.mongodb.net/test?retryW
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:true});
 let users = null;
 let posts = null;
+let comments = null;
 client.connect(err => {
   users = client.db("test").collection("users");
   posts = client.db("test").collection("posts");
-  console.log(posts);
+  comments = client.db("test").collection("comments");
   // perform actions on the collection object
 });
 let user = null;
@@ -69,7 +70,6 @@ app.get("/", (request, response) => {
 });
 
 app.get("/getusername", (request, response) => {
-  console.log("trying for username");
   if (user !== null) {
     console.log("sending json");
     response.json({username: user});
@@ -78,7 +78,6 @@ app.get("/getusername", (request, response) => {
 
 app.post("/register", (request, response) => {
   users.findOne({username: request.body.username}).then(result => {
-    console.log(result);
     if(result !== null) {
       console.log("Username already exists");
     }
@@ -94,15 +93,23 @@ app.get("/loadData", async (request, response) => {
 })
 
 app.post("/addpost", (request, response) => {
-  console.log(request.body);
   posts.insertOne(request.body).then(function () {
     console.log("post added");
   })
 });
 
+app.post("/loadcomments", (request, response) => {
+  comments.find({title: request.body.title}).toArray().then(result => {
+    response.json(result);
+  })
+})
+
+app.post("/addcomment", (request, response) => {
+  comments.insertOne(request.body).then(result => console.log("comment added"));
+})
+
 app.post("/editpost", async (request, response) => {
   let post = await posts.findOne({title: request.body.title});
-  console.log(post);
   await response.json(post);
   // posts.findOne({title: request.body.title}).then(result => {
   //   console.log(result);

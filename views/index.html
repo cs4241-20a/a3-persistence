@@ -23,8 +23,21 @@
         grid-template-columns: 1fr 50% 1fr 1fr 1fr 1fr;
         grid-template-rows: 40px;
       }
-      #loginform {
-
+      .buyinginfo {
+        display: grid;
+        grid-template-columns: 250px 1fr 30px;
+        grid-template-rows: 30px;
+        padding-top: 0px;
+        margin-top: -20px;
+        margin-right: 25px;
+      }
+      .addcomment {
+        display: grid;
+        grid-template-columns: 25px 250px 1fr 40px;
+        grid-template-rows: 30px;
+        padding-top: 0px;
+        margin-top: 20px;
+        margin-right: -25px;
       }
     </style>
     <link href="https://glitch.com/edit/favicon-app.ico" id="favicon" rel="icon" type="image/x-icon">
@@ -43,24 +56,62 @@
     <button id="register">Register</button>
     <button id="login">Login</button>
     <script>
-      function loadDB() {
+      let postTitles = [];
+      async function loadDB() {
         let posts = document.getElementById("post-container");
         posts.innerHTML = "";
-        let data = null;
-        fetch('/loadData').then(result => result.json().then(result => {
+        await fetch('/loadData').then(result => result.json().then(result => {
           result.forEach((post) => {
+            postTitles.push(post.title);
             posts.innerHTML += `
-        <div class="post">
+        <div align="center" class="post">
         <h3>${post.title}</h3>
         <img height = "400px" width = "400px" src="${post.image}">
-        <p>${post.price}</p>
+        <div class="buyinginfo"><p>This item hasn't been sold yet</p> <div></div>
+        <p>${post.price}</p></div>
+        <div id="${post.title}commentsection"><button id="viewcomments${post.title}">View comments</button></div>
+        <div class="addcomment"><div></div><input type="text" id="${post.title}commentbox" placeholder="Add a comment..."><button id="${post.title}commentbutton">Submit</button> <div></div></div>
         </div>
         `
           })
         }));
 
       }
-      window.onload = () => loadDB();
+      window.onload = () => loadDB().then(result => {
+        let commentButtons = [];
+        let postCommentButtons = [];
+        let commentTextBoxes = [];
+        for (let i = 0; i < postTitles.length; i++) {
+          commentButtons[i] = document.getElementById('viewcomments' + postTitles[i]);
+          postCommentButtons[i] = document.getElementById(postTitles[i] + 'commentbutton');
+          commentTextBoxes[i] = document.getElementById(postTitles[i] + 'commentbox');
+          // submitting comment
+          postCommentButtons[i].addEventListener('click', function () {
+            fetch('/addcomment', {
+              method: "POST",
+              body: JSON.stringify({title: postTitles[i], text: commentTextBoxes[i].value}),
+              headers: {'Content-Type': 'application/json'}
+            })
+          });
+          // the show comments button
+          commentButtons[i].addEventListener('click', function () {
+            let commentSection = document.getElementById(postTitles[i] + 'commentsection');
+            commentSection.innerHTML = "";
+            fetch('/loadcomments', {
+              method: "POST",
+              body: JSON.stringify({title: postTitles[i]}),
+              headers: {'Content-Type': 'application/json'}
+            }).then(result => result.json()).then(result => {
+              result.forEach((comment) => {
+                let pElement = document.createElement("p");
+                pElement.innerText = comment.text;
+                commentSection.appendChild(pElement);
+              })
+            })
+          })
+        }
+      });
+
       fetch("/getusername", {
         method: "GET"
       }).then((result) => {
