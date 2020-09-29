@@ -104,19 +104,15 @@ const checkValiditySignUp = function() {
     const pw = document.querySelector('#password').value
     if(isValidPassword(pw) && pw==document.querySelector('#confirmpassword').value && isValidEmail(document.querySelector('#emailaddress').value)&&document.querySelector('#username')!='') {
         document.querySelector('#signup').disabled = false
-        document.querySelector('#signup').setAttribute('aria-disabled', false)
     } else {
         document.querySelector('#signup').disabled = true
-        document.querySelector('#signup').setAttribute('aria-disabled', true)
     }
 }
 //signin starts disabled, is enabled when conditions are met.
 const checkValidityLogIn = function() {
     if(document.querySelector('#usernamelogin').value!=''&&document.querySelector('#passwordlogin').value!='') {
         document.querySelector('#login').disabled = false
-        document.querySelector('#login').setAttribute('aria-disabled', false)
     } else {
         document.querySelector('#login').disabled = true
-        document.querySelector('#login').setAttribute('aria-disabled', true)
     }
 }

@@ -9,7 +9,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GitHubStrategy({
   clientID: process.env.clientID,
   clientSecret: process.env.clientSecret,
-  callbackURL: "https://theratzoo-a3-persistence.glitch.me/auth/github/callback"
+  callbackURL: "https://a3-luke-deratzou.glitch.me/auth/github/callback"
 },
 function(accessToken, refreshToken, profile, done) {
   return done(null, profile);
