@@ -1,0 +1,20 @@
+{
+  "name": "a3-persistence",
+  "version": "",
+  "description": "",
+  "author": "",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "latest",
+    "express": "latest",
+    "mongodb": "latest",
+    "response-time": "latest",
+    "compression": "latest",
+    "passport": "latest",
+    "passport-github": "latest",
+    "cookie-parser": "latest",
+    "express-session": "latest"
+  }
+}
