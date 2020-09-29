@@ -1,0 +1,14 @@
+form {
+  display: flex;
+  justify-content: center;
+}
+.content {
+  display: flex;
+  justify-content: center;
+}
+input {
+  margin: 5px
+}
+button {
+  margin: 3px
+}
