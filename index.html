@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="loginScript.js"></script>
+    <title>To Do List</title>
+    <meta name="description" content="To Do List" />
+    <meta name="Mario" content="SitePoint" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="/index.html">
+        <img
+          src="https://cdn.glitch.com/aee5db39-84c5-480a-8f4a-12d8cb3976ea%2Fcard-checklist.svg?v=1600893665069"
+          width="30"
+          height="30"
+          class="d-inline-block align-top"
+          alt=""
+          loading="lazy"
+        />
+        To Do App
+      </a>
+    </nav>
+
+    <div class="jumbotron">
+      <h1 class="display-4">What do you need to do?</h1>
+      <p class="lead">
+        This is a simple to do list web app built use node.js, express, and
+        bootstrap
+      </p>
+      <hr class="my-4" />
+      <h5>Sign in to get started!</h5>
+      
+      
+      
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="emailInput">Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="emailInput"
+            aria-describedby="emailHelp"
+          />
+          <small id="emailHelp" class="form-text text-muted"
+            >We'll never share your email with anyone else.</small
+          >
+        </div>
+        <div class="form-group">
+          <label for="passwordInput">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="passwordInput"
+          />
+        </div>
+    
+        <button id="submitLogin" type="submit" class="btn btn-primary">
+          Submit
+        </button>
+      
+        <button id="githubLogin" type="submit" class="btn btn-info">
+          Or Log in with Github   <img id="githubIcon"
+          src="https://cdn.glitch.com/aee5db39-84c5-480a-8f4a-12d8cb3976ea%2Fgithub.png?v=1600930203601"
+          width="25"
+          height="25"
+          class="d-inline-block align-top"
+          alt=""
+          loading="lazy"
+        />
+        </button>
+          <small id="emailHelp" class="form-text text-muted">Note for first time users, an account will be created after first sign in.</small>
+      </form>
+    </div>
+  </body>
+</html>

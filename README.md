@@ -1,4 +1,8 @@
 Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
+https://a3-mario-castro.glitch.me/
+Mario Castro
+
+
 ===
 
 Due: September 28th, by 11:59 PM.
@@ -52,31 +56,57 @@ Acheivements
 Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
 
 *Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
+- (10 points) Implement OAuth authentication with Github
 
 *Design/UX*
 - (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
+  
 - (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
 
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
-## Your Web Application Title
+## To Do App
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+a3-mario-castro.glitch.me
 
 Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
 - the goal of the application
+  - The goal of the application was to create an easy to use to do list maker.
+  
 - challenges you faced in realizing the application
+  - The challenges I faced in realizing the application was mainly avoiding spending all of my time slowly tweaking HTML and CSS aspects to get exactly the look I was imagining. 
+  
 - what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
+  - I chose Github because it was the one that was required and wasn't just local. 
+
+- what CSS framework you used and why. include any modifications to the CSS framework you made via custom CSS you authored
+  - I used bootstrap because I have heard from peers that it works well on mobile devices
+  - The only modifications I made to the CSS framework via custom CSS were small margin and padding things on particular elements to better achieve my creative vision.
+  
 - the five Express middleware packages you used and a short (one sentence) summary of what each one does
+  - The middleware I used was..
+  - body-parser - For parsing the body of HTML requests
+  - compression - For compressing HTML requests to save data
+  - express-sessions - For keeping track and managing of user sessions.
+  - cookie-parser - For parsing said cookies as part of express-sessions
+  - passport - For github authentication
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+  - 1 DESIGN TIP : Provide sufficient contrast between foreground and background. I provided sufficient contrast between foreground and background by making sure the buttons all had vibrant colors compared to the background
+  - 2 DESIGN TIP : Create designs for different viewport sizes. I made sure my design was usable on all view sizes.
+  - 3 DESIGN TIP : Don’t use color alone to convey information. All of my buttons have text as well as color to indicate what they do. 
+  - 4 DESIGN TIP : Ensure that form elements include clearly associated labels. All of my forms have placeholder text that labels what they are used for.
+  - 5 DESIGN TIP : Use headings and spacing to group related content. On my task editing page, all the editing buttons (add, delete, new task) are all located near eachother on the right hand side of the page.
+  - 6 DESIGN TIP : Include image and media alternatives in your design. I included a github logo icon along with the log in with github button to further communicate the association with github
+  - 7 WRITING TIP : Keep content clear and concise. I tried to keep text on the site to a minimum and only said what was needed.
+  - 8 DEVELOPING TIP : Ensure that all interactive elements are keyboard accessible. All of my interactive elements can be used with just the keyboard.
+  - 9 DESIGN TIP : Provide clear and consistent navigation options. All navigation elements are clearly colored and different than any other elements on the page. 
+  - 10 WRITING TIP : Provide clear instructions. Clear instructions are provided for both pages of the website. Users are told to sign in to start making a to do list, they then are clearly shown how to add a task. 
+  - 11 DEVELOPING TIP : Use mark-up to convey meaning and structure. I used the nav markup for the navbar at the top to convey structure. 
+  - 12 DEVELOPING TIP : Reflect the reading order in the code order. All the HTML elements are in the order in which they would be read
