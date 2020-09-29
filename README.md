@@ -1,82 +1,53 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
+# Application Name: To-Do List
 
-Due: September 28th, by 11:59 PM.
+## Glitch link: https://a3-haley-hauptfeld.glitch.me
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
+### Project summary:
 
-Baseline Requirements
----
+**Goal:** I made a to-do list application in which users can enter new tasks by entering them into the given field. These tasks are added to a database in MongoDB. Users can also modify those tasks by clicking on the task and directly editing it, and then clicking the corresponding 'modify' button. These modifications are updated in the mongoDB database. Users can also delete tasks by clicking the corresponding 'delete' button. This also deletes that task from the mongoDB database.
 
-Your application is required to implement the following functionalities:
+**Challenges:** A very large blocker I had was configuring mongoDB. The topology within the monogoDB database kept being destroyed and it took me several hours to debug this issue. The solution was to have a very specific uri reference that took hours to figure out. Due to this complication, another blocker that I ran out of time to fix was configuring the authentication. I was able to begin this process, but I did not have enough time to finish user authentication. I was able to create a login page, but there is no true authentication or unique user recognition when retrieving tasks from the database. I will explain how would I would go about doing this if I had more time in the next section.
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
+**Authentication Strategy:** Again, I was unable to finish this part of the project. However, if I had more time to finish the project, I would use GitHub OAuth authentication using this tutorial as a reference: https://github.com/Sivanesh-S/github-oauth-express#readme. I would've chosen this strategy because GitHub OAuth authentication makes it easy to build and deploy a project that requires users to have a username and a password to access data from a database. Also, in addition to just this ability, GitHub OAuth includes limited access, meaning that tokens are created with the appropriate scope for the user whenever access is requested. This ensures users are receiving the appropriate amount of information (aka their unique tasks).
+ 
+**CSS:** I chose Picnic(https://picnicss.com/) as my CSS framework because it's very lightweight. Also, Picnic is modular, meaning that each separate part of my webpage can be modified separately. I used custom CSS to have a color scheme.
 
-Your application is required to demonstrate the use of the following concepts:
+**Express middleware packages:**
 
-HTML:
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
+**body-parser:** This package parses the HTTP request body of each task that I send to and from the database.
 
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
+**morgan:** This package logs my HTTP requests.
 
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
+**response-time:** This package records the response time of my HTTP requests. I also had to use the package, 'node-statsd' from node to use response time properly.
 
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
+**cors:** This package enables cross-origin resource sharing, which means outside users can request restricted information (such as unique user's tasks) from other domains.
 
-Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
+**csurf:** This package protects my webpage from cross site request forgery. I also used the package 'cookie-parser' in order to properly install csurf.
 
-Deliverables
----
+### Design/UX Achievements:
 
-Do the following to complete this assignment:
+**Design Achievement 1:** I used the following tips from the W3c Web Accessibility Initiative:
 
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
+I provided informative, unique page titles for both my main page (To-Do List) and the login page (Login Page).
 
-Acheivements
----
+I used headings to convey meaning and structure by using a heading to signify the application is a to-do list. I also used a heading in my login page to signify that the page is a login page.
 
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
+I provided clear instructions when a user enters a task by offering an example of what the user can input as a task within the input field. This example disappears when a user starts typing in the field to provide an easier UX.
 
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
+I kept content clear and concise by using simple, short sentences. I avoided any complex words or phrases.
 
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
+I provided ensured interactive elements are easy to identify by using a the CSS framework, Picnic, to style my interactive buttons, so when the user hovers over them, they slightly change color.
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
+All of my form elements include clearly associated labels. On my login page, I clearly ask the user to provide a username and password. On the main page, I clearly ask the user to enter a new task.
 
-## Your Web Application Title
+I associate a label with all of my form controls.
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+I use the mark-up tag, main, to convey that that section is the main area of my web page. I want users to focus on entering new tasks.
+ 
+I help users avoid and correct mistakes by sending an alert to pop-up on the page whenever the user deletes a task. This alert instructs the user that they cannot retrieve their deleted item and they must create a new task if they want it back in their list of tasks.
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+I reflect the reading order in my code order because when I remove the CSS styling, the order of the content makes sense.
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+I adapt to the user's technology by adjusting the margins of my main tag. For narrow viewports, the width is full, and for wider viewports, the width is put to the left.
 
-## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
-
-### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+I identify page language by using the lang attribute in the html tag for both my login page and my main webpage.
