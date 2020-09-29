@@ -1,6 +1,8 @@
 ## Pokemon Team Builder
 Noah Olson - noahvolson - nvolson
 
+NOTE: I had issues creating this pull request. It initially said that there was "nothing to compare" this caused me to submit this request late. I have discussed this with professor Roberts in our class chat and he said that I would not lose points.
+
 Glitch Link: https://a3-noah-olson.glitch.me
 
 Goal: This application gives users a platform to theorycraft Pokemon teams 
