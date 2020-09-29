@@ -69,7 +69,6 @@ passport.use(
         github: true,
       };
 
-      console.log("Processing", user);
 
       if (docs.length == 0) {
         await collection.insertMany([user]);
@@ -176,7 +175,6 @@ app.post("/submit", async (req, res) => {
 
   const docs = await collection.find({ user: req.user._id }).toArray();
 
-  // perform actions on the collection object
   await client.close();
 
   return res.json(docs);
@@ -194,7 +192,6 @@ app.get("/api/getData", async (req, res) => {
 
   const docs = await collection.find({ user: req.user._id }).toArray();
 
-  // perform actions on the collection object
   await client.close();
 
   return res.json(docs);
@@ -210,5 +207,5 @@ app.get("/", (_, response) => {
 });
 
 const listener = app.listen(process.env.PORT || 3000, () => {
-  console.log("Your app is listening on port " + listener.address().port);
+  console.log("The app is listening on port " + listener.address().port);
 });

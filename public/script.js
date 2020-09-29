@@ -1,14 +1,8 @@
-const processData = (json) => {
+const processInfo = (json) => {
     const items = document.getElementById("items");
     items.innerHTML = "";
 
     json.forEach((item) => {
-
-        const priorityMap = {
-            high: 1,
-            medium: 3,
-            low: 5,
-        };
         
         items.innerHTML += `
         <tr>
@@ -33,30 +27,30 @@ const processData = (json) => {
     });
 };
 
-const processLogin = (json) => {
+const loginUser = (json) => {
     console.log("user data", json);
     if (!json._id) return;
 
-    document.getElementById("login").setAttribute("style", "display:none");
+    document.getElementById("userDetails").setAttribute("style", "display:none");
     document.getElementById("profile").setAttribute("style", "");
 
     document.getElementById("l-username").innerHTML = json.username;
 
-    document.getElementById("loginGate").setAttribute("style", "display:none");
-    document.getElementById("pages").setAttribute("style", "");
+    document.getElementById("checkLogin").setAttribute("style", "display:none");
+    document.getElementById("webpage").setAttribute("style", "");
 
     fetch("/api/getData")
         .then((response) => response.json())
-        .then((json) => processData(json));
+        .then((json) => processInfo(json));
 };
 
-const disableBody = () => {
+const hideBody = () => {
     document.body.setAttribute("style", "pointer-events:none;opacity:0.4");
 };
-const enableBody = () => {
+const showBody = () => {
     document.body.setAttribute("style", "pointer-events:auto;opacity:1");
 };
-const deleteEntry = (e) => {
+const removeItem = (e) => {
     e.preventDefault();
 
     const id = e.target.getAttribute("id").split("-")[0];
@@ -67,7 +61,7 @@ const deleteEntry = (e) => {
     },
         body = JSON.stringify(json);
 
-    disableBody();
+    hideBody();
 
     fetch("/submit", {
         method: "POST",
@@ -79,16 +73,16 @@ const deleteEntry = (e) => {
         .then((response) => response.json())
         .then((json) => {
             // do something with the reponse
-            processData(json);
+            processInfo(json);
             name.value = "";
             task.value = "";
-            enableBody();
+            showBody();
         });
 
     return false;
 };
 
-const editEntry = (e) => {
+const editItem = (e) => {
     e.preventDefault();
 
     const id = e.target.getAttribute("id").split("-")[0];
@@ -103,7 +97,7 @@ const editEntry = (e) => {
             id,
         },
         body = JSON.stringify(json);
-    disableBody();
+    hideBody();
     fetch("/submit", {
         method: "POST",
         headers: {
@@ -113,19 +107,17 @@ const editEntry = (e) => {
     })
         .then((response) => response.json())
         .then((json) => {
-            // do something with the reponse
-            processData(json);
+            processInfo(json);
             name.value = "";
             task.value = "";
             date.value = "";
-            enableBody();
+            showBody();
         });
 
     return false;
 };
 
-const submit = function (e) {
-    // prevent default form action from being carried out
+const createItem = function (e) {
     e.preventDefault();
 
     const task = document.querySelector("#task"),
@@ -134,7 +126,7 @@ const submit = function (e) {
         json = { name: name.value, task: task.value, priority: priority.value, date: date.value },
         body = JSON.stringify(json);
 
-    disableBody();
+    hideBody();
     fetch("/submit", {
         method: "POST",
         headers: {
@@ -144,16 +136,15 @@ const submit = function (e) {
     })
         .then((response) => response.json())
         .then((json) => {
-            // do something with the reponse
-            processData(json);
+            processInfo(json);
             task.value = "";
-            enableBody();
+            showBody();
         });
 
     return false;
 };
 
-const logout = () => {
+const logoutUser = () => {
     fetch("/logout").then(() => {
         document.getElementById("login").setAttribute("style", "");
         document.getElementById("profile").setAttribute("style", "display:none");
@@ -168,7 +159,7 @@ const logout = () => {
     });
 };
 
-const login = () => {
+const loginUser = () => {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
@@ -184,11 +175,11 @@ const login = () => {
     })
         .then((response) => {
             if (!response.ok) {
-                throw "Invalid Username/Passwword";
+                throw "Invalid Username/Passwword. If you do not already have an account, enter your desired Username and Password and your account will be created automatically.";
             }
             return response.json();
         })
-        .then((json) => processLogin(json))
+        .then((json) => loginUser(json))
         .catch((err) => {
             console.error(err);
             alert(err);
@@ -197,24 +188,24 @@ const login = () => {
 
 window.onload = function () {
     const button = document.getElementById("submitTicket");
-    button.onclick = submit;
+    button.onclick = createItem;
 
      fetch("/api/getUser")
        .then((response) => response.json())
-       .then((json) => processLogin(json));
+       .then((json) => loginUser(json));
 
     document.addEventListener("click", function (e) {
         if (e.target && e.target.classList[0] == "deleteButton") {
-            deleteEntry(e);
+            removeItem(e);
         }
         if (e.target && e.target.classList[0] == "saveButton") {
-            editEntry(e);
+            editItem(e);
         }
         if (e.target && e.target.getAttribute("id") == "loginButton") {
-            login();
+            loginUser();
         }
         if (e.target && e.target.getAttribute("id") == "logoutButton") {
-            logout();
+            logoutUser();
         }
     });
 };
