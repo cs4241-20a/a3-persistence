@@ -105,4 +105,4 @@ Express Middleware:
   automatically, but I found that in cases where I didn't like the default Bootstrap styling, it was surprisingly difficult to figure out which properties to override in order to better fit my idea. I ultimately managed
   to align everything to my satisfaction, but it took me a surprising amount of time to get it just right.
   * Proximity
-  I 
+  I   
