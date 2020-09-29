@@ -23,7 +23,7 @@ app.listen(3000);
 const mongoDB = require("mongodb");
 const MongoClient = mongoDB.MongoClient;
 
-const uri = `mongodb+srv://mlshax:${process.env.DBPASSWORD}@cluster0.y6dt3.mongodb.net/<dbname>?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://mlshax:${process.env.DBPASSWORD}@cluster0.y6dt3.mongodb.net/Project3?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true });
 let userCollection = null;
 let meetCollection = null;
