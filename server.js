@@ -54,17 +54,24 @@ app.post('/createAccount', (req, res) => {
 			MongoClient.connect(mongouri, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
 				if (err) console.log("Connection failed");
 				const db = client.db('users');
-				db.collection('_webware').insertOne(data, (err, response) => {
+				db.collection('_webware').findOne({'user': data.user}, (err, doc) => {
 					if (err) {
+						console.log(err);
 						res.sendStatus(401);
 					}
-					else console.log('User Created');
-					client.close();	
-					res.sendStatus(200);
+					if (!doc) {
+						db.collection('_webware').insertOne(data, (err, response) => {
+							if (err) console.log(err);
+							else res.send(response.ops[0]._id.toString());
+						});
+					} else {
+						client.close();	
+						res.send(doc._id);
+					}
 				});
 			});
-		}).catch(err => res.sendStatus(401));
-	}).catch(err => res.sendStatus(401));
+		}).catch(err => {console.log('Hashing failed', err);res.sendStatus(401);});
+	}).catch(err => {console.log('SaltGen failed', err);res.sendStatus(401);});
 });
 
 
@@ -81,7 +88,7 @@ app.post('/login', (req, res) => {
 				bcrypt.compare(data.password, doc.password)
 				.then(same => {
 					client.close();
-					res.redirect(`/main.html?auth=login&id=${doc._id}&name=${doc.first+','+doc.last}`);
+					res.redirect(`/main.html?auth=login&id=${doc._id}&name=${doc.first+','+doc.last}&user=${doc.user}`);
 				}).catch(err => console.log('bcrypt compare', err));
 			}
 		});
@@ -89,6 +96,8 @@ app.post('/login', (req, res) => {
 });
 
 
+/*** Game Function get requests (also interface with db) ***/
+/*** TODO: FIX THIS SO IT ACTUALLY GETS NAMES ***/
 app.get('/getScores', (req, res) => {
 	MongoClient.connect(mongouri, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
 		if (err) console.log("Connection failed");
@@ -96,14 +105,11 @@ app.get('/getScores', (req, res) => {
 		db.collection('_scores').find().sort({score:-1}).limit(5).toArray((err, docs) => {
 			let retjson = {};
 
-			docs.forEach((doc, ind) => {
-				db.collection('_webware').findOne({'_id': doc.id}, (err, docNames) => {
-					if (err) console.log(err);
-					if (!docNames) retjson[ind] = {'name': '???', 'score': doc.score};
-					else retjson[ind] = {'name': docNames.first, 'score': doc.score};
-				});
+			docs.forEach(async (doc, ind) => {
+				retjson[ind] = {'name': doc.user, 'score': doc.score};
+				// if ((ind > 3) || (docs.length < 5 && ind === docs.length - 1))
 			});
-			console.log((retjson));
+
 			res.send(JSON.stringify(retjson));
 		});
 	});
@@ -112,6 +118,7 @@ app.get('/getScores', (req, res) => {
 
 app.get('/guess', (req, res) => {
 	let id = req.query.id;
+	let user = req.query.user;
 	let data = req.query.guess;
 
 	MongoClient.connect(mongouri, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
@@ -120,10 +127,9 @@ app.get('/guess', (req, res) => {
 
 		const query = {'id': id};
 		const options = {'upsert': true};
-
 		db.collection('_currwords').findOne(query, (err, doc) => {
 			if (req.query.guess === doc.word) {
-				db.collection('_scores').updateOne(query, {$inc: {'score': 1}, $set: {'id': id}}, options);
+				db.collection('_scores').updateOne(query, {$inc: {'score': 1}, $set: {'id': id, 'user': user}}, options);
 			}
 			res.send((req.query.guess === doc.word).toString());
 		});
@@ -149,12 +155,13 @@ app.get('/currentWord', (req, res) => {
 
 app.get('/getCurrScore', (req, res) => {
 	let id = req.query.id;
+	let user = req.query.user;
 
 	MongoClient.connect(mongouri, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
 		if (err) console.log("Connection failed");
 		const db = client.db('users');
 		const query = {'id': id};
-		const newScore = {'id': id, 'score': 0};
+		const newScore = {'id': id, 'user': user, 'score': 0};
 		let scores = 0;
 		db.collection('_scores').findOne(query, (err, doc) => {
 			if (err) console.log(err);
@@ -165,11 +172,39 @@ app.get('/getCurrScore', (req, res) => {
 				res.send(doc.score.toString());
 			}
 		});
-		// db.collection('_scores').updateOne(query, update, options);
-		// res.send((1).toString());
 	});
 });
 
+
+app.get('/endGame', (req, res) => {
+	id = req.query.id;
+
+	MongoClient.connect(mongouri, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
+		if (err) console.log("Connection failed");
+		const db = client.db('users');
+		const query = {'id': id};
+
+		db.collection('_currwords').findOne(query, (err, doc) => {
+			db.collection('_scores').updateOne(query, {$unset: {'id': ''}});
+			res.send(200);
+		});
+	});
+});
+
+
+app.get('/deleteEverything', (req, res) => {
+		MongoClient.connect(mongouri, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
+		if (err) console.log("Connection failed");
+		const db = client.db('users');
+		db.collection('_scores').remove({}).then(success => {
+			console.log('All scores deleted');
+			res.sendStatus(200);
+		});
+	});
+});
+
+
+/*** github auth get handlers ***/
 
 app.get('/githubUserName', (req, res) => {
 	const accessToken = req.query.access_token;

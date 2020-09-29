@@ -1,27 +1,45 @@
 const url = new URL(window.location.href);
 let sessionId = '';
+let username = '';
 
 const start = () => {
 	const authtype = url.searchParams.get('auth');
 	
 	if (authtype === 'git') {
-		sessionId = url.searchParams.get('access_token');
-		fetch('/githubUserName?access_token=' + token)
+		fetch('/githubUserName?access_token=' + url.searchParams.get('access_token'))
 			.then(res => res.json())
-			.then(res => document.querySelector("#name").innerText = res.name);
+			.then(res => {
+				console.log(res);
+				document.querySelector("#name").innerText = res.name;
+				username = res.login;
+
+				let loginData = {'name': res.name, 'user': res.login, 'password': res.node_id};
+				console.log(loginData);
+				fetch('/createAccount', {
+					method: 'POST',
+					body: JSON.stringify(loginData),
+			    	headers: {'Content-Type':'application/x-www-form-urlencoded'}
+				})
+				.then((res) => res.text())
+				.then((res) => {
+					console.log(res); 
+					sessionId = res;
+					newScrambled();
+					updateScores();
+					updateCurrentScore();
+				});
+			});
 	} else if (authtype === 'login') {
-		sessionId = url.searchParams.get('id');
 		let name = url.searchParams.get('name').split(',')[0] + ' ' + url.searchParams.get('name').split(',')[1]
+		sessionId = url.searchParams.get('id');
+		username = url.searchParams.get('user');
 		document.querySelector("#name").innerText = name;
+		newScrambled();
+		updateScores();
+		updateCurrentScore();
 	}
 
-	$(document).ready(function(){
-		$('.sidenav').sidenav();
-	});
 
-	newScrambled();
-	updateScores();
-	updateCurrentScore();
 	let inp = document.querySelector('#answer');
 
 	inp.addEventListener('keyup', (e) => {
@@ -33,36 +51,21 @@ const start = () => {
 	});
 }
 
-/****TODO****/
+
 const deleteEverything = () => {
 	endGame();
 	fetch('/deleteEverything', {
 		method: 'GET'
 	}).then(() => {
 		document.querySelector('#currScore').innerHTML = 0;
-		updateScores();
 		newScrambled();
+		updateScores();
 	});
 }
 
 
-// const hint = () => {
-// 	let inp = document.querySelector('#answer');
-
-// 	fetch('/hint', {
-//   		method: 'POST',
-//   		body: inp.dataset.hint.length
-// 	}).then((res) => {
-//   		res.text().then(char => {
-//   			inp.dataset.hint = inp.dataset.hint ? inp.dataset.hint + char : char;
-//   			inp.value = inp.dataset.hint;
-//   		});
-// 	});
-// }
-
-
 const updateCurrentScore = () => {
-	fetch('/getCurrScore?id=' + sessionId, {
+	fetch('/getCurrScore?id=' + sessionId + '&user=' + username, {
 		method: 'GET'
 	}).then((res) => {
 		res.text().then(score => {
@@ -71,7 +74,7 @@ const updateCurrentScore = () => {
 	});
 }
 
-/****TODO****/
+
 const updateScores = () => {
 	fetch('/getScores', {
 		method: 'GET'
@@ -80,16 +83,11 @@ const updateScores = () => {
 			let insertDiv = document.querySelector('#serverscores');
 
 			scores = JSON.parse(scores);
-
 			insertDiv.innerHTML = '';
 
-			console.log(scores);
-
-			Object.entries(scores).forEach((score, i) => {
-				console.log(score, i);
+			Object.keys(scores).forEach((key, i) => {
   				let ele = document.createElement('tr');
-
-  				ele.innerHTML = `${score.name}: ${score.score}`;
+  				ele.innerHTML = `${scores[key].name}: ${scores[key].score}`;
   				insertDiv.appendChild(ele);
 			});
 		});
@@ -98,18 +96,10 @@ const updateScores = () => {
 
 /****TODO****/
 const endGame = () => { // ends the game and sends score to the server
-	let name = document.querySelector('#name').value ? document.querySelector('#name').value : '???';
-	let date = new Date();
-	let scorejson = JSON.stringify({"date": date, "name": name.toUpperCase(), "score": 0});
-
-	fetch('/newScore', {
-		method: 'POST',
-		body: scorejson
-	}).then(() => {
-		updateScores();
-		newScrambled();
-		updateCurrentScore();
-	});
+	fetch('/endGame?id=' + sessionId, {
+		method: 'GET'
+	})
+	window.location.href = '/';
 }
 
 
@@ -145,7 +135,7 @@ const newScrambled = () => { // Changes the scrambled word to a new one from the
 const guessWord = (guess) => { // takes in a value and sends it to the server to see if its correct
 	let data = JSON.stringify({'guess': guess});
 	console.log(data, guess);
-	fetch('/guess?id=' + sessionId + '&guess=' + guess, {
+	fetch('/guess?id=' + sessionId + '&user=' + username + '&guess=' + guess, {
 		method: 'GET'
 	}).then((res) => {
 		res.text().then((correct) => { // is either true or false to see if that was the correct word
@@ -164,6 +154,9 @@ const guessWord = (guess) => { // takes in a value and sends it to the server to
 	});
 }
 
+$(document).ready(function(){
+	$('.sidenav').sidenav();
+});
 
 window.onload = () => {
 	start();
