@@ -82,10 +82,12 @@ Express Middleware:
 - express session: Handles browser sessions for users. Works with passport to keep track of users' login state as they browse the site.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy.
+- **Used Github OAuth authentication with PassportJS**: This took me much longer than expected, as I had difficulty finding accurate and up-to-date documentation about using Passport with a Github strategy. I
+struggled for a bit with the auth callback URL before realizing that 1) Passport is really just Express middleware and 2) I had to set the proper callback URL in GitHub for it to work properly. 
+- **Tech
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the CRAP principles from the Non-Designer's Design Book.
+- **Followed CRAP principles from Non-Designer's Design Book**:
   * Contrast: My website overall is fairly plain. I stuck to mostly black, white, and gray because I feel that it contributes to a clean and uncluttered feel. I chose to emphasize only the "action" buttons
   (for adding, deleting, and editing a recipe) because these actions are what the site is all about. Not only are these buttons notably larger than other buttons and components and separated vertically somewhat
   from other components, they are also the only brightly-colored elements on the site. My goal was to make it very clear to the user what the purpose of each form was immediately upon loading the page. There are a handful
@@ -104,7 +106,8 @@ Express Middleware:
   added some margin around buttons. I also made buttons larger so they filled up more of the space they took up. This aspect was simultaneously the most difficult and easiest; Bootstrap does most of the heavy lifting
   automatically, but I found that in cases where I didn't like the default Bootstrap styling, it was surprisingly difficult to figure out which properties to override in order to better fit my idea. I ultimately managed
   to align everything to my satisfaction, but it took me a surprising amount of time to get it just right.
-  * Prox
-  Proximity was one of the most straightforward design principles to me. I've worked with Bootstrap in the past and I've gotten in the habit of placing forms as well as anything that displays data inside of a Card element.
-  I find that being in a card gives a nice smooth outline and creates a subtle but important separation between different visual elements. For instance, on the page where recipes are displayed, each recipe is nicely
-  bordered to clearly indicate where one ends and another begins.   I   
+  * Proximity
+  Proximity was one of the most straightforward design principles to me. I tried to deliberately place elements on the page based on where each element made the most sense in terms of conveying pieces of information
+  related to one another. For this app, this meant visually grouping elements of distinct recipes with one another and away from other recipes. I've worked with Bootstrap in the past and I've gotten in the habit of
+  placing forms as well as anything that displays data inside of a Card element. I find that being in a card gives a nice smooth outline and creates a subtle but important separation between different visual elements.
+  For instance, on the page where recipes are displayed, each recipe is nicely bordered to clearly indicate where one ends and another begins.
