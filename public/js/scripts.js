@@ -1,10 +1,9 @@
-//const { json } = require("body-parser")
-
 window.onload = function () {
   const button = document.getElementById('submitbtn');
   button.addEventListener("click", submit);
   fetch('/load')
-  .then((res) => res.json())
+  .then((res) => {
+    return res.json()})
     .then((json) => {
       console.log(json)
       addToTable(json);
@@ -29,24 +28,27 @@ const submit = function (e) {
       headers: { "Content-Type": "application/json"},
       body
     })
-      .then((appdata) => appdata.json())
+      .then((res) => res.json())
       .then((json) => {
         addToTable(json);
       })
 
       return false
   }
-
-  function deleteData(id) {
-    fetch('/remove', {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ _id })
-    })
-    .then((res) => res.json())
-    .then((json) => addToTable(json));
+  
+  function deleteData(id) { // doesn't work
+  console.log("button clicked");
+ fetch('/remove', {
+     method: "POST",
+     headers: {
+         "Content-Type": "application/json",
+     },
+     body: JSON.stringify({id})
+ })
+ .then((res) => res.json())
+ .then((json) => {
+   addToTable(json);
+ })
 }
 
        const addToTable = (data) => {
@@ -60,24 +62,18 @@ const submit = function (e) {
               <td class='scoredata'>${element.score}</td>
               <td class='locationdata'>${element.location}</td>
               <td>
-                <button id='${element._id}delete'>Delete</button>
+                <button onclick='deleteData(${element._id})'>Delete</button>
                 </td>
                 <td>
                 <button>Edit</button>
                 </td>
             </tr>
             `;
-            
-            var del = document.getElementById(`${element._id}delete`);
-            del.addEventListener('click', () => {
-                deleteData(element._id);
-                console.log("deleted data");
-            })
-
-
          });
          
          }
+
+         
          
         
 

@@ -5,16 +5,17 @@ const bodyparser = require('body-parser');
 const passport = require('passport');
 const GHStrategy = require('passport-github').Strategy;
 const dotenv = require('dotenv');
-const appdata = [];
+const morgan = require('morgan');
+const responset = require('response-time');
+
 
 dotenv.config();
 app.use(session({secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true, cookie: {secure: false}})),
-
 app.use(express.static("public"));
-
-
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(morgan());
+app.use(responset());
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -27,8 +28,6 @@ passport.deserializeUser(function (user, done) {
 app.get("/", (request, response) => {
     response.sendFile(__dirname + "/public/index.html");
 });
-
-console.log(`${process.env.PORT}`);
 
 const listener = app.listen(process.env.PORT);
 console.log("Your app is listening on port " + process.env.PORT);
@@ -77,7 +76,7 @@ app.get("/auth/github/callback",
     res.redirect("/");
   })
 
-app.post( '/load', async(req, res) => {
+app.get( '/load', async(req, res) => {
   if (!req.user) {
     return res.json({ error: "Please log in first" });
   }
@@ -87,7 +86,7 @@ app.post( '/load', async(req, res) => {
 
   await client.connect();
 
-  collection = client.db("test").collection("testing");
+  collection = client.db("WWProject3").collection("scoredata");
   
   const data = await collection.find({ user: req.user._id }).toArray();
 
@@ -125,9 +124,10 @@ app.post( '/add', bodyparser.json(), async(req, res) => {
     
 });
 
-app.delete( '/remove', bodyparser.json(), async(req, res) => {
+// should remove data from collection (haven't tested)
+app.post( '/remove', bodyparser.json(), async(req, res) => {
   if (!req.user){
-    return res.json({})
+    return res.json({ error: "please log in first"})
   }
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
   let collection = null;
@@ -148,8 +148,11 @@ app.delete( '/remove', bodyparser.json(), async(req, res) => {
 
 }); 
 
+// should update existing data in the collection (haven't tested)
 app.post( '/update', bodyparser.json(), async(req,res) => {
-
+  if (!req.user){
+    return res.json({ error: "please log in first"})
+  }
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
   let collection = null;
 

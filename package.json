@@ -13,7 +13,9 @@
     "express-session": "^1.17.1",
     "mime": "^2.4.4",
     "mongodb": "^3.6.2",
+    "morgan": "^1.10.0",
     "passport": "^0.4.1",
-    "passport-github": "^1.1.0"
+    "passport-github": "^1.1.0",
+    "response-time": "^2.3.2"
   }
 }
