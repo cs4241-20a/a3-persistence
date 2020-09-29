@@ -6,6 +6,9 @@ https://to-do-list-1234556.herokuapp.com/ and https://a3-alvaradoblancouribe.gli
 
 the goal of this application is to create a to-do list for students 
 
+![recording](/Screen Shot 2020-09-28 at 11.41.09 PM.png)
+
+
 Disclaimer: everything starting falling apart a couple of hours before I submited this assignemnt. There might be a lot of things that don't work properly now but there is code that shows that i meant for it to work/did work in the past. 
 
 I used Bootstrap as my CSS template for the login page due to it's popularity and wide range of use. 
@@ -22,7 +25,5 @@ Challenges I faced:
 I thought everything was going great until I had to incorporate the authentication into the application. After looking at multuple tutorials I kept on digging a never ending hole of bugs. Things that previously worked with no problem suddenly didn't work at all and my internet was being very spotty today which added to the challenges. I also believe that refering to multiple tutorials made me explore a lot of different solutions which eneded up breaking my code even more. I also didn't consider the fact that the wifi in my county might go down the night this assigment was due and that I would be uploading this using my phone data, which made everything a lot slower and stressful.
 
 ## Technical Achievements
-- **Tech Achievement 1**: 
+- **Tech Achievement 1**: Uploading it to Heroku
 
-### Design/Evaluation Achievements
-- **Design Achievement 1**:
