@@ -73,7 +73,7 @@ dreamsForm_change.addEventListener("submit", event => {
   })
     .then(response => response.json()
       .then(json => {
-
+        document.location.reload()
       }))
 
   // reset form
