@@ -1,82 +1,73 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
+## favorate game
 
-Due: September 28th, by 11:59 PM.
+Zaiyang Zhong github id = anyuwanqing
+https://glitch.com/edit/#!/join/d6edf170-7ae5-4eed-b305-fe2f10e56228
+https://glitch.com/~iridescent-band-plate
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
+Log In to fill out a survey on your favorite game. Data can be modified or deleted, and the statistic will be shown.
 
-Baseline Requirements
----
+The goal of the application is to add, edit, and delete data in Mongodb.
 
-Your application is required to implement the following functionalities:
+My challenge is mainly on that i kept getting the "npm does not support Node.js" errors, and spent endless hours to debug this. (It's the npm and Node js compability issue) Also, I spent too long to figure out how to seperate login and table into two html files (and finally found that i only had to hide the content in the same html file).
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
+# errors with npm
 
-Your application is required to demonstrate the use of the following concepts:
+In case you have the same problem, go to terminale and do: enable-npm, then npm install (all dependencies)
+Also, enter non-float value for game cost will result in error in Results.
 
-HTML:
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
+# authentication
 
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
+I created 2 databases, one for storing correct account data, and other for storing the players' info.
+By default, you can enter
 
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
+      admin
+      password
 
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
+to log in. Some sample data are already added to the Mongodb. I used passport for authentication because it seemed to be easier.
 
-Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
+# express midleware
 
-Deliverables
----
+1. body-parser: allow me to handle request obj and transorm to JSON
+2. Passport: handle authentication for user login
+3. error-handler: for processing error messasge in a more tidy way
+4. helmet: helps to secure Express apps by setting various HTTP headers
+5. response-time: records the response time for requests in HTTP servers
 
-Do the following to complete this assignment:
+# baseline
 
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
+mongodb is used as database. I used the free version and created 2 databases, one for accounts and one for players' data.
+Express is used.
+Result is shown as statistic table at the bottom.
+Form/entry is a table that display data for different catagory.
+Password DBPASSWORD for mongodb is added in .env file to remain hidden.
 
-Acheivements
----
+# html
 
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
+use th, tr, label, input for table display
 
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
+# CSS
 
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
+Project: https://github.com/oxalorg/sakura/
+I used sakura and Wing; sakura gives it a soft feeling to the text
+what CSS framework you used and why
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
+include any modifications to the CSS framework you made via custom CSS you authored
 
-## Your Web Application Title
+Tech Achievement 1: Intead of Github, I used passport-local for the OAuth authentication. I was having trying implementing the github log-in and finally gave up. The authenticate() passport provides is used as middleware to authenticate request.
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
-
-## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
-
-### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+Design/Evaluation Achievements
+Design Achievement 1: I followed the following tips from the W3C Web Accessibility Initiative...
+Contrast: The content and the form are the most important elements on this site, so I make the background very light and the words will stand out.
+This will be the biggest contrast on my page. For other contrast, you may notice the button used for form submit has a dark background, but the text is white; this becomes the second largest contrast of my page. This design of button will help users to find them very easily. Also, not only the button stands out on its own, its background has a contrast with the page background, which makes it even better for users to recognize the buttons.
+Other contrast includes the font size: the most important title will be the largest, followed by the sub titles and the statistic table. The text box for data input will be smaller, because they are less significant than the title.
+  
+Proximity: First I need to make sure that in order to have a consistant format, I will have all the content's layout in the center of the page: all titles, buttons, input box, table, and statistic data will be in the center.
+Second I make sure the spacing for the overal site is consistant. For example, Login with the form and Add user with the form below has the same spacing. For both table and statistic, because they are equally important I add a line below the title to seperate them equally, so users can identify that Table and Statistic are two different parts from the first glance.
+it's also very important that I have spacing between 2 input box so they do not look like they are merging. Keeping a space between the boxes also give a sense of comfort to users, because when things are more spaced out it feels more open, less stressed.
+  
+Repeat elements: In fact, all fonts will be the same; and the only difference to them is the font-size. I used the same font to keep a consistancy throughout my site. Also, the same format for title are used (Login and Add User) so it helps users to know that they are similar forms.
+Form elements will be consistent on their style: a placeholder is added when users enter inputs; the color is also consistent when their mouse hover on a certain box.
+When the mouse hovers on Submit button, it becomes pink, which gives a big contrast with black and help users to know which buttons they are trying to press on. The style for Table is consistent, with equal spacing, and similar format for buttons.
+  
+Align: First I need to make sure all elements on this page will be centered, so nothing looks like they are falling out or inconsistent. Then, I made sure that the table spreads out with the same width, so these input boxes will look like they belong to the same table. If the size is inconsistent for one element, I believe it will look really awkward. Finally, all buttons for submit is aligned and two forms appear to be in the same position (center) on the page.
+Table and Statistic are also aligned so they look like they belong to the same stylesheet and has similar format even though they display different kind of data. The data in the table is also perfectly aligned and look neat and tidy.

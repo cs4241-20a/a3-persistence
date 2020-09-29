@@ -1,0 +1,111 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Log In</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="made by Glitch">
+
+    <!-- import the webpage's stylesheet -->
+    <! --// sakura & wing-->
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/wingcss"/>
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+    
+    <header>
+      <h1>Survey On Favorate Game</h1>
+    </header>
+
+    <main style="text-align: center">
+      
+      <div id="loginPage" style="text-align: center">
+        <h2>Login</h2>
+        
+        <form style="text-align: center">
+          <div style="text-align: center">
+            <input id="username" type="text" name="username" />
+          </div>
+          <div>
+            <input id="password" type="password" name="password" />
+          </div>
+          <div>
+            <button id="login">Submit</button>
+          </div>
+        </form>
+
+        <div style="margin-top: 20px">
+          <h2>Add User</h2>
+          <form style="text-align: center">
+            <input id="newUsername" type="text" name="username" placeholder="username">
+            <input id="newPassword" name="password" type="password" placeholder="password">
+            <button id="create">Submit</button>
+          </form>
+        </div>
+      </div>
+      
+      <div id="body">
+      <div class="grid-container">
+        
+  
+        
+        <form id="playerForm">
+          <label>
+            <h3>Enter Game Information</h3>
+            <input name="name" type="text" maxlength="100" placeholder="Your Name">
+            <input name="game" type="text" maxlength="100" placeholder="Game Name">
+            <input name="cost" id="dollars" type="number" maxlength="100" placeholder="Game Cost ($)">
+            <input name="hour" id="hours" type="number" min="0"  max="1000" placeholder="Total Hours Played">
+          </label>
+          <button type="submit" id="submitplayer">Submit</button>
+        </form>
+        
+      </div>
+      
+      <br>
+      <section class="players">
+        <p id="center"> 
+          <h4>Table</h4>
+        </p>
+        <hr id="line" size="3" noshade>
+        <table id="playerTable">
+          <tr>
+            <th>Name</th>
+            <th>Game</th>
+            <th>Cost</th>
+            <th>Hours</th>
+            <th>C/H</th>
+            <th></th>
+          </tr>
+        </table>
+      </section>
+        
+        <div id="class-info" style="margin-top:20px">
+          <p>
+            <h4>
+              Statistic
+          </h4> 
+          
+          </p>
+      <hr id="line2" size="3" noshade>
+          <div class="flex-span">
+            <p class="col1"> <h5> Username: </h5> </p>
+            <p id="admin"></p>
+            <p class="col1"> <h5> Players (tot): </h5> </p>
+            <p id="size"></p>
+            <p class="col1"> <h5> Cost (avg): </h5> </p>
+            <p id="avgcost"> </p>
+          </div>
+        </div>
+
+      </div>
+    </main>
+    <script src="https://button.glitch.me/button.js" defer></script>
+  </body>
+</html>
