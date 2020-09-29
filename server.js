@@ -22,7 +22,7 @@ const mongoConfig = {
 app.set("trust proxy", 1); // trust first proxy
 app.use(
   session({
-    secret: 'keyboard cat',//process.env.A3_SECRET,
+    secret: process.env.A3_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
@@ -50,9 +50,9 @@ passport.deserializeUser(function (user, done) {
 passport.use(
   new GitHubStrategy(
     {
-      clientID: "a1b7fdcdfe1f74c74ba3", //process.env.A3_GITHUB_ID,
-      clientSecret: "b1a5338f89955a65fa66c240e5a6684757a22e04", //process.env.A3_GITHUB_SECRET,
-      callbackURL: "/user/signin/callback", //process.env.A3_GITHUB_CALLBACK,
+      clientID: process.env.GITHUB_CLIENTID,
+      clientSecret: process.env.GITHUB_CLIENTSECRET, 
+      callbackURL: process.env.GITHUB_CALLBACKURL, 
     },
     async (accessToken, refreshToken, profile, cb) => {
       const client = new MongoClient(mongoURI, mongoConfig);
