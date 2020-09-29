@@ -27,7 +27,7 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto"></ul>
-        <div class="form-inline my-2 my-lg-0" id="login">
+        <div class="form-inline my-2 my-lg-0" id="userInfo">
           <input
             class="form-control mr-sm-2"
             id="username"
@@ -52,7 +52,7 @@
           style="display: none"
         >
           <button class="btn btn-info disabled my-2 my-sm-0 mr-sm-1">
-             Username: <span id="l-username"></span>
+             Username: <span id="loggedUsername"></span>
           </button>
           <button class="btn btn-danger my-2 my-sm-0 ml-2 mr-sm-5" id="logoutButton">
             Logout
@@ -62,13 +62,13 @@
     </nav>
 
     <div class="container-fluid bg-dark">
-      <div id="loginGate">
+      <div id="loginPage">
         <div class="container p-3">
           <img src="https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fspecials-images.forbesimg.com%2Fdam%2Fimageserve%2F1092571024%2F960x0.jpg%3Ffit%3Dscale" class="mx-auto d-block" width="80%" height="80%">
         </div>
       </div>
 
-      <div class="pages" id="pages" style="display: none">
+      <div class="pages" id="otherPages" style="display: none">
         <br />
         <div class="container bg-primary mx-auto d-block p-1">
           <div class="col">
@@ -95,7 +95,7 @@
                     <option value="low">Low</option>
                   </select>
                 </div>
-                <a class="btn btn-outline-primary" id="submitTicket">Add Task</a>
+                <a class="btn btn-outline-primary" id="addTask">Add Task</a>
               </div>
             </div>
           </div>

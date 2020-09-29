@@ -1,4 +1,4 @@
-const processData = (json) => {
+const dataParse = (json) => {
   const items = document.getElementById("items");
   items.innerHTML = "";
   json.forEach((item) => {
@@ -30,7 +30,7 @@ const processData = (json) => {
             item.priority == "low" ? "selected" : null
           }>Low</option>
         </select></td>
-        <td style="opacity:0.8">${timeDue.diff(now, "hours")} hours</td>
+        <td style="opacity:0.7">${timeDue.diff(now, "hours")} hours</td>
         <td><button class="saveButton btn btn-outline-success btn-sm btn-block" id="${
           item._id
         }-save">Save</button><div class="spacerMini"></div><button class="deleteButton btn btn-outline-danger btn-sm btn-block mt-1" id="${
@@ -41,31 +41,31 @@ const processData = (json) => {
   });
 };
 
-const processLogin = (json) => {
+const loginProc = (json) => {
   console.log("user data", json);
   if (!json._id) return;
 
-  document.getElementById("login").setAttribute("style", "display:none");
+  document.getElementById("userInfo").setAttribute("style", "display:none");
   document.getElementById("profile").setAttribute("style", "");
 
-  document.getElementById("l-username").innerHTML = json.username;
+  document.getElementById("loggedUsername").innerHTML = json.username;
 
-  document.getElementById("loginGate").setAttribute("style", "display:none");
-  document.getElementById("pages").setAttribute("style", "");
+  document.getElementById("loginPage").setAttribute("style", "display:none");
+  document.getElementById("otherPages").setAttribute("style", "");
 
   fetch("/api/getData")
     .then((response) => response.json())
-    .then((json) => processData(json));
+    .then((json) => dataParse(json));
 };
 
-const disableBody = () => {
+const elementDisable = () => {
   document.body.setAttribute("style", "pointer-events:none;opacity:0.4");
 };
-const enableBody = () => {
+const elementEnable = () => {
   document.body.setAttribute("style", "pointer-events:auto;opacity:1");
 };
 
-const deleteEntry = (e) => {
+const delInput = (e) => {
   e.preventDefault();
 
   const id = e.target.getAttribute("id").split("-")[0];
@@ -76,7 +76,7 @@ const deleteEntry = (e) => {
     },
     body = JSON.stringify(json);
 
-  disableBody();
+  elementDisable();
 
   fetch("/submit", {
     method: "POST",
@@ -87,11 +87,11 @@ const deleteEntry = (e) => {
   })
     .then((response) => response.json())
     .then((json) => {
-      // do something with the reponse
-      processData(json);
+
+      dataParse(json);
       name.value = "";
       task.value = "";
-      enableBody();
+      elementEnable();
     });
 
   return false;
@@ -110,7 +110,7 @@ const editEntry = (e) => {
       id,
     },
     body = JSON.stringify(json);
-  disableBody();
+  elementDisable();
   fetch("/submit", {
     method: "POST",
     headers: {
@@ -120,18 +120,18 @@ const editEntry = (e) => {
   })
     .then((response) => response.json())
     .then((json) => {
-      // do something with the reponse
-      processData(json);
+
+      dataParse(json);
       name.value = "";
       task.value = "";
-      enableBody();
+      elementEnable();
     });
 
   return false;
 };
 
 const submit = function (e) {
-  // prevent default form action from being carried out
+
   e.preventDefault();
 
   const task = document.querySelector("#task"),
@@ -139,7 +139,7 @@ const submit = function (e) {
     json = { name: name.value, task: task.value, priority: priority.value },
     body = JSON.stringify(json);
 
-  disableBody();
+  elementDisable();
   fetch("/submit", {
     method: "POST",
     headers: {
@@ -149,10 +149,10 @@ const submit = function (e) {
   })
     .then((response) => response.json())
     .then((json) => {
-      // do something with the reponse
-      processData(json);
+      
+      dataParse(json);
       task.value = "";
-      enableBody();
+      elementEnable();
     });
 
   return false;
@@ -160,13 +160,13 @@ const submit = function (e) {
 
 const logout = () => {
   fetch("/logout").then(() => {
-    document.getElementById("login").setAttribute("style", "");
+    document.getElementById("userInfo").setAttribute("style", "");
     document.getElementById("profile").setAttribute("style", "display:none");
 
-    document.getElementById("l-username").innerHTML = "";
+    document.getElementById("loggedUsername").innerHTML = "";
 
-    document.getElementById("loginGate").setAttribute("style", "");
-    document.getElementById("pages").setAttribute("style", "display:none");
+    document.getElementById("loginPage").setAttribute("style", "");
+    document.getElementById("otherPages").setAttribute("style", "display:none");
 
     const items = document.getElementById("items");
     items.innerHTML = "";
@@ -192,7 +192,7 @@ const login = () => {
       }
       return response.json();
     })
-    .then((json) => processLogin(json))
+    .then((json) => loginProc(json))
     .catch((err) => {
       console.error(err);
       alert(err);
@@ -200,16 +200,16 @@ const login = () => {
 };
 
 window.onload = function () {
-  const button = document.getElementById("submitTicket");
+  const button = document.getElementById("addTask");
   button.onclick = submit;
 
   fetch("/api/getUser")
     .then( response => response.json() ) 
-    .then( json => processLogin(json) ); 
+    .then( json => loginProc(json) ); 
 
   document.addEventListener("click", function (e) {
     if (e.target && e.target.classList[0] == "deleteButton") {
-      deleteEntry(e);
+      delInput(e);
     }
     if (e.target && e.target.classList[0] == "saveButton") {
       editEntry(e);
