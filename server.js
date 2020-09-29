@@ -1,0 +1,189 @@
+// server.js
+// where your node app starts
+
+const path = require('path');
+
+const port = process.env.PORT || 3000;
+
+const express = require("express");
+
+const API = require("./API");
+
+// Express middleware
+const passport = require("passport");
+const compression = require("compression")
+// PassportJS Strategy
+var GitHubStrategy = require('passport-github').Strategy;
+const expressSession = require("express-session")
+const bodyParser = require("body-parser");
+
+
+const app = express();
+app.set('view engine', 'ejs');
+
+app.use(express.static("public"));
+
+app.use(expressSession({
+   secret: 'cookie_secret',
+    name: 'cookie_name',
+    proxy: true,
+    resave: true,
+    saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(compression());
+
+passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: process.env.URL + "/auth/github/callback/"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    console.log(profile.id)
+    return cb(null, profile)
+  }
+));
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
+
+// Check if user is authenticated. If so, send them thru, if not make them login
+function isAuthenticated(req, res, next) {
+  if(req.user) {
+    return next();
+  }
+  else {
+    res.redirect('/login')
+  }
+}
+
+app.get('/', (req, res) => {
+    // Homepage
+    res.render('index', {title: "Home"});
+});
+
+app.get('/login/success', isAuthenticated, (req, res) => {
+  res.render("login-success", {title: "Logged In!", message: "Successfully logged in!"});
+})
+
+app.get('/login/already', isAuthenticated, (req, res) => {
+  res.render("login-success", {title:"Logged In!", message: "You're already logged in!"});
+})
+
+app.get('/login', function(req, res, next) {
+    if(req.user) {
+      res.redirect('login/already');
+    }
+    else {
+      next();
+    }
+  },
+  (req, res) => res.redirect('/auth/github'))
+
+app.get('/auth/github', function(req, res, next) {
+
+  // generate the authenticate method and pass the req/res
+  passport.authenticate('github', function(err, user, info) {
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/'); }
+    
+    //return res.redirect('/secure')
+    
+  })(req, res, next);
+
+});
+
+app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect to confirmation page
+    res.redirect('/login/success');
+  });
+
+// Endpoint to show all recipes in database
+app.get('/recipes/all', (req, res, next) => {
+  res.render('results', {title: "All Recipes"})
+})
+
+app.get('/recipes/my', isAuthenticated, (req, res) => {
+  res.render('myrecipes', {title: "My Recipes", userID: req.user.id})
+})
+
+// API endpoint to get recipe data
+app.get('/recipes/data', isAuthenticated, (req, res) => {
+  const userID = req.query.userID;
+  console.log("GOT userid: ",  userID)
+  API.getRecipesNoID(userID)
+  .then((data) => {
+    console.log("RESULT: ", data)
+    res.send(JSON.stringify(data))
+  })
+})
+
+// API endpoint for getting single recipe data.
+app.get('/recipes/data/single', isAuthenticated, (req, res) => {
+  const recipeID = req.query.recipeID
+  if(!recipeID) {
+    res.status(400).send("Error: No recipeID provided!")
+  }
+  API.getRecipeByID(recipeID).then((data) => {
+    res.send(JSON.stringify(data));
+  })
+})
+
+// Endpoint for view with form to add recipes
+app.get('/recipes/add', isAuthenticated, (req, res) => {
+  res.render("editrecipe", {title: "Add Recipe", submitFn: "newRecipe()"});
+})
+
+app.get('/recipes/edit', isAuthenticated, (req, res) => {
+  res.render("editrecipe", {title: "Edit Recipe", submitFn: "updateRecipe()"});
+})
+
+app.post('/recipes/edit', isAuthenticated, bodyParser.json(), (req, res) => {
+  req.body.userID = req.user.id;
+  API.updateRecipe(req.user.id, req.body)
+  .then((doc) => {
+    console.log("UPDATE DOC: ", doc)
+    res.send("Recipe updated!")
+  })
+})
+
+// Endpoint for submitting recipe
+app.post('/recipes/add', isAuthenticated, bodyParser.json(), (req, res) => {
+  // Set user ID so we know whose recipe it is
+  req.body.userID = req.user.id;
+  console.log(req.body);
+  API.insert(req.body)
+  .then(
+    res.send("Recipe submitted!")
+  )
+})
+
+app.post('/recipes/delete', isAuthenticated, bodyParser.json(), (req, res) => {
+  API.tryDelete(req.user.id, req.body.recipeID)
+  .then((apiResult) => {
+    // If we successfully deleted
+    if(apiResult.deletedCount != 0) {
+      res.status(200).send("Successfully deleted!")
+    }
+    else {
+      res.status(401).send("Something went wrong!")
+    }
+  })
+})
+
+app.get('*', (req, res) => {
+  res.render("404", {title: "404 Error"});
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening at ${process.env.URL}:${port}`)
+})

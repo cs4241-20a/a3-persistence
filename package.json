@@ -1,0 +1,20 @@
+{
+    "name": "a3-sammoran",
+    "version": "0.0.1",
+    "description": "Project 3 for Webware at WPI",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "compression": "^1.7.4",
+        "ejs": "^3.1.5",
+        "express": "^4.17.1",
+        "express-session": "^1.17.1",
+        "mongodb": "^3.6.2",
+        "mongoose": "^5.10.6",
+        "passport": "^0.4.1",
+        "passport-github": "^1.1.0"
+    }
+}
