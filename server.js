@@ -3,7 +3,7 @@
 
 const path = require('path');
 
-const port = 3000;
+const port = proces.env.PORT || 3000;
 
 const express = require("express");
 
