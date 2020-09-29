@@ -4,6 +4,7 @@ require("dotenv").config();
 const express = require("express"),
   serveStatic = require("serve-static"), //1
   path = require("path"),
+  assert = require("assert"),
   serveFavicon = require("serve-favicon"), //2
   app = express(),
   ObjectId = require("mongodb").ObjectId,
@@ -309,6 +310,31 @@ app.post("/register", (req, res, next) => {
   }
 });
 
+app.get("/user", (req, res) => {
+  if(req.isAuthenticated()){
+    res.writeHead(200, { header })
+    res.end(JSON.stringify(req.user))
+  }
+  else {
+    res.writeHead(402, "Unauthorized")
+    res.end(JSON.stringify({
+      error: "You are not logged in"
+    }))
+  }
+})
+
+app.post("/deleteSong", (req, res) => {
+  if(req.isAuthenticated()){
+    res.writeHead(200, { header })
+    res.end(JSON.stringify(req.user))
+  }
+  else {
+    res.writeHead(402, "Unauthorized")
+    res.end(JSON.stringify({
+      error: "You are not logged in"
+    }))
+  }
+})
 
 app.get('/authStatus', (req, res) => {
     res.writeHead(200, {
@@ -386,6 +412,21 @@ app.post("/login", function (req, res, next) {
 
 app.post("/uploadXML", upload.single('xmlFile'), (req, res) => {
   console.log(req.file.path)
+  // const collection = client
+  // .db(process.env.DB_NAME)
+  // .collection(process.env.DB_COLLECTION)
+  // const agg = [
+  //   {
+  //     '$addFields': {
+  //       'songs': []
+  //     }
+  //   }
+  // ];
+  // collection.aggregate(agg, (cmdErr, result) => {
+  //   console.log(result)
+  //   console.log(cmdErr)
+  //   assert.strictEqual(null, cmdErr);
+  // });
   parseXML(req.file.path).then((result) => {
     fs.unlink(req.file.path, (err) => {
       console.log(err)
@@ -397,10 +438,23 @@ app.post("/uploadXML", upload.single('xmlFile'), (req, res) => {
       }
       else {
         console.log(req.user)
-        res.writeHead(200)
-        res.end(JSON.stringify({
-          abcString: result
+        if(req.user){
+          const collection = client
+          .db(process.env.DB_NAME)
+          .collection(process.env.DB_COLLECTION);
+
+          collection.updateOne({ _id: ObjectId(userId) }, {
+            $push: {
+              songs: result
+            }
+          }).then((success) => {
+            console.log(success)
+            res.writeHead(200)
+            res.end(JSON.stringify({
+           abcString: result
         }))
+          })
+        }
       }
     })
     
@@ -456,6 +510,7 @@ app.use(
       extensions: ["html"],
     })
 );
+
 
 app.listen(3000);
 //XML upload => python run local => abc string => abcjs
