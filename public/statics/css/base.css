@@ -1,0 +1,46 @@
+.bodyFooterSticky {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.mainFooterSticky {
+    flex: 1 0 auto;
+} 
+
+
+.header {
+    margin: 0 !important;
+}
+
+.pageHeader {
+    margin: 6rem 0 4rem;
+}
+
+.footerAuthorInfo {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.footerGithubInfo {
+    font-size: 1.25rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.footerGithubInfo i {
+    margin-left: 1.5rem;
+}
+
+.blocktext {
+    text-align: justify;
+}
+
+.fileUpload {
+    display: none;
+}
+
+.formButton {
+    margin-top: 1rem;
+}
