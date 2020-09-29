@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>FPS Stat Calculator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+    <script src="js/scripts.js"></script>
+</head>
+<body onload="getLatestResults()">
+<h1 class="title has-text-centered">FPS Stat Calculator</h1>
+<div class="columns is-centered">
+
+    <!-- First Column -->
+    <div class="column is-one-fifth">
+        <!-- Form for adding an item -->
+        <form class="app-item, container is-bordered" id="add">
+            <h3 class="heading">Add new stats</h3>
+            <div class="field is-horizontal">
+                <div class="field-label">
+                    <label class="label has-text-justified" for="kills">Kills</label>
+                </div>
+                <div class="field-body">
+                    <input class="field-body input is-inline" type="text" id="kills">
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                    <label class="label has-text-justified" for="assists">Assists</label>
+                </div>
+                <div class="field-body">
+                    <input class="field-body input is-inline" type="text" id="assists">
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                    <label class="label has-text-justified" for="deaths">Deaths</label>
+                </div>
+                <div class="field-body">
+                    <input class="field-body input is-inline" type="text" id="deaths">
+                </div>
+            </div>
+            <button class="button is-success is-block" type="button" onclick="handle_add()">Add</button>
+        </form>
+        <hr style="border-top: 1px solid black">
+        <!-- Form for modify a row in the table -->
+        <form class="app-item" id="modify">
+            <h3 class="heading">Modify selected row of stats</h3>
+            <div class="field is-horizontal">
+                <div class="field-label">
+                    <label class="label has-text-justified" for="modify_kills">Kills</label>
+                </div>
+                <div class="field-body">
+                    <input class="field-body input is-inline" type="text" id="modify_kills">
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                    <label class="label has-text-justified" for="modify_assists">Assists</label>
+                </div>
+                <div class="field-body">
+                    <input class="field-body input is-inline" type="text" id="modify_assists">
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                    <label class="label has-text-justified" for="modify_deaths">Deaths</label>
+                </div>
+                <div class="field-body">
+                    <input class="field-body input is-inline" type="text" id="modify_deaths">
+                </div>
+            </div>
+            <button class="button is-info is-block" type="button" onclick="handle_modify()">Modify</button>
+        </form>
+        <hr style="border-top: 1px solid black">
+        <!-- Form for deleting a row in the table -->
+        <form class="app-item" id="delete">
+            <h3 class="heading">Delete selected row of stats</h3>
+            <button class="button is-danger" type="button" onclick="handle_delete()">Delete</button>
+        </form>
+    </div>
+
+    <!-- Second Column -->
+    <div class="column is-one-third">
+        <!-- Table for displaying all stats from each game -->
+        <table class="table is-bordered" id="results_list">
+            <thead>
+            <tr>
+                <th class="has-background-grey-light"></th>
+                <th class="has-background-grey-light">Kills</th>
+                <th class="has-background-grey-light">Assists</th>
+                <th class="has-background-grey-light">Deaths</th>
+                <th class="has-background-grey-light">K/D Ratio</th>
+                <th class="has-background-grey-light">A/D Ratio</th>
+            </tr>
+            </thead>
+            <!-- This body will be replaced with a new one whenever
+            the content of the table is updated -->
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div class="column is-one-fifth">
+        <!-- Table that displays total and average of each stat -->
+        <table class="table is-bordered" id="total_avg_results">
+            <thead>
+            <tr>
+                <th class="has-background-grey-light"></th>
+                <th class="has-background-grey-light has-text-centered">Total</th>
+                <th class="has-background-grey-light has-text-centered">Average</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="has-background-grey-light has-text-centered"><strong>Kills</strong></td>
+                    <td class="has-text-centered" id="total_kills">0</td>
+                    <td class="has-text-centered" id="avg_kills">0</td>
+                </tr>
+                <tr>
+                    <td class="has-background-grey-light has-text-centered"><strong>Assists</strong></td>
+                    <td class="has-text-centered" id="total_assists">0</td>
+                    <td class="has-text-centered" id="avg_assists">0</td>
+                </tr>
+                <tr>
+                    <td class="has-background-grey-light has-text-centered"><strong>Deaths</strong></td>
+                    <td class="has-text-centered" id="total_deaths">0</td>
+                    <td class="has-text-centered" id="avg_deaths">0</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="button_container">
+            <!-- Lets user download all table data as a .csv file -->
+            <button class="button is-link" id="download_button" type="button" onclick="handle_csv()">Download as CSV</button>
+            <button class="button is-primary" id="clear_button" type="button" onclick="handle_clear()">Clear Stats</button>
+        </div>
+    </div>
+
+</div><!--End of columns-->
+</body>
+</html>

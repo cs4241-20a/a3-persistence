@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>FPS Stat Calculator - Login</title>
+        <meta charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+        <script src="js/scripts.js"></script>
+    </head>
+    <body>
+        <div class="column is-one-third">
+            <div class="box is-border has-background-info-light is-rounded">
+                <h1 class="title">Login with Github</h1>
+                <a href="/auth/github/callback">Login</a>
+                <br><br><strong>OR</strong><br><br>
+                <h1 class="title">Sign in with FPS Stat Calculator account:</h1>
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <label class="label" for="username_input">Username</label>
+                    </div>
+                    <div class="field-body">
+                        <input class="field-body input is-inline" type="text" id="username_input">
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                        <label class="label" for="password_input">Password</label>
+                    </div>
+                    <div class="field-body">
+                        <input class="field-body input is-inline" type="text" id="password_input">
+                    </div>
+                </div>
+                <button id="login_button" onclick="handle_login()">Log In</button>
+            </div>
+        </div>
+    </body>
+</html>

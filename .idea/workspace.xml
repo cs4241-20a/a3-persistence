@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6d51bfc6-7107-4f11-ab1e-03eb79ea192b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1hiS0NzRVgr942ildAasCiqYadh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="12.18.3" />
+    <property name="javascript.nodejs.core.library.typings.version" value="12.12.62" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path" value="node" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\CS4241\a3-persistence\public" />
+      <recent name="D:\CS4241\a3-persistence\public\css" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6d51bfc6-7107-4f11-ab1e-03eb79ea192b" name="Default Changelist" comment="" />
+      <created>1600492195678</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600492195678</updated>
+      <workItem from="1600492197160" duration="1975000" />
+      <workItem from="1600649507529" duration="9245000" />
+      <workItem from="1600718483001" duration="11841000" />
+      <workItem from="1600810112170" duration="15310000" />
+      <workItem from="1601178278423" duration="9088000" />
+      <workItem from="1601232669874" duration="63000" />
+      <workItem from="1601241765255" duration="21320000" />
+      <workItem from="1601308767234" duration="20000" />
+      <workItem from="1601321352927" duration="13553000" />
+    </task>
+    <task id="LOCAL-00001" summary="Made server.improved.js into an Express server">
+      <created>1600494176830</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1600494176830</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Rewrote server.js to use MongoDB">
+      <created>1600733530674</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1600733530674</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added login page, github authentication partially works">
+      <created>1601093921321</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1601093921321</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added basic UI with Bulma">
+      <created>1601098882659</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1601098882659</updated>
+    </task>
+    <task id="LOCAL-00005" summary="sendCSV() now queries the database for stats">
+      <created>1601178706375</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1601178706375</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added serve-favicon and morgan middleware">
+      <created>1601180111868</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1601180111868</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Updated README.md with most of the required information.">
+      <created>1601183079656</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1601183079656</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Removed unnecessary ID# from written csv files.">
+      <created>1601183226487</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1601183226487</updated>
+    </task>
+    <task id="LOCAL-00009" summary="numEntries is now retrieved from database on server start-up, meaning sendCSV now works if it's the first request made on server start-up.">
+      <created>1601183808748</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1601183808748</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Totals and averages are also now retrieved on server startup.">
+      <created>1601184288037</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1601184288037</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Removed empty form tag action modifiers">
+      <created>1601184541257</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1601184541257</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Github auth working, requires login for functionality to work">
+      <created>1601257761094</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1601257761094</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Custom accounts are now supported as well, only data for signed-in user now appears">
+      <created>1601266965830</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1601266965830</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Now starts at login page">
+      <created>1601267576273</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1601267576273</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Styled login page, and added todo items to README.md">
+      <created>1601268458715</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1601268458715</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Client now alerts user if new account was created, and removed unnecessary print statements.">
+      <created>1601334703610</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1601334703610</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Added JSDoc comments for all functions in scripts.js and server.js">
+      <created>1601338140928</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1601338140928</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Finished README.md with application information and Github authentication achievement">
+      <created>1601339432887</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1601339432887</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Moved config command for .env to top of server.js">
+      <created>1601341155803</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1601341155803</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Removed devDependencies and moved still required modules to dependencies in package.json">
+      <created>1601341765089</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1601341765089</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Removed cors">
+      <created>1601341863543</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1601341863543</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Updated README.md with heroku url">
+      <created>1601342239470</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1601342239470</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Finished README.md with description of design acheievement, and centered values in main table so all table elements are center justified">
+      <created>1601349308479</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1601349308479</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Made server.improved.js into an Express server" />
+    <MESSAGE value="Rewrote server.js to use MongoDB" />
+    <MESSAGE value="Added login page, github authentication partially works" />
+    <MESSAGE value="Added basic UI with Bulma" />
+    <MESSAGE value="sendCSV() now queries the database for stats" />
+    <MESSAGE value="Added serve-favicon and morgan middleware" />
+    <MESSAGE value="Updated README.md with most of the required information." />
+    <MESSAGE value="Removed unnecessary ID# from written csv files." />
+    <MESSAGE value="numEntries is now retrieved from database on server start-up, meaning sendCSV now works if it's the first request made on server start-up." />
+    <MESSAGE value="Totals and averages are also now retrieved on server startup." />
+    <MESSAGE value="Removed empty form tag action modifiers" />
+    <MESSAGE value="Github auth working, requires login for functionality to work" />
+    <MESSAGE value="Custom accounts are now supported as well, only data for signed-in user now appears" />
+    <MESSAGE value="Now starts at login page" />
+    <MESSAGE value="Styled login page, and added todo items to README.md" />
+    <MESSAGE value="Client now alerts user if new account was created, and removed unnecessary print statements." />
+    <MESSAGE value="Added JSDoc comments for all functions in scripts.js and server.js" />
+    <MESSAGE value="Finished README.md with application information and Github authentication achievement" />
+    <MESSAGE value="Moved config command for .env to top of server.js" />
+    <MESSAGE value="Removed devDependencies and moved still required modules to dependencies in package.json" />
+    <MESSAGE value="Removed cors" />
+    <MESSAGE value="Updated README.md with heroku url" />
+    <MESSAGE value="Finished README.md with description of design acheievement, and centered values in main table so all table elements are center justified" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished README.md with description of design acheievement, and centered values in main table so all table elements are center justified" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="478" y="183" key="#Log_Highlighting_(ideolog)" timestamp="1601242300411">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="478" y="183" key="#Log_Highlighting_(ideolog)/0.0.1536.824@0.0.1536.824" timestamp="1601242300411" />
+    <state x="281" y="0" key="CommitChangelistDialog2" timestamp="1601349307197">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="281" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1601349307197" />
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1601308785777">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1601308785777" />
+    <state width="1515" height="210" key="GridCell.Tab.0.bottom" timestamp="1601098903247">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1601098903247" />
+    <state width="1515" height="210" key="GridCell.Tab.0.center" timestamp="1601098903247">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1601098903247" />
+    <state width="1515" height="210" key="GridCell.Tab.0.left" timestamp="1601098903247">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1601098903247" />
+    <state width="1515" height="210" key="GridCell.Tab.0.right" timestamp="1601098903247">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1515" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1601098903247" />
+    <state x="619" y="133" key="RollbackChangesDialog" timestamp="1601244723434">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="619" y="133" key="RollbackChangesDialog/0.0.1536.824@0.0.1536.824" timestamp="1601244723434" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1601349313362">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1601349313362" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1601261972365">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1601261972365" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1601262950022">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1601262950022" />
+  </component>
+</project>
