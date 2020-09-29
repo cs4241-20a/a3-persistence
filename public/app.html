@@ -19,7 +19,7 @@
             <h3 class="heading">Add new stats</h3>
             <div class="field is-horizontal">
                 <div class="field-label">
-                    <label class="label" for="kills">Kills</label>
+                    <label class="label has-text-justified" for="kills">Kills</label>
                 </div>
                 <div class="field-body">
                     <input class="field-body input is-inline" type="text" id="kills">
@@ -28,7 +28,7 @@
 
             <div class="field is-horizontal">
                 <div class="field-label">
-                    <label class="label" for="assists">Assists</label>
+                    <label class="label has-text-justified" for="assists">Assists</label>
                 </div>
                 <div class="field-body">
                     <input class="field-body input is-inline" type="text" id="assists">
@@ -37,7 +37,7 @@
 
             <div class="field is-horizontal">
                 <div class="field-label">
-                    <label class="label" for="deaths">Deaths</label>
+                    <label class="label has-text-justified" for="deaths">Deaths</label>
                 </div>
                 <div class="field-body">
                     <input class="field-body input is-inline" type="text" id="deaths">
@@ -45,13 +45,13 @@
             </div>
             <button class="button is-success is-block" type="button" onclick="handle_add()">Add</button>
         </form>
-        <br>
+        <hr style="border-top: 1px solid black">
         <!-- Form for modify a row in the table -->
         <form class="app-item" id="modify">
             <h3 class="heading">Modify selected row of stats</h3>
             <div class="field is-horizontal">
                 <div class="field-label">
-                    <label class="label" for="modify_kills">Kills</label>
+                    <label class="label has-text-justified" for="modify_kills">Kills</label>
                 </div>
                 <div class="field-body">
                     <input class="field-body input is-inline" type="text" id="modify_kills">
@@ -60,7 +60,7 @@
 
             <div class="field is-horizontal">
                 <div class="field-label">
-                    <label class="label" for="modify_assists">Assists</label>
+                    <label class="label has-text-justified" for="modify_assists">Assists</label>
                 </div>
                 <div class="field-body">
                     <input class="field-body input is-inline" type="text" id="modify_assists">
@@ -69,7 +69,7 @@
 
             <div class="field is-horizontal">
                 <div class="field-label">
-                    <label class="label" for="modify_deaths">Deaths</label>
+                    <label class="label has-text-justified" for="modify_deaths">Deaths</label>
                 </div>
                 <div class="field-body">
                     <input class="field-body input is-inline" type="text" id="modify_deaths">
@@ -77,7 +77,7 @@
             </div>
             <button class="button is-info is-block" type="button" onclick="handle_modify()">Modify</button>
         </form>
-        <br>
+        <hr style="border-top: 1px solid black">
         <!-- Form for deleting a row in the table -->
         <form class="app-item" id="delete">
             <h3 class="heading">Delete selected row of stats</h3>
@@ -91,13 +91,12 @@
         <table class="table is-bordered" id="results_list">
             <thead>
             <tr>
-                <th></th>
-                <!--<th>ID #</th>-->
-                <th>Kills</th>
-                <th>Assists</th>
-                <th>Deaths</th>
-                <th>K/D Ratio</th>
-                <th>A/D Ratio</th>
+                <th class="has-background-grey-light"></th>
+                <th class="has-background-grey-light">Kills</th>
+                <th class="has-background-grey-light">Assists</th>
+                <th class="has-background-grey-light">Deaths</th>
+                <th class="has-background-grey-light">K/D Ratio</th>
+                <th class="has-background-grey-light">A/D Ratio</th>
             </tr>
             </thead>
             <!-- This body will be replaced with a new one whenever
@@ -111,27 +110,27 @@
         <table class="table is-bordered" id="total_avg_results">
             <thead>
             <tr>
-                <th></th>
-                <th>Total</th>
-                <th>Average</th>
+                <th class="has-background-grey-light"></th>
+                <th class="has-background-grey-light has-text-centered">Total</th>
+                <th class="has-background-grey-light has-text-centered">Average</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Kills</td>
-                <td id="total_kills">0</td>
-                <td id="avg_kills">0</td>
-            </tr>
-            <tr>
-                <td>Assists</td>
-                <td id="total_assists">0</td>
-                <td id="avg_assists">0</td>
-            </tr>
-            <tr>
-                <td>Deaths</td>
-                <td id="total_deaths">0</td>
-                <td id="avg_deaths">0</td>
-            </tr>
+                <tr>
+                    <td class="has-background-grey-light has-text-centered"><strong>Kills</strong></td>
+                    <td class="has-text-centered" id="total_kills">0</td>
+                    <td class="has-text-centered" id="avg_kills">0</td>
+                </tr>
+                <tr>
+                    <td class="has-background-grey-light has-text-centered"><strong>Assists</strong></td>
+                    <td class="has-text-centered" id="total_assists">0</td>
+                    <td class="has-text-centered" id="avg_assists">0</td>
+                </tr>
+                <tr>
+                    <td class="has-background-grey-light has-text-centered"><strong>Deaths</strong></td>
+                    <td class="has-text-centered" id="total_deaths">0</td>
+                    <td class="has-text-centered" id="avg_deaths">0</td>
+                </tr>
             </tbody>
         </table>
 

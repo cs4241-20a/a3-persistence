@@ -94,7 +94,7 @@ I satisfied the requirements for this assignment in the following ways:
 
 Achievements
 ---
-
+        
 *Technical*
 - I implemented OAuth authentication with Github via passport.js. On the home page, there is
  an option to login with Github, or do non-Github username/password. If you log in with a non-Github,
@@ -107,5 +107,23 @@ Achievements
  to be a slightly easier experience.
 
 *Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total).
+- My site uses the CRAP principles in the following way:
+    - **C**ontrast: For the login page, I used contrast in font-size in order to draw the user's eye to
+    their two options: log in with Github, or username/password. This way they can get to the app as fast
+    as possible. The app.html page uses color and shape to contrast the buttons, which execute the actions,
+    from the tables, which show data. This way the user can easily see their available actions as soon as they 
+    login.
+    - **R**epetition: I used the horizontal lines to break up the three actions on the left-hand side, to show
+    that they were separate actions, but proximimty shows that they all affect the same data. I also used the 
+    same gray color on the column and row titles for both tables to unify them and show that they are related 
+    (i.e. display stats from the same set of data).
+    - **A**lignment: On the left column I left-justified all the text to create a vertical line along the left
+    hand side of the column, thus unifying the three main actions of add, modify and delete. For the tables, I 
+    align-centered all the text in all the table elements in order to create a vertical line down each column,
+    unifying the data into groupings of different stats.
+    - **P**roximity: For each of the three main actions (add, modify, delete), I placed the instruction text,
+    the form, and the button close together to show their relationship (the repetition of the horizontal line
+    also helped create these groupings). The three main columns (the forms, main table of stats, and smaller
+    table of totals and averages) are closer together (leaving white space at the sides) to show how the three
+    elements are affected by one another: adding modifying or deleting stats will alter the values in the middle
+    table, and the values in the middle table will affect the values in the rightmost table.

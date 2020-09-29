@@ -221,11 +221,26 @@ function updateResults(response){
             checkbox.type = "checkbox";
             checkbox.id = rows[i]._id;
             newRow.insertCell(0).appendChild(checkbox);
-            newRow.insertCell(1).innerHTML = `${rows[i].kills}`;
-            newRow.insertCell(2).innerHTML = `${rows[i].assists}`;
-            newRow.insertCell(3).innerHTML = `${rows[i].deaths}`;
-            newRow.insertCell(4).innerHTML = `${rows[i].kd_ratio}`;
-            newRow.insertCell(5).innerHTML = `${rows[i].ad_ratio}`;
+
+            let currentCell = newRow.insertCell(1);
+            currentCell.innerHTML = `${rows[i].kills}`;
+            currentCell.classList.add("has-text-centered");
+
+            currentCell = newRow.insertCell(2);
+            currentCell.innerHTML = `${rows[i].assists}`;
+            currentCell.classList.add("has-text-centered");
+
+            currentCell = newRow.insertCell(3);
+            currentCell.innerHTML = `${rows[i].deaths}`;
+            currentCell.classList.add("has-text-centered");
+
+            currentCell = newRow.insertCell(4);
+            currentCell.innerHTML = `${rows[i].kd_ratio}`;
+            currentCell.classList.add("has-text-centered");
+
+            currentCell = newRow.insertCell(5);
+            currentCell.innerHTML = `${rows[i].ad_ratio}`;
+            currentCell.classList.add("has-text-centered");
         }
 
         //Now updates the boxes holding the totals and averages
