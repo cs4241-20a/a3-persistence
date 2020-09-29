@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" style="height:100%; margin:0px; width:100%;" >
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+    <script src="js/scripts.js" type="text/javascript"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+  </head>
+  <body style="min-height:100vh; width:100%; position:relative; background: url(https://cdn.glitch.com/0438ed38-9212-4ea8-a202-27b7fee4918f%2FVegetable%20salad%20on%20wooden%20table.jpg) no-repeat center center fixed; background-size:cover;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">CookBook.js</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/browse">Browse</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div style="background-color: rgba(100, 100, 100, 0.7); width:100%; min-height:100vh;">
+      
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-lg" style="margin-top:20%; ">
+          <h3 style="color:white">My Cookbook</h3>
+          <ul class="list-group" id="cookbookList">
+<!--             <li></li>
+            <li class="list-group-item">Chicken & Rice</li>
+            <li class="list-group-item">Chicken Katsu Curry</li>
+            <li class="list-group-item">Traditional Brisket</li> -->
+          </ul>
+          <button type="button" style="margin-top:5px" class="btn btn-primary" data-toggle="modal" data-target="#addRecipeModal" >
+            Add Recipe
+          </button>
+          <button type="button" style="margin-top:5px; float:right" class="btn btn-primary disabled" id="deleteButton" data-toggle="modal" data-target="#deleteRecipeModal" onclick="deleteRecipeModal()">
+            Delete Recipe
+          </button>
+        </div>
+        
+<!--         <button type="button" class="btn btn-primary" onclick="pushRecipe()">Send Recipe</button>
+ -->
+        <div class="col-lg" style="margin-top:20%; color:white">
+          <h3>Recipe Info:</h3>
+          <div id="recipeInfo" style="min-height:500px; border-style: solid; border-thickness:1px; border-color:gray; border-radius:10px">
+
+            <div id="recipeContent" style="margin-left:10px;">
+              Welcome to CookBook.js, a platform where users can compile a Cook Book with their own recipes, recipes other users have contributed, or a mix of both!
+              <br/><br/>To start, add a recipe using the "Add Recipe" button, or navigate to the browse page to see what other users have been cooking.
+              </div>
+            </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    
+    <div class="modal fade" id="addRecipeModal" tabindex="-1" aria-labelledby="recipeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="recipeModalLabel">Add your own Recipe</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <label for="recipeTitle">Recipe Title:</label>
+        <p style="color:orangered" id="recipeTitleError"></p>
+        <input class="form-control" id="recipeTitle" type="text" placeholder="i.e., Chicken Parm">
+        <label for="recipeImage">Image URL (optional):</label>
+        <input class="form-control" id="recipeImage" type="text" placeholder="https://example.com/delicious_recipe.jpg">
+        <label for="ingredientsText">Ingredients: </label>
+        <p style="color:orangered" id="recipeIngredientsError"></p>
+        <textarea class="form-control" id="ingredientsText" placeholder="Paste/Write the ingredients for your recipe here."></textarea>
+        
+        <label for="instructionsText">Info & Instructions:</label>
+        <p style="color:orangered" id="recipeInstructionsError"></p>
+        <textarea class="form-control" id="instructionsText" placeholder="Paste/Write any specific information directions here."></textarea>
+      
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="submitRecipe()">Add Recipe</button>
+      </div>
+    </div>
+  </div>
+</div>
+      
+<div class="modal fade" id="deleteRecipeModal" tabindex="-1" aria-labelledby="recipeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteRecipeModalLabel">Delete Recipe?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body" >
+        <p id="deleteRecipeText">
+          
+        </p>
+        <p>
+          The recipe will only be removed from your CookBook by default. It can be re-added at any time from the recipe browser.
+        </p>
+        <input type="checkbox" class="form-check-input" style="margin-left:10px" id="deleteFromDb">
+        <label class="form-check-label" for="exampleCheck1" style="margin-left:25px">Remove this recipe from CookBook.js as a whole.</label>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" onclick="deleteRecipe()">Delete Recipe</button>
+      </div>
+    </div>
+  </div>
+</div>      
+      
+      
+</div>
+    
+  </body>
+
+</html>
