@@ -1,7 +1,6 @@
 ## Raymond's Initiative Tracker
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
+http://www.a3-raymond-dolan.herokuapp.com
 
 The goal of the application was to make an initiative tracker for use in tabletop roleplaying games to keep track of combat order.
 
@@ -20,7 +19,7 @@ The middlewares I used were
 
 
 ## Technical Achievements
-- **Tech Achievement 1**: I deployed my project on Heroku instead of Glitch. This is why i liked it...
+- **Tech Achievement 1**: I deployed my project on Heroku instead of Glitch. I like Heroku because it lets me work on my local machine then automatically deploy by pushing and merging branches. It is especially nice if the project has a release branch that can be pushed to whenever there is a stable version.
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative
