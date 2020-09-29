@@ -48,6 +48,7 @@ table tbody {
 
 td, th {
 	border-left: solid 2px #d6dbe0;
+	word-wrap: break-word; 
 }
 
 td:first-child, th:first-child {

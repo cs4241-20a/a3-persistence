@@ -35,7 +35,7 @@ try {
 }
 
 if (NODE_ENV === "development") {
-	//app.use(morgan("dev"));
+	app.use(morgan("dev"));
 } else if (NODE_ENV === "production") {
 	app.use(morgan("common", {
 		skip: (req, res) => res.statusCode < 400,
@@ -58,7 +58,6 @@ app.use(passport.session());
 app.use("/api/items", items.router);
 app.use("/auth/github", githubAuth.router);
 
-//? Why does this need to be here?
 app.get("/css/style.css", (req, res) => {
 	res.sendFile(path.join(__dirname, "public/css/style.css"));
 })

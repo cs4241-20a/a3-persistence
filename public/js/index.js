@@ -144,9 +144,11 @@ const addItem = async () => {
 	const nameField = document.getElementById("name");
 	const priceField = document.getElementById("price");
 	const qtyField = document.getElementById("qty");
-
-	if (nameField.value == "" || priceField.value == "" || qtyField.value == "") {
-		alert("Please fill out the required fields!");
+	const isNameFieldValid = nameField.value != "";
+	const isPriceFieldValid = priceField.value != "" && isPositiveFloat;
+	const isQtyFieldValid = qtyField.value != "" && isPositiveInt;
+	if (!(isNameFieldValid && isPriceFieldValid && isQtyFieldValid)) {
+		alert("Please fill out the required fields! The price must be a positive non-zero number and the quantity must be a positive non-zero whole number.");
 	} else {
 		const body = JSON.stringify({name: nameField.value, price: priceField.value, quantity: qtyField.value});
 		const res = await fetch("/api/items", {method: "POST", body, headers:{"Content-Type": "application/json"}});
@@ -177,4 +179,6 @@ const deleteItem = async itemId => {
 	}
 }
 
-const isPositiveFloat = (str) => {}
+const isPositiveFloat = (str) => !isNaN(str) && Number(str) > 0;
+
+const isPositiveInt = (str) => isPositiveFloat(str) && Number.isInteger(Number(str));

@@ -18,8 +18,9 @@ I used the following Express middleware packages:
 - morgan (for access logging)
 - compression (for compressing requests using gzip)
 - session (for storing user session id's in cookies and sessions data on the server)
+- passport (for handling user authentication)
 - helmet (for adding security to API by setting various HTTP headers)
-- method-override (for overriding methods to accomodate requests from clients that only have access to GET and POST methods)
+- method-override (for overriding methods to accommodate requests from clients that only have access to GET and POST methods)
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
