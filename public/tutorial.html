@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <title>Tutorial • MTG Custom Card Creator</title>
+        <link rel="stylesheet" href="css/style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" id="welcome" href="">Welcome back, </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="/data.html">My Cards</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tutorial.html">Tutorial</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="signout" href="#">Sign Out</a>
+                  </li>
+                
+              </ul>
+              
+            </div>
+          </nav>
+        <div class="container">
+            <div class="jumbotron">
+                <h1>Tutorial</h1>
+            </div>
+            <br>
+            <p>Below is a basic tutorial on what each of the six table entries means and how to properly enter the data to make a Magic: the Gathering Card. To navigate to a specific trait, click on a link below:</p>
+            <ul>
+                <li><a href="#name">Name</a></li>
+                <li><a href="#manacost">Mana Cost</a></li>
+                <li><a href="#cardtype">Card Type</a></li>
+                <li><a href="#abilities">Abilities</a></li>
+                <li><a href="#flavortext">Flavor Text</a></li>
+                <li><a href="#rarity">Rarity</a></li>
+            </ul>
+            <br>
+            <h2 id="name">Name</h2>
+            <div class="row">
+                <div class="col-sm-6">
+                    <p>The name of the card is simply the name given to it. Like usernames, cards have unique names. The name can be found at the top left of the card.</p>
+                </div>
+                
+                <div class="col-sm-3">
+                    <img src="/img/lightning-strike-name.png" alt="MTG Card with the card name circled in yellow in the top left. Name is Lightning Strike.">
+                </div>
+            </div>
+            <br>
+            <h2 id="manacost">Mana Cost</h2>
+            <div class="row">
+                <div class="col-sm-6">
+                    <p>This indicates how much it costs to use the card. The number represents the number of any kind of mana to pay for it, while each of the color symbols represents how much of a specific color mana is required to pay for it. In the image to the right, it has a mana cost of 1 and a red, so it costs 2 mana to play it. The mana cost is found on the top right of the card, next to the name.</p>
+                </div>
+                
+                <div class="col-sm-3">
+                    <img src="/img/lightning-strike-manacost.png" alt="MTG Card with the mana cost circled in yellow in the top right. Mana cost is 1R.">
+                </div>
+            </div>
+            <br>
+            <h2 id="cardtype">Card Type</h2>
+            <div class="row">
+                <div class="col-sm-6">
+                    <p>This indicates the type of card it is. In MTG, the following card types exist:</p>
+                    <ul>
+                        <li>Creature</li>
+                        <li>Instant</li>
+                        <li>Sorcery</li>
+                        <li>Land</li>
+                        <li>Planeswalker</li>
+                        <li>Artifact</li>
+                        <li>Enchantment</li>
+                    </ul>
+                    <p>In addition, there are some subtypes, and cards can have multiple types (for example, many cards are both an artifact and a creature). The card type is found right below the card's art, around the middle left of it.</p>
+                </div>
+                <div class="col-sm-3">
+                    <img src="/img/lightning-strike-cardtype.png" alt="MTG Card with the card type circled in yellow in the middle left. The card type is Instant.">
+                </div>
+            </div>
+            <br>
+            <h2 id="abilities">Abilities</h2>
+            <div class="row">
+                <div class="col-sm-6">
+                    <p>This indicates what the card does exactly. The abilities can include a wide range of information. The abilities are found in the center of the card, right below the card type.</p>
+                </div>
+                
+                <div class="col-sm-3">
+                    <img src="/img/lightning-strike-abilities.png" alt="MTG Card with the abilities circled in yellow in the center of the card, right below the card type. The abilty is: Lightning Strike deals 3 damage to target creature or player.">
+                </div>
+            </div>
+            <br>
+            <h2 id="flavortext">Flavor Text</h2>
+            <div class="row">
+                <div class="col-sm-6">
+                    <p>This is an optional part of a card. Flavor text does not add anything to the game mechanically, but it adds to the story and is recommended when crafting cards that tell a story.</p>
+                </div>
+                
+                <div class="col-sm-3">
+                    <img src="/img/lightning-strike-flavortext.png" alt='MTG Card with the flavor text circled in yellow in the bottom middle. The flavor text is "Storm on the horizon, cap`n!" -Grick Doobin, last words.'>
+                </div>
+            </div>
+            <br>
+            <h2 id="rarity">Rarity</h2>
+            <div class="row">
+                <div class="col-sm-6">
+                    <p>The rarity is used to indicate how common the card is when opening it up in a pack of random cards. It does not change how the card works, but it is needed when making a set of cards. The more common the card is, the simpler it should be. Below are the four rarities in the game:</p>
+                    <ul>
+                        <li>Common (indicated with black text)</li>
+                        <li>Uncommon (indicated with silver text)</li>
+                        <li>Rare (indicated with gold text)</li>
+                        <li>Mythic (indicated with red text)</li>
+                    </ul>
+                    <p>Rarity is found to the right of the card type.</p>
+                </div>
+                
+                <div class="col-sm-3">
+                    <img src="/img/lightning-strike-rarity.png" alt="MTG Card with the rarity circled in yellow in the middle right. The rarity is uncommon.">
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+
+
+        </div>
+        <script src="js/tutorialscript.js"></script>
+    </body>
+</html>

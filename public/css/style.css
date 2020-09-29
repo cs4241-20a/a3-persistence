@@ -1,17 +1,19 @@
-body {
-    color:red;
-}
-
 .submit {
     cursor: pointer;
 }
 
 .modify {
-    border:none;
-    /*background-color:#E6009B;*/
-    
+    border:none;    
 }
 .modify input {
     visibility:hidden;
     font-size:10px;
+}
+
+img {
+    width:100%;
+}
+
+.info {
+    font-style:italic;
 }

@@ -12,7 +12,8 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <title>MTG Custom Card Creator</title>
         <link rel="stylesheet" href="css/style.css">
-
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
     </head>
     <body>
         <div class="container">
@@ -20,27 +21,34 @@
                 <h1>MTG Custom Card Creator</h1>
             </div>
             <div class="row justify-content-center">
-                <div class="col-sm-6 text-center">
+                <div class="col-sm-6 text-right">
                     <h2>New User? Register below</h2><br>
-                    <form action="">
-                        <input type="email" class="signUpFields" placeholder="email address"><br><br>
-                        <input type="text" class="signUpFields" placeholder="username"><br><br>
-                        <input type="password" class="signUpFields" placeholder="password"><br><br>
-                        <input type="password" class="signUpFields" placeholder="confirm password"><br><br>
-                        Newsletter <input type="checkbox" class="signUpFields" checked><br><br>
-                        <input type="submit" class="submit" value="Sign Up" id="signup"><br><br>
+                    <form>
+                        <!--NEED TO MAKE ERRORS APPARENT. also make everything a label.-->
+                        <!--to make it look nice, align inputs to each other on the right.-->
+                        <label for="emailaddress">Email Address</label>
+                        <input type="email" class="signUpFields" id="emailaddress" name="emailaddress"><br>
+                        <label for="username">Username</label>
+                        <input type="text" class="signUpFields" id="username" name="username"><br>
+                        <label for="password">Password</label>
+                        <input type="password" class="signUpFields" id="password" name="password"><br>
+                        <p class='info'>8 or more characters, at least 1 capital, lowercase, and number</p>
+                        <label for="confirmpassword">Confirm Password</label>
+                        <input type="password" class="signUpFields" id="confirmpassword" name="confirmpassword"><br>
+                        <input type="checkbox" class="signUpFields" id="newsletter" name="newsletter" checked><label for="newsletter">Newsletter</label><br>
+                        <button type="button" class="btn btn-lg btn-primary" id="signup" disabled aria-disabled="true">Signup</button>
                     </form>
-                    <button type="submit">Register using Github</button><br>
                 </div>
-                <div class="col-sm-6 text-center">
+                <div class="col-sm-6 text-right">
                     <h2>Returning user? Sign in below</h2><br>
-                    <form action="">
-                        <input type="text" class="loginFields" placeholder="username"><br><br>
-                        <input type="password" class="loginFields" placeholder="password"><br><br>
-                        <input type="submit" class="submit" value="Sign In" id="login"><br><br>
-                        <button type="submit">Sign In using Github</button><br>
+                    <form>
+                        <label for="usernamelogin">Username</label>
+                        <input type="text" class="loginFields" id="usernamelogin" name="usernamelogin"><br>
+                        <label for="passwordlogin">Password</label>
+                        <input type="password" class="loginFields" id="passwordlogin" name="passwordlogin"><br><br>
+                        <button type="button" class="btn btn-lg btn-primary" id="login" disabled aria-disabled="true">Sign In</button><br><br>
                     </form>
-                    
+                    <a role="button" aria-pressed="true" class="btn btn-lg btn-primary" href="https://github.com/login/oauth/authorize?client_id=bb174328d123ef3f1aa0&scope=gist">Sign In using Github</a><br>
                     <form>
 
                     </form>

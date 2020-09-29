@@ -1,7 +1,12 @@
+//checks if the password is 8> characters, has at least 1 capital, 1 lowercase, and 1 number.
 const isValidPassword = function(pw) {
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/.test(pw)
 }
-
+const isValidEmail = function(e) {
+    const regex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/
+    return regex.test(e)
+}
+//function called when hit signup button. sends request to server!
 const signUp = function(e) {
     e.preventDefault()
     const inputs = document.getElementsByClassName('signUpFields')
@@ -33,7 +38,7 @@ const signUp = function(e) {
               //clear fields
           }})
 }
-
+//function called when hit login button. sends request to server!
 const logIn = function(e) {
     e.preventDefault()
     const inputs = document.getElementsByClassName("loginFields")
@@ -60,17 +65,58 @@ const logIn = function(e) {
     })
 
 }
-
-/*fetch('/add', {
-    method:'POST',
-    body:JSON.stringify({dream:1}),
-    headers:{
-        "Content-Type":"application/json"
-    }
-})*/
-
+//onload: handles setting a few important functions
 window.onload = function() {
     document.querySelector('#signup').onclick = signUp
     document.querySelector('#login').onclick = logIn
+    document.querySelector('#password').onfocusout = function() {
+        if(!isValidPassword(document.querySelector('#password').value)) {
+            alert('password is too weak. a strong password has 8 or more characters, at least 1 capital letter, lowercase letter, and number.')
+        }
+        checkValiditySignUp()
+    }
+    document.querySelector('#emailaddress').onfocusout = function() {
+        if(!isValidEmail(document.querySelector('#emailaddress').value)) {
+            alert('invalid email address. use the format example@domain.com')
+        }
+        checkValiditySignUp()
+    }
+    document.querySelector('#confirmpassword').onfocusout = function() {
+        if(document.querySelector('#confirmpassword').value!=document.querySelector('#password').value) {
+            alert('passwords do not match!')
+        }
+        checkValiditySignUp()
+    }
+    document.querySelector('#username').onfocusout = function() {
+        checkValiditySignUp()
+    }
+    document.querySelector('#usernamelogin').onfocusout = function() {
+        checkValidityLogIn()
+    }
+    document.querySelector('#passwordlogin').onfocusout = function() {
+        checkValidityLogIn()
+    }
     if(window.localStorage.getItem('username')) window.location.assign('data.html')
+    
+}
+//signup starts disabled, is enabled when conditions are met.
+const checkValiditySignUp = function() {
+    const pw = document.querySelector('#password').value
+    if(isValidPassword(pw) && pw==document.querySelector('#confirmpassword').value && isValidEmail(document.querySelector('#emailaddress').value)&&document.querySelector('#username')!='') {
+        document.querySelector('#signup').disabled = false
+        document.querySelector('#signup').setAttribute('aria-disabled', false)
+    } else {
+        document.querySelector('#signup').disabled = true
+        document.querySelector('#signup').setAttribute('aria-disabled', true)
+    }
+}
+//signin starts disabled, is enabled when conditions are met.
+const checkValidityLogIn = function() {
+    if(document.querySelector('#usernamelogin').value!=''&&document.querySelector('#passwordlogin').value!='') {
+        document.querySelector('#login').disabled = false
+        document.querySelector('#login').setAttribute('aria-disabled', false)
+    } else {
+        document.querySelector('#login').disabled = true
+        document.querySelector('#login').setAttribute('aria-disabled', true)
+    }
 }

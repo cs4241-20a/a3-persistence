@@ -1,13 +1,12 @@
-const USERNAME = localStorage.getItem('username')
-
-/*I am not adding protections to add,remove,and edit.*/
+let username = localStorage.getItem('username')
+//function called when they hit Forge Card button
 const add = function(e) {
     e.preventDefault()
     const inputs = document.getElementsByClassName('addCard')
-    const rarity = document.querySelector('input[name="rarity"]:checked').value[0]//can add error handling in future
+    const rarity = document.querySelector('input[name="rarity"]:checked').value
     fetch('/add', {
         method:'POST',
-        body:JSON.stringify({username: USERNAME, name:inputs[0].value, manacost:inputs[1].value, type:inputs[2].value,abilities:inputs[3].value,flavortext:inputs[4].value,rarity}),
+        body:JSON.stringify({username, name:inputs[0].value, manacost:inputs[1].value, type:inputs[2].value,abilities:inputs[3].value,flavortext:inputs[4].value,rarity}),
         headers:{
             'Content-Type':'application/json'
         }
@@ -18,7 +17,7 @@ const add = function(e) {
         addEntry(json)
     })
 }
-
+//this function adds an entry to the list via json (usually after the above func gets a response)
 const addEntry = function(json) {
     const tbody = document.querySelector('table')
     const tr = document.createElement('tr')
@@ -42,19 +41,13 @@ const addEntry = function(json) {
     delInput.value = 'del'
     td.appendChild(delInput)
     tr.appendChild(td)
-    const cardInput = document.createElement('input')
-    cardInput.type = 'button'
-    cardInput.value = 'card'
-    td.appendChild(cardInput)
     tr.onmouseover = function() {
         delInput.style.visibility = 'visible'
         editInput.style.visibility = 'visible'
-        cardInput.style.visibility = 'visible'
     }
     tr.onmouseleave = function() {
         delInput.style.visibility = 'hidden'
         editInput.style.visibility = 'hidden'
-        cardInput.style.visibility = 'hidden'
     }
     editInput.onclick = function() {
         if(editInput.value === 'edit') {
@@ -64,22 +57,15 @@ const addEntry = function(json) {
             tr.contentEditable = false;
             editInput.value = 'edit'
             edit(json._id, tr)
-            //update value in server
         }
     }
     delInput.onclick = function() {
         tbody.removeChild(tr)
         remove(json._id)
     }
-    //FIX BELOW
-    cardInput.onclick = function() {
-        document.querySelector('#card').style.visibility = 'visible'
-        document.querySelector('.cardSpan').innerText = data.personname
-        location.href = "#card"
-    }
     
 }
-
+//function called when edit is saved.
 const edit = function(id, tr) {
     const tds = tr.getElementsByTagName('td')
     fetch('/edit', {
@@ -93,7 +79,7 @@ const edit = function(id, tr) {
         console.log('success')
     })
 }
-
+//function called when user hits delete.
 const remove = function(id) {
     fetch('/remove', {
         method:'POST',
@@ -106,25 +92,14 @@ const remove = function(id) {
         console.log('success')
     })
 }
-//this will likely be marked as an achievement. i rly want to do it but idk if i can.
-//i also wanna add a 3rd page for tutorial for adding stuff. and what stuff means
-//accessible via the navbar
-//(can also add a public/private feature for cards and public can be seen by everyone)
-const showCard = function(tr) {
-    
-}
 
-window.onload=function() {
-    document.querySelector('#welcome').innerText = `Welcome back, ${USERNAME}`
-    document.querySelector('#signout').onclick = function() {
-        localStorage.clear()
-        window.location.assign("/")
-    }
-    document.querySelector('h1').innerText=USERNAME + "'s Custom Cards"
-    document.querySelector('#addCard').onclick = add
-    fetch('/load', {
+//function called during window.onload.
+const startup = function() {
+  document.querySelector('#welcome').innerText = `Welcome back, ${username}`
+      document.querySelector('h1').innerText=username + "'s Custom Cards"
+      fetch('/load', {
         method:'POST',
-        body:JSON.stringify({username: USERNAME}),
+        body:JSON.stringify({username}),
         headers:{
             'Content-type':'application/json'
         }
@@ -133,4 +108,27 @@ window.onload=function() {
         console.log(json)
         for(let i=0;i<json.length; i++) addEntry(json[i])
     })
+}
+//stuff that needs to be set when the window loads
+window.onload=function() {
+  if(localStorage.getItem('username')==null) {
+    fetch('/auth/user', {
+    }).then(response=>response.json())
+    .then(json=>{
+      username = json.username
+      localStorage.setItem('username',json.username)
+      startup()
+    }).catch(err=>{
+      console.log(err)
+    })
+  } else {
+    startup()
+  }
+    document.querySelector('#signout').onclick = function() {
+        localStorage.clear()
+        window.location.assign("/")
+      fetch('/logout', {
+      }).then(response=>console.log(response))
+    }
+    document.querySelector('#addCard').onclick = add
 }
