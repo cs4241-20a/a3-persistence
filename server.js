@@ -22,6 +22,10 @@ var compression = require('compression')
 app.use(compression())
 /*end of compression additions */
 
+/*morgan additions */
+app.use(require('morgan')('combined'));
+/* end of morgan additions */
+
 /* LOCAL AUTH*/
 // var LocalStrategy = require('passport-local').Strategy;
 
@@ -76,7 +80,6 @@ passport.deserializeUser(function(obj, cb) {
 });
 
 
-app.use(require('morgan')('combined'));
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
