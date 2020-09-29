@@ -161,7 +161,7 @@ app.get("/get_recipes", function(req, res) {
 
 passport.use(new GitHubStrategy({
     clientID: "9b442249b3b73e74c79c",
-    clientSecret: "b2d25f990136afd4fbb5252168d24aa6874aec51",
+    clientSecret: "CLIENT_SECRET",
     callbackURL: "https://a3-noah-parker.glitch.me/auth_callback"
   },
   function(accessToken, refreshToken, profile, cb) {
