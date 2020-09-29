@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css">
+  <script src="js/scripts.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Quicksand&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mali&family=Short+Stack&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <h1 class="title"> ~ To-do list ~</h1>
+    <h2 class="title">New Task</h2>
+    <form id="new-task">
+      <h3>Task Name:</h3>
+      <input type='text' id='taskName' value="">
+      <h3>Expected Hours:</h3>
+      <input type='text' id='expected' value="" size=3>
+      <button>submit</button>
+      <button id='replace'>replace task</button>
+    </form>
+    <h2 class="title">Delete Task</h2>
+    <form id="delete-task">
+      <h3>Task Name:</h3>
+      <input type='text' id='deleteTaskName' value="">
+      <button id='delete'>delete</button>
+    </form>
+    <h2 class="title">Current Tasks:</h2>
+      <ul id='tasks'> </ul>
+  </body>
+</html>
