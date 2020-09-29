@@ -4,7 +4,6 @@ const passport = require("passport");
 const bcrypt = require("bcrypt");
 const GitHubStrategy = require("passport-github").Strategy;
 const LocalStrategy = require("passport-local").Strategy;
-//const bodyParser = require('body-parser');
 const app = express();
 
 const compression = require("compression");

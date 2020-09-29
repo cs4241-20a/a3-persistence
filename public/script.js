@@ -199,9 +199,9 @@ window.onload = function () {
     const button = document.getElementById("submitTicket");
     button.onclick = submit;
 
-    // fetch("/api/getUser")
-    //   .then((response) => response.json())
-    //   .then((json) => processLogin(json));
+     fetch("/api/getUser")
+       .then((response) => response.json())
+       .then((json) => processLogin(json));
 
     document.addEventListener("click", function (e) {
         if (e.target && e.target.classList[0] == "deleteButton") {
