@@ -3,7 +3,7 @@ Assignment 3 - Persistence: Two-tier Web Application with Database, Express serv
 
 ## Canvas Kicks Website
 
-http://a3-ioannis-kyriazis.glitch.me
+http://canvaskicks.herokuapp.com
 
 This project is meant to be a place for an administrator to post items for sale. The administrator goes to /admin.html
 to add, edit, and delete different posts in the database. A user can create an account or log in from /index.html.
@@ -16,4 +16,9 @@ express-session to have a log in session through passport. I used connect-flash 
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the username/password strategy.
+- **Tech Acievement 2**: I migrated my code to heroku
+
+## Design Achievements
+- **Design Achievement 1**: Modified css framework because button text had extra top padding
+
 
