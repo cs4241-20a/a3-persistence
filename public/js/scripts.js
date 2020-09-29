@@ -2,16 +2,16 @@
     const button = document.querySelector('#submitButton')
     button.onclick = submit;
 
-    const logoutButton = document.querySelector('#logoutButton')
-    logoutButton.onclick = logout;
+    const logoutBtn = document.querySelector('#logoutButton')
+    logoutBtn.onclick = logout;
 
-    const table = document.querySelector('#timesheet')
+    const sheet = document.querySelector('#timesheet')
     fetch('/appdata', {
         method: 'GET'
     })
         .then(response => response.json())
         .then(array => {
-            array.forEach(element => updatetimesheet(table, element))
+            array.forEach(element => updatetimesheet(sheet, element))
         })
 }
 
@@ -22,7 +22,7 @@ const submit = function (e) {
         idinput = document.querySelector('#studentID'),
         gradeinput = document.querySelector('#studentClass'),
         timeinput = document.querySelector('#timeWorked'),
-        table = document.querySelector('#resultsTable'),
+        sheet = document.querySelector('#timesheet'),
         json = { studentName: nameinput.value, studentID: idinput.value, studentClass: gradeinput.value, timeWorked: timeinput.value, payment: ((timeinput.value * 12.75) * 0.9) }
 
     if (nameinput.value == "" || idinput.value == "") {
@@ -41,7 +41,7 @@ const submit = function (e) {
     })
         .then(response => response.json())
         .then(json => {
-            updatetimesheet(table, json)
+            updatetimesheet(sheet, json)
         })
 
     nameinput.value = "";
@@ -52,7 +52,7 @@ const submit = function (e) {
     return false
 }
 
-const sheetEdit = function (table, row, id) {
+const sheetEdit = function (sheet, row, id) {
     const nameinput = document.querySelector('#studentName');
     const idinput = document.querySelector('#studentID');
     const gradeinput = document.querySelector('#studentClass');
@@ -64,7 +64,7 @@ const sheetEdit = function (table, row, id) {
     gradeinput.value = row.cells[2].innerHTML;
     timeinput.value = row.cells[3].innerHTML;
 
-    button.onclick = function () { edit(nameinput, idinput, gradeinput, timeinput, table, id, button) }
+    button.onclick = function () { edit(nameinput, idinput, gradeinput, timeinput, sheet, id, button) }
 
     return false;
 }
@@ -83,7 +83,7 @@ const logout = function (e) {
 }
 
 
-const edit = function(nameinput, idinput, gradeinput, timeinput, table, id, button){
+const edit = function(nameinput, idinput, gradeinput, timeinput, sheet, id, button){
     button.onclick = submit
 
     if (nameinput.value === "" || idinput.value === "") {
@@ -105,20 +105,20 @@ const edit = function(nameinput, idinput, gradeinput, timeinput, table, id, butt
     })
         .then(response => response.json())
         .then(array => {
-            var numRows = table.rows.length;
+            var numRows = sheet.rows.length;
             for (var i = 1; i < numRows; i++) {
-                table.deleteRows(1);
+                sheet.deleteRows(1);
             }
 
             console.log(array);
 
-            array.forEach(element => updatetimesheet(table, element))
+            array.forEach(element => updatetimesheet(sheet, element))
         })
 
     return false;
 }
 
-const del = function (table, id) {
+const del = function (sheet, id) {
     json = { _id: id }
     console.log(json)
 
@@ -132,12 +132,12 @@ const del = function (table, id) {
             return response.json()
         })
         .then(array => {
-            var numRows = table.rows.length
+            var numRows = sheet.rows.length
             for (var i = 1; i < numRows; i++) {
-                table.deleteRow(1);
+                sheet.deleteRow(1);
             }
 
-            array.forEach(element => updatetimesheet(table, element))
+            array.forEach(element => updatetimesheet(sheet, element))
         })
 
     const button = document.querySelector('#submitButton');
@@ -146,8 +146,8 @@ const del = function (table, id) {
     return false;
 }
 
-const updatetimesheet = function (table, data) {
-    var tbody = table.getElementByTagName('tbody')[0]
+const updatetimesheet = function (sheet, data) {
+    var tbody = sheet.getElementByTagName('tbody')[0]
     var row = tbody.insertRow(-1);
     var name = row.insertCell(0);
     var id = row.insertCell(1);
@@ -165,14 +165,12 @@ const updatetimesheet = function (table, data) {
     var editBtn = document.createElement('button');
     editBtn.id = "editButton";
     editBtn.className += "mui-btn mui-btn--raised mui-btn--primary";
-    editBtn.innerHTML = '<span class="google-icon"><span class="material-icons">create</span>Edit</span>'
-    editBtn.onclick = function () { sheetEdit(table, row, data._id) }
+    editBtn.onclick = function () { sheetEdit(sheet, row, data._id) }
     btnCell.appendChild(editBtn);
 
     var delBtn = document.createElement('button');
     delBtn.id = "deleteButton";
     delBtn.className += "mui-btn mui-btn--raised mui-btn--danger";
-    delBtn.innerHTML = '<span class="google-icon"><span class="material-icons">delete_outline</span>Delete</span>'
-    delBtn.onclick = function () { del(table, data._id) }
+    delBtn.onclick = function () { del(sheet, data._id) }
     btnCell.appendChild(delBtn);
 }

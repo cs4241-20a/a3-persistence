@@ -30,11 +30,6 @@ button {
     transform: translate(-50%, -50%);
 }
 
-.google-icon {
-    display: flex;
-    align-items: center;
-}
-
 /*main page*/
 #mainform{
     display: grid;
