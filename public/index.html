@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>SimCar 2</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+	<section class="hero is-dark is-fullheight" id="copySIZE">
+		<!-- Hero head: will stick at the top -->
+		<div class="hero-head">
+			<header class="navbar">
+				<p class="navbar-item has-text-white has-text-weight-bold is-size-3">
+					simcar 2
+				</p>
+				<div class="navbar-end">
+					<p id="welcome_user" class="navbar-item has-text-white has-text-weight-semibold is-hidden">
+						Welcome,&nbsp;<span id="welcome_user_text"></span>!
+					</p>
+					<div class="navbar-item">
+						<div class="buttons">
+							<a id="login_button" class="button is-link" href="/auth/github">
+								Login with GitHub&nbsp;<i class="fab fa-github"></i>
+							</a>
+							<a id="logout_button" class="button is-danger is-hidden" href="/auth/logout">
+								Logout&nbsp;<i class="fas fa-sign-out-alt"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</header>
+		</div>
+		<!-- Hero content: will be in the middle -->
+		<div class="hero-body has-text-centered">
+			<div class="container" id="hide_on_load">
+                 <h1 class="title">
+                 Please Login
+                </h1>
+                <h2 class="subtitle">
+                 (game will load once logged in)
+                </h2>
+				<i class="fas is-size-1 fa-sync fa-spin"></i>
+			</div>
+		</div>
+		<nav class="level is-mobile" id="hud">
+			<div class="level-left ml-5">
+				<div class="level-item has-text-centered box has-background-dark has-text-light">
+					<div>
+						<p class="heading">Throttle</p>
+						<p class="title" id="throttle">0</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered box has-background-dark has-text-light">
+					<div>
+						<p class="heading">Steering</p>
+						<p class="title" id="steering">0</p>
+					</div>
+				</div>
+                <div id="restart" class="level-item has-text-centered box has-background-danger has-text-light">
+					<div">
+						<p class="heading">Restart</p>
+						<p class="title"><i class="fas fa-sync"></i></p>
+					</div>
+				</div>
+			</div>
+			<div class="level-right mr-5">
+                <div class="level-item has-text-centered box has-background-info has-text-light">
+					<div>
+						<p class="heading">FPS</p>
+						<p class="title" id="fps">00</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered box has-background-dark has-text-light">
+					<div>
+						<p class="heading">Time</p>
+						<p class="title" id="stopwatch">00:00.000</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered box has-background-dark has-text-light">
+					<div>
+						<p class="heading">Lap</p>
+						<p class="title" id="lap">1/2</p>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<div id="threeJS"></div>
+		<!-- Hero footer: will stick at the bottom -->
+		<div class="hero-foot">
+			<nav class="tabs is-boxed is-centered">
+				<div class="container">
+					<ul>
+						<li class="is-active">
+							<a class="py-3 px-6 has-text-dark is-size-5" onclick="scrollToTable()">
+								Leaderboard
+								<span class="icon is-small mr-0">
+                    <i class="fas fa-trophy"></i>
+                  </span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</section>
+	<div class="table-container py-4 px-4 has-background-white" id="userInput">
+		<table class="table is-hoverable is-striped">
+			<thead>
+				<tr>
+					<th>Place</th>
+					<th>Username</th>
+                    <th>Full Name</th>
+                    <th>Team Name</th>
+					<th>Laptime</th>
+					<th>Date</th>
+					<th>Modify</th>
+				</tr>
+			</thead>
+			<tbody id="data_table"></tbody>
+		</table>
+		<div class="field is-horizontal">
+			<div class="field-label">
+				<label class="label">Special Thanks</label>
+			</div>
+			<div class="field-body">
+				<a target="_blank" href="https://skfb.ly/6TzIR">RC-14 Model by Dahie</a>
+			</div>
+		</div>
+		<div class="field is-horizontal">
+			<div class="field-label"></div>
+			<div class="field-body">
+				<a target="_blank" href="https://hdrihaven.com/hdri/?h=quattro_canti">Quattro Canti from HDRIHaven</a>
+			</div>
+		</div>
+	</div>
+	<div id="submit_result" class="modal">
+		<div class="modal-background"></div>
+		<div class="modal-content">
+			<header class="modal-card-head">
+				<p class="modal-card-title">Submit Lap</p>
+			</header>
+			<section class="modal-card-body">
+				<div class="field">
+					<label class="label">Your lap time was: <span id="result_time"></span></label>
+                    <label class="label">Full Name</label>
+					<div class="control">
+						<input class="input" type="text" id="fullname" placeholder="Gompei">
+                    </div>
+					<label class="label">Team Name</label>
+					<div class="control">
+						<input class="input" type="text" id="teamname" placeholder="WPI Racing">
+                    </div>
+						<p class="help">These can be changed after submission!</p>
+					</div>
+			</section>
+			<footer class="modal-card-foot">
+				<button class="button is-success" id="submit_button">Submit</button>
+				<button class="button is-danger" id="restart_button">Retry</button>
+			</footer>
+		</div>
+	</div>
+    <div id="edit_result" class="modal">
+		<div class="modal-background"></div>
+		<div class="modal-content">
+			<header class="modal-card-head">
+				<p class="modal-card-title">Edit Info</p>
+			</header>
+			<section class="modal-card-body">
+				<div class="field">
+                    <label class="label">Full Name</label>
+					<div class="control">
+						<input class="input" type="text" id="fullname_edit">
+                    </div>
+					<label class="label">Team Name</label>
+					<div class="control">
+						<input class="input" type="text" id="teamname_edit">
+                    </div>
+						<p class="help">These can be changed after submission!</p>
+					</div>
+			</section>
+			<footer class="modal-card-foot">
+				<button class="button is-success" id="update_edit_button">Update</button>
+				<button class="button is-danger" id="cancel_edit_button">Cancel</button>
+			</footer>
+		</div>
+	</div>
+    <script src="js/leaderboard.js"></script>
+	<script src="js/stopwatch.js"></script>
+    <script src="js/dynamic.js"></script>
+	<script type="module" src="js/scripts.js"></script>
+	<script type="module" src="js/render.js"></script>
+</body>
+
+</html>

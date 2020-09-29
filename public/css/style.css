@@ -1,0 +1,31 @@
+.widget-right {
+  box-shadow: none !important;
+}
+
+#openweathermap-widget-15 {
+  z-index: 0;
+}
+
+#threeJS {
+  visibility: hidden;
+  position: absolute;
+}
+
+#hud {
+  visibility: hidden;
+  font-family: monospace;
+  z-index: 1;
+}
+
+#restart {
+  cursor: pointer;
+}
+
+canvas {
+  background: linear-gradient(0deg, #fdbb2d 0%, #3a1c71 100%);
+}
+
+table {
+  margin: 0 auto;
+  overflow: hidden;
+}

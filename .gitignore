@@ -1,0 +1,4 @@
+node_modules/
+.env
+.theia/
+.gitpod.yml
