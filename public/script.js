@@ -76,7 +76,7 @@ const submit = function (e) {
   fetch("/add", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ number, firstName, lastName, experience }),
+    body: JSON.stringify({ "coach": coachElement.innerText, number, firstName, lastName, experience }),
   })
   .then((response) => response.json())
   .then( json => {
@@ -140,7 +140,7 @@ const login = (e) => {
       let username = json.username;
       document.getElementById("loginPage").hidden = true;
       document.getElementById("mainPage").hidden = false;
-      coach.innerText = username;
+      coachElement.innerText = username;
       getRoster();
     } else {
       window.alert("incorrect username/password");
@@ -156,7 +156,7 @@ const createUser = (e) => {
   
   fetch('/newAccount', {
     method: "POST",
-    body: JSON.stringinfy({coach, password}),
+    body: JSON.stringify({coach, password}),
     headers: { "Content-Type": "application/json"}
   })
   .then( function(response) {
