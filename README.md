@@ -8,7 +8,7 @@ The intention of this application was to be a scheduling application for activit
 My biggest challenge during realizing the application was redirecting from a sign in page. I accessed the DB fine and inserted records, however attempting to connect the sign in page ate up far more time than expected, failing in the end.
 Since redirection didnt work, I didn't successfully implement authorization, and I treated every login attempt as a new user.
 I used tachyons for CSS.
-I did not use 5 express middleware packages, just body parser and mongo
+I did not use 5 express middleware packages, just body parser for handling json objects and mongo for connecting to the DB.
 
 Technical Achievements
 
