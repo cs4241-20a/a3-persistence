@@ -1,11 +1,16 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Ray's Initiative Tracker</title>
     <meta charset="utf-8">
-      <script src="/js/scripts.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <script src="/scripts.js"></script>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
       <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Josefin+Sans">
   </head>
@@ -14,6 +19,7 @@
     <p id="note">Note: up/down arrows are only for resolving ties.</p>
     <div class="appcontainer">
     <form >
+      <h2>Enter new creature</h2>
       <label>Creature Name</label>
       <input type="text" id="name" value=""><br />
       <label>Max Hit Points</label>
@@ -24,7 +30,8 @@
       <input type="checkbox" id="roll" onclick="switchRoll()">
       <div id="initbonusBox" style="display: none">
         <label>Initiative Bonus</label>
-        <input type="number" id="initbonus" value="0"><br />
+        <input type="number" id="initbonus" value="0">
+        <p>ex +3, -2, 5</p>
       </div>
       <div id="initiativeBox">
         <label>Initiative</label>
@@ -34,13 +41,18 @@
       <button class="button">Add Creature</button>
     </form>
     <table class="list">
+      <caption>Current Initiative</caption>
       <thead>
         <tr>
           <th class="_id">Id</th>
+          <th class="order">Turn</th>
           <th class="name">Name</th>
           <th class="num">Initiative</th>
           <th class="hp">HP</th>
           <th class="ac">AC</th>
+          <th class="up">Up</th>
+          <th class="down">Dwn</th>
+          <th class="Delete">X</th>
         </tr>
       </thead>
       <tbody id="creatures"></tbody>

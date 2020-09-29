@@ -8,9 +8,10 @@ h1 {
     font-size: 48px;
 }
 
+
 .appcontainer {
     display: grid;
-    grid-template-columns: 25% 1fr;
+    grid-template-columns: 25% 1fr 5%;
     column-gap: 20px;
 }
 form {
@@ -21,7 +22,7 @@ form {
 
 table {
     grid-column-start: 2;
-    border: 5px solid #b5bd85;
+    border: 15px solid #b5bd85;
     padding: 10px;
 }
 
@@ -70,9 +71,19 @@ label {
 td {
     font-size: 24px;
     word-wrap: break-word;
-    max-width: 150px;
+    max-width: 120px;
 }
 
 #note {
     text-align:right;
+}
+
+._id {
+    width: 200px;
+}
+
+caption {
+    caption-side: top;
+    font-size: 36px;
+    color:black;
 }

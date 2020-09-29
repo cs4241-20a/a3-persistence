@@ -40,7 +40,7 @@ const submit = function( e ) {
       }
     })
     .then( response => response.json()) 
-    .then( resjson => getAll())
+    .then( resjson => processJSON(resjson))
 
     // clear inputs
     name.value = ""
@@ -67,8 +67,9 @@ document.addEventListener("click", function (e) {
 const removeCreature = function (e) {
     e.preventDefault();
     const _id = e.target.getAttribute("id");
+    const order = e.target.getAttribute("order")
 
-    const json = {delete: 'delete', _id},
+    const json = {delete: 'delete', _id, order},
         body = JSON.stringify(json);
 
         fetch('/remove', {
@@ -79,34 +80,41 @@ const removeCreature = function (e) {
             }
         })
         .then(response => response.json())
-        .then( resjson => getAll())
+        .then( resjson => processJSON(resjson))
 }
 
 const moveCreature = function (e, dir) {
     e.preventDefault();
     const id = e.target.getAttribute("id");
+    const order = e.target.getAttribute("order")
 
-    const json = {movedir: dir, id},
+    const json = {movedir: dir, id, order},
         body = JSON.stringify(json);
 
-        fetch('/submit', {
+        fetch('/move', {
             method:'POST',
             body,
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
         .then(response => response.json())
-        .then( resjson => getAll())
+        .then( resjson => processJSON(resjson))
 }
 
 const processJSON = (json) => {
-    //console.log(json)
+    console.log(json)
     const creatures = document.getElementById("creatures");
     creatures.innerHTML = "";
     json.forEach((creature) => {
         creatures.innerHTML += `
         <tr>
             <td>${
-                creature._id
-            }
+                creature._id}
+            </td>
+            <td>${
+                creature.order}
+            </td>
             <td>${
                 creature.name}
             </td>
@@ -119,11 +127,11 @@ const processJSON = (json) => {
             <td>${
                 creature.ac}
             </td>
-            <td><i class="moveUp fa fa-angle-double-up" id="${creature._id}">
+            <td><i class="moveUp fa fa-angle-double-up" id="${creature._id}" order="${creature.order}">
             </td>
-            <td><i class="moveDown fa fa-angle-double-down" id="${creature._id}">
+            <td><i class="moveDown fa fa-angle-double-down" id="${creature._id}" order="${creature.order}">
             </td>
-            <td><i class="delete fa fa-trash-o" style="font-size:24px" id="${creature._id}"></i>
+            <td><i class="delete fa fa-trash-o" style="font-size:24px" id="${creature._id}" order="${creature.order}"></i>
             </td>
         </tr>`
     })
@@ -141,7 +149,7 @@ const getAll = () =>{
     .then(response => response.json())
     .then((json) => {
         processJSON(json)
-        console.log(json)
+        //console.log(json)
     })
 
 }
