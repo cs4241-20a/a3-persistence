@@ -81,30 +81,6 @@ dreamsForm_change.addEventListener("submit", event => {
   dreamsForm_change.elements.old_dream.focus();
 });
 
-loginForm.addEventListener("submit", event => {
-  event.preventDefault();
-  fetch('/login', {
-    method: 'POST',
-    body: JSON.stringify({
-      username: loginForm.elements.username.value,
-      password: loginForm.element.password.value
-    }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-    .then(response => response.json())
-    .then(json => {
-      console.log('responds dream:' + json.dream)
-      if (json.dream === 'already exists') {
-        console.log('Element already exists')
-        alert("You already have this dream");
-      } else {
-        appendNewDream(json.dream, json._id)
-      }
-    })
-
-})
 
 // fetch the initial list of dreams
 fetch("/dreams")
