@@ -159,7 +159,7 @@ const logoutUser = () => {
     });
 };
 
-const loginUser = () => {
+const login = () => {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
@@ -202,7 +202,7 @@ window.onload = function () {
             editItem(e);
         }
         if (e.target && e.target.getAttribute("id") == "loginButton") {
-            loginUser();
+            login();
         }
         if (e.target && e.target.getAttribute("id") == "logoutButton") {
             logoutUser();
