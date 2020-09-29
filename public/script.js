@@ -199,14 +199,16 @@ const revertEdit = function() {
     let id = editData.id;
     table.rows[index].cells[0].innerHTML = `
     <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu-${index}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Actions
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            <button class="dropdown-item" type="button" onclick="deleteRun('${id}', ${index})">Delete</button>
-            <button class="dropdown-item" type="button" onclick="prepareEdit(${index}, '${id}')">Edit</button>
-        </div>
-    </div>`;
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu-${index}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Actions
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <button class="dropdown-item" type="button" onclick="deleteRun('${id}', ${index})">Delete Run</button>
+                <button class="dropdown-item" type="button" onclick="prepareEdit(${index}, '${id}')">Edit Run</button>
+                <button class="dropdown-item" type="button" onclick="alert(appData[${index}].notes ? appData[${index}].notes : 'No notes exist for this run')">View Notes</button>
+                <button class="dropdown-item" type="button" onclick="editNotes(${index})">Edit Notes</button>
+            </div>
+        </div>`;
     table.rows[index].cells[1].innerHTML = editData.name;
     table.rows[index].cells[2].innerHTML = editData.location;
     table.rows[index].cells[3].innerHTML = editData.distance;
