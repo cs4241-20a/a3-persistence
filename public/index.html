@@ -1,0 +1,94 @@
+<!Doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+
+	<title>Login Page</title>
+	<meta name="description" content="Project 3 Webware">
+	<meta name="author" content="AJ Thammana">
+
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"/>
+	<link type="text/css" rel="stylesheet" href="css/styles.css"/>
+
+</head>
+
+<body>
+	<script type="text/javascript" src="js/materialize.min.js"></script>
+	<script type="text/javascript" src="js/login.js"></script>
+
+	<div class="login container">
+		<div class="row center-align">
+			<div class="col m6">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title">Create an Account!</span>
+						<form onsubmit="createAccount(event)">
+              <div class="row">
+				        <div class="input-field col s5 offset-s1">
+				          <input id="first_name" type="text" name="first_name" class="validate">
+				          <label for="first_name">First Name</label>
+				        </div>
+	              <div class="input-field col s6">
+				          <input id="last_name" type="text" name="last_name" class="validate">
+				          <label for="last_name">Last Name</label>
+				        </div>
+				      </div>
+              <div class="row">
+	              <div class="input-field col s12">
+	              	<i class="material-icons prefix">account_circle</i>
+				          <input id="user_name" type="text" name="user_name" class="validate">
+				          <label for="user_name">User Name</label>
+				        </div>
+				      </div>
+              <div class="row">
+				        <div class="input-field col s12">
+	              	<i class="material-icons prefix">lock</i>
+				          <input id="password" type="password" class="validate">
+				          <label for="password">Password</label>
+				        </div>
+				      </div>
+				      <div class="card-action">
+		            <button class="btn waves-effect waves-light red lighten-3 black-text	" type="submit" name="action">Submit
+							    <i class="material-icons right">send</i>
+							  </button>
+			        </div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col m6">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title">Login!</span>
+						<form action="/login" method="POST"> <!-- onsubmit="login(event)" -->
+              <div class="row">
+	              <div class="input-field col s12">
+	              	<i class="material-icons prefix">account_circle</i>
+				          <input id="login_user_name" type="text" name="user_name" class="validate">
+				          <label for="login_user_name">User Name</label>
+				        </div>
+				      </div>
+              <div class="row">
+				        <div class="input-field col s12">
+	              	<i class="material-icons prefix">lock</i>
+				          <input id="login_password" type="text" name="password" class="validate">
+				          <label for="login_password">Password</label>
+				        </div>
+				      </div>
+				      <div class="card-action">
+		            <button class="btn waves-effect waves-light red lighten-3 black-text" type="submit">Login
+							    <i class="material-icons right">send</i>
+							  </button>
+			        </div>
+						</form>
+						<a class="waves-effect waves-light btn black" onclick="location.href='https://github.com/login/oauth/authorize?client_id=de371a63d4674912eafc';"><i class="material-icons left">motorcycle</i>or Login with Git</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="clear" style="clear:both; height: 100px;"></div>
+</body>
+</html>
