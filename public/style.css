@@ -226,3 +226,33 @@ tbody tr:nth-child(even) {
 ::-webkit-scrollbar-thumb:hover {
   background: #415c73;
 }
+
+#post-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+.post {
+  padding: 20px;
+}
+#topmenu {
+  display: grid;
+  grid-template-columns: 1fr 50% 1fr 1fr 1fr 1fr;
+  grid-template-rows: 40px;
+}
+.buyinginfo {
+  display: grid;
+  grid-template-columns: 250px 1fr 30px;
+  grid-template-rows: 30px;
+  padding-top: 0px;
+  margin-top: -20px;
+  margin-right: 25px;
+}
+.addcomment {
+  display: grid;
+  grid-template-columns: 25px 250px 1fr 40px;
+  grid-template-rows: 30px;
+  padding-top: 0px;
+  margin-top: 20px;
+  margin-right: -25px;
+}
