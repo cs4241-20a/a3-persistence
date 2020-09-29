@@ -35,10 +35,15 @@ app.get("/", (request, response) => {
 });
 
 app.post('/login', timeout('5s'), body_parser.json(), haltOnTimedout, (request, response) => {
+  console.log("username: " + request.body.username + " password: " + request.body.prassword)
   if(request.body.username === "username" && request.body.password === "password"){
     response.sendFile(__dirname + "/views/index.html");
   }
 })
+
+app.get("/index", (request, response) => {
+  response.sendFile(__dirname + "/views/index.html");
+});
 
 // log error responses
 morgan('combined', {
@@ -85,8 +90,10 @@ app.put('/change', timeout('5s'), body_parser.json(), haltOnTimedout, (request, 
     .then(result => response.json(result))
 })
 
+const port = process.env.PORT || 3000
+
 // listen for requests :)
-const listener = app.listen(3000, () => {
+const listener = app.listen(port, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
 
