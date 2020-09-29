@@ -1,12 +1,14 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
 
-## Your Web Application Title
+## Fishing Log With Database and User Support 
 
 https://jcybul-a3-persistence.glitch.me/
+
+SAMPLE USER:
+username: jcybul
+password: 123
+
+A new user can be created, but the provided user has some data already recorded, usefull when visualizing the sorting by weigth functionality
 
 - This application was created to allow fishing anglers to keep a log of their catches, and some other details. Some of the challenged faced where regarding data manipulation. The creation of a login and user registration system with secure password took a large amount of time but where completed. The authentication method used was to provide a registration, where the username was unique, this was the method that worked after trying multiple differnt ways. Becasue of time contraints I used a simple CSS template, with a topnav, which provided structure to the navigation bar on my page. I only changed color, fonts(type and size) and organization elements(https://www.w3schools.com/css/tryit.asp?filename=trycss_template3). 
 Middleware used:
@@ -18,6 +20,7 @@ Middleware used:
 - **Tech Achievement 1**: Used bcrypt for hashing passwords, storing the hashed password on the data base,providing a more secure webpage.
 - **Tech Achievement 2**: Implemented a register page which allows new users to be registered, usernames are unique.
 - **Tech Achievement 3**:Using login info insert username into the data without having the user do it, as well as date.
+- **Tech Achievement 4**: Sorting data by a specific field, in my case fish weight 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: CARP:
 Contrast: Starting from the login page and the register , the elements that definitely will catch the users eye will be the background image with a boat, and then almost immediately I will say that the input boxes since they are chunks of white in a background that has mostly different tones of blue. Then the next page is when the user has logged in, here we have a lot happening, the background is the same but the boat is no longer visible so the input boxes in white once again will take all the attention, promoting the user to register their catch. then we have the buttons that allow you to submit that new entry, and since the table will immediately update the user attention all go to the new piece of information that is being displayed on the table. then the sort button has a slightly different color than the text all over the page which will interest the user to click on it an see what is doing.
