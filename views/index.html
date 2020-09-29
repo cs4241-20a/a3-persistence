@@ -1,0 +1,70 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Welcome to Glitch!</title>
+
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+  <body > 
+    <header > 
+      <h1>A Dream of the Past</h1>
+    </header>
+
+    <main>
+<!--      #<a href="https://github.com/login/oauth/authorize?client_id=a894571b6846c058fd0d&redirect_url=https://a3-graeth.glitch.me/auth/github/callback">Login with github</a>
+   -->    <a href="/auth/github/callback" class="btn btn-default">Github</a>
+      <h2>Oh hi,</h2>
+
+      <p>Tell me about your favorite warcrimes:</p>
+
+      <form method="post" action="/add" id="cform">
+        <fieldset>
+          
+        
+        <label>
+          New War Crime</label>
+          <input name="country" id="country" type="text" maxlength="30" required placeholder="Country/Organization">
+          <input name="year" id="year" type="number" maxlength="30" required placeholder="Year">
+          <input name="description" id="description" type="text" maxlength="100" placeholder="Description!">
+        
+        <button type="submit" id="submit-dream">Add War Crime</button>
+          </fieldset>
+      </form>
+
+      <section class="crimes">
+          <!--<tbody>
+            <tr>
+              <td>January</td>
+              <td>$100</td>
+            </tr>
+            <tr>
+              <td>February</td>
+              <td>$80</td>
+            </tr>
+          </tbody>-->
+        <ul id="crimes">
+          <em>loading &hellip;</em>
+        </ul>
+      </section>
+    </main>
+
+    <footer>Made with <a href="https://glitch.com">Glitch</a>!</footer>
+
+    <!-- include the Glitch button to show what the webpage is about and
+          to make it easier for folks to view source and remix -->
+    <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js" defer></script>
+  </body>
+</html>
