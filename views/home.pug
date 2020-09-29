@@ -1,0 +1,53 @@
+extends layout
+
+block append body
+	.jumbotron
+		.container
+			h1 
+				del Glitch
+				|  Drive++ 
+				+icon("folder-open")
+			blockquote.blockquote.text-center
+				p "It's like Google Drive but with less functionality, no account system, and a 
+					a(href="https://glitch.happyfox.com/kb/article/17-what-are-the-technical-restrictions-for-glitch-projects/") 200MB storage limit
+					|*."
+				footer.blockquote-footer Bryce Corbitt
+			h6 *Technically not a physical limit anymore, but please don't upload anything that will destroy my hard drive :P.
+	.container
+		if user
+			.row
+				div#sidebar.col.col-md-3.col-sm-3.text-center
+					h4 Welcome, #{user.name}!
+					a.btn.btn-info(href="/uploads/user") Your Uploads
+					br
+					a.btn.btn-danger.icon-right(href="/auth/signout") Sign Out 
+						+icon("log-out")
+				.col.col-md-8.col-sm-9
+					form#uploadForm.align-self-center(method="post" action="/uploads", enctype="multipart/form-data")
+						h2.text-center File Upload Form
+						.form-group
+							label.required(for='nameInput') Your Name
+							input#nameInput.form-control.required(name='uploader' type='text' autocomplete='off' value=user.name required)
+						.form-group
+							label.required(for='keyInput') Upload Title
+							input#keyInput.form-control.required(name='key' type='text' placeholder='Something Creative :)' autocomplete='off' required)
+							//- small#keyHelp.form-text.text-muted Something Creative :)
+						.form-group
+							label.required(for='fileInput') Upload your file!
+							input#fileInput.required(name='file' type='file' required)
+						br
+						button.btn.btn-primary.btn-lg(type='submit') Submit
+			.col-md-12.text-center
+				a#view-btn.btn.btn-success.center(href="/uploads") Browse Uploaded Files 
+					+icon("cloud-download")
+		else
+			.row
+				.col.center-block(style='margin-left: 2em; margin-right: 2em;')
+					a#google-btn.btn.btn-lg.btn-default.center-block(href='/auth' role='button' style='text-transform:none')
+						img(width='20px' style='margin-bottom:3px; margin-right:5px' alt='Google sign-in' src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png')
+						|       Login with Google
+					h3.text-center or
+					.col-mx-auto.text-center
+						a#view-btn-alt.btn.btn-success.center(href="/uploads") Browse Uploaded Files 
+							+icon("cloud-download")
+				
