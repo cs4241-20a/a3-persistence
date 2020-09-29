@@ -5,12 +5,13 @@ const http = require( 'http' ),
       mime = require( 'mime' ),
       dir  = 'public/',
       port = 3000
+const express = require("express");
+const app = express();
+const bodyparser = require('body-parser');
 
-const appdata = [
-  { 'model': 'toyota', 'year': 1999, 'mpg': 23 },
-  { 'model': 'honda', 'year': 2004, 'mpg': 30 },
-  { 'model': 'ford', 'year': 1987, 'mpg': 14} 
-]
+app.use(express.static("public"));
+app.use( bodyparser.json() )
+
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
@@ -18,7 +19,7 @@ const server = http.createServer( function( request,response ) {
   }else if( request.method === 'POST' ){
     handlePost( request, response ) 
   }
-})
+}) 
 
 const handleGet = function( request, response ) {
   const filename = dir + request.url.slice( 1 ) 
@@ -69,4 +70,46 @@ const sendFile = function( response, filename ) {
    })
 }
 
-server.listen( process.env.PORT || port )
+const mongodb = require('mongodb');
+const MongoClient = mongodb.MongoClient;
+
+const uri = `mongodb+srv://dbUser:${process.env.DBPASSWORD}@cluster0.lxu3a.mongodb.net/<dbname>?retryWrites=true&w=majority`;
+//mongodb+srv://dbUser:<password>@cluster0.lxu3a.mongodb.net/<dbname>?retryWrites=true&w=majority
+const client = new MongoClient(uri, {useNewUrlParser: true}, { useUnifiedTopology: true });
+
+let collection = null;
+client.connect(err => {
+  collection = client.db("dbTest").collection("test");
+  //perform actions on the collection object
+  //client.close();
+});
+
+app.post( '/submit', (request, response) => {
+  const json = { description: request.body.description, weight: request.body.weight, deliv_date: request.body.deliv_date, price: request.body.price }
+  collection.insertOne( json )
+  .then( dbresponse => {
+    response.json( dbresponse.ops[0] )
+  })
+})
+
+app.post('/add', bodyparser.json(), function(req, res) {
+  console.log('body:', req.body)
+  collection.insertOne(req.body)
+    .then(dbresponse => {
+      console.log(dbresponse)
+      res.json(dbresponse.ops[0])
+  })
+})
+
+app.post('/delete', bodyparser.json(), function(req, res) {
+  collection
+    .deleteOne({_id:mongodb.ObjectID(req.body.id)})
+    .then(result => res.json(result))
+})
+
+app.get( '/', (request, response) => {
+
+    response.sendFile( __dirname + '/public/index.html' ) 
+})
+
+app.listen( process.env.PORT || port )
