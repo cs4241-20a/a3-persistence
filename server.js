@@ -18,7 +18,7 @@ app.set('view-engine',ejs);
 const saltRounds = 10;
 let collection = null
 let users = null
-let name = "3";
+let name = "";
 var rjson =""
 //////////////////////////////////////
 const passport = require('passport')
@@ -53,6 +53,9 @@ app.get("/", (request, response) => {
 
 app.get("/loggedIn",(req,res)=>{
   console.log("user has logged in")
+  if(name == "" || name == "3"){
+    res.redirect("/")
+  }
  res.render(__dirname + "/views/index.ejs",{name});
 })
 // register get route 
