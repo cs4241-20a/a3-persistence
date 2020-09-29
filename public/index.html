@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Webware A3</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
+</head>
+
+<body>
+<div id="loginPage">
+    <h1>Register</h1>
+    <form action="">
+        <input id="newUsername" name="username" type="text" placeholder="Username">
+        <input id="newPassword" name="password" type="password" placeholder="Password">
+        <button id="create">Create</button>
+    </form>
+    <h1>Login</h1>
+    <form action="">
+        <div>
+            <label>Username:</label>
+            <input id="username" type="text" name="username" placeholder="Username"/>
+        </div>
+        <div>
+            <label>Password:</label>
+            <input id="password" type="password" name="password" placeholder="Password"/>
+        </div>
+        <div>
+            <button id="login">Log In</button>
+        </div>
+    </form>
+</div>
+<div id="mainPage" hidden>
+    <div>
+        <h2>Todo List</h2>
+    </div>
+    <div class="mid">
+        <form action="">
+            <h3>Task Information:</h3>
+            <input id="class" class="entry" type="text" placeholder="Class">
+            <input id="taskname" class="entry" type="text" placeholder="Task Name">
+            <input id="hours" class="entry" type="number" placeholder="Estimated Hours">
+            <input id="priority" class="entry" type="number" placeholder="Priority">
+            <button title="Submit" id="submit">Submit</button>
+        </form>
+    </div>
+
+    <div>
+        <table id="taskTable">
+            <thead>
+            <tr>
+                <th>Priority</th>
+                <th>Class</th>
+                <th>Task Name</th>
+                <th>Hours</th>
+                <th>Delete?</th>
+            </tr>
+            </thead>
+            <tbody id="taskBody">
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="js/script.js"></script>
+</body>
+
+</html>
