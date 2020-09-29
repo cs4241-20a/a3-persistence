@@ -122,7 +122,6 @@ passport.use(
 
 app.get("/auth/github", passport.authenticate("github"));
 
-///user/signin/callback            /callback/github
 app.get(
   "/user/signin/callback", 
   passport.authenticate("github", { failureRedirect: "/" }),
