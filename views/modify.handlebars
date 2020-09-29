@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>My Records</title>
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+            crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/login.css"/>
+
+</head>
+
+<body class="text-center bg-dark">
+
+
+<div class="row">
+    <div class="jumbotron">
+        <h1 class="display-4">Modify Record</h1>
+
+        <hr>
+
+        <select id="artist_list" onchange="popForm()">
+            <option>--Please select and artist--</option>
+            {{#each records}}
+                <option>{{this.artist}}</option>
+            {{/each}}
+        </select>
+        <a class="btn btn-danger" id="buttonRemoveRecord" role="button">Remove Record</a>
+
+        <hr>
+
+        <form class="form-register" enctype="multipart/form-data" method="post">
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="artist">Artist Name</label>
+                    <input type="text" name="artist" id="inputArtistName" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="Genre">Genre</label>
+                    <input type="text" name="genre" id="inputGenre" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="birthdate">Birthdate</label>
+                    <input type="date" name="birthdate" id="inputBirthdate" class="form-control" required>
+
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="deathdate">Death Date</label>
+                    <input type="date" name="deathdate" id="inputDied" class="form-control" required>
+
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="birthplace">Birthplace</label>
+                    <input type="text" name="birthplace" id="inputBirthplace" class="form-control" required>
+                </div>
+            </div>
+
+            <a class="btn btn-dark" id="buttonModifyRecord" role="button">Modify Record</a>
+            <a class="btn btn-dark" href="/catalog" role="button">Back to Catalog</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    let oldEntry
+
+    function popForm() {
+        const mySelection = document.querySelector('#artist_list')
+        const artistName = document.querySelector('#inputArtistName')
+        const genre = document.querySelector('#inputGenre')
+        const birthdate = document.querySelector('#inputBirthdate')
+        const died = document.querySelector('#inputDied')
+        const birthplace = document.querySelector('#inputBirthplace')
+        //get record to populate form
+        const body = JSON.stringify({'artistName': mySelection.value})
+
+        fetch('/findRecord', {
+            method: 'POST',
+            body,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+                .then(function (response) {
+                    console.log(response.json().then(record => {
+                        oldEntry = record
+                        artistName.value = record.artist
+                        genre.value = record.genre
+                        birthdate.value = record.birthdate
+                        died.value = record.deathdate
+                        birthplace.value = record.birthplace
+                    }))
+                })
+    }
+
+
+    function modifyRecord(e) {
+
+        e.preventDefault()
+        let data = {}
+        const all_inputs = document.querySelectorAll('input')
+        all_inputs.forEach(x => data[x.name] = x.value)
+        //Convert JSON to string
+        delete oldEntry['_id']
+        let body = JSON.stringify({old: oldEntry, new: data})
+
+        //Make request then populate table
+        fetch('/modifyRecord', {
+            method: 'POST',
+            body,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+                .then(function (response) {
+                    window.location.href = response.url
+                })
+    }
+
+
+    function removeRecord(e) {
+
+        const mySelection = document.querySelector('#artist_list')
+        const body = JSON.stringify({'artistName': mySelection.value})
+        console.log(body)
+
+        //Make request then populate table
+        fetch('/removeRecord', {
+            method: 'POST',
+            body,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+                .then(function (response) {
+                    window.location.href = response.url
+                })
+    }
+
+
+    window.onload = function () {
+        //Get reference to buttons
+        const createButton = document.querySelector('#buttonModifyRecord')
+        createButton.onclick = modifyRecord
+
+        const removeButton = document.querySelector('#buttonRemoveRecord')
+        removeButton.onclick = removeRecord
+
+
+    }
+
+</script>
+</body>
+</html>

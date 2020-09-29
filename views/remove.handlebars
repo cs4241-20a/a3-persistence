@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>My Records</title>
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+            crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/login.css"/>
+    <script src="/js/scripts.js" defer></script>
+
+</head>
+
+<body class="text-center bg-dark">
+
+
+<div class="row">
+    <div class="jumbotron">
+        <h1 class="display-4">Remove Record</h1>
+
+        <hr>
+
+        <label for="artist">Choose an artist to remove:</label>
+
+        <div class=" mx-auto">
+            <select name="artist" id="artist_delete_selector">
+                <option value="volvo">Vffeffesfesfsolvo</option>
+                <option value="saab">Saab</option>
+                <option value="mercedes">Mercedes</option>
+                <option value="audi">Audi</option>
+            </select>
+        </div>
+
+
+            <a class="btn btn-dark m-1" id="buttonRemoveRecord" role="button">Remove Record</a>
+            <a class="btn btn-dark m-1" href="/catalog" role="button">Back to Catalog</a>
+
+        </form>
+    </div>
+</div>
+
+<script>const removeRecord = function (e) {
+    // prevent default form action from being carried out
+    e.preventDefault()
+
+
+
+    //Make request then populate table
+    fetch('/removeRecord', {
+        method: 'POST',
+        body:formData
+    })
+            .then(function (response) {
+                console.log(response)
+            })
+}
+
+
+
+window.onload = function () {
+    //Get reference to buttons
+    const createButton = document.querySelector('#buttonRemoveRecord')
+    createButton.onclick = removeRecord
+}</script>
+
+
+</body>
+</html>

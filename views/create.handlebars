@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>My Records</title>
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+            crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/login.css"/>
+
+</head>
+
+<body class="text-center bg-dark">
+
+
+<div class="row">
+    <div class="jumbotron">
+        <h1 class="display-4">Create Record</h1>
+
+        <hr>
+        <hr>
+
+        <form class="form-register">
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="artist">Artist Name</label>
+                    <input type="text" name="artist" id="inputArtistName" class="form-control" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="Genre">Genre</label>
+                    <input type="text" name="genre" id="inputGenre" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="birthdate">Birthdate</label>
+                    <input type="date" name="birthdate" id="inputBirthdate" class="form-control" required>
+
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="deathdate">Death Date</label>
+                    <input type="date" name="deathdate" id="inputDied" class="form-control" required>
+
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="birthplace">Birthplace</label>
+                    <input type="text" name="birthplace" id="inputBirthplace" class="form-control" required>
+                </div>
+
+            </div>
+
+
+            <a class="btn btn-dark" id="buttonCreateRecord" role="button">Create Record</a>
+            <a class="btn btn-dark" href="/catalog" role="button">Back to Catalog</a>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    const addRecord = function (e) {
+        // prevent default form action from being carried out
+        e.preventDefault()
+
+        let data = {}
+        const all_inputs = document.querySelectorAll('input')
+        all_inputs.forEach(x => data[x.name] = x.value)
+        //Convert JSON to string
+        const body = JSON.stringify(data)
+
+        //Make request then populate table
+        fetch('/addRecord', {
+            method: 'POST',
+            body,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+                .then(function (response) {
+                    console.log(response)
+                })
+        all_inputs.forEach(x=>x.value='')
+    }
+
+    window.onload = function () {
+        //Get reference to buttons
+        const createButton = document.querySelector('#buttonCreateRecord')
+        console.log()
+        createButton.onclick = addRecord
+    }
+</script>
+</body>
+</html>

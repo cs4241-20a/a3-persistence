@@ -1,0 +1,21 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+
+    align-items: center;
+    justify-content: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+}
+
+#githubIco{
+    padding: .4em;
+}
+
+card{
+    display: inline-block;
+}

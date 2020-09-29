@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>HomePage</title>
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+            crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/catalog.css">
+</head>
+
+<body class="text-center bg-dark">
+<header>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Musician Database</h1>
+            <hr>
+            <a class="btn btn-dark" href="/createPage" role="button">Create Record</a>
+            <a class="btn btn-dark" href="/modifyPage" role="button">Modify Record</a>
+        </div>
+    </div>
+</header>
+
+<main role="main">
+
+    <div class="catalog py-5 bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="card-columns">
+                    {{#each records}}
+
+
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="/images/placeholder.svg"
+                                 alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{{this.artist}}}</h5>
+                                <p class="card-title">Genre: {{this.genre}}</p>
+                                <p class="card-title">Birthdate: {{this.birthdate}}</p>
+                                <p class="card-title">Birthplace: {{this.birthplace}}</p>
+
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+</body>
+</html>
+
