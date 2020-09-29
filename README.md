@@ -2,7 +2,7 @@
 
 ## to do list 
 
-http://a3-charlie-roberts.glitch.me
+https://to-do-list-1234556.herokuapp.com/ and https://a3-alvaradoblancouribe.glitch.me/ but neither work due to sudden bugs 
 
 the goal of this application is to create a to-do list for students 
 
