@@ -1,44 +1,46 @@
-TODO: VALIDATE HTML PAGES AND DESCRIBE ACHIEVEMENTS AND MIDDLEWARE
-
 FPS Stat Calculator (A3) - Joe Swetz
 ===
 
 This project continued with the application I created for A2: it is a stat calculator 
-for First Person Shooer (FPS) games. The user enters the kills, assists and deaths for
-game they place, and the application enters them into a running table, along with the 
+for First Person Shooter (FPS) games. The user enters the kills, assists and deaths for
+game they play, and the application enters them into a running table, along with the 
 calculated kill/death ratio and assist/death ratio. The running totals and averages for
 kills, assists and deaths are continuously updated. The user can then download a 
 CSV file with their stats, so they can make charts and graphs of their performance.
 
-One of the biggest challenges I faced for this assignment were dealing with the 
+One of the biggest challenges I faced for this assignment was dealing with the 
 asynchronous queries to the MongoDB database. I would often try to retrieve values from
 the database to calculate the latest total and average, right after I added an element
-into the table. I would oftentimes try to retrieve data from the database before the 
-item to add finished inserting, leading to incorrect totals and averages. The other 
-big challenge I had was implemented the mass modify and delete functionalities. I 
-couldn't use updateMany since each modified row had to have their respective derived 
-fields updated, and I have trouble with delete because it took some time for me to 
-understand how to query for multiple ObjectIds.
+into the table, leading to incorrect totals and averages. The other big challenge I had 
+was implementing the mass modify and delete functionalities. I couldn't use updateMany 
+since each modified row had to have their respective derived fields updated, and I had 
+trouble with delete because it took some time for me to understand how to query for 
+multiple ObjectIds. Finally, the last challenge was getting Github Authentication to work,
+which after hours of debugging turn out to be a misunderstanding of what the callbackURL
+in Github was supposed to be (I originally put a file path to the HTML page that I wanted 
+to be redirected to, not the route on the server to handle the GET request).
 
-TODO: I chose to authenticate with Github since everyone in the course has a Github
-account, meaning I didn't have to worry about a user now having an account. For the
-CSS framework, I chose Bulma because I looked the initial look of the official website,
-there seemed to be a good amount of documentation, and the process of adding class 
-modifies in the HTML in order to manipulate a tag's CSS properties made it pretty
-straightforward to use.
+I chose to authenticate with Github since everyone in the course has a Github account, 
+meaning I didn't have to worry about a user now having an account. For the CSS framework, 
+I chose Bulma because I looked the initial look of the official website, there seemed to 
+be a good amount of documentation, and the process of adding class modifies in the HTML 
+in order to manipulate a tag's CSS properties made it pretty straightforward to use.
 
 The five Express middleware packages I used were described below in the list of 
 implemented functionality.
 
 Baseline Requirements
 ---
-
 I satisfied the requirements for this assignment in the following ways:
 - **Functionality**
     - A server using Express in server.js which implements the same FPS Stat
-    Calculator applicatio from A2.
-    - todo: show only data for user
-    - Form/Entry Functionality is implemented as a from for adding an new element,
+    Calculator application from A2.
+    - The Results functionality was implemented using Github authentication and 
+    username/password login. The table now only show the data in the database for
+    the currently logged-in user. (The assignment says to return all data on the
+    server, but Professor Roberts confirmed in Teams that we are only supposed to
+    retutn data for the currently logged-in user);
+    - Form/Entry Functionality is implemented as a form for adding a new element,
     a form for modifying all the rows in the table that are checked off in their 
     respective checkboxes, and a Delete button that deletes all items in the table
     that are checked off in their respective checkboxes.
@@ -54,6 +56,11 @@ I satisfied the requirements for this assignment in the following ways:
         strings, so the mathematical operations needed for calculated the derived 
         fields, totals and averages can take place immediately once the request 
         reaches its designated route.
+        - **checkForAccount**: This is a custom middleware function in server.js
+        that will check if there is a user currently signed in. If a user is not
+        signed in, this function will return the response with an error and tell
+        the user that they must be signed-in to use the application. This prevents
+        users from going straight to /app.html and manipulating the database.
     - Persistent data storage in between server sessions is implemented using a 
     MongoDB database. See server.js for the initialization of the database connection
     and the various queries that are used.
@@ -66,29 +73,30 @@ I satisfied the requirements for this assignment in the following ways:
         modified on the selected items.
         - **button**: Used to trigger actions for adding, modifying and deleting rows
         of stats.
-    - HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
-
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
-
+    - The HTML tables results_list and totals_avgs_list are updated in script.js to display
+    all the data returned from the HTTP requests. The server only returns data for the 
+    current logged-in user, so the HTML tables will always only display the data for the
+    current authenticated user. If no user is signed in, all HTTP requests to get or set
+    data will return and error (see the checkForAccount middleware described above).
  - **CSS**:
     - CSS styling was provided by the [Bulma](https://bulma.io/) CSS framework.
  - **JavaScript**:
-    - Front-end Javascript for making HTTP requests, interpretting HTTP reponses, and 
-    managing the tables can be foudnd in "./public/js/scripts.js". The server-side 
+    - Front-end Javascript for making HTTP requests, interpreting HTTP responses, and 
+    managing the tables can be found in "./public/js/scripts.js". The server-side 
     Javascript that handles incoming HTTP requests, makes MongoDB database queries,
-    and sends HTTP responses can be be found in "server.js".
+    and sends HTTP responses can be found in "server.js".
  - **Node.js**:
     - The server in server.js was created using Express. Five pieces of Express 
-    middleware were used, and a persistent database from MonngoDB was used (see 
+    middleware were used, and a persistent database from MongoDB was used (see 
     points above for more detail on there)
 
 Acheivements
 ---
 
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
 *Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
+- I implemented OAuth authentication with Github via passport.js. On the home page, there is
+ an option to login with Github, or do non-Github username/password. If you log in with a non-Github,
+ username and password, and the account does not exist, it will be created and user will be notified.
 - (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
 
 *Design/UX*
