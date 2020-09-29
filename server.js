@@ -163,6 +163,20 @@ app.get("/dreams", (request, response) => {
   });
 });
 
+app.get("/dreamsTotal", (request, response) => {
+    collection.find().toArray((err, docs) => {
+      if (err) {
+        // if an error happens
+        response.send("Error in GET req.");
+      } else if (docs.length == 0){
+          response.send("new user");
+      } else {
+        // if all works
+        console.log(docs);
+        response.send(JSON.stringify(docs)); // send back all users found with the matching username
+      }
+    });
+  });
 
 app.post("/add", bodyparser.json(), function(req, res) {
   console.log("body: ", req.body);

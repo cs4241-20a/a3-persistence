@@ -69,6 +69,18 @@ fetch("/dreams", {
   });
 //   .catch(error => alert(error.message));
 
+/* START BAD */
+// fetch the initial list of dreams
+fetch("/dreamsTotal", {
+    method: "GET"
+  })
+    .then(response => response.json()) // parse the JSON from the server
+    .then(dreams => {
+   
+      // iterate through every dream and add it to our page
+      dreams.forEach(appendNewDreamRow);
+    });
+/*END BAD */
 
 // listen for the form to be submitted and add a new dream when it is
 dreamsForm.addEventListener("submit", event => {
