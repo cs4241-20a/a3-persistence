@@ -3,6 +3,10 @@ FPS Stat Calculator (A3) - Joe Swetz
 
 Project site: https://a3-joe-swetz.herokuapp.com/
 
+Note: You can login with your Github account, or make a new account by entering in
+a new username or password. You can also use the test account, username: Test, 
+password: test
+
 This project continued with the application I created for A2: it is a stat calculator 
 for First Person Shooter (FPS) games. The user enters the kills, assists and deaths for
 game they play, and the application enters them into a running table, along with the 
