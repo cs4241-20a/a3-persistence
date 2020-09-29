@@ -164,7 +164,7 @@ app.get("/dreams", (request, response) => {
 });
 
 app.get("/dreamsTotal", (request, response) => {
-    collection.find().toArray((err, docs) => {
+    collection.find({},{user: userID }).toArray((err, docs) => {
       if (err) {
         // if an error happens
         response.send("Error in GET req.");
