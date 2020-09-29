@@ -1,0 +1,123 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css"
+    />
+    <script src="/script.js" defer></script>
+    <script src="/login.js" defer></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lobster&display=swap"
+      rel="stylesheet"
+    />
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <h1>
+      To-Do List and Your Work Advisor
+    </h1>
+    
+    <h2>
+      Login
+    </h2>
+    <em><p>
+      Login first to save your to-do list:
+    </p></em>
+    <form id="loginregister">
+      <b><label for="user">Username</label></b>
+      <input type="text" id="user" />
+      <b><label for="password">Password</label></b>
+      <input type="password" id="password" />
+    </form>
+    <button type="buttonlogin" id="login">
+  Login
+      </button>
+  
+    <h2>
+      To-Do Form
+    </h2>
+    <p>
+      Never created a To-Do list before? Read the article:
+      <a
+        href="https://www.themuse.com/advice/8-expertbacked-secrets-to-making-the-perfect-todo-list"
+        >8 Expert-Backed Secrets to Making the Perfect To-Do List!</a
+      >
+    </p>
+    <form id="todoform" action="">
+      <p>
+        <span style="color:#FF0000">Required fields</span> are in red and marked
+        with an *
+      </p>
+      <!--       <ul class="wrapper"> -->
+      <!--         <li class="form-row"> -->
+      <b><label style="color:#FF0000" for="yourtask">Task*</label></b>
+      
+      <input type="text" id="yourtask" />
+      <p>
+        In this field, add the task that you need to complete in the future. For
+        example: Buy groceries from Trader Joes
+      </p>
+      <!--         </li> -->
+      <!--         <li class="form-row"> -->
+      
+      <b><label for="taskduedate">Due Date and Time</label></b>
+      
+      <input type="datetime-local" id="taskduedate" />
+      <p>
+        Enter the due date and time for the task that you entered in the
+        previous field. For example: 09/22/2020 at 12:00pm
+      </p>
+      
+      <!--         </li> -->
+      <!--         <li class="form-row"> -->
+      <b><label style="color:#FF0000">Priority*</label><br /> </b>
+      
+      <input
+        type="radio"
+        id="priority1"
+        name="priority"
+        value="high_priority"
+      />
+      <label for="priority1" id="high"> High Priority <img src="https://cdn.glitch.com/829a79ff-3c59-4889-b9e8-65bc0bf07930%2Fhigh-priority-2-563742.png?v=1601310013549" width="30"></label><br />
+      <input type="radio" id="priority2" name="priority" value="med_priority" />
+      <label for="priority2" id="med"> Medium Priority <img src="https://cdn.glitch.com/829a79ff-3c59-4889-b9e8-65bc0bf07930%2FUnknown.png?v=1601310177372" width="30"> </label><br />
+      <input type="radio" id="priority3" name="priority" value="low_priority" />
+      <label for="priority3" id="low"> Low Priority <img src="https://cdn.glitch.com/829a79ff-3c59-4889-b9e8-65bc0bf07930%2Flow-priority-2-563743.png?v=1601310273058" width="30"></label><br /><br />
+      <p>
+        Select the priority level for the task that you entered in the task
+        field. Select one of the radios to indicate your priority level. For example:
+      </p>
+      <img src="https://cdn.glitch.com/829a79ff-3c59-4889-b9e8-65bc0bf07930%2FScreen%20Shot%202020-09-28%20at%2011.49.39%20AM.png?v=1601308184344"><br>
+      <i><p>
+        Image: A smaller white circle appear inside a larger blue circle when you select a radio button
+      </p></i>
+      <!--         </li> -->
+      <!--         <li class="form-row"> -->
+      <button class="submit" id="submit">Add Task</button>
+      <!--           <button class="modify" id="modify">Modify a Task</button> -->
+      <!--         </li> -->
+      <!--       </ul> -->
+    </form>
+    <br />
+    
+    <h2>
+      Your To-Do List
+    </h2>
+
+    <table id="toDoTable">
+      <tr>
+        <th>Due Date</th>
+        <th>Task</th>
+        <th>Priority</th>
+        <th>Advice</th>
+      </tr>
+      <tbody id="taskBody"></tbody>
+    </table>
+    <script src="https://button.glitch.me/button.js" defer></script>
+  </body>
+</html>

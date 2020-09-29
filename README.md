@@ -3,80 +3,64 @@ Assignment 3 - Persistence: Two-tier Web Application with Database, Express serv
 
 Due: September 28th, by 11:59 PM.
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
+## To-Do List and Your Work Advisor
 
-Baseline Requirements
----
-
-Your application is required to implement the following functionalities:
-
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
-
-Your application is required to demonstrate the use of the following concepts:
-
-HTML:
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
-
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
-
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
-
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
-
-Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+Pradnya Mahurkar: https://a3-pradnya-mahurkar.glitch.me
 
 Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+My project can be used for creating a to-do list. It allows the user to add/delete/modify the tasks too. It uses the express server and uses the mongoDB database to store the tasks. I have a login to the webpage so that the user can save the tasks that he/she need to store their tasks. The user automatically registers if he or she does not already have an account. The table at the bottom of the page shows the tasks for a particular user. I have also implemented some accessible friendly features which are listed in the achievements section.
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
+- the goal of the application: The goal of the application is to help the user create a to-do list.
+- challenges you faced in realizing the application: the biggest challenge that I faced was creating the login. I had no prior experience creating a login page, so I had to figure out how to do that. 
+- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable): I couldn't implement oauth github, but I did the basic mongodb authentication because it was easier to implement.
 - what CSS framework you used and why
+I used the CSS framework called water. I used it because it had a clean and basic design that I needed for my to-do list website.
   - include any modifications to the CSS framework you made via custom CSS you authored
+  I did not change any of the actual code in the CSS framework. However, I did change the color of some of my labels using HTML so that I could make the website more accessible. 
 - the five Express middleware packages you used and a short (one sentence) summary of what each one does
+1. bodyParser: I used it to parse the HTTP requests.
+2. helmet: to help secure my app
+3. compression: to compress http responses
+4. morgan: to log requests
+5. errorhandler: development error handing
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative:
+Writing for Web Accessibility:
+- Provide informative, unique page titles: The page has a main title and subtitles for every section of the webpage.
+- Use headings to convey meaning and structure: The main heading explains the use of the webpage i.e. it is a to-do list and also gives you advice regarding your to-do list
+- Make link text meaningful: I have 1 link in the webpage which gives the users expert advice about how to use a todo list. I gave the hyperlink the name of the article so that the user has a fair idea about what to expect after clicking on the hyperlink.
+- Provide clear instructions: Every field of the form has instructions regarding the entry in that particular field.
+- Write meaningful text alternatives for images: I have included 1 image in the webpage which shows the user how to use the radio buttons (in case they have no prior experience of using them). The image has an alternative text/ caption which explains the image.
+- Keep content clear and concise: The content in the webpage is clear and concise. I used short, clear sentences and paragraphs throughout the webpage. I did not use any unnecessary or complicated words. I also used images in the radio buttons to clarify the meaning of the different types of priorities.
+
+Designing for Web Accessibility
+- Provide sufficient contrast between foreground and background: There is a good contrast in the webpage. The background is white and the text is darkgrey and sometimes red (indicating a madatory field in the form).
+- Don’t use color alone to convey information: I used color and an * to convey mandatory fields. Just like the example shows on https://www.w3.org/WAI/tips/designing/
+- Ensure that form elements include clearly associated labels: All the buttons have labels indicating their functionality and all the fields in the form have labels indicating the value to be entered in the field. 
+- Use headings and spacing to group related content: Every section has a heading heading2 tag to it. It sepeates the login section from the form section and the form section from the to-do list section.
+- Include image and media alternatives in your design: I added images indicating the priority as an alternative to the text in the radio buttons
+  
+Developing the Web Accessibility
+- Associate a label with every form control: Every form control has a label on the webpage
+
+- **Design Achievement 2**: 
+Which element received the most emphasis (contrast) on each page?
+
+In the webpage, I used a very basic black and white theme. I had to get emphasis on the mandatory fields, so I made their labels bright red and added * to them. Additionally, I wanted the user to not miss the form on the page, so I used the heading2 tag in HTML to make it big and bold. This would attract the user attention. Additionally, my CSS template gives a gray background to the fields which have to filled up by the user, this makes sure that the user does not miss them. The most emphasis on the page is on the title. The title has a heading1 tag which makes it the biggest and boldest on the page and attracts the most attention. The heading should receive the most emphasis since it tells the user the function of the webpage.
+
+How did you use proximity to organize the visual information on your page?
+
+I used proximity to organize the visual information on my page by adding headings with the tag heading2 on my webpage. This gives the user an impression that the page is divided into 3 chunks: Login, the to-do form, and the To-do list in the form of the table. Additionally, the table helps get similar information, in my case: the users’ tasks, together. Whenever the user adds a task using the form, a row is added to the table and the information stays organizes and in one place separated by columns. Lastly, 2/3 sections: Login and To-Do form have buttons towards the end of their section, which means that the user fills up a form and is done with a particular section of the page. 
+
+What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site?
+
+I used a similar layout for both my forms (the login and the to-do form). The labels of the form were bold, and the entry field of the form was grey. All the buttons, including the “delete” and “update” buttons in the to-do table had similar designs too, they were of similar sizes, had a grey background, and had labels to them indicating their function. All the required fields in the form were red, bold, and marked with an asterix. All the sections of the webpage used similar text and heading fonts too. Every section heading had a heading2 tag. I used similar design elements throughout the webpage because it made the website look uniform. The uniformity gave the user a general idea of the layout of the website.
+
+How did you use alignment to organize information and/or increase contrast for particular elements?
+
+The entire website is left-aligned. This made the website look clean, clear, and sophisticated. The main heading is aligned to the left side of the screen, it has the biggest and boldest font on the screen. The heading had to be organized in such a way because it explains the user the function of the website. Next, the subheadings were a little smaller compared to the main heading. They were also left-aligned so that the user would not have to change their point of focus and simply scroll through the website. All the text, forms, and buttons are also left aligned so that that the user won’t have to move his/her cursor around too much. However, I have the button labels aligned to the center of the button so that it would look neat and not clustered towards the left.
+
