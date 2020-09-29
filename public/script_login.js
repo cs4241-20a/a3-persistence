@@ -21,7 +21,7 @@ fetch('/login',{
     window.alert('Wrong password or username make sure you are registered')
   }
   else{
-    window.location.href= "https://a3-peristance-jcybul.glitch.me/loggedIn"
+    window.location.href= "https://jcybul-a3-persistence.glitch.me/loggedIn"
   }
 })
 }

@@ -4,6 +4,11 @@ let newEntry = {
                   uname: document.getElementById('Uname').value,
                   password: document.getElementById('Pass').value,
       }
+
+  if(newEntry.uname == "" || newEntry.password == ""){
+    window.alert('User and Password must not be empty')
+    return -1;
+}
   let l = document.getElementById('reg_status')
  let body = JSON.stringify(newEntry);
 fetch('/register',{
@@ -22,7 +27,7 @@ fetch('/register',{
   }
   else{
   window.alert('Successfully Recorded,You can login now')
-  window.location.href= "https://a3-peristance-jcybul.glitch.me/login"
+  window.location.href= "https://jcybul-a3-persistence.glitch.me/login"
   }
 })
 }

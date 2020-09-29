@@ -1,6 +1,5 @@
 // server.js
 // where your node app starts
-
 // we've started you off with Express (https://expressjs.com/)
 // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
 const express = require("express");
@@ -19,7 +18,7 @@ app.set('view-engine',ejs);
 const saltRounds = 10;
 let collection = null
 let users = null
-let name = "3";
+let name = "";
 var rjson =""
 //////////////////////////////////////
 const passport = require('passport')
@@ -54,6 +53,9 @@ app.get("/", (request, response) => {
 
 app.get("/loggedIn",(req,res)=>{
   console.log("user has logged in")
+  if(name == "" || name == "3"){
+    res.redirect("/")
+  }
  res.render(__dirname + "/views/index.ejs",{name});
 })
 // register get route 
@@ -157,7 +159,8 @@ app.post('/add',bodyparser.json(),function(req,res){
   })
   })
 app.post('/deleteAll',bodyparser.json(),function(req,res){
-  collection.remove({name:name})
+  console.log("deleted all")
+  collection.deleteMany({anglername:name})
 })
 
 // listen for requests :)
