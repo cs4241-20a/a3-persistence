@@ -31,60 +31,105 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(session({ secret: "cats" }));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
 
-passport.use(new LocalStrategy(
-    function(username, password, done) {
-      users.findOne({ username: username }, async function(err, user) {
-        if (err) { return done(err); }
-        let doesUserExist = await userExists(username);
-        if (!doesUserExist) {
-          return done(null, false, { message: 'Incorrect username.' });
-        }
-        let actualPassword = await getPassword(username);
-        if (actualPassword !== password) {
-          return done(null, false, { message: 'Incorrect password.' });
-        }
-        console.log(user);
-        return done(null, user);
-      });
-    }
-));
+// imports used for login
+// app.use(passport.initialize());
+// app.use(passport.session());
+// app.use(flash());
 
-passport.serializeUser(function(user, done) {
-  console.log(user._id);
-  done(null, user._id);
-});
 
-passport.deserializeUser(function(id, done) {
-  users.findOne({_id: id}, function(err, user) {
-    done(err, user);
-  });
-});
+// The login stuff below will be implemented when i get the chance
+// username to add with comment
+
+// passport.use(new LocalStrategy(
+//     function(username, password, done) {
+//       users.findOne({ username: username }, async function(err, user) {
+//         if (err) { return done(err); }
+//         let doesUserExist = await userExists(username);
+//         if (!doesUserExist) {
+//           return done(null, false, { message: 'Incorrect username.' });
+//         }
+//         let actualPassword = await getPassword(username);
+//         if (actualPassword !== password) {
+//           return done(null, false, { message: 'Incorrect password.' });
+//         }
+//         console.log(user);
+//         return done(null, user);
+//       });
+//     }
+// ));
+
+// passport.serializeUser(function(user, done) {
+//   console.log(user._id);
+//   done(null, user._id);
+// });
+//
+// passport.deserializeUser(function(id, done) {
+//   users.findOne({_id: id}, function(err, user) {
+//     done(err, user);
+//   });
+// });
+
+// app.get("/getusername", (request, response) => {
+//   if (user !== null) {
+//     console.log("sending json");
+//     response.json({username: user});
+//   }
+// })
+
+// app.post("/register", (request, response) => {
+//   users.findOne({username: request.body.username}).then(result => {
+//     if(result !== null) {
+//       console.log("Username already exists");
+//     }
+//     else {
+//       users.insertOne(request.body).then();
+//     }
+//   })
+// });
+
+// app.get('/logout', function(req, res){
+//   req.logout();
+//   res.redirect('/');
+// });
+
+// app.post('/login', async function (req, res){
+//   passport.authenticate('local', { successRedirect: '/getusername',
+//     failureRedirect: '/login',
+//     failureFlash: true })
+//   let userData = req.body;
+//   let username = userData.username;
+//   let password = userData.password;
+//   let isActualUser = await userExists(username);
+//   if (isActualUser) {
+//     let actualPassword = await getPassword(username);
+//     if (actualPassword === password) {
+//       console.log("user logged in");
+//       user = username;
+//     }
+//     else {
+//       res.sendStatus(500);
+//     }
+//   } else {
+//     res.sendStatus(500);
+//   }
+//   return res.end();
+// });
+
+// async function userExists(username) {
+//   // checks to see if the username exists in the database
+//   let result = await users.findOne({username: username});
+//   return result !== null;
+// };
+//
+// async function getPassword(username) {
+//   let result = await users.findOne({username: username});
+//   return result.password;
+// };
 
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
-});
-
-app.get("/getusername", (request, response) => {
-  if (user !== null) {
-    console.log("sending json");
-    response.json({username: user});
-  }
-})
-
-app.post("/register", (request, response) => {
-  users.findOne({username: request.body.username}).then(result => {
-    if(result !== null) {
-      console.log("Username already exists");
-    }
-    else {
-      users.insertOne(request.body).then();
-    }
-  })
 });
 
 app.get("/loadData", async (request, response) => {
@@ -121,33 +166,6 @@ app.post("/deletepost", async (request, response) => {
   await posts.deleteOne({title: request.body.title});
 });
 
-app.get('/logout', function(req, res){
-  req.logout();
-  res.redirect('/');
-});
-
-app.post('/login', async function (req, res){
-  passport.authenticate('local', { successRedirect: '/getusername',
-    failureRedirect: '/login',
-    failureFlash: true })
-  let userData = req.body;
-  let username = userData.username;
-  let password = userData.password;
-  let isActualUser = await userExists(username);
-  if (isActualUser) {
-    let actualPassword = await getPassword(username);
-    if (actualPassword === password) {
-      console.log("user logged in");
-      user = username;
-    }
-    else {
-      res.sendStatus(500);
-    }
-  } else {
-    res.sendStatus(500);
-  }
-  return res.end();
-});
 let port = process.env.PORT;
 if (port == null || port == "") {
   port = 5000;
@@ -156,14 +174,3 @@ if (port == null || port == "") {
 const listener = app.listen(port, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
-
-async function userExists(username) {
-  // checks to see if the username exists in the database
-  let result = await users.findOne({username: username});
-  return result !== null;
-};
-
-async function getPassword(username) {
-  let result = await users.findOne({username: username});
-  return result.password;
-};

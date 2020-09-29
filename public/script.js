@@ -82,25 +82,25 @@ window.onload = () => loadDB().then(result => {
 //     document.getElementById("username").innerHTML = result.username;
 // });
 // does stuff for logging in, not where i want it to be yet
-const register = document.getElementById("register");
-const login = document.getElementById("login");
-let user = document.getElementById("user");
-const pass = document.getElementById("pass");
-register.addEventListener("click", function () {
-    fetch("/register", {
-        method: "POST",
-        body: JSON.stringify({username: user.value, password: pass.value}),
-        headers: {'Content-Type': 'application/json'}
-    })
-});
-login.addEventListener("click", function () {
-    fetch("/login", {
-        method: "POST",
-        body: JSON.stringify({username: user.value, password: pass.value}),
-        headers: {'Content-Type': 'application/json'}
-    }).then((result) => {
-        fetch('/getusername')
-            .then(response => response.json())
-            .then(json => document.getElementById("username").innerHTML = json.username);
-    })
-});
+// const register = document.getElementById("register");
+// const login = document.getElementById("login");
+// let user = document.getElementById("user");
+// const pass = document.getElementById("pass");
+// register.addEventListener("click", function () {
+//     fetch("/register", {
+//         method: "POST",
+//         body: JSON.stringify({username: user.value, password: pass.value}),
+//         headers: {'Content-Type': 'application/json'}
+//     })
+// });
+// login.addEventListener("click", function () {
+//     fetch("/login", {
+//         method: "POST",
+//         body: JSON.stringify({username: user.value, password: pass.value}),
+//         headers: {'Content-Type': 'application/json'}
+//     }).then((result) => {
+//         fetch('/getusername')
+//             .then(response => response.json())
+//             .then(json => document.getElementById("username").innerHTML = json.username);
+//     })
+// });
