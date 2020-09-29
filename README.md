@@ -9,11 +9,11 @@ I created a simple daily planner with authentication, I use my outlook calendar 
 ## Technical Achievements
 - **Tech Achievement 1**: I attempted to use the OAuth authentication via the GitHub strategy using github-oauth-express, which I believe I implemented correctly, however, glitch logs an error in the console: 
 
-  Refused to frame 'https://github.com/' because it violates the following Content Security Policy directive: 
-  "frame-src 'self' https://*.glitch.me https://*.glitch.staging.me https://*.glitch.development https://*.testing.staging.glitch.com
-  https://accounts.google.com https://content-firebase.googleapis.com/ https://www.google.com blob: data:".
+      Refused to frame 'https://github.com/' because it violates the following Content Security Policy directive: 
+      "frame-src 'self' https://*.glitch.me https://*.glitch.staging.me https://*.glitch.development 
+      https://*.testing.staging.glitch.com https://accounts.google.com https://content-firebase.googleapis.com/ https://www.google.com blob: data:".
   
- So I cannot actually use it within glitch, however, if I copy the href link I used into a separate window, it successfully brings me to the github oauth page for my app. If I had more time I would have tried deploying my project to heroku instead to see if my oauth actually worked or not.
+  So I cannot actually use it within glitch, however, if I copy the href link I used into a separate window, it successfully brings me to the github oauth page for my app. If I    had more time I would have tried deploying my project to heroku instead to see if my oauth actually worked or not.
 
 ### Design/Evaluation Achievements
 - None
