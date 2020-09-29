@@ -70,19 +70,8 @@ fetch("/dreams", {
 //   .catch(error => alert(error.message));
 
 /* START BAD */
-// fetch the initial list of dreams
-fetch("/dreamsTotal", {
-    method: "GET"
-  })
-    .then(response => response.json()) // parse the JSON from the server
-    .then(dreams => {
-   
-      // iterate through every dream and add it to our page
-      dreams.forEach(appendNewDreamRow);
-    });
-
 //helper fucntion that creates a table row for a given dream
-function appendNewDreamRow(dreamItem, id) {
+function appendNewOrder(dreamItem, id) {
     const newTableItem = document.createElement("tr");
     var cell1 = newTableItem.insertCell(0)
     var cell2 = newTableItem.insertCell(1)
@@ -97,6 +86,18 @@ function appendNewDreamRow(dreamItem, id) {
       
     yike.appendChild(newTableItem);
   }
+// fetch the initial list of dreams
+fetch("/dreamsTotal", {
+    method: "GET"
+  })
+    .then(response => response.json()) // parse the JSON from the server
+    .then(dreams => {
+   
+      // iterate through every dream and add it to our page
+      dreams.forEach(appendNewOrder);
+    });
+
+
 /*END BAD */
 
 // listen for the form to be submitted and add a new dream when it is
