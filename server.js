@@ -1,3 +1,6 @@
+//Allow for use of .env file
+require("dotenv").config();
+
 const fs   = require("fs"),
       express = require("express"),
       app = express(),
@@ -7,9 +10,6 @@ const fs   = require("fs"),
       cors = require("cors"),
       morganLogger = require("morgan"),
       port = process.env.PORT || 3000;
-
-//Allow for use of .env file
-require("dotenv").config();
 
 app.listen(port);
 
