@@ -15,8 +15,10 @@ const MongoClient = mongodb.MongoClient;
 const uri = `mongodb+srv://user:abcdef123@cluster0.z38ps.mongodb.net/test?retryWrites=true&w=majority`
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:true});
 let users = null;
+let posts = null;
 client.connect(err => {
   users = client.db("test").collection("users");
+  posts = client.db("test").collection("posts");
   // perform actions on the collection object
 });
 let user = null;
@@ -82,6 +84,23 @@ app.post("/register", (request, response) => {
     else {
       users.insertOne(request.body).then();
     }
+  })
+});
+
+app.post("/addpost", (request, response) => {
+  console.log(request.body);
+  posts.insertOne(request.body).then(function () {
+    console.log("post added");
+  })
+});
+
+app.post("/editpost", async (request, response) => {
+  // let post = await posts.findOne({title: request.body.title});
+  // console.log(post);
+  // await response.json(post);
+  posts.findOne({title: request.body.title}).then(result => {
+    console.log(result);
+    response.json(result);
   })
 });
 

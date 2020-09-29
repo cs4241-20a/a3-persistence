@@ -9,16 +9,35 @@
 <input id="price" type="number">
 <input id="image" type="text">
 <button id="submit">Submit</button>
+<button id="edit">Edit</button>
+
 <script>
     const title = document.getElementById("title");
     const price = document.getElementById("price");
     const image = document.getElementById("image");
     const send = document.getElementById("submit");
+    const edit = document.getElementById("edit");
     send.addEventListener("click", function () {
         fetch('/addpost', {
             method: "POST",
-            body: {title, price, image},
+            body: JSON.stringify({title: title.value, price: price.value, image: image.value}),
             headers: {'Content-Type': 'application/json'}
+        })
+    })
+    edit.addEventListener("click", function () {
+        fetch('/editpost', {
+            method: "POST",
+            body: JSON.stringify({title: title.value}),
+            headers: {'Content-Type': 'application/json'}
+        }).then(result => result.json()).then(result => {
+            if (result !== null) {
+                price.value = parseInt(result.price);
+                image.value = result.image;
+            } else {
+                let error = document.createElement("h1");
+                error.innerHTML = "Error finding post";
+                document.body.appendChild(error);
+            }
         })
     })
 </script>
