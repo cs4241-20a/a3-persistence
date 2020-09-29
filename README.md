@@ -42,3 +42,14 @@ Express Middleware Packages
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I think I followed all the tips from the website. My website doesn't really have any pictures or crowded text, so it is pretty simple to complete the desired tasks.
 - **Design Achievement 2**: Didn't do this 
+
+
+Word Answer Key:
+['size','pipe','show','toy','zipper','throne','baby','seat','river','ocean','spade',
+'pump','cakes','skate','cat','vegetable','nut','furniture','tendency','car','sleet','truck','basket','writer',
+'fish','rock','ants','border','experience','kitty','flesh','servant','hydrant','planes','week','office',
+'dog','art','yak','distance','stocking','snails','playground','knot','curtain','wrench','daughter','seashore',
+'side','channel','cow','surprise','team','partner','paper','leg','arch','produce','bell','language','hope',
+'women','angle','cream','jar','respect','pigs','loaf','fly','time','uncle','move','earth','pies','flame',
+'door','place','wing','fact','cherries','need','knee','ground','key','farm','direction','crayon','authority',
+'idea','cake','winter','copper','son','cactus','caption','road','slope','trouble','finger','comparison']
