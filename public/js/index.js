@@ -118,19 +118,23 @@ const handleItemEditing = (data, editButton, row) => {
 		editButton.value = "Edit";
 		const currentItem = {...data[row.rowIndex - 1]};
 		let editedFields = {};
-		const newName = row.cells[1].innerHTML;
-		const newPrice = row.cells[2].innerHTML;
-		const newQty = row.cells[3].innerHTML;
+		const newName = row.cells[0].innerHTML;
+		let newPrice = row.cells[1].innerHTML;
+		let newQty = row.cells[2].innerHTML;
+		newPrice = parseFloat(newPrice.replace("$", "").replace(",", ""));
+		newQty = parseInt(newQty);
 
 		if (newName !== currentItem.name) {
 			editedFields.name = newName
 		}
-		if (newPrice !== currentItem.price) {
+		if (newPrice !== parseFloat(currentItem.price)) {
 			editedFields.price = newPrice;
 		}
-		if (newQty !== currentItem.dob) {
+		if (newQty !== parseInt(currentItem.quantity)) {
 			editedFields.quantity = newQty;
 		}
+
+		console.log(editedFields);
 
 		editItem(currentItem._id, editedFields);
 	}
@@ -157,13 +161,14 @@ const addItem = async () => {
 
 const editItem = async (itemId, editedFields) => {
 	const body = JSON.stringify(editedFields);
+	console.log(body);
 	const res = await fetch(`/api/items/${itemId}`, {
 		method: "PATCH", body, headers: {"Content-Type": "application/json"}
 	});
 	if (res) {
 		updateData();
 	}
-}
+};
 
 const deleteItem = async itemId => {
 	const res = await fetch(`/api/items/${itemId}`, {method: "DELETE"});
@@ -171,3 +176,5 @@ const deleteItem = async itemId => {
 		updateData();
 	}
 }
+
+const isPositiveFloat = (str) => {}

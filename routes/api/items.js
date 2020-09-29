@@ -22,8 +22,9 @@ router.get("/:id", githubAuth.ensureAuthenticated, async (req, res) => {
 
 router.post("/", githubAuth.ensureAuthenticated, async (req, res) => {
 	let {name, price, quantity} = req.body;
-	price = price.replace("$", "").replace(",", "");
-	const total = parseFloat(price) * quantity;
+	price = parseFloat(price.replace("$", "").replace(",", ""));
+	quantity = parseInt(quantity);
+	const total = price * quantity;
 	const newItem = new Item({username: req.user.username, name, price, quantity, total});
 	
 	res.json(await newItem.save());
@@ -41,21 +42,19 @@ router.delete("/:id", githubAuth.ensureAuthenticated, async (req, res) => {
 
 router.patch("/:id", githubAuth.ensureAuthenticated, async (req, res) => {
 	try {
-		const item = await Item.find({username: req.user.username, _id: req.params.id});
-		let {name, price, quantity} = req.body;
-		price = price.replace("$", "").replace(",", "");
+		const item = await Item.findOne({username: req.user.username, _id: req.params.id});
+		const {name, price, quantity} = req.body;
 
 		if (name) {
 			item.name = name;
 		}
 		if (price) {
 			item.price = price;
-			item.total = parseFloat(price) * quantity;
 		}
 		if (quantity) {
 			item.quantity = quantity;
-			item.total = parseFloat(price) * quantity;
 		}
+		item.total = item.price * item.quantity;
 
 		res.json(await item.save());
 	} catch {

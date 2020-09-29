@@ -22,7 +22,7 @@ const ItemSchema = new Schema({
 		required: true
 	},
 	total: {
-		type: String,
+		type: Number,
 		required: true
 	},
 	date: {

@@ -35,7 +35,7 @@ try {
 }
 
 if (NODE_ENV === "development") {
-	app.use(morgan("dev"));
+	//app.use(morgan("dev"));
 } else if (NODE_ENV === "production") {
 	app.use(morgan("common", {
 		skip: (req, res) => res.statusCode < 400,
