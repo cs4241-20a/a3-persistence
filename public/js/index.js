@@ -8,13 +8,6 @@ const updateData = async () => {
 	formatDataAsTable(data);
 }
 
-window.addEventListener("load", updateData);
-window.setInterval(() => {
-	if (!isItemBeingEdited) {
-		updateData();
-	}
-}, 10000);
-
 document.getElementById("submit-button").addEventListener("click", async evt => {
 	evt.preventDefault();
 	addItem();
