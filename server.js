@@ -53,45 +53,6 @@ passport.deserializeUser(function (user, done) {
 });
 
 passport.use(
-  new GitHubStrategy(
-    {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: process.env.GITHUB_CALLBACK,
-    },
-    async (accessToken, refreshToken, profile, cb) => {
-      const client = new MongoClient(uri, mongoSetup);
-
-      await client.connect();
-      const collection = client.db("a3-database").collection("users");
-
-      const docs = await collection
-        .find({ username: profile.username, github: true })
-        .toArray();
-
-      const user = {
-        username: profile.username,
-        password: null,
-        github: true,
-      };
-
-      console.log("Processing", user);
-
-      if (docs.length == 0) {
-        await collection.insertMany([user]);
-      }
-
-      const users = await collection
-        .find({ username: profile.username, github: true })
-        .toArray();
-
-      await client.close();
-      cb(null, users[0]);
-    }
-  )
-);
-
-passport.use(
   new LocalStrategy(async (username, password, done) => {
     const client = new MongoClient(uri, mongoSetup);
 
@@ -124,6 +85,45 @@ passport.use(
       });
     }
   })
+);
+
+passport.use(
+    new GitHubStrategy(
+      {
+        clientID: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        callbackURL: process.env.GITHUB_CALLBACK,
+      },
+      async (accessToken, refreshToken, profile, cb) => {
+        const client = new MongoClient(uri, mongoSetup);
+  
+        await client.connect();
+        const collection = client.db("a3-database").collection("users");
+  
+        const docs = await collection
+          .find({ username: profile.username, github: true })
+          .toArray();
+  
+        const user = {
+          username: profile.username,
+          password: null,
+          github: true,
+        };
+  
+        console.log("Processing", user);
+  
+        if (docs.length == 0) {
+          await collection.insertMany([user]);
+        }
+  
+        const users = await collection
+          .find({ username: profile.username, github: true })
+          .toArray();
+  
+        await client.close();
+        cb(null, users[0]);
+      }
+    )
 );
 
 app.get("/auth/github", passport.authenticate("github"));
@@ -181,7 +181,7 @@ app.post("/submit", async (req, res) => {
 
   const docs = await collection.find({ user: req.user._id }).toArray();
 
-  // perform actions on the collection object
+  // do mods to collection objs
   await client.close();
 
   return res.json(docs);
@@ -199,7 +199,7 @@ app.get("/api/getData", async (req, res) => {
 
   const docs = await collection.find({ user: req.user._id }).toArray();
 
-  // perform actions on the collection object
+  // do mods to collection objs
   await client.close();
 
   return res.json(docs);
