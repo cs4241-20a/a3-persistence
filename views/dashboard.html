@@ -1,0 +1,87 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch">
+    <title>A3 - Kyle Mikolajczyk - Dashboard</title>
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script>let username = "<%= username %>";</script>
+  </head>
+  <body class="bg-dark">
+    <div class="container-md">
+      <header class="text-white">
+        <h1>Welcome to the Weather Dashbaord, <strong><%= username %></strong></h1>
+          <h2><%= noexist %></h2>
+            <form action="/">
+              <input type="submit" class="btn btn-danger" value="Logout">
+            </form>
+      </header>
+      
+      <h2 class="text-white mt-5"><strong>User Reports</strong></h2>
+      <table class="table table-light mt-3" id="reports">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">User</th>
+            <th scope="col">Time</th>
+            <th scope="col">Weather</th>
+            <th scope="col">Notes</th>
+            <th scope="col">Freezing?</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      
+      <form class="text-white mt-5" id="reportform">
+        <h2><strong>Report a new weather condition</strong></h2>
+        <fieldset disabled>
+        <div class="form-group mt-1">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" value="<%= username %>">
+          <small id="userinfo" class="form-text text-white">Username was set automatically.</small>
+        </div>
+        </fieldset>
+        
+        <div class="form-group">
+          <label for="timeOfDay">Time of Day</label>
+          <select multiple class="form-control" id="timeOfDay">
+            <option>Morning</option>
+            <option>Afternoon</option>
+            <option>Evening</option>
+            <option>Night</option>
+          </select>
+          <small id="multiinfo" class="form-text text-white">Select multiple by holding down CTRL when selecting.</small>
+        </div>
+        
+        <div class="form-group">
+          <label for="weather">Select type of weather</label>
+          <select class="form-control" id="weather">
+            <option>Sunny</option>
+            <option>Overcast</option>
+            <option>Light Rain</option>
+            <option>Heavy Rain</option>
+            <option>Thunderstorm</option>
+            <option>Snow</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="text-area">Notes</label>
+          <textarea class="form-control" id="text-area" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn btn-info btn-space btn-md mt-3" id="report">Submit Report</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
