@@ -1,0 +1,30 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch">
+
+    <title>Login (Page 1 of 2) • Virtual Shopping List</title>
+    <link rel="stylesheet" href="/style.css">
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/login.js" defer></script>
+  </head>
+  
+  <body>
+      <h1>Login</h1>
+      <p>Enter your credentials or Create Account:</p>
+      <label for="username" class = "neededLabel">Username *</label>
+      <input id="username" type="text" maxlength="100" required placeholder="Username">
+      <label for="password" class = "neededLabel">Password *</label>
+      <input id="password" type="text" maxlength="100" required placeholder="Password"><br>
+      Password should be secure and unique to your account<br><br>
+      <button id="login-button">Login</button>
+      <button id="create-button">Create Account</button><br>
+      * Passwords and Usernames are case sensitive
+  </body>
+</html>

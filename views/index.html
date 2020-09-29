@@ -1,0 +1,46 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Shopping List (Page 2 of 2) • Virtual Shopping List</title>
+    <link rel="stylesheet" href="/style.css" />
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Virtual Shopping List</h1>
+    </header>
+
+    <main>
+      <label>
+        New Grocery Item
+        <input
+          name="dream"
+          type="text"
+          id = "userInput"
+          maxlength="100"
+          required
+          placeholder="Type item here!"
+        />
+      </label>
+      <button type="submit" id="submit-dream">Add Item</button><br><br>
+
+      <section class="dreams">
+        <ul id="dreams">
+        </ul>
+      </section>
+      
+      To edit item, enter replacement value in item box and click the list item to edit.<br>
+      To remove item, click a list item to remove with nothing in the item input box.<br><br>
+
+      <button id="logout">Logout</button>
+    </main>
+  </body>
+</html>

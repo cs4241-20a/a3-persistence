@@ -1,82 +1,57 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
-
-Due: September 28th, by 11:59 PM.
-
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
-
-Baseline Requirements
+Readme
 ---
 
-Your application is required to implement the following functionalities:
+## A3 Virtual Shopping List
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! 
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). This should do the bulk of your styling/CSS for you and be appropriate to your application. For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
+Website link: https://a3-ryan-cirella.glitch.me/
 
-Your application is required to demonstrate the use of the following concepts:
+The goal of my application is to hold a list of items for a grocery store shopping list.
 
-HTML:
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
+*Usage:*
+- To add an item, enter it in the input box and click "Add Item"
+- To remove an item, make sure the input box is blank and click on the item in the list
+- To edit an item, enter the new value in the input box and click on the item to edit in the list
 
-Note that it might make sense to have two simple pages for this assignment, one that handles login / authentication, and one that contains the rest of your application. For this assignment, it is acceptable to simply create new user accounts upon login if none exist, however, you must alert your users to this fact.
+I faced challenges with using the server to get requests and responses to return the correct JSON I needed for the app to function correctly.
+It was hard learning how to do this as I've never worked with express server before.
 
-CSS:
-- CSS styling should primarily be provided by your chosen template/framework. Oftentimes a great deal of care has been put into designing CSS templates; don't override their stylesheets unless you are extremely confident in your graphic design capabilities. The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
+The authentication strategy I chose was to just have users create accounts or login as a previously made account. I chose this because github authentication was not working for me and letting users make a username and password would work correctly.
 
-JavaScript:
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
+For CSS framework, I used the sakura theme. It was classless and minimalist which suited my application.
+Its default colors also fit well with the concept of a shopping list with familiar colors one would expect around paper.
+I only made one modification to the CSS because everything worked correctly without changes. I changed the text color to red for the username and passoword on the login screen.
 
-Node.js:
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README and why it was challenging. ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). *You must either use Github authenticaion or provide a username/password to access a dummy account*. Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. Please contact the course staff if you have any questions about this.
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively getting it "for free" without having to actively change anything about your site. Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. Which element received the most emphasis (contrast) on each page? How did you use proximity to organize the visual information on your page? What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? How did you use alignment to organize information and/or increase contrast for particular elements. Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does
+The five Express middleware packages I used were:
+- body-parser, for easy JSON parsing on the server side from the client.
+- compression, to automatically compress server responses.
+- response-time, to log how long each aspect of the website takes to load.
+- morgan, to log all of the HTTP requests made from the website.
+- connect-timeout, to cause the website to timeout if things take too long to load.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- N/A
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+**Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative:
+- Clear and Concise: Short descriptions on all buttons and the lists
+- Heading Meaning: Heading on top of list describes its contents
+- Input Proximity: The input field on the login and list is right next to its descriptor.
+- Easy Feedback: An alert appears if the user enters a username or password that is incorrect.
+- Layout Sizes: The websites layout of being centered gives accessibility no matter what device it is being used on.
+- Indicate important information: Username and Password have asterisk showing necessity.
+- Descriptive Page Titles: Page tital in browser shows exactly how many pages in app and which one you're on.
+- Instructions on What User Provides: The login page provides recommendations for the password
+- Contrasting Colors: The button, header and text colors contrast the grey background of the app
+- Descriptive Colors: The username and password fields are red showing they are required to the user.
+- Consistent Navigations: Buttons link all pages of the app together.
+- Clear Instructions: Instructions for the user are short and concise.
+
+**Design Achievement 2**: I followed the CRAP principles in the Non-Designer's Design Book readings.
+- *Contrast*
+- The site’s contrast begins with the color pallet on it for the headers, text and buttons. The header and text are black and the buttons are a dark shade of green. These both contrast the light grey background immensely to stand out to the user and grab attention. The big and bold header should be the first thing the user’s eyes focus on as it contrasts the rest of the page. Then, the label and text box below it should be the next thing to focus on. The buttons then should get the user’s attention because their color starkly contrasts the rest of the page. As the list fills up, it should then be the last thing looked at once complete for the user’s own use.
+- *Alignment*
+- Everything in the layout is aligned to an equal offset from the left and right to the page and then aligned to the left. Some elements such as input boxes are next to a label which describes what must go in the box from the user for ease of use purposes. The login page has most objects on the page aligned to the left, but the login and create account buttons are next to each other. They are both still aligned left on the line. The line to the left of the page ensures nothing is in uneven alignment for the page. The list page also has a label and input field on one line with everything else aligned to the left.
+- *Repetition*
+- For the list page, the buttons repeat themselves to get attention from the beginning all the way to the end of the page. The list items will stack one on top of the other as the user adds them in a non-changing format. The login screen has the required text repeat itself for both the username and the password to get the user’s attention twice as to what’s required for log in. The buttons at the bottom of the login page repeat themselves right next to each other as each is for a similar function. The input fields also repeat on the login page right above one another for two inputs from the user.
+- *Proximity*
+- For proximity, items pertaining to each other are right next to each other. On the logon page, the username and password labels are each right above their respective input fields. There is also text below the password field giving advisory to the user on what the contents of their password should be. The login and create account button are right next to each other at the end of the page in order to both pertain to the sign on. The header at the top has subtext under it directing the user to enter in their credentials for the login. For the list page, the grocery item label and input box are right next to each other. Then, the entire list and its interactive elements all are one on top of each other on the rest of the page.
