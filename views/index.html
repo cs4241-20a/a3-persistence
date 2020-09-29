@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8" />
+    <link rel="icon" href="data:;base64,=">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">To-do List</a>
+
+        <ul class="navbar-nav mr-auto"></ul>
+        <div class="form-inline my-2 my-lg-0" id="profile" style="display: none">
+            <button class="btn btn-light disabled my-2 my-sm-0">
+                Hello <span id="l-username"></span>
+            </button>
+            <button class="btn btn-danger my-2 my-sm-0 ml-2" id="logoutButton">
+                Logout
+            </button>
+        </div>
+
+    </nav>
+
+
+    <div class="container" style="min-width: 500px; max-width: 800px;">
+        <div id="checkLogin">
+            <div class="alert alert-info m-5" role="alert">
+                <h1>Login or create a new account.</h1>
+
+                <div class="form-group" id="userDetails">
+                    <input class="form-control m-2" id="username" placeholder="Username" />
+                    <input class="form-control m-2" id="password" placeholder="Password" type="password" />
+                    <button class="btn btn-outline-primary btn-lg m-2" id="loginButton">
+                        Login / Signup
+                    </button>
+                    <a class="btn btn-dark btn-lg m-2" href="/auth/github">
+                        Login Using Github
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="pages" id="webpage" style="display: none; min-width: 800px; max-width: 1100px;">
+        <br />
+        <div class="container mb-2" style="min-width: 600px; max-width: 800px;">
+            <div>
+                <div class="alert alert-info">
+                    <div class="card-body">
+                        <h3 class="card-title">Create To-do</h3>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Priority</th>
+                                    <th>Due Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><textarea class="form-control" id="task"
+                                            placeholder="Do a kick flip"></textarea></td>
+
+                                    <td>
+                                        <select id="priority" class="form-control">
+                                            <option value="high">High</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="low">Low</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="form-control" type="date" id="dateID">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <a class="btn btn-primary" id="submitTicket">Create</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="container mt-2">
+            <div class="alert alert-info">
+                <div class="card-body">
+                    <h4 class="card-title">To-do List</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">View and edit all To-dos in the list below</h6>
+                    <table class="table table-dark">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Priority</th>
+                                <th>Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="items"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+<script src="/script.js"></script>
+
+</html>
