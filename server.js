@@ -16,16 +16,38 @@ var path = require('path')
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 /* end of favicon additions */
 
-/* compression additions */
-var compression = require('compression')
-var express = require('express')
+/* LOCAL AUTH*/
+// var LocalStrategy = require('passport-local').Strategy;
 
-var app = express()
+// passport.use(new LocalStrategy(
+//     function(username, password, cb) {
+//       collection.users.findByUsername(username, function(err, user) {
+//         if (err) { return cb(err); }
+//         if (!user) { return cb(null, false); }
+//         if (user.password != password) { return cb(null, false); }
+//         return cb(null, user);
+//       });
+//     }));
 
-// compress all responses
-app.use(compression())
-/* end of compression additions */
+// passport.serializeUser(function(user, done) {
+// 	done(null, user.id);
+// });
 
+// passport.deserializeUser(function(id, done) {
+// 	User.loadOne({ _id: id }).then(function(user) {
+//         done(null, user);
+//     }).catch(function(err) {
+//         done(err, null);
+//     });
+// });
+
+// app.post('/login', 
+//   passport.authenticate('local', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     res.redirect('/');
+//   });
+
+/*LOCAL AUTH END */
 const GitHubStrategy = require('passport-github').Strategy;
 
 passport.use(new GitHubStrategy({
@@ -152,7 +174,9 @@ app.post("/delete", bodyparser.json(), function(req, res) {
 
 app.post("/update", bodyparser.json(), function(req, res) {
   console.log("body: ", req.body);
-
+  // collection
+  //   .deleteOne({ _id: mongodb.ObjectID(req.body.id) })
+  //   .then(result => res.json(result));
   collection
     .updateOne(
       { _id: mongodb.ObjectID(req.body.id) },
