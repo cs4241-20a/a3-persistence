@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Admin Page</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div>
+        <h2> Users </h2>
+        <ul id = "users">
+        </ul>
+    </div>
+    
+    <script>
+        const userul = document.getElementById("users")
+
+        fetch( '/users')
+        .then( response => response.json())
+        .then( json => {
+
+            console.log(json)
+
+            for (let i = 0; i < Object.keys(json).length; i++){
+                const newListItem = document.createElement("li");
+                newListItem.innerText = JSON.stringify(json[i])
+
+                userul.appendChild(newListItem)
+            }
+        })
+    </script>
+
+    <form id="add_form">
+        <h2> Add A User </h1>
+        <input id = "add_name" placeholder=" Name " required autofocus>
+        <input id = "add_pass" placeholder="password " required>
+        <button id = "add_btn"> Add! </button>
+    </form>
+
+    <script> 
+        addForm = document.getElementById("add_form")
+        button = document.getElementById("add_btn")
+        addName = document.getElementById("add_name")
+        addPass = document.getElementById("add_pass")
+        
+        button.onclick = function () {
+            event.preventDefault();
+            
+            fetch( '/add', {
+                method:'POST',
+                body:JSON.stringify({name:addName.value, pass:addPass.value, admin:false, highScore:-1}),
+                headers: {
+                'Content-Type' : 'application/json'
+                }
+            })
+            .then( response => response.json())
+            .then( json => {
+                console.log(json)
+            })
+            
+            // reset form
+            addForm.reset();
+        }
+    </script>
+
+    <form id="modify_form">
+        <h2> Modify A User </h1>
+        <input id = "modify_id" placeholder=" id to modify " required autofocus>
+        <input id = "modify_field" placeholder=" field to modify " required>
+        <input id = "modify_value" placeholder=" new value " required>
+        <button id = "modify_btn"> modify! </button>
+    </form>
+
+    <script> 
+        modifyForm = document.getElementById("modify_form")
+        modifyButton = document.getElementById("modify_btn")
+        modifyId = document.getElementById("modify_id")
+        modifyField = document.getElementById("modify_field")
+        modifyValue = document.getElementById("modify_value")
+        
+        modifyButton.onclick = function () {
+            event.preventDefault();
+            
+            fetch( '/modify', {
+                method:'POST',
+                body:JSON.stringify({modifyId:modifyId.value, modifyField:modifyField.value, modifyValue:modifyValue.value}),
+                headers: {
+                'Content-Type' : 'application/json'
+                }
+            })
+            .then( response => response.json())
+            .then( json => {
+                console.log(json)
+            })
+            
+            // reset form
+            modifyForm.reset();
+        }
+    </script>
+
+    <form id="delete_form">
+        <h2> Delete A User </h1>
+        <input id = "delete_id" placeholder=" Id to Delete " required autofocus>
+        <button id = "delete_btn"> Delete! </button>
+    </form>
+
+    <script> 
+        deleteForm = document.getElementById("delete_form")
+        button = document.getElementById("delete_btn")
+        deleteID = document.getElementById("delete_id")
+        
+        button.onclick = function () {
+            event.preventDefault();
+            
+            fetch( '/delete', {
+                method:'POST',
+                body:JSON.stringify({deleteID:deleteID.value}),
+                headers: {
+                'Content-Type' : 'application/json'
+                }
+            })
+            .then( response => response.json())
+            .then( json => {
+                console.log(json)
+            })
+            
+            // reset form
+            deleteForm.reset();
+        }
+    </script>
+
+  </body>
+</html>
