@@ -19,6 +19,7 @@ let posts = null;
 client.connect(err => {
   users = client.db("test").collection("users");
   posts = client.db("test").collection("posts");
+  console.log(posts);
   // perform actions on the collection object
 });
 let user = null;

@@ -2,9 +2,9 @@
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   line-height: 1.4;
-  max-width: 800px;
+  /*max-width: 800px;*/
   /*margin: 20px auto;*/
-  /*padding: 0 10px;*/
+  padding: 0 10px;
   color: #dbdbdb;
   background: #202b38;
   text-rendering: optimizeLegibility;
@@ -179,9 +179,9 @@ pre > code {
   overflow-x: auto;
 }
 
-img {
-  max-width: 100%;
-}
+/*img {*/
+/*  max-width: 100%;*/
+/*}*/
 
 hr {
   border: none;
