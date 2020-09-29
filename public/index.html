@@ -1,80 +1,52 @@
-﻿<!doctype html>
-<html lang="en">
+﻿<!DOCTYPE html>
 
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>COVID Testing - CS4241 A3</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/sakura.css">
+    <meta charset="utf-8" />
+    <link href="css/index.css" rel="stylesheet" />
+    <title>CS4241 Assignment 3</title>
+    <script src="js/scripts.js" defer></script>
 </head>
-
 <body>
-    <div id="loginDiv">
-        <h1>Login</h1>
-        <form action="">
-            <div>
-                <label>Username:</label>
-                <input id="username" type="text" name="username" />
-            </div>
-            <div>
-                <label>Password:</label>
-                <input id="password" type="password" name="password" />
-            </div>
-            <div>
-                <button id="login">Log In</button>
-            </div>
-        </form>
-
-        <div>
-            <h3>Create a new account</h3>
-            <p>(This password is stored in plaintext, don't use something important)</p>
-            <form action="">
-                <input id="newUsername" name="username" type="text" placeholder="New username">
-                <input id="newPassword" name="password" type="password">
-                <button id="create">Create</button>
-            </form>
-        </div>
-    </div>
-    <div id="mainDiv" hidden>
-        <div>
-            <h2>COVID Testing</h2>
-        </div>
-        <div class="mid">
-            <form action="">
-                <h4>Enter food info:</h4>
-                <input id="name" class="entry" type="text" placeholder="Name">
-                <input id="studentID" class="entry" type="number" placeholder="studentID">
-
-                <select id="grade" class="entry">
-                    <option value="Freshman">Breakfast</option>
-                    <option value="Sophomore">Lunch</option>
-                    <option value="Junior">Dinner</option>
-                    <option value="Senior">Snack</option>
-                </select>
-
-                <input id="time" class="entry" type="time" placeholder="Time">
-                <button title="Submit" id="submit">Submit</button>
-            </form>
-        </div>
-
-        <div>
-            <table id="signup">
-                <thead>
-                    <tr>
-                        <th>Time</th>
-                        <th>Name</th>
-                        <th>Student ID</th>
-                        <th>Grade</th>
-                        <th>Delete?</th>
-                    </tr>
-                </thead>
-                <tbody id="covidSheet">
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <script src="js/scripts.js"></script>
+   <div class="mainpage">
+       <div class="header">
+           <header>
+               <h1>Rec Center Worksheet</h1>
+           </header>
+       </div>
+       <div class="left">
+           <section>
+               <h2>Add Work Time</h2>
+               <form id="mainform">
+                   <div class="mui-textfield">
+                       <input type="text" id="studentName" placeholder="Student Name" />
+                       <input type="text" id="studentID" placeholder="Student ID" />
+                       <p>Put a number between 1 and 4</p>
+                       <input type="text" id="studentClass" placeholder="Student Class (e.g. Freshmen = 1)" />
+                       <input type="text" id="timeWorked" placeholder="Time Worked" />
+                   </div>
+                   <button id="submitButton" class="mui-btn mui-btn--raised mui-btn--primary">Submit</button>
+               </form>
+               <button id="logoutButton" class="mui-btn mui-btn--raised mui-btn--danger">LogOut</button>
+           </section>
+       </div>
+       <div class="content">
+           <aside>
+               <h2 style="text-align: center;">Submitted Timesheet</h2>
+               <table id="timesheet" class="mui-table mui-table--bordered">
+                   <thead>
+                       <th>Name</th>
+                       <th>studentID</th>
+                       <th>Class</th>
+                       <th>Hours Worked</th>
+                       <th>Payment</th>
+                       <th>Edit/Delete</th>
+                   </thead>
+                   <tbody></tbody>
+               </table>
+           </aside>
+       </div>
+   </div>
 </body>
-
 </html>
+
