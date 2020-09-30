@@ -1,0 +1,22 @@
+{
+  "name": "a3-persistence",
+  "version": "1.0.0",
+  "description": "Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template ===",
+  "main": "server.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imoralessirgo/a3-persistence.git"
+  },
+  "author": "Isabel Morales",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/imoralessirgo/a3-persistence/issues"
+  },
+  "homepage": "https://github.com/imoralessirgo/a3-persistence#readme"
+}
