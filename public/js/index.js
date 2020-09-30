@@ -8,6 +8,10 @@ const updateData = async () => {
 	formatDataAsTable(data);
 }
 
+window.onload = () => {
+	updateData();
+}
+
 document.getElementById("submit-button").addEventListener("click", async evt => {
 	evt.preventDefault();
 	addItem();
