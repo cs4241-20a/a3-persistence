@@ -1,0 +1,60 @@
+@import "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css";
+@import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+@import "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css";
+
+body {
+	padding: 32px;
+	margin: auto;
+	font-family: 'Noto Sans TC', sans-serif;
+}
+
+.title {
+	text-align: center;
+	margin-bottom: 48px;
+}
+
+#submit-button {
+	margin-bottom: 48px;
+}
+
+#login-button {
+	margin-top: 48px;
+}
+
+#logout-button {
+	margin-top: 32px;
+}
+
+.header {
+	text-align: center;
+	margin-bottom: 16px;
+}
+
+table {
+	border-collapse: separate;
+	border: solid 2px #d6dbe0;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	overflow-x: visible; 
+	overflow-y: hidden;
+}
+
+table tbody {
+	display: block;
+	max-height: 632px;
+	max-width: 1408px;
+	overflow-y: scroll;
+}
+
+td, th {
+	border-left: solid 2px #d6dbe0;
+	word-wrap: break-word; 
+}
+
+td:first-child, th:first-child {
+	border-left: none;
+}
+
+tr:first-child td, tr:first-child th {
+	border-top: none;
+}

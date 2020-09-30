@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Shopping List</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="./css/style.css">
+		<script src="./js/index.js" defer></script>
+	</head>
+	<body>
+		<h1 class="title">Shopping List</h1>
+		<container class="container-xs">
+			<row class="row justify-content-center">
+				<column class="col-md-2" id="new-user-form">
+					<h3 class="header">Add item</h3>
+					<form action="">
+						<form-row class="form-row">
+							<form-group class="form-group col-sm-12">
+								<label for="name">Name</label>
+								<input type="text" class="form-control" id="name" placeholder="Apple" required>
+							</form-group>
+						</form-row>
+						<form-row class="form-row">
+							<form-group class="form-group col-md-8">
+								<label for="price">Price</label>
+								<input type="text" class="form-control" id="price" placeholder="$1.00" required>
+							</form-group>
+							<form-group class="form-group col-md-4">
+								<label for="qty">Quantity</label>
+							<input type="text" class="form-control" id="qty" placeholder="2" required>
+							</form-group>
+						</form-row>
+						<row class="row justify-content-center">
+							<button type="button" class="btn btn-primary" id="submit-button">Submit</button>
+						</row>
+					</form>
+				</column>
+				<column class="col-md-auto">
+					<h3 class="header">Items</h3>
+					<data-table id="data-container"></data-table>
+				</column>
+			</row>
+			<row class="row justify-content-center">
+				<button type="button" class="btn btn-dark" id="logout-button">Log Out</button>
+			</row>
+		</container>
+	</body>
+</html>
