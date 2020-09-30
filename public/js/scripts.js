@@ -71,13 +71,13 @@ const createEntry = function (hwTable, json) {
     var editButton = document.createElement("button")
     editButton.innerHTML = "Edit"
     editButton.addEventListener("click", editHmwk)
-    editButton.className = "editButton"
+    editButton.className = "btn btn-info"
     editButton.id = json._id
 
     var delButton = document.createElement("button")
     delButton.innerHTML = "Delete"
     delButton.addEventListener("click", deleteHmwk)
-    delButton.className = "deleteButton"
+    delButton.className = "btn btn-danger"
     delButton.id = json._id
 
     name.innerHTML = json.name
@@ -92,7 +92,7 @@ const deleteHmwk = function() {
     const body = JSON.stringify(json)
 
     fetch('/delete', {
-        method: 'DELETE',
+        method: 'POST',
         body,
         headers:{
           "Content-Type":"application/json"
@@ -116,8 +116,8 @@ const editHmwk = function() {
     }
     const body = JSON.stringify(json)
 
-    fetch('/put', {
-        method: 'PUT',
+    fetch('/update', {
+        method: 'POST',
         body,
         headers:{
           "Content-Type":"application/json"
