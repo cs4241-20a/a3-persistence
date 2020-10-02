@@ -1,0 +1,60 @@
+/* this file is loaded by index.html and styles the page */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", serif;
+  background-color: #D4BD7C;
+  margin: 2em 1em;
+  line-height: 1.5em;
+}
+
+form {
+  background-color: #eee;
+  display: grid;
+  grid-gap: 1em;
+  padding: 1em;
+  max-width: 40ch;
+}
+
+input:focus {
+  border: 2px solid #4E4019 !important;
+}
+
+form button {
+  background-color: #4E4019;
+}
+
+form button:hover {
+  background-color: #756026;
+}
+
+.button-brown.button-clear,
+.button-brown.button-outline {
+  color: #4E4019;
+}
+
+.button-brown.button-outline {
+  border-color: #4E4019;
+}
+
+.button-brown.button-clear:hover {
+  color: #756026;
+}
+
+.button-brown.button-outline:hover {
+  color: #756026;
+  border-color: #756026;
+}
+
+table {
+  color: #4E4019;
+}
+
+footer {
+  margin-top: 3em;
+  padding-top: 1.5em;
+  border-top: 1px solid lightgrey;
+}

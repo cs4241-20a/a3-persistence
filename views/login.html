@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A login to a book list" />
+  </head>
+  <body>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/login.js" defer></script>
+    <img
+      src="https://cdn.glitch.com/b35bf902-17f1-4d79-9ca0-08d21e2982a8%2Fbooks.jpg?v=1601633899922"
+      alt="two open books on a table with more books in the background"
+      width="1520"
+      height="300"
+    />
+    <div class="container">
+      <div>
+        <form action="">
+          <h3 id="message">
+            Welcome Back!
+          </h3>
+          <label>
+            Username <input type="text" id="user" placeholder="username" />
+          </label>
+          <label>
+            Password
+            <input type="text" id="pass" placeholder="password" />
+          </label>
+          <button id="submit" type="submit">submit</button>
+        </form>
+        <button class="button-brown button-clear" id="create">
+          new user?
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
