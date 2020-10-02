@@ -10,7 +10,9 @@
   },
   "devDependencies": {
     "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.5",
     "express-session": "^1.17.1",
+    "mongodb": "^3.6.2",
     "multer": "^1.4.2"
   },
   "scripts": {
