@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A log in to a digital book" />
+  </head>
+  <body>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/script.js" defer></script>
+    <img
+      src="https://cdn.glitch.com/b35bf902-17f1-4d79-9ca0-08d21e2982a8%2Fbooks.jpg?v=1601633899922"
+      alt="an open book"
+      width="1520"
+      height="300"
+    />
+    <div class="container">
+      <div>
+        <button class="button-brown button-outline" id="logout">
+          Log Out
+        </button>
+        <form action="">
+          <label>
+            Title <input type="text" id="title" placeholder="Book Title" />
+          </label>
+          <label>
+            Number of Pages
+            <input type="number" id="pages" placeholder="# of Pages" min="1" />
+          </label>
+          <button type="submit">submit</button>
+        </form>
+      </div>
+      <table id="booklist">
+        <tr>
+          <th scope="col">Book Title</th>
+          <th scope="col">Book Length</th>
+          <th scope="col">Hours to Read</th>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
