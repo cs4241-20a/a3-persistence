@@ -12,7 +12,8 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.set('views',__dirname + '/views');
 
-
+let userdb = null;
+let coursesdb = null;
 
 app.set('port', (process.env.PORT || 3000));
 app.use(bodyParser.json());
@@ -21,8 +22,6 @@ app.use(upload.array());
 app.use(cookieParser());
 app.use(session({secret: "Your secret key"}));
 
-var Users = [];
-var userExists = false;
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -32,9 +31,9 @@ const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://dbUser:dbPassword@cluster0.ui701.mongodb.net/<dbname>?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 client.connect(err => {
-    const collection = client.db("a3").collection("users");
+    userdb = client.db("a3").collection("users");
+    coursesdb = client.db("a3").collection("courses")
     // perform actions on the collection object
-    client.close();
 });
 
 
@@ -49,23 +48,36 @@ app.get("/home", (request,response)=>{
     response.render("index.html");
 })
 
+app.get('/getData', ((req, res) => {
+
+    if (coursesdb !== null) {
+        console.log(req.session.user.id)
+        coursesdb.find({id: req.session.user.id}).toArray().then(result => {
+            res.json(result)
+        })
+    }
+
+}))
+
+app.get('/getUser', ((req, res) => {
+    res.json(req.session.user.id)
+
+}))
+
 app.post('/login', function(req, res){
     if(!req.body.id || !req.body.password){
         res.status("400");
         res.send("Invalid details!");
     } else {
         console.log("made it")
-        Users.forEach(function(user){
-            if(user.id === req.body.id && user.password === req.body.password) {
-                userExists = true;
-            }
-        });
+
         var newUser = {id: req.body.id, password: req.body.password};
-        if(!userExists) {
-            Users.push(newUser);
-        }
+        userdb.findOne({id : req.body.id, password: req.body.password}, function (err, result) {
+            if(!result){ // if user does not exist, register a new user
+                userdb.insertOne(newUser)
+            }
+        })
         req.session.user = newUser;
-        userExists = false;
         res.redirect('/home');
     }
 });
