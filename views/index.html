@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <script src="script.js" defer></script>
+    <link href="/style.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Poiret+One&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+    
+    <div class="submission">
+      <form action="" id="stressform">
+        <p>Rate Your Stress</p>
+        <input type="radio" class="radio" name="stress" value="Low" />
+        <label>1(low stress)</label>
+        <input type="radio" class="radio" name="stress" value="Low" />
+        <label>2</label>
+        <input type="radio" class="radio" name="stress" value="Low" />
+        <label>3</label>
+        <input type="radio" class="radio" name="stress" value="Moderate" />
+        <label>4</label>
+        <input type="radio" class="radio" name="stress" value="Moderate" />
+        <label>5</label>
+        <input type="radio" class="radio" name="stress" value="Moderate" />
+        <label>6</label>
+        <input type="radio" class="radio" name="stress" value="Moderate" />
+        <label>7</label>
+        <input type="radio" class="radio" name="stress" value="High" />
+        <label>8</label>
+        <input type="radio" class="radio" name="stress" value="High" />
+        <label>9</label>
+        <input type="radio" class="radio" name="stress" value="High" />
+        <label>10(high stress)</label><br />
+        <div class="timebox">
+          <label for="time" id="timelabel">How much time do you have?</label>
+          <select name="time" id="time">
+            <option value="5 Minutes">5 Minutes or Less</option>
+            <option value="10 Minutes">10 Minutes</option>
+            <option value="30 Minutes">30 Minutes</option>
+            <option value="1 Hour">1 Hour or More</option> </select
+          ><br />
+        </div>
+        <button>submit</button>
+      </form>
+      <table id="activitylist">
+        <tr>
+          <th scope="col">Stress Level</th>
+          <th scope="col">Time</th>
+          <th scope="col">Activity</th>
+        </tr>
+      </table>
+      <button id="logout">Logout</button>
+    </div>
+  </body>
+</html>

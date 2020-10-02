@@ -1,0 +1,70 @@
+/* this file is loaded by index.html and styles the page */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 2em 1em;
+  line-height: 1.5em;
+  padding-top: 100px;
+  background-image: url(https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/rm21-smoke-bb-5_1.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=c8347a73d6427dda5d03bd1100c39354);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+h1 {
+  font-style: italic;
+  color: #373fff;
+  max-width: calc(100% - 5rem);
+  line-height: 1.1;
+}
+
+#login {
+  background-color: #eee;
+  display: grid;
+  grid-gap: 1em;
+  padding: 1em;
+  max-width: 40ch;
+}
+
+#user, #pass {
+  border: 1px solid silver;
+  display: block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 100%;
+}
+
+form button {
+  background-color: #bbbbf2;
+}
+
+#loginform{
+  display: flex;
+  justify-content: center;
+
+}
+
+#activitylist{
+  background-color: #eee; 
+}
+
+#stressform{
+  background-color: #eee;
+  display:flex;
+  padding: 30px;
+}
+
+.radio, p, .timebox{
+  padding: 10px;
+}
+
+
+footer {
+  margin-top: 3em;
+  padding-top: 1.5em;
+  border-top: 1px solid lightgrey;
+}
