@@ -5,7 +5,7 @@ ISABEL MORALES SIRGO
 
 Extension was approved by the professor.
 
-http://a3-imoralessirgo.glitch.me
+http://a3imoralessirgo.glitch.me
 
 Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
