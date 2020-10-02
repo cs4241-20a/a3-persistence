@@ -1,0 +1,26 @@
+.header {
+  background-image: url('https://cdn.glitch.com/0f47880a-f183-4987-b99a-789d33e07a2f%2Fuhhhh.jpg!d?v=1601261157933');
+  background-size: cover;
+  background-position: center;
+  position: fixed;
+}
+
+main {
+  left: 50%;
+  position: absolute;
+  top: 45%;
+  transform: translate(-50%, -55%);
+  background-color: #E0E0E0;
+  padding: 1em;
+}
+.description h1 {
+  color: #22415C;
+}
+.description p {
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+.form-group input{
+  width: 20em;
+}
