@@ -12,12 +12,14 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.set('views',__dirname + '/views');
 
+let online = null;
 let userdb = null;
 let coursesdb = null;
 
 app.set('port', (process.env.PORT || 3000));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
 app.use(upload.array());
 app.use(cookieParser());
 app.use(session({secret: "Your secret key"}));
@@ -51,8 +53,7 @@ app.get("/home", (request,response)=>{
 app.get('/getData', ((req, res) => {
 
     if (coursesdb !== null) {
-        console.log(req.session.user.id)
-        coursesdb.find({id: req.session.user.id}).toArray().then(result => {
+        coursesdb.find({id: online.id}).toArray().then(result => {
             res.json(result)
         })
     }
@@ -60,9 +61,20 @@ app.get('/getData', ((req, res) => {
 }))
 
 app.get('/getUser', ((req, res) => {
-    res.json(req.session.user.id)
+    res.json(online.id)
 
 }))
+
+app.post('/submit', function(req, res){
+    console.log(req.body)
+        var newCourse = {
+            id: online.id,
+            major: req.body.major,
+            course: req.body.course
+        }
+        coursesdb.insertOne(newCourse)
+        res.end()
+});
 
 app.post('/login', function(req, res){
     if(!req.body.id || !req.body.password){
@@ -78,6 +90,7 @@ app.post('/login', function(req, res){
             }
         })
         req.session.user = newUser;
+        online = req.session.user;
         res.redirect('/home');
     }
 });

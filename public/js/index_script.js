@@ -1,4 +1,4 @@
-const getUser = function (e){
+const getUserFunc = function (e){
 
     fetch('/getUser',
         {method: 'GET'
@@ -18,22 +18,21 @@ const loadData = function(e) {
         })
         .then(response => response.json())
         .then(function(response){
-            //response.forEach(addToTable())
+            response.forEach(addToTable)
 
     })
 }
 
 
 function addToTable(item){
-    // json = item.json()
-    //
-    // var table = document.getElementById('registration');
-    // var row = table.insertRow(1);
-    // var c0 = row.insertCell(0);
-    // var c1 = row.insertCell(1);
-    //
-    // c0.innerHTML = json.major;
-    // c1.innerHTML = json.course;
+
+    var table = document.getElementById('registration');
+    var row = table.insertRow(1);
+    var c0 = row.insertCell(0);
+    var c1 = row.insertCell(1);
+
+    c0.innerHTML = item.major;
+    c1.innerHTML = item.course;
 }
 
 const submitChanges = function( e ) {
@@ -42,9 +41,11 @@ const submitChanges = function( e ) {
     const json = {
             major: document.querySelector( '#major' ).value,
             course: document.querySelector( '#course' ).value
-        },
+        }
         body = JSON.stringify( json )
 
+    // const form = new FormData(document.getElementById('form'))
+    console.log(body)
     var table = document.getElementById('registration');
     var row = table.insertRow(1);
     var c0 = row.insertCell(0);
@@ -56,18 +57,17 @@ const submitChanges = function( e ) {
 
     fetch( '/submit', {
         method:'POST',
-        body
+        body: body,
+        headers: {
+            'Content-Type': 'application/json'
+        }
     })
-        .then( response => response.json())
-        .then( function(response) {
-            c0.innerHTML = response.id;
-        })
 
     return false
 }
 
 window.onload = function() {
-    getUser()
+    getUserFunc()
     loadData()
     const button = document.querySelector( 'button' )
     button.onclick = submitChanges
