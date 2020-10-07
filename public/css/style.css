@@ -153,3 +153,13 @@ div.loginBox {
   transform: translate(-50%, -50%);
   text-align: center;
 }
+
+.gitButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  flex-basis: auto;
+}
