@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>CS4241 Assignment 2 - Hezekiah Owuor</title>
+  <meta charset="utf-8">
+  <link href="//cdn.muicss.com/mui-0.10.3/css/mui.min.css" rel="stylesheet" type="text/css" />
+  <script src="//cdn.muicss.com/mui-0.10.3/js/mui.min.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic"> -->
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Gloria+Hallelujah&family=Roboto+Mono:ital@1&display=swap" rel="stylesheet">
+  <script src="js/team.js" defer></script>
+</head>
+
+<body>
+
+
+  <div class="split left">
+    <div class=" centered">
+      <p>Hello, <b id="tag">User</b> Welcome to WPI Football! Fill in the form below to add player to your team sheet. </p>
+      <h2>Add New Player</h2>
+
+      <form>
+        <label for="nick">Nickname: </label>
+        <input id="nick" type="text" name="nickname" placeholder="Enter nickname Here">
+        <br>
+        <label for="foot">Preferred Foot: </label>
+        <select id="foot" name="Preferred Foot">
+          <option value="left">Left Footed</option>
+          <option value="right">Right Footed</option>
+          <option value="ambi">Ambipedal (Two Footed)</option>
+        </select>
+        <br>
+        <label for="pos">Position: </label>
+        <select id="pos" name="Position">
+          <option value="att">Attacker</option>
+          <option value="mid">Midfielder</option>
+          <option value="def">Defender</option>
+          <option value="goal">Goal-Keeper</option>
+        </select>
+
+        <br>
+        <br>
+        <br>
+        <button id="addPlayer" class="mui-btn mui-btn--raised mui-btn--accent">Submit</button>
+
+      </form>
+    </div>
+  </div>
+
+  <div class="split right2">
+    <div class=" centered">
+
+      <h1>Registered Players</h1>
+
+      <table id="players" class="mui-table mui-table--bordered">
+        <thead>
+          <th>Nickname</th>
+          <th>Pref. Foot</th>
+          <th>Positon</th>
+          <th>Date Joined</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      
+      <button id="logoutButton" class="mui-btn mui-btn--raised mui-btn--accent">logout</button>
+      
+    </div>
+  </div>
+
+</body>
+
+</html>
