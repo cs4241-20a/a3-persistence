@@ -11,8 +11,11 @@ const morgan = require('morgan');
 app.use(express.static("public"));
 
 app.use(morgan('combined'));
-app.use(helmet());
-
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 const stats = new StatsD();
 
 app.use(responseTime(function (req, res, time) {

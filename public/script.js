@@ -492,7 +492,7 @@ function start(e) {
 }
 window.onload = function() {
   console.log(document.location);
-  
+
     const subButton = document.querySelector("#submit");
     subButton.onclick = start;
     const resetButton = document.querySelector("#reset");
@@ -503,77 +503,3 @@ window.onload = function() {
   getAccounts();
 };
 
-/*
-// client-side js, loaded by index.html
-// run by the browser each time the page is loaded
-
-console.log("hello world :o");
-
-// define variables that reference elements on our page
-const onScreenItems = [];
-
-// a helper function that creates a list item for a given dream
-function appendNewItem(id,name,email,username,password) {
-   const things = [id,name,email,username,password];
-
-  newListItem.onclick = function() {
-    fetch("/delete", {
-      method: "POST",
-      body: JSON.stringify({ id }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(response => response.json())
-      .then(json => {
-        newListItem.remove();
-      });
-  };
-  onScreenItems.appendChild(things)
-}
-
-/*dreamsForm.addEventListener("submit", event => {
-  // stop our form submission from refreshing the page
-  event.preventDefault();
-
-  fetch("/add", {
-    method: "POST",
-    body: JSON.stringify({ dream: dreamsForm.elements.dream.value }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-    .then(response => response.json())
-    .then(json => {
-      appendNewDream(json.dream, json._id);
-    });
-
-  // reset form
-  dreamsForm.reset();
-  dreamsForm.elements.dream.focus();
-});
-*/
-/*
-function checkInfo() {
-  var email = document.getElementById("inputEmail3").value;
-  var password = document.getElementById("inputPassword3").value;
-        const json ={
-          name: "John Doe",
-          email: email,
-          username: "jDoe",
-          password: password
-        }
-        console.log("yes")
-        fetch("/add", {
-          method: "POST",
-          body: JSON.stringify(json),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
-          .then(response => response.json())
-          .then(json => {
-            appendNewItem(json._id, json.name, json.email, json.username, json.password);
-          });
-      }
-*/
