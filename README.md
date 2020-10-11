@@ -1,7 +1,7 @@
 Party Guest List
 ---
 
-<a href="https://www.a3-connor-burri.glitch.me">glitch site</a>
+<a href="https://a3-connor-burri.glitch.me/">glitch site</a>
 
 ### Description
 This project is an attempt to make a comprehensive guest list for party events. It is meant to streamline the process of both adding and verifying whether the guest is of legal 
