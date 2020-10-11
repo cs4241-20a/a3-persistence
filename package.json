@@ -1,0 +1,26 @@
+{
+    "name": "bill-tracker-a3",
+    "version": "0.1.0",
+    "description": "This single page web application is an easy way to keep track of your bills.",
+    "author": "Molly Wirtz",
+    "scripts": {
+        "start": "nodemon server.js"
+    },
+    "dependencies": {
+        "better-dateinput-polyfill": "^3.3.1",
+        "better-dom": "^4.1.0",
+        "body-parser": "^1.19.0",
+        "bootstrap": "^4.5.2",
+        "cookie-parser": "^1.4.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "mongodb": "^3.6.2",
+        "morgan": "^1.10.0",
+        "nodemon": "^2.0.4",
+        "passport": "^0.4.1",
+        "passport-github": "^1.1.0",
+        "passport-google-oauth2": "^0.2.0",
+        "passport-oauth": "^1.0.0",
+        "serve-favicon": "^2.5.0"
+    }
+}

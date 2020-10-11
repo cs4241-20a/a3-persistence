@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>CS4241 Assignment 3</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;700&family=Roboto:wght@300;700&display=swap"
+        rel="stylesheet">
+    <script src="/script.js" defer></script>
+    <script src="/better-dom/dist/better-dom.js"></script>
+    <script src="/better-dateinput-polyfill/dist/better-dateinput-polyfill.js"></script>
+</head>
+
+<body>
+
+    <div class="jumbotron text-center" style="background-color: #13a2b8; color: #fff; position: relative;">
+        <a style="position: absolute; top:10px; right: 10px; color: #fff;" onClick="logout()">Log Out</a>
+        <h1>Bill Tracker</h1>
+        <h5>The easiest way to manage your bills</h5>
+    </div>
+
+    <h1>Testing</h1>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-12 mt-5 mb-5">
+                <h5 id="welcome"></h5>
+            </div>
+            <div class="col-sm-12 mb-3">
+                <h5>Enter your bill</h5>
+            </div>
+        </div>
+
+
+        <form class="form" id="billForm" action="/public/script.js">
+                <div class="form-group">
+                    <input type="text" id="name" placeholder="Bill Name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" id="amt" placeholder="0.00" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <input type="date" data-polyfill="all" placeholder="DD/MM/YYYY" id="date" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="paid" value="true" class="check">
+                    <label for="paid" class="checkLbl" class="form-control">Paid?</label>
+                </div>
+        </form>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <h5 id="errorMsg" style="color: red"></h5>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <button style="background-color: #9b8679; border: none;" class="btn btn-primary btn-block submit mt-2 mb-2" onClick="submitBill()" >Submit</button>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <button data-toggle="collapse" data-target="#all_bills" class="btn-text btn btn-info mb-3 mt-5" id="allBillBtn"
+                    onClick="getAllBills(true)" >Show all bills</button>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table collapse" id="all_bills">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Date Issued</th>
+                            <th>Paid</th>
+                            <th>Priority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamically insert table rows from server -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-4">
+                <button class="btn-text btn btn-info mt-3" id="editRowBtn" style="visibility: hidden;" onClick="editEntry()">Edit
+                    Selected
+                    Rows</button>
+            </div>
+            <div class="col-sm-4">
+                <button class="btn-text btn btn-info mt-3" id="deleteRowBtn" style="visibility: hidden;"
+                    onClick="deleteEntry()">Delete
+                    Selected
+                    Rows</button>
+            </div>
+            <div class="col-sm-4">
+                <button class="btn-text btn btn-info mt-3" id="saveBtn" style="visibility: hidden;" onClick="saveChanges()">Save
+                    Changes</button>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
