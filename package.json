@@ -1,0 +1,22 @@
+{
+  "name": "PartyGuestList",
+  "version": "2.0.0",
+  "description": "A guest list to determine who is in the building and what privileges they have",
+  "author": "Connor Burri",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "helmet": "^4.1.1",
+    "mime": "^2.4.4",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-github": "^1.1.0"
+  },
+  "devDependencies": {
+    "mongodb": "^3.6.2"
+  }
+}
