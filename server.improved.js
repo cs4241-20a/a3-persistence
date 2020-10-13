@@ -1,115 +1,150 @@
 const http = require( 'http' ),
       fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library used in the following line of code
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
-const express = require("express");
-const app = express();
-const bodyparser = require('body-parser');
+      express = require( 'express' ),
+      bodyparser = require( 'body-parser' ),
+      compression = require( 'compression' ),
+      responseTime = require( 'response-time' ),
+      fetch = require( 'node-fetch' ),
+      cookieSession = require( 'cookie-session' ),
+      morgan = require("morgan"),
+      app = express(),
+      port = 3000;
 
-app.use(express.static("public"));
+//Middleware
+
+app.use( cookieSession({secret: process.env.COOKIE_SECRET}))
+app.use( express.static( 'public' ) )
+app.use( compression() )
+app.use(morgan("combined"))
+app.use( responseTime( (request, response, time) => console.log( request.method, request.url, time + 'ms' ) ) )
 app.use( bodyparser.json() )
 
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
-  }
-}) 
-
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
-
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
-  }
-}
-
-const handlePost = function( request, response ) {
-  let dataString = ''
-
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
-
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
-
-    // ... do something with the data here!!!
-
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end()
-  })
-}
-
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
-
-   fs.readFile( filename, function( err, content ) {
-
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
-}
-
-const mongodb = require('mongodb');
-const MongoClient = mongodb.MongoClient;
-
+//MongoDB Setup from video
+require('dotenv').config()
+const mongodb = require('mongodb')
+const MongoClient = require('mongodb').MongoClient;
 const uri = `mongodb+srv://dbUser:${process.env.DBPASSWORD}@cluster0.lxu3a.mongodb.net/<dbname>?retryWrites=true&w=majority`;
-//mongodb+srv://dbUser:<password>@cluster0.lxu3a.mongodb.net/<dbname>?retryWrites=true&w=majority
-const client = new MongoClient(uri, {useNewUrlParser: true}, { useUnifiedTopology: true });
+const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true });
 
-let collection = null;
+let collection = null
 client.connect(err => {
   collection = client.db("dbTest").collection("test");
-  //perform actions on the collection object
-  //client.close();
+  
 });
 
+app.get( '/', (request, response) => {
+  if(request.session.GHid) {
+    response.sendFile( __dirname + '/public/home.html' ) 
+  } else {
+    response.sendFile( __dirname + '/public/login.html' )
+  }
+})
+
+//GitHub Login from tutorial
+
+app.get('/geturl', (request, response) => {
+  const path = request.protocol + '://' + request.get('host');
+  const pathL = "https://a3-lindberg-simpson-2.glitch.me";
+  const url = `https://github.com/login/oauth/authorize?client_id=${process.env.GHID}&redirect_uri=${pathL}/login/github/callback`;
+  console.log(url);
+  response.json(url);
+})
+
+async function getAccessToken(code, client_id, client_secret) {
+  const response = await fetch('https://github.com/login/oauth/access_token', {
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      client_id,
+      client_secret,
+      code
+    })
+  })
+  .then( response => response.text() );
+  
+  const params = new URLSearchParams(response);
+  return params.get('access_token');
+}
+
+async function getGHUser(accessToken) {
+  const request = await fetch('https://api.github.com/user', {
+    headers: { Authorization: `bearer ${accessToken}`}
+  })
+  .then ( request => request.json() )
+
+  return request;
+}
+
+//GitHub callback
+app.get('/login/github/callback', async (request, response) => {
+  const accessToken = await getAccessToken(request.query.code, process.env.GHID, process.env.GHSECRET);
+  const GHData = await getGHUser(accessToken);
+  
+  if(GHData) {
+    console.log("GHData.id: "+GHData.id);
+    request.session.GHid = GHData.id;
+    request.session.token = GHData.token;
+    response.redirect("/")
+  } else {
+    console.log('Error in login');
+    response.redirect("/login.html")
+  }
+})
+
+app.get( '/appdata', (request, response) => {
+  var array = [];
+  collection.find({"GHid": request.session.GHid}).forEach( doc => {
+    array.push(doc);
+  })
+  .then(() => {
+    response.json(array)
+  })
+})
+
+app.get( '/logout', (request, response) => {
+  request.session = null
+  response.clearCookie()
+  response.redirect('/')
+})
+
 app.post( '/submit', (request, response) => {
-  const json = { description: request.body.description, weight: request.body.weight, deliv_date: request.body.deliv_date, price: request.body.price }
+  const json = { GHid: request.session.GHid, description: request.body.description, weight: request.body.weight, delivdate: request.body.delivdate, price: request.body.price }
+  console.log(json)
   collection.insertOne( json )
   .then( dbresponse => {
     response.json( dbresponse.ops[0] )
   })
 })
 
-app.post('/add', bodyparser.json(), function(req, res) {
-  console.log('body:', req.body)
-  collection.insertOne(req.body)
-    .then(dbresponse => {
-      console.log(dbresponse)
-      res.json(dbresponse.ops[0])
+app.post( '/delete', (request, response) => {
+collection.deleteOne( { _id:mongodb.ObjectID( request.body._id ) } ) 
+  .then( () => {
+    var array = [];
+    collection.find({"GHid": request.session.GHid}).forEach( doc => {
+      array.push(doc)
+    })
+    .then( () => {
+      response.json( array );
+    })
   })
 })
 
-app.post('/delete', bodyparser.json(), function(req, res) {
-  collection
-    .deleteOne({_id:mongodb.ObjectID(req.body.id)})
-    .then(result => res.json(result))
-})
-
-app.get( '/', (request, response) => {
-
-    response.sendFile( __dirname + '/public/index.html' ) 
+app.post( '/edit', (request, response) => {
+  const json = { GHid: request.session.GHid, description: request.body.description, weight: request.body.weight, delivdate: request.body.delivdate, price: request.body.price };
+  const id = request.body._id;
+  const newVal = { $set: json }
+  collection.updateOne( {_id:mongodb.ObjectID( request.body._id )}, newVal, (error, response) => {
+    if (error) throw error;
+    return
+  })
+  
+  var array = [];
+  collection.find({"GHid": request.session.GHid}).forEach( doc => {
+    array.push(doc)
+  })
+  .then( () => response.json( array ))
+  
 })
 
 app.listen( process.env.PORT || port )
