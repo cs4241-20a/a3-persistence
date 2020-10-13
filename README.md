@@ -20,7 +20,8 @@ bottom you can press the submit button which shows you all the comments you've m
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the username/password strategy.
-- **Tech Acievement 2**: I migrated my code to heroku
+- **Tech Achievement 2**: I migrated my code to heroku
+- **Tech Achievement 3**: Used a .store TLD domain to access the heroku site
 
 ## Design Achievements
 - **Design Achievement 1**: Modified css framework because button text had extra top padding
