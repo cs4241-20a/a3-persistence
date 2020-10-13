@@ -1,6 +1,8 @@
 Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 ===
 
+by Ioannis Kyriazis
+
 ## Canvas Kicks Website
 
 http://canvaskicks.store
