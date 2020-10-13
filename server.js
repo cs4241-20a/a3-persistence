@@ -201,6 +201,15 @@ app.post("/addcomment", (request, response) => {
   }
 })
 
+app.get("/getmycomments", async (req, res) => {
+  let userComments = await comments.find({username: req.session.username});
+
+  userComments.toArray().then(result => {
+    console.log(result);
+    res.json(result);
+  });
+});
+
 app.post("/editpost", async (request, response) => {
   let post = await posts.findOne({title: request.body.title});
   await response.json(post);

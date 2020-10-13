@@ -148,3 +148,14 @@ login.addEventListener("click", function () {
             .then(json => document.getElementById("username").innerHTML = json.username);
     })
 });
+let mycomments = document.getElementById("viewmycomments");
+let displaymycomments = document.getElementById("mycomments");
+mycomments.addEventListener("click", () => {
+    fetch("/getmycomments").then(res => res.json()).then(res => {
+        res.forEach((comment) => {
+            let p = document.createElement("p");
+            p.innerText = comment.text;
+            displaymycomments.appendChild(p);
+        })
+    })
+})
