@@ -56,22 +56,33 @@ window.onload = () => loadDB().then(result => {
         commentButtons[i].addEventListener('click', function () {
             // get the comment section for current post
             let commentSection = document.getElementById(postTitles[i] + 'commentsection');
-            // clear the html
-            commentSection.innerHTML = "";
-            // send a post request with the post's current title
-            fetch('/loadcomments', {
-                method: "POST",
-                body: JSON.stringify({title: postTitles[i]}),
-                headers: {'Content-Type': 'application/json'}
-            }).then(result => result.json()).then(result => {
-                result.forEach((comment) => {
-                    // when the server sends back all the comments go through them and
-                    // add them as p elements
-                    let pElement = document.createElement("p");
-                    pElement.innerText = comment.text;
-                    commentSection.appendChild(pElement);
+            if (commentButtons[i].innerHTML === 'View Comments') {
+                debugger
+                // clear the html
+                commentSection.innerHTML = "";
+                // send a post request with the post's current title
+                fetch('/loadcomments', {
+                    method: "POST",
+                    body: JSON.stringify({title: postTitles[i]}),
+                    headers: {'Content-Type': 'application/json'}
+                }).then(result => result.json()).then(result => {
+                    result.forEach((comment) => {
+                        // when the server sends back all the comments go through them and
+                        // add them as p elements
+                        let pElement = document.createElement("p");
+                        pElement.innerText = comment.text;
+                        commentSection.appendChild(pElement);
+                    })
+                    let button = document.createElement("button");
+                    button.innerHTML = 'Hide Comments';
+                    commentSection.appendChild(button);
                 })
-            })
+            } else {
+                commentSection.innerHTML = '';
+                let button = document.createElement("button");
+                button.innerHTML = 'View Comments';
+                commentSection.appendChild(button);
+            }
         })
     }
 });
