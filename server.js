@@ -77,16 +77,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //   }
 // })
 
-// app.post("/register", (request, response) => {
-//   users.findOne({username: request.body.username}).then(result => {
-//     if(result !== null) {
-//       console.log("Username already exists");
-//     }
-//     else {
-//       users.insertOne(request.body).then();
-//     }
-//   })
-// });
+app.post("/register", (request, response) => {
+  users.findOne({username: request.body.username}).then(result => {
+    if(result !== null) {
+      response.json({successful: false});
+      console.log("Username already exists");
+    }
+    else {
+      users.insertOne(request.body).then();
+      response.json({successful: true});
+    }
+  })
+});
 
 // app.get('/logout', function(req, res){
 //   req.logout();
@@ -94,9 +96,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // });
 
 // app.post('/login', async function (req, res){
-//   passport.authenticate('local', { successRedirect: '/getusername',
-//     failureRedirect: '/login',
-//     failureFlash: true })
 //   let userData = req.body;
 //   let username = userData.username;
 //   let password = userData.password;
@@ -105,7 +104,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //     let actualPassword = await getPassword(username);
 //     if (actualPassword === password) {
 //       console.log("user logged in");
-//       user = username;
+//
 //     }
 //     else {
 //       res.sendStatus(500);
@@ -115,6 +114,50 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //   }
 //   return res.end();
 // });
+
+app.post("/login", bodyParser.json(), async function(
+    request,
+    response
+) {
+  let username = request.body.username;
+  let password = request.body.password;
+
+  let results = await users
+      .find({ username: username, password: password })
+      .toArray();
+  let presentAccountID = null;
+
+  if (results.length > 0) {
+    console.log("User aleady has account with ID",results[0]._id.toString());
+    //console.log(results[0])
+    //console.log(results[0]);
+    presentAccountID = results[0]._id.toString();
+    //return true;
+  } else {
+    let newUser = {
+      username: username,
+      password: password
+    };
+    let newAccount = await users.insertOne(newUser);
+
+    presentAccountID = newAccount.insertedId.toString();
+    console.log(
+        "New Account Created for ",
+        username,
+        password,
+        "and ID: ",
+        presentAccountID
+    );
+  }
+  console.log("The account used for logging in is", presentAccountID);
+  request.session.accountSession = presentAccountID;
+  request.session.auth = true;
+  request.session.username = username;
+  //response.redirect("/mylists.html");
+  response.redirect = "/views/index.html";
+  //response.sendFile(__dirname + "/views/index.html");
+  response.body = response.json(true);
+});
 
 // async function userExists(username) {
 //   // checks to see if the username exists in the database
@@ -150,7 +193,12 @@ app.post("/loadcomments", (request, response) => {
 })
 
 app.post("/addcomment", (request, response) => {
-  comments.insertOne(request.body).then(result => console.log("comment added"));
+  if (request.session.auth !== true) {
+    response.json({successful: false});
+  }
+  else {
+    comments.insertOne({username: request.session.username, title: request.body.title, text: request.body.text}).then(result => console.log("comment added"));
+  }
 })
 
 app.post("/editpost", async (request, response) => {

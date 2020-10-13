@@ -50,39 +50,63 @@ window.onload = () => loadDB().then(result => {
                 method: "POST",
                 body: JSON.stringify({title: postTitles[i], text: commentTextBoxes[i].value}),
                 headers: {'Content-Type': 'application/json'}
+            }).then(res => {
+                res.json().then(res => {
+                    if (!res.successful) {
+                        alert("Must be logged in to comment");
+                    }
+                    else {
+                        alert("Comment posted, refresh page to view");
+                    }
+                })
             })
         });
         // the show comments button
         commentButtons[i].addEventListener('click', function () {
             // get the comment section for current post
             let commentSection = document.getElementById(postTitles[i] + 'commentsection');
-            if (commentButtons[i].innerHTML === 'View Comments') {
-                debugger
-                // clear the html
+            // send a post request with the post's current title
+            fetch('/loadcomments', {
+                method: "POST",
+                body: JSON.stringify({title: postTitles[i]}),
+                headers: {'Content-Type': 'application/json'}
+            }).then(result => result.json()).then(result => {
                 commentSection.innerHTML = "";
-                // send a post request with the post's current title
-                fetch('/loadcomments', {
-                    method: "POST",
-                    body: JSON.stringify({title: postTitles[i]}),
-                    headers: {'Content-Type': 'application/json'}
-                }).then(result => result.json()).then(result => {
-                    result.forEach((comment) => {
-                        // when the server sends back all the comments go through them and
-                        // add them as p elements
-                        let pElement = document.createElement("p");
-                        pElement.innerText = comment.text;
-                        commentSection.appendChild(pElement);
-                    })
-                    let button = document.createElement("button");
-                    button.innerHTML = 'Hide Comments';
-                    commentSection.appendChild(button);
+                result.forEach((comment) => {
+                    // when the server sends back all the comments go through them and
+                    // add them as p elements
+                    let pElement = document.createElement("p");
+                    pElement.innerText = comment.text;
+                    commentSection.appendChild(pElement);
                 })
-            } else {
-                commentSection.innerHTML = '';
-                let button = document.createElement("button");
-                button.innerHTML = 'View Comments';
-                commentSection.appendChild(button);
-            }
+                });
+            // if (commentButtons[i].innerHTML === 'View Comments') {
+            //     debugger
+            //     // clear the html
+            //     commentSection.innerHTML = "";
+            //     // send a post request with the post's current title
+            //     fetch('/loadcomments', {
+            //         method: "POST",
+            //         body: JSON.stringify({title: postTitles[i]}),
+            //         headers: {'Content-Type': 'application/json'}
+            //     }).then(result => result.json()).then(result => {
+            //         result.forEach((comment) => {
+            //             // when the server sends back all the comments go through them and
+            //             // add them as p elements
+            //             let pElement = document.createElement("p");
+            //             pElement.innerText = comment.text;
+            //             commentSection.appendChild(pElement);
+            //         })
+            //         let button = document.createElement("button");
+            //         button.innerHTML = 'Hide Comments';
+            //         commentSection.appendChild(button);
+            //     })
+            // } else {
+            //     commentSection.innerHTML = '';
+            //     let button = document.createElement("button");
+            //     button.innerHTML = 'View Comments';
+            //     commentSection.appendChild(button);
+            // }
         })
     }
 });
@@ -93,25 +117,34 @@ window.onload = () => loadDB().then(result => {
 //     document.getElementById("username").innerHTML = result.username;
 // });
 // does stuff for logging in, not where i want it to be yet
-// const register = document.getElementById("register");
-// const login = document.getElementById("login");
-// let user = document.getElementById("user");
-// const pass = document.getElementById("pass");
-// register.addEventListener("click", function () {
-//     fetch("/register", {
-//         method: "POST",
-//         body: JSON.stringify({username: user.value, password: pass.value}),
-//         headers: {'Content-Type': 'application/json'}
-//     })
-// });
-// login.addEventListener("click", function () {
-//     fetch("/login", {
-//         method: "POST",
-//         body: JSON.stringify({username: user.value, password: pass.value}),
-//         headers: {'Content-Type': 'application/json'}
-//     }).then((result) => {
-//         fetch('/getusername')
-//             .then(response => response.json())
-//             .then(json => document.getElementById("username").innerHTML = json.username);
-//     })
-// });
+const register = document.getElementById("register");
+const login = document.getElementById("login");
+let user = document.getElementById("user");
+const pass = document.getElementById("pass");
+register.addEventListener("click", function () {
+    fetch("/register", {
+        method: "POST",
+        body: JSON.stringify({username: user.value, password: pass.value}),
+        headers: {'Content-Type': 'application/json'}
+    }).then(res => {
+        res.json().then(res => {
+            if (res.successful === true) {
+                alert("Account was created");
+            }
+            else {
+                alert("Account creation failed");
+            }
+        })
+    })
+});
+login.addEventListener("click", function () {
+    fetch("/login", {
+        method: "POST",
+        body: JSON.stringify({username: user.value, password: pass.value}),
+        headers: {'Content-Type': 'application/json'}
+    }).then((result) => {
+        fetch('/getusername')
+            .then(response => response.json())
+            .then(json => document.getElementById("username").innerHTML = json.username);
+    })
+});
