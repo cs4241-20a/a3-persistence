@@ -33,7 +33,7 @@ This application implements the following functionalities:
 
 ### Technical Achievements
 
-* Implemented OAuth authentication using Github authenticaion
+* Implemented login using Github authenticaion
 
 ### Design Achievements
 
