@@ -1,0 +1,54 @@
+/*Style your own assignment! This is fun! */
+body{
+    background-color:#ddf3f5;
+}
+.title{
+    display:flex;
+    justify-content:center;
+    font-family:'Short Stack';
+}
+#new-task{
+    background-color:#a6dcef;
+}
+#delete-task{
+    background-color:#f2aaaa;
+}
+h3{
+    margin:0px;
+}
+input{
+    font-size:15px;
+    font-family:'Patrick Hand';
+}
+form{
+    display:flex;
+    justify-content:center;
+    font-family:'Patrick Hand';
+    padding-right:10px;
+    margin:20px;
+    padding:20px;
+}
+button{
+    background-color:#fcf7de;
+    border-radius: 10px;
+    font-size:15px;
+    font-family:'Patrick Hand';
+}
+button:hover{
+    background-color:#f9eca7;
+}
+li{
+    display:flex;
+    justify-content:center;
+    font-family:'Patrick Hand';
+    margin:20px;
+}
+p{
+    margin-right:10px;
+    margin-block-start:0px;
+    font-size:18px;
+}
+b{
+    margin-right:5px;
+    font-size:18px;
+}
