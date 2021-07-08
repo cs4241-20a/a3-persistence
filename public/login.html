@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
+</head>
+<body>
+<form>
+    <input placeholder="Username" type="text" id="user">
+    <input placeholder="Password" type="password" id="pass">
+    <button id="register">Register</button>
+    <button id="login">Login</button>
+<!--    <button id="authenticate">Authenticate</button>-->
+</form>
+<script>
+    const register = document.getElementById("register");
+    const login = document.getElementById("login");
+    let user = document.getElementById("user");
+    const pass = document.getElementById("pass");
+    const authenticate = document.getElementById("authenticate");
+    register.addEventListener("click", function () {
+        fetch("/register", {
+            method: "POST",
+            body: JSON.stringify({username: user.value, password: pass.value}),
+            headers: {'Content-Type': 'application/json'}
+        })
+    })
+    login.addEventListener("click", function () {
+        fetch("/login", {
+            method: "POST",
+            body: JSON.stringify({username: user.value, password: pass.value}),
+            headers: {'Content-Type': 'application/json'}
+        })
+    })
+    authenticate.addEventListener("click", function() {
+        fetch("/authenticate", {
+            method:"POST"
+        })});
+</script>
+</body>
+</html>
